@@ -272,6 +272,48 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .react-pop{position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);font-size:20px;z-index:50;pointer-events:none;animation:rpop .7s ease forwards}
 @keyframes rpop{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}40%{opacity:1;transform:translate(-50%,-80%) scale(1.2)}100%{opacity:0;transform:translate(-50%,-120%) scale(.8)}}
 
+/* ══ INSTRUCTIONS MODAL ══ */
+#instructions-modal {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px; animation: fadeIn .3s ease;
+}
+.inst-card {
+  background: linear-gradient(165deg, #1a1a1a 0%, #0d0d0d 100%);
+  border: 1.5px solid var(--golddim); border-radius: 24px;
+  width: 100%; max-width: 420px; max-height: 85vh;
+  overflow-y: auto; position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(201,168,76,0.15);
+  padding: 32px 24px; color: #e0e0e0;
+}
+.inst-title {
+  font-family: 'Cinzel Decorative', serif; font-size: 22px; color: var(--gold2);
+  text-align: center; margin-bottom: 24px; letter-spacing: 2px;
+}
+.inst-step {
+  display: flex; gap: 16px; margin-bottom: 20px;
+  animation: slideInUp .5s ease both;
+}
+.inst-num {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--gold2);
+  color: #000; display: flex; align-items: center; justify-content: center;
+  font-weight: bold; flex-shrink: 0; font-size: 14px;
+}
+.inst-txt b { color: var(--gold3); }
+.inst-txt p { font-size: 13px; line-height: 1.5; margin: 4px 0 0; opacity: 0.8; }
+.inst-close {
+  width: 100%; padding: 14px; background: var(--gold-grad);
+  border: none; border-radius: 12px; color: #fff;
+  font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer;
+  margin-top: 10px; box-shadow: 0 4px 15px rgba(184,134,11,0.3);
+}
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 /* ══ TAPETE ══════════════════════════════════════════════════ */
 #felt-area{
   flex:1;position:relative;margin:0 10px 4px;
@@ -646,6 +688,11 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
         <div style="text-align:center;margin-top:16px;font-size:12px;color:rgba(255,255,255,.3)">
           ¿No tenés cuenta? <span onclick="authTab('reg')" style="color:#f5c842;cursor:pointer;text-decoration:underline">Registrate</span>
         </div>
+        <div style="text-align:center;margin-top:12px;">
+          <span onclick="openInstructions()" style="font-size:11px;color:var(--gold2);cursor:pointer;text-decoration:underline;letter-spacing:1px;font-family:'Cinzel',serif;opacity:0.8;transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">
+            ✧ Instrucciones de Juego
+          </span>
+        </div>
       </div>
 
       <!-- REGISTRO PANEL -->
@@ -691,7 +738,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
             </div>
           </div>
           <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:12px;font-size:11px;color:rgba(255,255,255,.62);line-height:1.6">
-            ✧ Primero creás tu usuario. Después te mostramos la billetera para recargar con Galio Pay.
+            ✧ Primero creás tu usuario. Después te mostramos la billetera para recargar con Transferencia Directa.
           </div>
         </div>
         <button onclick="doRegister()"
@@ -706,8 +753,54 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
     <!-- Decoración inferior -->
     <div style="margin-top:24px;text-align:center;font-size:10px;color:rgba(255,255,255,.2);letter-spacing:1px">
-      PAGOS SEGUROS VÍA GALIO PAY ✧ SOLO PARA MAYORES DE 18
+      PAGOS SEGUROS VÍA TRANSFERENCIA ✧ SOLO PARA MAYORES DE 18
     </div>
+  </div>
+</div>
+
+<!-- ══ MODAL INSTRUCCIONES ══ -->
+<div id="instructions-modal" onclick="if(event.target===this)closeInstructions()">
+  <div class="inst-card">
+    <div class="inst-title">✧ CÓMO JUGAR ✧</div>
+    
+    <div class="inst-step" style="animation-delay: 0.1s">
+      <div class="inst-num">1</div>
+      <div class="inst-txt">
+        <b>El Objetivo</b>
+        <p>Debes adivinar si la <b>Carta Intermedia</b> estará dentro del rango formado por la Carta 1 y la Carta 2.</p>
+      </div>
+    </div>
+
+    <div class="inst-step" style="animation-delay: 0.2s">
+      <div class="inst-num">2</div>
+      <div class="inst-txt">
+        <b>El Rango</b>
+        <p>Cuanto más separadas estén las cartas, ¡más chances tienes de ganar! Si salen iguales, el rango es nulo.</p>
+      </div>
+    </div>
+
+    <div class="inst-step" style="animation-delay: 0.3s">
+      <div class="inst-num">3</div>
+      <div class="inst-txt">
+        <b>La Apuesta</b>
+        <p>Si la carta cae <b>dentro</b>, duplicas tu apuesta. Si cae fuera o es igual a las puntas, pierdes.</p>
+      </div>
+    </div>
+
+    <div class="inst-step" style="animation-delay: 0.4s">
+      <div class="inst-num">4</div>
+      <div class="inst-txt">
+        <b>El Pozo</b>
+        <p>Todas las apuestas perdidas y los "pasos" alimentan el <b>Pozo de la Mesa</b>. ¡Cualquier jugador puede llevárselo en una mano ganadora!</p>
+      </div>
+    </div>
+
+    <div style="background:rgba(201,168,76,0.1); border:1px dashed var(--golddim); border-radius:12px; padding:15px; margin:20px 0; font-size:12px; line-height:1.4; text-align:center">
+      <span style="color:var(--gold2)">💡 TIP PROFESIONAL:</span><br>
+      Aprovecha los rangos amplios para ir fuerte. ¡La fortuna favorece a los audaces!
+    </div>
+
+    <button class="inst-close" onclick="closeInstructions()">¡ENTENDIDO, A JUGAR!</button>
   </div>
 </div>
 
@@ -1271,6 +1364,16 @@ async function edgeInvoke(functionName,body){
   if(error)throw new Error(error.message||('Error en '+functionName));
   if(data&&data.error)throw new Error(data.error);
   return data;
+}
+
+// ══ MODAL INSTRUCCIONES ══════════════════════════════════════════
+function openInstructions() {
+  const modal = document.getElementById('instructions-modal');
+  modal.style.display = 'flex';
+}
+function closeInstructions() {
+  const modal = document.getElementById('instructions-modal');
+  modal.style.display = 'none';
 }
 
 function currentBackUrl(state){
