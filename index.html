@@ -815,7 +815,12 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   <div class="lobby-hero">
     <div class="lobby-title-row">
       <div class="lobby-section-title">Mesas disponibles</div>
-      <div class="lobby-live-badge"><div class="live-dot"></div><span id="lobby-ct">0 activas</span></div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span onclick="openInstructions()" style="font-size:10px; color:var(--gold2); cursor:pointer; text-decoration:underline; font-family:'Cinzel',serif; opacity:0.7; transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
+          Instrucciones
+        </span>
+        <div class="lobby-live-badge"><div class="live-dot"></div><span id="lobby-ct">0 activas</span></div>
+      </div>
     </div>
   </div>
   <div id="tables-list"></div>
@@ -1150,8 +1155,8 @@ const DEFAULT_RELOAD=5000;
 
 // ── PERFIL DE USUARIO ────────────────────────────────────────────
 // ══ SISTEMA DE PERFIL Y SESIÓN ═══════════════════════════════════
-const STORAGE_KEY = 'gp_session_v1';
-const STORAGE_PROFILES = 'gp_profiles_v1';
+const STORAGE_KEY = 'tr_session_v1';
+const STORAGE_PROFILES = 'tr_profiles_v1';
 const SUPABASE_URL = 'https://fvpywpfannhakqjsfoqq.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_eIrzqpvyIpleqaZ6tQCJEw_q_WdDNfu';
 function createSupabaseRestClient(url,key){
@@ -1387,7 +1392,7 @@ function currentBackUrl(state){
 
 async function confirmPendingGalioPayment(){
   let pending=null;
-  try{pending=JSON.parse(localStorage.getItem('gp_pending_payment')||'null');}catch(e){}
+  try{pending=JSON.parse(localStorage.getItem('tr_pending_payment')||'null');}catch(e){}
   const params=new URLSearchParams(window.location.search);
   if(!pending||params.get('gp_state')!=='success')return;
   try{
@@ -1395,16 +1400,16 @@ async function confirmPendingGalioPayment(){
     if(data&&data.ok){
       await syncProfileFromSupabase();
       await fetchMovements();
-      localStorage.removeItem('gp_pending_payment');
+      localStorage.removeItem('tr_pending_payment');
       history.replaceState(null,'',window.location.pathname);
       setMsg('Pago confirmado — saldo actualizado','win');
     }
   }catch(e){
-    setMsg('Pago recibido, esperando confirmación de Galio Pay','info');
+    setMsg('Pago recibido, esperando confirmación de Transferencia','info');
   }
 }
 
-// ── GALIO PAY HELPERS ──────────────────────────────────────────
+// ── TRANSFERENCIA HELPERS ──────────────────────────────────────────
 function galioPayDeposit(amount){
   PROFILE.totalDeposited=(PROFILE.totalDeposited||0)+amount;
   PROFILE.bal=playerBal;
@@ -2022,7 +2027,7 @@ function _applyWithdraw(amount){
   PROFILE.bal=playerBal;saveProfile();
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   const gb=document.getElementById('gtb-bal');if(gb)gb.textContent='$'+playerBal.toLocaleString('es-AR');
-  setMsg('-$'+amount.toLocaleString('es-AR')+' retiro enviado vía Galio Pay','info');
+  setMsg('-$'+amount.toLocaleString('es-AR')+' retiro enviado vía Transferencia','info');
   closeWallet();
 }
 
@@ -3286,7 +3291,7 @@ async function confirmWalletDeposit(){
       successUrl:currentBackUrl('success'),
       failureUrl:currentBackUrl('failure')
     });
-    localStorage.setItem('gp_pending_payment',JSON.stringify({
+    localStorage.setItem('tr_pending_payment',JSON.stringify({
       referenceId:data.referenceId,
       paymentLinkId:data.paymentLinkId,
       proofToken:data.proofToken,
@@ -3594,7 +3599,7 @@ function updateLobbyHeader(){
     <div style="text-align:center;margin-bottom:20px;padding:16px;background:rgba(0,0,0,.3);border-radius:14px;border:1px solid rgba(201,168,76,.2)">
       <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px;letter-spacing:1px">SALDO DISPONIBLE</div>
       <div id="wallet-bal-display" style="font-size:28px;font-weight:700;color:#f5c842;font-family:'Cinzel',serif">$0</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px">Galio Pay ✦ Pesos Argentinos</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px">Transferencia Directa ✦ Pesos Argentinos</div>
     </div>
 
     <!-- TAB: DEPOSITAR -->
@@ -3614,11 +3619,11 @@ function updateLobbyHeader(){
         style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1.5px solid rgba(201,168,76,.3);border-radius:10px;color:#fff;font-size:18px;padding:12px 16px;font-family:'Cinzel',serif;outline:none;margin-bottom:14px"
         oninput="syncWalletInput(this.value)">
       <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px;margin-bottom:16px;font-size:11px;color:rgba(255,255,255,.6);line-height:1.6">
-        <b style="color:#f5c842">Galio Pay</b> — El pago se procesa de forma segura.<br>
+        <b style="color:#f5c842">Transferencia</b> — El pago se procesa de forma segura.<br>
         Mínimo de recarga: <b style="color:#fff">$5.000</b> · Acreditación inmediata.
       </div>
       <button onclick="confirmWalletDeposit()" style="width:100%;padding:16px;background:linear-gradient(135deg,#27ae60,#1a7a40);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px">
-        💳 Pagar con Galio Pay
+        💳 Pagar con Transferencia
       </button>
       <button onclick="closeWallet()" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:12px;color:rgba(255,255,255,.5);font-size:13px;cursor:pointer;margin-top:10px">Cancelar</button>
     </div>
@@ -3628,7 +3633,7 @@ function updateLobbyHeader(){
       <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:10px;letter-spacing:.5px">MONTO A RETIRAR</div>
       <div style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:11px;color:rgba(255,255,255,.65);line-height:1.6">
         ⚠ Mínimo de retiro: <b style="color:#f5c842">$10.000</b><br>
-        El dinero se acredita en tu CBU/CVU en 24-48hs vía Galio Pay.
+        El dinero se acredita en tu CBU/CVU en 24-48hs vía Transferencia.
       </div>
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px">
         
