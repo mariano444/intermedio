@@ -65,7 +65,10 @@ CREATE OR REPLACE FUNCTION actualizar_perfil_usuario(
     p_avatar_iniciales VARCHAR DEFAULT NULL,
     p_avatar_color_idx SMALLINT DEFAULT 0,
     p_avatar_photo_url TEXT DEFAULT NULL,
-    p_total_manos INTEGER DEFAULT 0
+    p_total_manos INTEGER DEFAULT 0,
+    p_saldo NUMERIC DEFAULT NULL,
+    p_total_depositado NUMERIC DEFAULT NULL,
+    p_total_retirado NUMERIC DEFAULT NULL
 )
 RETURNS TABLE(ok BOOLEAN, error TEXT)
 LANGUAGE plpgsql
@@ -105,6 +108,9 @@ BEGIN
         avatar_color_idx = COALESCE(p_avatar_color_idx, 0),
         avatar_photo_url = p_avatar_photo_url,
         total_manos = GREATEST(total_manos, COALESCE(p_total_manos, 0)),
+        saldo = COALESCE(p_saldo, saldo),
+        total_depositado = COALESCE(p_total_depositado, total_depositado),
+        total_retirado = COALESCE(p_total_retirado, total_retirado),
         ultimo_acceso = NOW()
     WHERE id = p_usuario_id AND activo = TRUE;
 
