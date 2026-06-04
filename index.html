@@ -1299,17 +1299,17 @@ async function loginWithSupabase(username,password){
     });
     // PostgREST devuelve un array para funciones que retornan TABLE
     const auth = (data && Array.isArray(data)) ? data[0] : data;
-    if(error || !auth || !auth.ok) return null;
+    if(error || !auth || !auth.r_ok) return null;
     
-    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:auth.usuario_id});
+    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:auth.r_usuario_id});
     const userData = (userRows && Array.isArray(userRows)) ? userRows[0] : userRows;
     if(profileError || !userData) return null;
     
     const profile=mapDbUserToProfile(userData,password);
     if(profile){
-      profile.sessionToken=auth.token;
-      profile.bal=Number(auth.saldo||profile.bal||0);
-      profile.alias=auth.alias || profile.alias;
+      profile.sessionToken=auth.r_token;
+      profile.bal=Number(auth.r_saldo||profile.bal||0);
+      profile.alias=auth.r_alias || profile.alias;
     }
     return profile;
   }catch(e){
@@ -1332,8 +1332,9 @@ async function registerWithSupabase(profile,plainPassword){
       p_localidad:profile.localidad||null,
       p_saldo_ini:profile.bal??0
     });
-    if(error||!data||!data[0]||data[0].error)throw new Error((data&&data[0]&&data[0].error)||error.message);
-    return data[0].usuario_id;
+    const res = (data && Array.isArray(data)) ? data[0] : data;
+    if(error||!res||res.r_error)throw new Error((res&&res.r_error)||error.message);
+    return res.r_usuario_id;
   }catch(e){
     console.warn('Supabase registro fallback local:',e.message);
     return null;
