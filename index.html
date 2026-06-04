@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#050a02">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050a02'/%3E%3Ctext x='32' y='43' font-size='36' text-anchor='middle'%3E%E2%99%A6%3C/text%3E%3C/svg%3E">
 <title>El Intermedio</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Inter:wght@300;400;500;600;700&display=swap');
@@ -1167,8 +1169,9 @@ async function loginWithSupabase(username,password){
     const {data,error}=await supabaseClient.rpc('login',{p_username:username,p_password:password});
     if(error||!data||!data[0]||!data[0].ok)return null;
     const auth=data[0];
-    const {data:userRow}=await supabaseClient.from('usuarios').select('*').eq('id',auth.usuario_id).maybeSingle();
-    const profile=mapDbUserToProfile(userRow,password);
+    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:auth.usuario_id});
+    if(profileError||!userRows||!userRows[0])return null;
+    const profile=mapDbUserToProfile(userRows[0],password);
     if(profile){
       profile.sessionToken=auth.token;
       profile.bal=Number(auth.saldo||profile.bal||0);
@@ -1202,33 +1205,30 @@ async function registerWithSupabase(profile,plainPassword){
 async function saveProfileToSupabase(){
   if(!supabaseClient||!PROFILE.username||!PROFILE.userId)return;
   try{
-    await supabaseClient.from('usuarios').update({
-      nombre:PROFILE.name||'',
-      alias:PROFILE.alias||PROFILE.username,
-      cbu:PROFILE.cbu||null,
-      telefono:PROFILE.phone||null,
-      provincia:PROFILE.provincia||null,
-      localidad:PROFILE.localidad||null,
-      avatar_type:PROFILE.avatarType||'emoji',
-      avatar_emoji:(PROFILE.avatarType||'emoji')==='emoji'?(PROFILE.avatar||'🎭'):null,
-      avatar_iniciales:PROFILE.avatarInitials||null,
-      avatar_color_idx:PROFILE.avatarInitialsColor||0,
-      avatar_photo_url:PROFILE.avatarPhoto||null,
-      saldo:playerBal,
-      total_depositado:PROFILE.totalDeposited||0,
-      total_retirado:PROFILE.totalWithdrawn||0,
-      total_manos:PROFILE.totalHands||0,
-      ultimo_acceso:new Date().toISOString()
-    }).eq('id',PROFILE.userId);
+    await supabaseClient.rpc('actualizar_perfil_usuario',{
+      p_usuario_id:PROFILE.userId,
+      p_nombre:PROFILE.name||'',
+      p_alias:PROFILE.alias||PROFILE.username,
+      p_cbu:PROFILE.cbu||null,
+      p_telefono:PROFILE.phone||null,
+      p_provincia:PROFILE.provincia||null,
+      p_localidad:PROFILE.localidad||null,
+      p_avatar_type:PROFILE.avatarType||'emoji',
+      p_avatar_emoji:(PROFILE.avatarType||'emoji')==='emoji'?(PROFILE.avatar||'🎭'):null,
+      p_avatar_iniciales:PROFILE.avatarInitials||null,
+      p_avatar_color_idx:PROFILE.avatarInitialsColor||0,
+      p_avatar_photo_url:PROFILE.avatarPhoto||null,
+      p_total_manos:PROFILE.totalHands||0
+    });
   }catch(e){console.warn('No se pudo sincronizar perfil:',e.message);}
 }
 
 async function syncProfileFromSupabase(){
   if(!supabaseClient||!PROFILE.userId)return false;
   try{
-    const {data,error}=await supabaseClient.from('usuarios').select('*').eq('id',PROFILE.userId).maybeSingle();
-    if(error||!data)return false;
-    PROFILE=Object.assign(PROFILE,mapDbUserToProfile(data,PROFILE.password));
+    const {data,error}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:PROFILE.userId});
+    if(error||!data||!data[0])return false;
+    PROFILE=Object.assign(PROFILE,mapDbUserToProfile(data[0],PROFILE.password));
     playerBal=PROFILE.bal||playerBal;
     const all=getAllProfiles();all[PROFILE.username]=PROFILE;saveAllProfiles(all);
     const balEl=document.getElementById('g-bal');if(balEl)balEl.textContent='$'+playerBal.toLocaleString('es-AR');
