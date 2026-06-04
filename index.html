@@ -1775,7 +1775,7 @@ function mapToDbSuit(s){ return {so:'o',co:'c',es:'e',ba:'b'}[s] || 'o'; }
 function mapToDbVal(v){ return {1:'A',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',10:'J',11:'Q',12:'K'}[v] || 'A'; }
 
 // â•â• INICIAR JUEGO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-function startGame(tableData,spectate){
+async function startGame(tableData,spectate){
   isSpec=spectate;
   HOUSE.consecLoss=0;HOUSE.sessionBet=0;HOUSE.hands=0;
   let cpu=tableData.players&&tableData.players.length>0?[...tableData.players]:[...ALL_PLAYERS].sort(()=>Math.random()-.5).slice(0,3);
@@ -1783,7 +1783,26 @@ function startGame(tableData,spectate){
   const potBase=Math.max(tableData.pot||0,tableData.buyIn*(cpu.length+1),MIN_POT);
   const players=[];
   if(!spectate)players.push({name:'TÃº',emoji:'â­',col:'#c9a84c',you:true,style:'balanced',thinkMin:0,thinkMax:0,bal:playerBal,wins:0,losses:0,ties:0,asientoId:tableData.asientoId});
-  cpu.forEach(p=>players.push({...p,you:false,bal:tableData.buyIn*5+rnd(0,tableData.buyIn*3)*10,wins:0,losses:0,ties:0}));
+  
+  // Registrar bots en DB para tener asientoId y poder guardar apuestas
+  if(tableData.dbId && PROFILE.userId) {
+    for(let i=0; i<cpu.length; i++) {
+      const p = cpu[i];
+      try {
+        const {data, error} = await supabaseClient.rpc('agregar_bot_asiento', {
+          p_mesa_id: tableData.dbId,
+          p_nombre: p.name,
+          p_emoji: p.emoji,
+          p_color: p.col
+        });
+        if(data) p.asientoId = data;
+      } catch(e) { console.warn('Error agregando bot:', e); }
+      players.push({...p,you:false,bal:tableData.buyIn*5+rnd(0,tableData.buyIn*3)*10,wins:0,losses:0,ties:0});
+    }
+  } else {
+    cpu.forEach(p=>players.push({...p,you:false,bal:tableData.buyIn*5+rnd(0,tableData.buyIn*3)*10,wins:0,losses:0,ties:0}));
+  }
+
   G={tableName:tableData.name,tableId:tableData.dbId,deck:mkDeck(),pool:mkDeck(),hand:tableData.hands||0,pot:potBase,
     bet:0,phase:'idle',wins:0,losses:0,ties:0,bestWin:0,streak:0,net:0,yourBal:playerBal,
     buyIn:tableData.buyIn,c1:null,c2:null,lo:0,hi:0,spread:0,autoRevealTimer:null,
@@ -1802,13 +1821,28 @@ function startGame(tableData,spectate){
   setTimeout(()=>dealHand(),spectate?600:1200);
 }
 
-function leaveTable(){
+async function leaveTable(){
+  if(G.phase === 'leaving') return;
+  const oldTableId = G.tableId;
+  G.phase = 'leaving'; // Bloquea dealHand y otros procesos
   clearTimeout(G.autoRevealTimer);clearInterval(_cdInterval);
+  
+  if(oldTableId && PROFILE.userId) {
+    try {
+      await supabaseClient.rpc('cerrar_mesa', { p_mesa_id: oldTableId });
+    } catch(e) { console.warn('Error cerrando mesa:', e); }
+  }
+
   if(!isSpec&&G.yourBal!==undefined)playerBal=G.yourBal;
   if(G._potBot){G._potBot=null;}
   G.players&&G.players.forEach(p=>{if(p){p._forcedPotWin=false;p._pendingReloadMsg=null;}});
+  
+  // Limpiar estado de juego
+  G = { phase: 'idle' }; 
+  
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   showScreen('lobby-screen');isSpec=false;
+  generateTables(); // Refrescar lobby para quitar la mesa cerrada
 }
 function restartAtTable(){document.getElementById('end-overlay').classList.remove('show');G.phase='idle';G.bet=0;HOUSE.consecLoss=0;setTimeout(()=>dealHand(),800);}
 function doReload(){
@@ -2291,13 +2325,11 @@ const PASO_PENALTY=25;
 async function recordBetToDb(player, amount, result, card3){
   if(!PROFILE.userId) return;
 
-  // Si no hay manoId, algo falló en dealHand o es una mesa local no sincronizada
   if(!G.manoId){
-    console.warn("Bet not recorded: missing manoId");
+    console.warn("Bet not recorded: missing manoId. TableId:", G.tableId);
     if(player.you) {
-      syncProfileFromSupabase().then(() => {
-        updHUD(); updStats();
-      });
+      await syncProfileFromSupabase();
+      updHUD(); updStats();
     }
     return;
   }
@@ -2317,9 +2349,8 @@ async function recordBetToDb(player, amount, result, card3){
     if(error) {
        console.error("Error registrar_apuesta RPC:", error);
        if(player.you) {
-         syncProfileFromSupabase().then(() => {
-           updHUD(); updStats();
-         });
+         await syncProfileFromSupabase();
+         updHUD(); updStats();
        }
        return;
     }
@@ -2331,20 +2362,18 @@ async function recordBetToDb(player, amount, result, card3){
       const yp = G.players.find(p=>p.you); if(yp) yp.bal = playerBal;
       document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
       updHUD();
-      // Actualizar historial de movimientos
       fetchMovements();
+      console.log("Bet recorded successfully. New balance:", playerBal);
     } else if(player.you) {
-       // Si no fue exitoso según la lógica de la DB, sincronizamos igual
-       syncProfileFromSupabase().then(() => {
-         updHUD(); updStats();
-       });
+       console.warn("Bet recording returned not OK:", data);
+       await syncProfileFromSupabase();
+       updHUD(); updStats();
     }
   } catch(e) { 
     console.warn('Excepción registrar_apuesta:', e); 
     if(player.you) {
-      syncProfileFromSupabase().then(() => {
-        updHUD(); updStats();
-      });
+      await syncProfileFromSupabase();
+      updHUD(); updStats();
     }
   }
 }
@@ -2482,6 +2511,8 @@ function addHlog(who,c3,res,amt){
 // â•â• HUD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function updHUD(){
   const bal=G.spectate?playerBal:G.yourBal;
+  // Sincronizar UI principal con el saldo global que se actualiza desde DB
+  document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   document.getElementById('qh-bal').textContent='$'+bal.toLocaleString('es-AR');
   document.getElementById('qh-pot').textContent='$'+G.pot.toLocaleString('es-AR');
   const ne=document.getElementById('qh-net');
