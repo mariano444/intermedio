@@ -1115,6 +1115,7 @@ async function loginWithCredentials(user,pass){
     playerBal=PROFILE.bal??0;
     SESSION=PROFILE.username;
     saveProfile();
+    fetchMovements();
     return true;
   }
   return false;
@@ -1257,6 +1258,7 @@ async function confirmPendingGalioPayment(){
     const data=await edgeInvoke('galiopay-confirm-payment',pending);
     if(data&&data.ok){
       await syncProfileFromSupabase();
+      await fetchMovements();
       localStorage.removeItem('gp_pending_payment');
       history.replaceState(null,'',window.location.pathname);
       setMsg('Pago confirmado â€” saldo actualizado','win');
@@ -1551,10 +1553,35 @@ function botPressureChat(){
 // â•â• LOBBY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 
-function generateTables(){
+async function generateTables(){
   // Limpiar intervalo anterior â€” evita mesas zombie en el lobby
   if(_lobbyInterval){clearInterval(_lobbyInterval);_lobbyInterval=null;}
 
+  // Intentar cargar mesas de la DB si estamos logueados
+  if(PROFILE.userId){
+    try {
+      const {data, error} = await supabaseClient.from('mesas').select().eq('estado', 'open');
+      if(data && data.length > 0){
+        TABLES = data.map((m, i) => ({
+          id: i,
+          dbId: m.id,
+          name: m.nombre,
+          maxSeats: m.max_asientos,
+          buyIn: Number(m.buy_in),
+          status: m.estado,
+          players: [], // En una implementación real, esto vendría de mesa_asientos
+          pot: Number(m.pozo),
+          hands: m.manos_jugadas,
+          urgencyTimer: null,
+          potCat: m.categoria
+        }));
+        renderLobby();
+        return;
+      }
+    } catch(e) { console.warn('Error fetching mesas:', e); }
+  }
+
+  // Fallback a generación aleatoria si no hay DB o no hay mesas
   const n=5+rnd(0,3),names=[...TABLE_NAMES].sort(()=>Math.random()-.5);TABLES=[];
 
   /*
@@ -1701,9 +1728,26 @@ function tryJoin(id){
   document.getElementById('modal-overlay').classList.add('show');
 }
 function closeModal(){document.getElementById('modal-overlay').classList.remove('show');pendingJoin=null;}
-function confirmJoin(){
+async function confirmJoin(){
   const t=pendingJoin;if(!t)return;
   if(playerBal<t.buyIn){document.getElementById('mi-insuf').style.display='block';return;}
+  
+  if(PROFILE.userId){
+    try {
+      const {data, error} = await supabaseClient.rpc('unirse_mesa', {
+        p_usuario_id: PROFILE.userId,
+        p_mesa_id: t.dbId || '00000000-0000-0000-0000-000000000000' // Fallback if no dbId
+      });
+      if(error || (data && data[0] && !data[0].ok)) {
+        console.warn('Error al unirse a mesa en DB:', error || data[0].error);
+      } else if(data && data[0] && data[0].ok) {
+        t.asientoId = data[0].asiento_id;
+      }
+    } catch(e) {
+      console.warn('Excepción al unirse a mesa:', e);
+    }
+  }
+
   playerBal-=t.buyIn;t.pot+=t.buyIn;closeModal();startGame(t,false);
 }
 function watchTable(id){const t=TABLES.find(x=>x.id===id);if(t)startGame(t,true);}
@@ -1716,6 +1760,10 @@ function showScreen(id){
   });
 }
 
+// --- HELPERS DB ---
+function mapToDbSuit(s){ return {so:'o',co:'c',es:'e',ba:'b'}[s] || 'o'; }
+function mapToDbVal(v){ return {1:'A',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',10:'J',11:'Q',12:'K'}[v] || 'A'; }
+
 // â•â• INICIAR JUEGO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function startGame(tableData,spectate){
   isSpec=spectate;
@@ -1724,13 +1772,13 @@ function startGame(tableData,spectate){
   if(cpu.length<2){const ex=ALL_PLAYERS.filter(p=>!cpu.find(x=>x.name===p.name)).sort(()=>Math.random()-.5);while(cpu.length<2)cpu.push(ex.shift());}
   const potBase=Math.max(tableData.pot||0,tableData.buyIn*(cpu.length+1),MIN_POT);
   const players=[];
-  if(!spectate)players.push({name:'TÃº',emoji:'â­',col:'#c9a84c',you:true,style:'balanced',thinkMin:0,thinkMax:0,bal:playerBal,wins:0,losses:0,ties:0});
+  if(!spectate)players.push({name:'TÃº',emoji:'â­',col:'#c9a84c',you:true,style:'balanced',thinkMin:0,thinkMax:0,bal:playerBal,wins:0,losses:0,ties:0,asientoId:tableData.asientoId});
   cpu.forEach(p=>players.push({...p,you:false,bal:tableData.buyIn*5+rnd(0,tableData.buyIn*3)*10,wins:0,losses:0,ties:0}));
-  G={tableName:tableData.name,deck:mkDeck(),pool:mkDeck(),hand:tableData.hands||0,pot:potBase,
+  G={tableName:tableData.name,tableId:tableData.dbId,deck:mkDeck(),pool:mkDeck(),hand:tableData.hands||0,pot:potBase,
     bet:0,phase:'idle',wins:0,losses:0,ties:0,bestWin:0,streak:0,net:0,yourBal:playerBal,
     buyIn:tableData.buyIn,c1:null,c2:null,lo:0,hi:0,spread:0,autoRevealTimer:null,
     initialPot:potBase,
-    players,spectate,_potBot:null,_potWonThisHand:false};
+    players,spectate,_potBot:null,_potWonThisHand:false,manoId:null};
   showScreen('game-screen');const _gb3=document.getElementById('gtb-bal');if(_gb3)_gb3.textContent='$'+playerBal.toLocaleString('es-AR');
   document.getElementById('game-table-name').textContent=tableData.name.toUpperCase();
   document.getElementById('end-overlay').classList.remove('show');
@@ -1852,7 +1900,7 @@ function backHTML(){
 }
 
 // â•â• LÃ“GICA DEL JUEGO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-function dealHand(){
+async function dealHand(){
   if(G.phase!=='idle')return;
   if(!G.spectate&&G.players.filter(p=>p.you&&p.bal>0).length===0){setMsg('Sin fondos','lose');return;}
   G.hand++;G.bet=0;G.phase='cpu-round';HOUSE.hands++;PROFILE.totalHands=(PROFILE.totalHands||0)+1;PROFILE.bal=playerBal;saveProfile();
@@ -1867,6 +1915,21 @@ function dealHand(){
   const _tmp2=drawFrom(G.pool,G.dealtCards,null);
   G.c1=_tmp1;G.c2=_tmp2;
   G.lo=Math.min(VP[G.c1.v],VP[G.c2.v]);G.hi=Math.max(VP[G.c1.v],VP[G.c2.v]);G.spread=G.hi-G.lo-1;
+
+  // --- REGISTRAR MANO EN DB ---
+  if(G.tableId && PROFILE.userId){
+    try {
+      const {data, error} = await supabaseClient.rpc('iniciar_mano', {
+        p_mesa_id: G.tableId,
+        p_carta1_palo: mapToDbSuit(G.c1.s),
+        p_carta1_valor: mapToDbVal(G.c1.v),
+        p_carta2_palo: mapToDbSuit(G.c2.s),
+        p_carta2_valor: mapToDbVal(G.c2.v)
+      });
+      if(data && data[0]) G.manoId = data[0].mano_id;
+    } catch(e) { console.warn('Error iniciar_mano:', e); }
+  }
+
   // PRE-REPARTIR pares Ãºnicos a TODOS los jugadores antes de cualquier setTimeout
   preDealAllCards();
   if(G.spectate){
@@ -2065,6 +2128,8 @@ function runCPUs(idxs,pos,done){
       updSeat(i,'lose',penalty,p.myC1||G.c1,p.myC2||G.c2,null);
       addHlog(p.name,{v:0,s:'so'},'lose',penalty);
       updHUD();updPot();
+      // Sincronizar con DB (bots pass)
+      recordBetToDb(p, penalty, 'pass', null);
       // Recarga proactiva si el saldo estÃ¡ bajo y va a pasar seguido
       botMaybeProactiveReload(p,i);
       setTimeout(()=>runCPUs(idxs,pos+1,done),900+Math.random()*500);
@@ -2126,6 +2191,9 @@ function runCPUs(idxs,pos,done){
 
     updSeat(i,res,bet,p.myC1||G.c1,p.myC2||G.c2,c3);
     addHlog(p.name,c3,res,bet); updHUD(); updPot();
+    
+    // Sincronizar con DB (bots bet)
+    recordBetToDb(p, bet, res, c3);
 
     // â”€â”€ Bot ganÃ³ el pozo completo â”€â”€
     if(res==='win'&&G.pot<=MIN_BET&&!G._potWonThisHand){
@@ -2206,6 +2274,51 @@ function clearBet(){clearTimeout(G.autoRevealTimer);G.bet=0;document.getElementB
 function resetCD(){startCD(BET_TIMER);G.autoRevealTimer=setTimeout(()=>{if(G.phase==='your-turn')confirmBet();},BET_TIMER*1000);}
 
 const PASO_PENALTY=25;
+async function recordBetToDb(player, amount, result, card3){
+  if(!G.manoId || !PROFILE.userId) return;
+  try {
+    const {data, error} = await supabaseClient.rpc('registrar_apuesta', {
+      p_mano_id: G.manoId,
+      p_asiento_id: player.asientoId || null,
+      p_usuario_id: player.you ? PROFILE.userId : null,
+      p_es_bot: !player.you,
+      p_monto: amount,
+      p_carta_media_palo: card3 ? mapToDbSuit(card3.s) : null,
+      p_carta_media_valor: card3 ? mapToDbVal(card3.v) : null,
+      p_resultado: result
+    });
+    
+    if(player.you && data && data[0] && data[0].ok){
+      playerBal = Number(data[0].saldo_nuevo);
+      G.yourBal = playerBal;
+      PROFILE.bal = playerBal;
+      const yp = G.players.find(p=>p.you); if(yp) yp.bal = playerBal;
+      document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+      updHUD();
+      // Actualizar historial de movimientos
+      fetchMovements();
+    }
+  } catch(e) { console.warn('Error registrar_apuesta:', e); }
+}
+
+async function fetchMovements(){
+  if(!PROFILE.userId) return;
+  try {
+    const {data, error} = await supabaseClient.rpc('historial_movimientos', {
+      p_usuario_id: PROFILE.userId,
+      p_limite: 30
+    });
+    if(data){
+      _walletHistory = data.map(m => ({
+        type: m.descripcion,
+        amount: Number(m.monto),
+        date: new Date(m.fecha).toLocaleString('es-AR', {dateStyle:'short', timeStyle:'short'})
+      }));
+      renderWalletHistory();
+    }
+  } catch(e) { console.warn('Error fetchMovements:', e); }
+}
+
 function passTurn(){
   if(G.phase!=='your-turn')return;
   clearTimeout(G.autoRevealTimer);stopCD();
@@ -2220,17 +2333,8 @@ function passTurn(){
   addHlog('TÃº (paso)',{v:0,s:'so'},'lose',penalty);
   setMsg(`Pasaste â€” penalizaciÃ³n $${penalty.toLocaleString('es-AR')}`,'lose');
   
-  // Sincronizar estadísticas y saldo con Supabase
-  if(PROFILE.userId){
-    supabaseClient.rpc('actualizar_estadisticas', {
-      p_usuario_id: PROFILE.userId,
-      p_resultado: 'pass',
-      p_monto: penalty,
-      p_ganancia: -penalty
-    }).then(() => saveProfileToSupabase());
-  } else {
-    saveProfile();
-  }
+  // Sincronizar con DB
+  recordBetToDb(G.players[yi], penalty, 'pass', null);
 
   setTimeout(()=>{checkEnd();if(G.phase==='idle')setTimeout(()=>dealHand(),1600);},1500);
 }
@@ -2302,18 +2406,8 @@ function resolveYour(c3,cw){
   playerBal=G.yourBal;updHUD();updStats();updPot();
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   
-  // Sincronizar estadísticas y saldo con Supabase
-  if(PROFILE.userId){
-    const gain = res === 'win' ? G.bet : (res === 'lose' ? -G.bet : 0);
-    supabaseClient.rpc('actualizar_estadisticas', {
-      p_usuario_id: PROFILE.userId,
-      p_resultado: res,
-      p_monto: G.bet,
-      p_ganancia: gain
-    }).then(() => saveProfileToSupabase());
-  } else {
-    saveProfile();
-  }
+  // Sincronizar con DB
+  recordBetToDb(G.players[yi], G.bet, res, c3);
 
   setTimeout(()=>{checkEnd();if(G.phase==='idle')setTimeout(()=>dealHand(),1600);},1500);
 }
@@ -2952,6 +3046,7 @@ async function confirmWalletWithdraw(){
       alert((data&&data[0]&&data[0].error)||error.message||'No se pudo solicitar el retiro');
       return;
     }
+    await fetchMovements();
   }
   _walletHistory.unshift({type:'Retiro',amount:-amt,date:new Date().toLocaleString('es-AR',{dateStyle:'short',timeStyle:'short'})});
   _applyWithdraw(amt);
