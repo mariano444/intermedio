@@ -1632,7 +1632,7 @@ async function generateTables(){
     }
 
     TABLES.push({
-      id:i, name:names[i]||'Mesa '+(i+1),
+      id:i, dbId: null, name:names[i]||'Mesa '+(i+1),
       maxSeats:mx, buyIn:bi,
       status:st, players:pl,
       pot:pot, hands:hands,
@@ -1734,9 +1734,19 @@ async function confirmJoin(){
   
   if(PROFILE.userId){
     try {
+      if(!t.dbId) {
+        const {data: newMesaId, error: mesaErr} = await supabaseClient.rpc('crear_mesa', {
+          p_nombre: t.name,
+          p_categoria: t.potCat || 'mid',
+          p_buy_in: t.buyIn,
+          p_max_asientos: t.maxSeats
+        });
+        if(!mesaErr && newMesaId) t.dbId = newMesaId;
+      }
+
       const {data, error} = await supabaseClient.rpc('unirse_mesa', {
         p_usuario_id: PROFILE.userId,
-        p_mesa_id: t.dbId || '00000000-0000-0000-0000-000000000000' // Fallback if no dbId
+        p_mesa_id: t.dbId || '00000000-0000-0000-0000-000000000000'
       });
       if(error || (data && data[0] && !data[0].ok)) {
         console.warn('Error al unirse a mesa en DB:', error || data[0].error);
@@ -1917,6 +1927,7 @@ async function dealHand(){
   G.lo=Math.min(VP[G.c1.v],VP[G.c2.v]);G.hi=Math.max(VP[G.c1.v],VP[G.c2.v]);G.spread=G.hi-G.lo-1;
 
   // --- REGISTRAR MANO EN DB ---
+  G.manoId = null; // Reset
   if(G.tableId && PROFILE.userId){
     try {
       const {data, error} = await supabaseClient.rpc('iniciar_mano', {
@@ -1926,8 +1937,11 @@ async function dealHand(){
         p_carta2_palo: mapToDbSuit(G.c2.s),
         p_carta2_valor: mapToDbVal(G.c2.v)
       });
+      if(error) console.error('Error iniciar_mano RPC:', error);
       if(data && data[0]) G.manoId = data[0].mano_id;
-    } catch(e) { console.warn('Error iniciar_mano:', e); }
+    } catch(e) { console.warn('Excepción iniciar_mano:', e); }
+  } else if(PROFILE.userId) {
+    console.warn('No se puede iniciar mano en DB: falta tableId');
   }
 
   // PRE-REPARTIR pares Ãºnicos a TODOS los jugadores antes de cualquier setTimeout
@@ -2275,7 +2289,19 @@ function resetCD(){startCD(BET_TIMER);G.autoRevealTimer=setTimeout(()=>{if(G.pha
 
 const PASO_PENALTY=25;
 async function recordBetToDb(player, amount, result, card3){
-  if(!G.manoId || !PROFILE.userId) return;
+  if(!PROFILE.userId) return;
+
+  // Si no hay manoId, algo falló en dealHand o es una mesa local no sincronizada
+  if(!G.manoId){
+    console.warn("Bet not recorded: missing manoId");
+    if(player.you) {
+      syncProfileFromSupabase().then(() => {
+        updHUD(); updStats();
+      });
+    }
+    return;
+  }
+
   try {
     const {data, error} = await supabaseClient.rpc('registrar_apuesta', {
       p_mano_id: G.manoId,
@@ -2288,6 +2314,16 @@ async function recordBetToDb(player, amount, result, card3){
       p_resultado: result
     });
     
+    if(error) {
+       console.error("Error registrar_apuesta RPC:", error);
+       if(player.you) {
+         syncProfileFromSupabase().then(() => {
+           updHUD(); updStats();
+         });
+       }
+       return;
+    }
+
     if(player.you && data && data[0] && data[0].ok){
       playerBal = Number(data[0].saldo_nuevo);
       G.yourBal = playerBal;
@@ -2297,8 +2333,20 @@ async function recordBetToDb(player, amount, result, card3){
       updHUD();
       // Actualizar historial de movimientos
       fetchMovements();
+    } else if(player.you) {
+       // Si no fue exitoso según la lógica de la DB, sincronizamos igual
+       syncProfileFromSupabase().then(() => {
+         updHUD(); updStats();
+       });
     }
-  } catch(e) { console.warn('Error registrar_apuesta:', e); }
+  } catch(e) { 
+    console.warn('Excepción registrar_apuesta:', e); 
+    if(player.you) {
+      syncProfileFromSupabase().then(() => {
+        updHUD(); updStats();
+      });
+    }
+  }
 }
 
 async function fetchMovements(){
