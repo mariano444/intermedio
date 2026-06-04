@@ -1805,8 +1805,9 @@ async function startGame(tableData,spectate){
           p_emoji: p.emoji,
           p_color: p.col
         });
+        if(error) console.error('Error RPC agregar_bot_asiento:', error);
         if(data && data[0] && data[0].asiento_id) p.asientoId = data[0].asiento_id;
-      } catch(e) { console.warn('Error agregando bot:', e); }
+      } catch(e) { console.warn('Excepción agregando bot:', e); }
       players.push({...p,you:false,bal:tableData.buyIn*5+rnd(0,tableData.buyIn*3)*10,wins:0,losses:0,ties:0});
     }
   } else {
@@ -1907,21 +1908,29 @@ function buildPlayers(){
   });
 }
 function updSeat(i,state,bet,c1,c2,c3){
-  const p=G.players[i];const seat=document.getElementById('seat-'+i);if(!seat)return;
+  if(!G || !G.players || !G.players[i]) return;
+  const p=G.players[i];
+  const seat=document.getElementById('seat-'+i);
+  if(!seat)return;
   const baseClass='seat '+(p.you?'s-you':'');
   const stateClass={active:'s-active',win:'s-win',lose:'s-lose',tie:'s-tie'}[state]||'';
   seat.className=baseClass+' '+stateClass;
-  const lbl={wait:'Esperando',active:'Apostandoâ€¦',bet:'ApostÃ³',win:'Â¡GanÃ³!',lose:'PerdiÃ³',tie:'Empate',out:'Sin fondos',reload:'ðŸ§ Recargando...'};
-  const cls={wait:'sst-wait',active:'sst-turn',bet:'sst-bet',win:'sst-win',lose:'sst-lose',tie:'sst-tie',out:'sst-wait'};
+  const lbl={wait:'Esperando',active:'Apostando…',bet:'Apostó',win:'¡Ganó!',lose:'Perdió',tie:'Empate',out:'Sin fondos',reload:'🏦 Recargando...'};
+  const cls={wait:'sst-wait',active:'sst-turn',bet:'sst-bet',win:'sst-win',lose:'sst-win',lose:'sst-lose',tie:'sst-tie',out:'sst-wait'};
   const sst=document.getElementById('sst-'+i);
   if(sst){sst.className='seat-state-tag '+(cls[state]||'sst-wait');sst.textContent=lbl[state]||state;}
-  document.getElementById('sbd-'+i).textContent=bet>0?'$'+bet.toLocaleString('es-AR'):'';
-  const scd=document.getElementById('scd-'+i);scd.innerHTML='';
-  if(c1){
-    scd.appendChild(mkMini(c1,false));scd.appendChild(mkMini(c2,false));
-    if(c3){const m3=mkMini(c3,true);if(state==='win')m3.classList.add('mc-win');else if(state==='lose')m3.classList.add('mc-lose');scd.appendChild(m3);}
+  const sbd=document.getElementById('sbd-'+i);
+  if(sbd) sbd.textContent=bet>0?'$'+bet.toLocaleString('es-AR'):'';
+  const scd=document.getElementById('scd-'+i);
+  if(scd){
+    scd.innerHTML='';
+    if(c1){
+      scd.appendChild(mkMini(c1,false));scd.appendChild(mkMini(c2,false));
+      if(c3){const m3=mkMini(c3,true);if(state==='win')m3.classList.add('mc-win');else if(state==='lose')m3.classList.add('mc-lose');scd.appendChild(m3);}
+    }
   }
-  document.getElementById('sbal-'+i).textContent=p.bal.toLocaleString('es-AR');
+  const sbal=document.getElementById('sbal-'+i);
+  if(sbal) sbal.textContent=(p.bal||0).toLocaleString('es-AR');
 }
 function mkMini(c,isMid){
   const d=document.createElement('div');
