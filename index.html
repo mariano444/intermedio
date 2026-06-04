@@ -1795,7 +1795,7 @@ async function startGame(tableData,spectate){
           p_emoji: p.emoji,
           p_color: p.col
         });
-        if(data) p.asientoId = data;
+        if(data && data[0] && data[0].asiento_id) p.asientoId = data[0].asiento_id;
       } catch(e) { console.warn('Error agregando bot:', e); }
       players.push({...p,you:false,bal:tableData.buyIn*5+rnd(0,tableData.buyIn*3)*10,wins:0,losses:0,ties:0});
     }
@@ -3566,6 +3566,3 @@ function updateLobbyHeader(){
 </div>
 </body>
 </html>
-
-
-
