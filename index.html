@@ -2519,28 +2519,31 @@ function addHlog(who,c3,res,amt){
 
 // â•â• HUD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function updHUD(){
-  const bal=G.spectate?playerBal:G.yourBal;
+  const bal = (G.spectate ? playerBal : G.yourBal) || 0;
   // Sincronizar UI principal con el saldo global que se actualiza desde DB
-  document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
-  document.getElementById('qh-bal').textContent='$'+bal.toLocaleString('es-AR');
-  document.getElementById('qh-pot').textContent='$'+G.pot.toLocaleString('es-AR');
-  const ne=document.getElementById('qh-net');
-  ne.textContent=(G.net>=0?'+':'')+'$'+Math.abs(G.net).toLocaleString('es-AR');
-  ne.className='qh-val '+(G.net>0?'pos':G.net<0?'neg':'');
-  const sr=document.getElementById('qh-str');
-  sr.textContent=G.streak>0?'+'+G.streak:String(G.streak);
-  sr.className='qh-val '+(G.streak>0?'pos':G.streak<0?'neg':'');
-  document.getElementById('game-hand-badge').textContent='MANO #'+G.hand;
+  document.getElementById('g-bal').textContent = '$' + (playerBal || 0).toLocaleString('es-AR');
+  document.getElementById('qh-bal').textContent = '$' + bal.toLocaleString('es-AR');
+  document.getElementById('qh-pot').textContent = '$' + (G.pot || 0).toLocaleString('es-AR');
+  const ne = document.getElementById('qh-net');
+  const netValue = G.net || 0;
+  ne.textContent = (netValue >= 0 ? '+' : '') + '$' + Math.abs(netValue).toLocaleString('es-AR');
+  ne.className = 'qh-val ' + (netValue > 0 ? 'pos' : netValue < 0 ? 'neg' : '');
+  const sr = document.getElementById('qh-str');
+  const streakValue = G.streak || 0;
+  sr.textContent = streakValue > 0 ? '+' + streakValue : String(streakValue);
+  sr.className = 'qh-val ' + (streakValue > 0 ? 'pos' : streakValue < 0 ? 'neg' : '');
+  document.getElementById('game-hand-badge').textContent = 'MANO #' + (G.hand || 0);
 }
 function updPot(){
   const pv=document.getElementById('pot-val');
-  pv.textContent='$'+G.pot.toLocaleString('es-AR');
-  pv.classList.toggle('pot-hot',G.pot>=40000);
+  const potValue = G.pot || 0;
+  pv.textContent='$'+potValue.toLocaleString('es-AR');
+  pv.classList.toggle('pot-hot',potValue>=40000);
   // Clases dinÃ¡micas de pozo enorme (sin lÃ­mite)
-  pv.classList.toggle('pot-huge',G.pot>=80000);
-  pv.classList.toggle('pot-legendary',G.pot>=150000);
-  document.getElementById('qh-pot').textContent='$'+G.pot.toLocaleString('es-AR');
-  const act=G.players.filter(p=>p.bal>0).length;
+  pv.classList.toggle('pot-huge',potValue>=80000);
+  pv.classList.toggle('pot-legendary',potValue>=150000);
+  document.getElementById('qh-pot').textContent='$'+potValue.toLocaleString('es-AR');
+  const act=(G.players || []).filter(p=>p && p.bal>0).length;
   document.getElementById('pot-sub').textContent=act+' jugador'+(act!==1?'es':'')+' activo'+(act!==1?'s':'');
 }
 function updStats(){
