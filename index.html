@@ -1079,14 +1079,18 @@ function getAllProfiles(){ try{return JSON.parse(localStorage.getItem(STORAGE_PR
 function saveAllProfiles(all){ try{localStorage.setItem(STORAGE_PROFILES,JSON.stringify(all));}catch(e){} }
 
 function saveProfile(){
+  saveProfileLocal();
+  saveProfileToSupabase();
+}
+
+function saveProfileLocal(){
   const all=getAllProfiles();
   PROFILE.bal=playerBal;
   PROFILE.lastSeen=new Date().toISOString();
   all[PROFILE.username]=PROFILE;
   saveAllProfiles(all);
-  // Guardar sesiÃ³n activa
+  // Guardar sesión activa
   try{localStorage.setItem(STORAGE_KEY, JSON.stringify({username:PROFILE.username, ts:Date.now()}));}catch(e){}
-  saveProfileToSupabase();
 }
 
 function loadProfile(){
@@ -1225,7 +1229,7 @@ async function syncProfileFromSupabase(){
     const {data,error}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:PROFILE.userId});
     if(error||!data||!data[0])return false;
     PROFILE=Object.assign(PROFILE,mapDbUserToProfile(data[0],PROFILE.password));
-    playerBal=PROFILE.bal||playerBal;
+    playerBal=PROFILE.bal;
     const all=getAllProfiles();all[PROFILE.username]=PROFILE;saveAllProfiles(all);
     const balEl=document.getElementById('g-bal');if(balEl)balEl.textContent='$'+playerBal.toLocaleString('es-AR');
     return true;
@@ -1848,6 +1852,7 @@ async function leaveTable(){
   if(G._potBot){G._potBot=null;}
   G.players&&G.players.forEach(p=>{if(p){p._forcedPotWin=false;p._pendingReloadMsg=null;}});
   
+  saveProfileLocal();
   // Limpiar estado de juego
   G = { phase: 'idle' }; 
   
@@ -2380,6 +2385,7 @@ async function recordBetToDb(player, amount, result, card3){
       PROFILE.bal = playerBal;
       const yp = G.players.find(p=>p.you); if(yp) yp.bal = playerBal;
       document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+      saveProfileLocal();
       updHUD();
       fetchMovements();
       console.log("Bet recorded successfully. New balance:", playerBal);
@@ -2426,7 +2432,8 @@ function passTurn(){
   document.getElementById('bet-panel').style.display='none';
   playerBal=G.yourBal;updHUD();updStats();updPot();
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
-  addHlog('TÃº (paso)',{v:0,s:'so'},'lose',penalty);
+  saveProfileLocal();
+  addHlog('Tú (paso)',{v:0,s:'so'},'lose',penalty);
   setMsg(`Pasaste â€” penalizaciÃ³n $${penalty.toLocaleString('es-AR')}`,'lose');
   
   // Sincronizar con DB
@@ -2498,9 +2505,10 @@ function resolveYour(c3,cw){
     if(cw)cw.classList.add('c-shake');
   }
   if(yi>=0){G.players[yi].res=res;G.players[yi].bal=G.yourBal;updSeat(yi,res,G.bet,G.c1,G.c2,c3);}
-  addHlog('TÃº',c3,res,G.bet);setMsg(msg,mcls);G.phase='idle';
+  addHlog('Tú',c3,res,G.bet);setMsg(msg,mcls);G.phase='idle';
   playerBal=G.yourBal;updHUD();updStats();updPot();
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+  saveProfileLocal();
   
   // Sincronizar con DB
   recordBetToDb(G.players[yi], G.bet, res, c3);
