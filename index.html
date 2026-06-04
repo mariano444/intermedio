@@ -1741,20 +1741,30 @@ async function confirmJoin(){
           p_buy_in: t.buyIn,
           p_max_asientos: t.maxSeats
         });
-        if(!mesaErr && newMesaId && newMesaId[0]) t.dbId = newMesaId[0].mesa_id;
+        if(mesaErr || !newMesaId || !newMesaId[0]) {
+          console.error('Error al crear mesa en DB:', mesaErr || 'No se recibió ID');
+          setMsg('Error al conectar con el servidor de mesas','lose');
+          return; // Detener flujo
+        }
+        t.dbId = newMesaId[0].mesa_id;
       }
 
       const {data, error} = await supabaseClient.rpc('unirse_mesa', {
         p_usuario_id: PROFILE.userId,
-        p_mesa_id: t.dbId || '00000000-0000-0000-0000-000000000000'
+        p_mesa_id: t.dbId
       });
       if(error || (data && data[0] && !data[0].ok)) {
-        console.warn('Error al unirse a mesa en DB:', error || data[0].error);
+        const errMsg = (data && data[0] && data[0].error) || (error && error.message) || 'Error desconocido';
+        console.error('Error al unirse a mesa en DB:', errMsg);
+        setMsg('Error al unirse: ' + errMsg, 'lose');
+        return; // Detener flujo
       } else if(data && data[0] && data[0].ok) {
         t.asientoId = data[0].asiento_id;
       }
     } catch(e) {
-      console.warn('Excepción al unirse a mesa:', e);
+      console.error('Excepción al unirse a mesa:', e);
+      setMsg('Error de conexión con la base de datos', 'lose');
+      return; // Detener flujo
     }
   }
 
