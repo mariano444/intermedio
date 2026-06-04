@@ -30,15 +30,15 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   display:flex;flex-direction:column;position:relative;overflow:hidden;
 }
 
-/* â•â• SCREENS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ SCREENS ══════════════════════════════════════════════════ */
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .35s ease}
 .screen.hidden{pointer-events:none;opacity:0;transform:translateX(100%)}
 .screen.back-hidden{pointer-events:none;opacity:0;transform:translateX(-30%)}
 
-/* â•â• PARTICLES BG â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ PARTICLES BG ════════════════════════════════════════════ */
 #bg-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5}
 
-/* â•â• STATUS BAR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ STATUS BAR ══════════════════════════════════════════════ */
 #status-bar{
   padding:calc(var(--safe-top) + 6px) 16px 6px;
   display:flex;justify-content:space-between;align-items:center;
@@ -50,7 +50,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .sb-bal-ico{font-size:10px}
 .sb-bal-amt{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--gold2)}
 
-/* â•â• LOBBY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ LOBBY ════════════════════════════════════════════════════ */
 #lobby-screen{overflow-y:auto;padding-bottom:calc(var(--safe-bot) + 16px)}
 #lobby-screen::-webkit-scrollbar{display:none}
 .lobby-hero{
@@ -105,7 +105,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .tc-prog{height:2px;background:rgba(255,255,255,.05);overflow:hidden}
 .tc-prog-fill{height:100%;transition:width .5s ease}
 
-/* â•â• MODAL ENTRADA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ MODAL ENTRADA ════════════════════════════════════════════ */
 #modal-overlay{
   position:fixed;inset:0;z-index:200;
   background:rgba(0,0,0,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
@@ -138,7 +138,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .mbt-ok{background:linear-gradient(135deg,#d4a017,#8b6914);color:#1a0800;box-shadow:0 4px 0 #4a360a}
 .mbt-no{background:rgba(255,255,255,.07);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.1)}
 
-/* â•â• GAME SCREEN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ GAME SCREEN ══════════════════════════════════════════════ */
 #game-screen{overflow:hidden}
 
 /* TOP BAR del juego */
@@ -160,7 +160,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   padding:4px 10px;font-family:'Cinzel',serif;font-size:10px;color:var(--gold);flex-shrink:0
 }
 
-/* HUD RÃPIDO */
+/* HUD RÁPIDO */
 #quick-hud{
   display:flex;gap:6px;padding:0 12px 6px;flex-shrink:0;position:relative;z-index:20;
 }
@@ -182,7 +182,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .spec-bar-ico{font-size:10px;color:#85c1e9;letter-spacing:2px}
 .spec-bar-txt{font-size:9px;color:rgba(133,193,233,.65);margin-top:2px}
 
-/* â•â• JUGADORES (oval layout) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ JUGADORES (oval layout) ══════════════════════════════════ */
 #players-area{
   position:relative;z-index:10;flex-shrink:0;
   padding:0 10px 6px;
@@ -272,7 +272,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .react-pop{position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);font-size:20px;z-index:50;pointer-events:none;animation:rpop .7s ease forwards}
 @keyframes rpop{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}40%{opacity:1;transform:translate(-50%,-80%) scale(1.2)}100%{opacity:0;transform:translate(-50%,-120%) scale(.8)}}
 
-/* â•â• TAPETE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ TAPETE ══════════════════════════════════════════════════ */
 #felt-area{
   flex:1;position:relative;margin:0 10px 4px;
   background:radial-gradient(ellipse at 50% 40%,#1b6e32 0%,#0e4a1e 50%,#082e12 100%);
@@ -368,7 +368,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .ctb-dots span:nth-child(2){animation-delay:.16s}.ctb-dots span:nth-child(3){animation-delay:.32s}
 .ctb-who{font-size:8px;color:rgba(201,168,76,.6);font-family:'Cinzel',serif;letter-spacing:.8px}
 
-/* â•â• PANEL DE APUESTA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ PANEL DE APUESTA ═════════════════════════════════════════ */
 #bet-panel{
   flex-shrink:0;
   background:linear-gradient(180deg,rgba(0,0,0,.85),rgba(0,0,0,.95));
@@ -436,7 +436,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 #cd-bar{height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
 #cd-fill{height:100%;background:linear-gradient(90deg,#e74c3c,var(--gold2),#4eda7a);border-radius:2px;transition:width .1s linear}
 
-/* â•â• ACCIÃ“N IDLE / ESPECTADOR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ ACCIÓN IDLE / ESPECTADOR ════════════════════════════════ */
 #idle-bar{
   flex-shrink:0;padding:8px 12px calc(var(--safe-bot) + 8px);
   background:linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.9));
@@ -453,7 +453,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .ibtn-deal{background:linear-gradient(135deg,#d4a017,#8b6914);color:#1a0800;box-shadow:0 4px 0 #4a360a}
 .ibtn-leave{background:rgba(255,255,255,.07);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1)}
 
-/* â•â• CHAT FEED â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ CHAT FEED ═══════════════════════════════════════════════ */
 #chat-feed{
   position:absolute;bottom:0;right:0;width:150px;
   background:transparent;padding:6px 6px;z-index:25;
@@ -472,7 +472,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .cf-who{font-size:6.5px;font-family:'Cinzel',serif;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cf-txt{font-size:7.5px;color:rgba(255,255,255,.6);line-height:1.3}
 
-/* â•â• HISTORIAL / STATS PANEL (drawer de abajo) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ HISTORIAL / STATS PANEL (drawer de abajo) ═══════════════ */
 #stats-drawer{
   display:none;position:fixed;inset:0;z-index:150;
   background:rgba(0,0,0,.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
@@ -510,7 +510,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   border:1px solid rgba(255,255,255,.1);margin-top:12px;
 }
 
-/* â•â• END OVERLAY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ END OVERLAY ═════════════════════════════════════════════ */
 #end-overlay{
   position:absolute;inset:0;z-index:100;
   background:rgba(0,0,0,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
@@ -534,14 +534,14 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .ebtn-reload{background:linear-gradient(135deg,#2ecc71,#1a6b35);color:#fff;box-shadow:0 3px 0 #0d3018}
 .ebtn-leave{background:rgba(255,255,255,.07);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.12)}
 
-/* â•â• PARTICLES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ PARTICLES ═══════════════════════════════════════════════ */
 #prt{position:absolute;inset:0;pointer-events:none;z-index:90;overflow:hidden}
 .pp{position:absolute;animation:pfall linear forwards;border-radius:50%}
 @keyframes pfall{0%{transform:translateY(0) rotate(0) scale(1);opacity:1}100%{transform:translateY(700px) rotate(720deg) scale(.3);opacity:0}}
 .coin-f{position:absolute;font-size:18px;pointer-events:none;animation:coinflight .85s ease forwards;z-index:91}
 @keyframes coinflight{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) scale(.3)}}
 
-/* â•â• STATS FAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ STATS FAB ═══════════════════════════════════════════════ */
 #stats-fab{
   position:absolute;bottom:calc(var(--safe-bot) + 80px);right:14px;z-index:40;
   width:40px;height:40px;border-radius:50%;
@@ -553,7 +553,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 #stats-fab:active{transform:scale(.9)}
 #game-screen.active #stats-fab{display:flex}
 
-/* â•â• BILLETERA & PERFIL â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+/* ══ BILLETERA & PERFIL ═══════════════════════════════════════════ */
 .sb-right{display:flex;align-items:center;gap:8px}
 .sb-wallet-btn{
   background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);
@@ -591,8 +591,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 <canvas id="bg-canvas"></canvas>
 <div id="prt"></div>
 
-<!-- â•â• LOBBY SCREEN â•â• -->
-<!-- â•â• AUTH SCREEN â•â• -->
+<!-- ══ LOBBY SCREEN ══ -->
+<!-- ══ AUTH SCREEN ══ -->
 <div class="screen" id="auth-screen">
   <div style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(180deg,#0a0f05,#060c03)">
 
@@ -728,17 +728,17 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   <div id="tables-list"></div>
 </div>
 
-<!-- â•â• GAME SCREEN â•â• -->
+<!-- ══ GAME SCREEN ══ -->
 <div class="screen hidden" id="game-screen">
   <!-- Top bar -->
   <div id="game-topbar">
-    <div id="btn-back" onclick="leaveTable()">â†</div>
+    <div id="btn-back" onclick="leaveTable()">←</div>
     <div id="game-table-name">MESA</div>
     <div id="game-hand-badge">MANO #0</div>
-    <div class="gtb-wallet" onclick="openWallet()">ðŸ’³ <span id="gtb-bal">$0</span></div>
+    <div class="gtb-wallet" onclick="openWallet()">💳 <span id="gtb-bal">$0</span></div>
   </div>
 
-  <!-- HUD rÃ¡pido -->
+  <!-- HUD rápido -->
   <div id="quick-hud">
     <div class="qhud-box"><div class="qh-lbl">Saldo</div><div class="qh-val" id="qh-bal">$0</div></div>
     <div class="qhud-box"><div class="qh-lbl">Pozo</div><div class="qh-val" id="qh-pot" style="color:#f5c842">$0</div></div>
@@ -747,7 +747,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   </div>
 
   <!-- Spec bar -->
-  <div id="spec-bar"><div class="spec-bar-ico">ðŸ‘ MODO ESPECTADOR</div><div class="spec-bar-txt" id="spec-bar-txt">Observando la partida</div></div>
+  <div id="spec-bar"><div class="spec-bar-ico">👁 MODO ESPECTADOR</div><div class="spec-bar-txt" id="spec-bar-txt">Observando la partida</div></div>
 
   <!-- Jugadores -->
   <div id="players-area">
@@ -760,22 +760,22 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
     <div id="pot-bar">
       <div><div class="pot-lbl">Pozo</div><div class="pot-val" id="pot-val">$0</div></div>
       <div id="cpu-think-bar"><div class="ctb-dots"><span></span><span></span><span></span></div><span class="ctb-who" id="ctb-who">...</span></div>
-      <div class="pot-sub" id="pot-sub">â€” jugadores</div>
+      <div class="pot-sub" id="pot-sub">— jugadores</div>
     </div>
     <!-- Felt interior -->
     <div class="felt-inner">
       <!-- Cards -->
       <div id="cards-row">
-        <div class="cslot"><div class="cslot-lbl">Carta 1</div><div id="s1"><div class="card-ph">ðŸ‚ </div></div></div>
-        <div class="csep"><div class="csep-line"></div><div class="csep-ico">â†”</div><div class="csep-line"></div></div>
-        <div class="cslot"><div class="cslot-lbl">Intermedia</div><div id="sm"><div class="card-ph">ðŸ‚ </div></div></div>
-        <div class="csep"><div class="csep-line"></div><div class="csep-ico">â†”</div><div class="csep-line"></div></div>
-        <div class="cslot"><div class="cslot-lbl">Carta 2</div><div id="s2"><div class="card-ph">ðŸ‚ </div></div></div>
+        <div class="cslot"><div class="cslot-lbl">Carta 1</div><div id="s1"><div class="card-ph">🂠</div></div></div>
+        <div class="csep"><div class="csep-line"></div><div class="csep-ico">↔</div><div class="csep-line"></div></div>
+        <div class="cslot"><div class="cslot-lbl">Intermedia</div><div id="sm"><div class="card-ph">🂠</div></div></div>
+        <div class="csep"><div class="csep-line"></div><div class="csep-ico">↔</div><div class="csep-line"></div></div>
+        <div class="cslot"><div class="cslot-lbl">Carta 2</div><div id="s2"><div class="card-ph">🂠</div></div></div>
       </div>
       <!-- Range pills -->
       <div id="range-pills" style="display:none">
-        <div class="rpill" id="rp1">â€”</div>
-        <div class="rpill" id="rp2">â€”</div>
+        <div class="rpill" id="rp1">—</div>
+        <div class="rpill" id="rp2">—</div>
       </div>
       <!-- Mensaje -->
       <div id="gmsg-wrap"><div class="gmsg idle" id="gm"><div class="mdot"></div><span id="gmt">Preparando...</span></div></div>
@@ -787,8 +787,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   <!-- Bet panel -->
   <div id="bet-panel">
     <div class="bp-header">
-      <div class="bp-title">â¬¡ TU APUESTA</div>
-      <div class="bp-info" id="bp-info">MÃ­n. $50</div>
+      <div class="bp-title">⬡ TU APUESTA</div>
+      <div class="bp-info" id="bp-info">Mín. $50</div>
     </div>
     <div class="chips-scroll">
       <div class="chip c50" onclick="addBet(50)">$50</div>
@@ -817,11 +817,11 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
   <!-- Idle bar (espectador o entre manos) -->
   <div id="idle-bar">
-    <button class="idle-btn ibtn-leave" onclick="leaveTable()">â† Salir</button>
+    <button class="idle-btn ibtn-leave" onclick="leaveTable()">← Salir</button>
   </div>
 
   <!-- Stats FAB -->
-  <div id="stats-fab" onclick="openStats()">ðŸ“Š</div>
+  <div id="stats-fab" onclick="openStats()">📊</div>
 
   <!-- End overlay -->
   <div id="end-overlay">
@@ -1061,7 +1061,7 @@ function createSupabaseRestClient(url,key){
 const supabaseClient = createSupabaseRestClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
 let PROFILE = {
-  name:'', alias:'', cbu:'', phone:'', avatar:'ðŸŽ­',
+  name:'', alias:'', cbu:'', phone:'', avatar:'🎭',
   username:'', password:'',
   totalDeposited:0, totalWithdrawn:0, totalHands:0,
   bal:0, created:''
@@ -1094,7 +1094,7 @@ function saveProfileLocal(){
 }
 
 function loadProfile(){
-  // Intentar auto-login desde sesiÃ³n guardada
+  // Intentar auto-login desde sesión guardada
   try{
     const sess=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');
     if(sess&&sess.username){
@@ -1103,11 +1103,11 @@ function loadProfile(){
         PROFILE=Object.assign(PROFILE,all[sess.username]);
         playerBal=PROFILE.bal??0;
         SESSION=sess.username;
-        return true; // sesiÃ³n activa
+        return true; // sesión activa
       }
     }
   }catch(e){}
-  return false; // sin sesiÃ³n
+  return false; // sin sesión
 }
 
 async function loginWithCredentials(user,pass){
@@ -1115,7 +1115,7 @@ async function loginWithCredentials(user,pass){
   const u=user.trim().toLowerCase();
   const found=await loginWithSupabase(u,pass.trim()) || Object.values(all).find(p=>p.username===u&&p.password===pass.trim());
   if(found){
-    PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'ðŸŽ­',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},found);
+    PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},found);
     playerBal=PROFILE.bal??0;
     SESSION=PROFILE.username;
     saveProfile();
@@ -1128,7 +1128,7 @@ async function loginWithCredentials(user,pass){
 function logout(){
   SESSION=null;
   try{localStorage.removeItem(STORAGE_KEY);}catch(e){}
-  PROFILE={name:'',alias:'',cbu:'',phone:'',avatar:'ðŸŽ­',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''};
+  PROFILE={name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''};
   playerBal=0;
   showAuthScreen();
 }
@@ -1145,7 +1145,7 @@ function mapDbUserToProfile(row,password){
     phone:row.telefono||'',
     provincia:row.provincia||'',
     localidad:row.localidad||'',
-    avatar:row.avatar_emoji||'ðŸŽ­',
+    avatar:row.avatar_emoji||'🎭',
     avatarType:row.avatar_type||'emoji',
     avatarInitials:row.avatar_iniciales||'',
     avatarInitialsColor:row.avatar_color_idx||0,
@@ -1211,7 +1211,7 @@ async function saveProfileToSupabase(){
       p_provincia:PROFILE.provincia||null,
       p_localidad:PROFILE.localidad||null,
       p_avatar_type:PROFILE.avatarType||'emoji',
-      p_avatar_emoji:(PROFILE.avatarType||'emoji')==='emoji'?(PROFILE.avatar||'ðŸŽ­'):null,
+      p_avatar_emoji:(PROFILE.avatarType||'emoji')==='emoji'?(PROFILE.avatar||'🎭'):null,
       p_avatar_iniciales:PROFILE.avatarInitials||null,
       p_avatar_color_idx:PROFILE.avatarInitialsColor||0,
       p_avatar_photo_url:PROFILE.avatarPhoto||null,
@@ -1237,7 +1237,7 @@ async function syncProfileFromSupabase(){
 }
 
 async function edgeInvoke(functionName,body){
-  if(!supabaseClient)throw new Error('Supabase no estÃ¡ disponible');
+  if(!supabaseClient)throw new Error('Supabase no está disponible');
   const {data,error}=await supabaseClient.functions.invoke(functionName,{body});
   if(error)throw new Error(error.message||('Error en '+functionName));
   if(data&&data.error)throw new Error(data.error);
@@ -1265,14 +1265,14 @@ async function confirmPendingGalioPayment(){
       await fetchMovements();
       localStorage.removeItem('gp_pending_payment');
       history.replaceState(null,'',window.location.pathname);
-      setMsg('Pago confirmado â€” saldo actualizado','win');
+      setMsg('Pago confirmado — saldo actualizado','win');
     }
   }catch(e){
-    setMsg('Pago recibido, esperando confirmaciÃ³n de Galio Pay','info');
+    setMsg('Pago recibido, esperando confirmación de Galio Pay','info');
   }
 }
 
-// â”€â”€ GALIO PAY HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── GALIO PAY HELPERS ──────────────────────────────────────────
 function galioPayDeposit(amount){
   PROFILE.totalDeposited=(PROFILE.totalDeposited||0)+amount;
   PROFILE.bal=playerBal;
@@ -1287,7 +1287,7 @@ function isProfileComplete(){
   return !!(PROFILE.name&&PROFILE.name.trim()&&PROFILE.alias&&PROFILE.alias.trim());
 }
 
-// â•â• BARAJA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ BARAJA ══════════════════════════════════════════════════════
 function mkDeck(){
   let d=[];SUITS.forEach(s=>VALS.forEach(v=>d.push({s,v})));
   for(let i=d.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[d[i],d[j]]=[d[j],d[i]];}
@@ -1317,7 +1317,7 @@ function drawFrom(pool,dealtSet,preferKey){
     dealtSet.add(pick.s+pick.v);
     return pick;
   }
-  // Ãºltimo recurso: reiniciar pool (no deberÃ­a pasar con 40 cartas y max ~8 jugadores)
+  // último recurso: reiniciar pool (no debería pasar con 40 cartas y max ~8 jugadores)
   G.pool=mkDeck().filter(c=>!dealtSet.has(c.s+c.v));
   return drawFrom(G.pool,dealtSet,null);
 }
@@ -1327,17 +1327,17 @@ function drawRigged(forWin){
   let lp=HOUSE.baseLose;
   // Racha ganadora: el sistema "corrige" al jugador
   lp+=Math.min(Math.max(0,G.streak),3)*HOUSE.streakBonus;
-  // Escalada de pÃ©rdida por monto: a mayor apuesta, mayor probabilidad de perder
+  // Escalada de pérdida por monto: a mayor apuesta, mayor probabilidad de perder
   const tier=HOUSE.betTiers.find(t=>G.bet>=t.min&&G.bet<=t.max);
   if(tier)lp+=tier.bonus;
-  // SesiÃ³n larga: la casa aprieta un poco mÃ¡s
+  // Sesión larga: la casa aprieta un poco más
   if(HOUSE.sessionBet>8000)lp+=.05;
   if(HOUSE.sessionBet>20000)lp+=.03;
-  // Manos de calentamiento: mÃ¡s suaves para enganchar
+  // Manos de calentamiento: más suaves para enganchar
   if(HOUSE.hands<=HOUSE.warmup)lp=.42;
   // Consec losses: dar una ganancia antes de que el jugador se vaya
   if(HOUSE.consecLoss>=HOUSE.maxConsec)forWin=true;
-  // Cap absoluto: nunca mÃ¡s del 94% de pÃ©rdida (tiene que ganar de vez en cuando)
+  // Cap absoluto: nunca más del 94% de pérdida (tiene que ganar de vez en cuando)
   lp=Math.min(lp,.94);
   const lose=!forWin&&Math.random()<lp;
   const prefer=lose?(G.spread>=2?'out':null):(G.spread>=2?'in':null);
@@ -1377,41 +1377,41 @@ function calcCPUBet(p,mb,sp){
   if(Math.random()<.12)bet=Math.max(50,Math.floor(bet*(.4+Math.random()*.3)/50)*50);
   return Math.max(50,Math.min(bet,mb,p.bal));
 }
-// autoSuggest: ancla psicolÃ³gica â€” sugiere siempre mÃ¡s de lo que el jugador apostÃ³ antes
-// LÃ³gica de casino: el "valor sugerido" sube progresivamente para normalizar apuestas grandes
+// autoSuggest: ancla psicológica — sugiere siempre más de lo que el jugador apostó antes
+// Lógica de casino: el "valor sugerido" sube progresivamente para normalizar apuestas grandes
 function autoSuggest(){
   const m=Math.min(G.yourBal,G.pot);
   const r=G.spread/10;
-  // Base: mÃ¡s agresiva que antes â€” entre 35% y 65% del mÃ¡ximo posible segÃºn rango
+  // Base: más agresiva que antes — entre 35% y 65% del máximo posible según rango
   let base=Math.round(m*(.35+r*.30)/50)*50;
-  // Si el jugador ganÃ³ la Ãºltima mano: ancla mÃ¡s arriba ("aprovechÃ¡ la racha")
+  // Si el jugador ganó la última mano: ancla más arriba ("aprovechá la racha")
   if(G.streak>0) base=Math.round(m*(.45+r*.35)/50)*50;
-  // Si perdiÃ³: sugiere un poco menos para que "recupere" (pero igual pierde mÃ¡s a la larga)
+  // Si perdió: sugiere un poco menos para que "recupere" (pero igual pierde más a la larga)
   if(G.streak<-1) base=Math.round(m*(.28+r*.22)/50)*50;
-  // Pozo grande: urgencia visual â€” sugiere mÃ¡s
+  // Pozo grande: urgencia visual — sugiere más
   if(G.pot>=20000) base=Math.round(base*1.25/50)*50;
   return Math.max(50,Math.min(base,m));
 }
-// psychMsg: mensajes psicolÃ³gicos de casino â€” crean ilusiÃ³n de control y esperanza
+// psychMsg: mensajes psicológicos de casino — crean ilusión de control y esperanza
 function psychMsg(res){
   if(res==='win'){
     const betTier=G.bet>=2000?'huge':G.bet>=1000?'big':G.bet>=500?'med':'small';
-    if(betTier==='huge')return['Â¡APOSTASTE EN GRANDE Y GANASTE! AsÃ­ se hace.','Â¡Las apuestas altas pagan! SeguÃ­ asÃ­.','Â¡ESO! El riesgo valiÃ³ la pena â€” el pozo te espera.'][Math.floor(Math.random()*3)];
-    if(betTier==='big')return['Â¡Buen instinto! Â¿Y si subÃ­s un poco mÃ¡s la prÃ³xima?','Â¡Bien jugado! La racha estÃ¡ de tu lado.','Â¡El rango lo leÃ­ste perfecto! Ahora con mÃ¡s fichas...'][Math.floor(Math.random()*3)];
-    return['Â¡La suerte estÃ¡ de tu lado! Ahora subÃ­ la apuesta.','Â¡LeÃ­ste el rango! La prÃ³xima apostÃ¡ mÃ¡s y ganÃ¡ mÃ¡s.','Â¡Bien! AprovechÃ¡ la racha â€” el pozo estÃ¡ cargado.'][Math.floor(Math.random()*4)];
+    if(betTier==='huge')return['¡APOSTASTE EN GRANDE Y GANASTE! Así se hace.','¡Las apuestas altas pagan! Seguí así.','¡ESO! El riesgo valió la pena — el pozo te espera.'][Math.floor(Math.random()*3)];
+    if(betTier==='big')return['¡Buen instinto! ¿Y si subís un poco más la próxima?','¡Bien jugado! La racha está de tu lado.','¡El rango lo leíste perfecto! Ahora con más fichas...'][Math.floor(Math.random()*3)];
+    return['¡La suerte está de tu lado! Ahora subí la apuesta.','¡Leíste el rango! La próxima apostá más y ganá más.','¡Bien! Aprovechá la racha — el pozo está cargado.'][Math.floor(Math.random()*4)];
   }
   if(res==='lose'){
-    if(HOUSE.consecLoss>=HOUSE.maxConsec) return'ðŸ˜¤ El pozo te debe una. La siguiente es tuya â€” apostar mÃ¡s asegura recuperarte.';
-    if(G.net<-3000) return'ðŸ“ˆ Las rachas se revierten. El pozo acumulado es tuyo â€” solo hay que animarse.';
-    if(G.net<-1500) return'Una sola mano con una apuesta grande lo recupera todo y mÃ¡s...';
+    if(HOUSE.consecLoss>=HOUSE.maxConsec) return'😤 El pozo te debe una. La siguiente es tuya — apostar más asegura recuperarte.';
+    if(G.net<-3000) return'📈 Las rachas se revierten. El pozo acumulado es tuyo — solo hay que animarse.';
+    if(G.net<-1500) return'Una sola mano con una apuesta grande lo recupera todo y más...';
     const bet=G.bet;
-    if(bet>=1000) return['Â¡Tan cerca! Con ese rango lo ibas a comer â€” la prÃ³xima va.','Â¡Estuvo dentro! Es cuestiÃ³n de timing, no pares.','Â¡Mala suerte! El pozo sigue creciendo, va a valer la pena.'][Math.floor(Math.random()*3)];
-    return['Estuvo muy cerca... Â¿SubÃ­s la apuesta y ganÃ¡s el doble?','La suerte cambia. Y cuando cambia, hay que tener fichas grandes.','Rango difÃ­cil â€” en el prÃ³ximo rango amplio metÃ©s todo y lo recuperÃ¡s.','Mala racha. Los casinos saben que la siguiente siempre viene.'][Math.floor(Math.random()*4)];
+    if(bet>=1000) return['¡Tan cerca! Con ese rango lo ibas a comer — la próxima va.','¡Estuvo dentro! Es cuestión de timing, no pares.','¡Mala suerte! El pozo sigue creciendo, va a valer la pena.'][Math.floor(Math.random()*3)];
+    return['Estuvo muy cerca... ¿Subís la apuesta y ganás el doble?','La suerte cambia. Y cuando cambia, hay que tener fichas grandes.','Rango difícil — en el próximo rango amplio metés todo y lo recuperás.','Mala racha. Los casinos saben que la siguiente siempre viene.'][Math.floor(Math.random()*4)];
   }
-  return'Â¡Recuperaste lo apostado! Ahora que el rango acompaÃ±e, subÃ­ las fichas.';
+  return'¡Recuperaste lo apostado! Ahora que el rango acompañe, subí las fichas.';
 }
 
-// â•â• CHAT DE MESA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ CHAT DE MESA ════════════════════════════════════════════════
 function rc(p,k){const a=(p.chat&&p.chat[k])||['...'];return a[Math.floor(Math.random()*a.length)];}
 
 function showBubble(idx,txt,dur){
@@ -1532,7 +1532,7 @@ function botPressureChat(){
   },delay);
 }
 
-// â•â• BG CANVAS ANIMATION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ BG CANVAS ANIMATION ═════════════════════════════════════════
 (function(){
   const c=document.getElementById('bg-canvas');
   if(!c)return;
@@ -1554,11 +1554,11 @@ function botPressureChat(){
   tick();
 })();
 
-// â•â• LOBBY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ LOBBY ═══════════════════════════════════════════════════════
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 
 async function generateTables(){
-  // Limpiar intervalo anterior â€” evita mesas zombie en el lobby
+  // Limpiar intervalo anterior — evita mesas zombie en el lobby
   if(_lobbyInterval){clearInterval(_lobbyInterval);_lobbyInterval=null;}
 
   // Intentar cargar mesas de la DB si estamos logueados
@@ -1589,14 +1589,14 @@ async function generateTables(){
   const n=5+rnd(0,3),names=[...TABLE_NAMES].sort(()=>Math.random()-.5);TABLES=[];
 
   /*
-   * RelaciÃ³n entrada â†” jugadores (INVERSA):
-   *   Entrada alta  â†’ menos asientos  (mesa exclusiva, pozo concentrado)
-   *   Entrada baja  â†’ mÃ¡s asientos    (mesa popular, pozo por volumen)
+   * Relación entrada ↔ jugadores (INVERSA):
+   *   Entrada alta  → menos asientos  (mesa exclusiva, pozo concentrado)
+   *   Entrada baja  → más asientos    (mesa popular, pozo por volumen)
    *
-   * Mesas open/filling: pozo = entrada Ã— participantes exacto (lo que pusieron)
+   * Mesas open/filling: pozo = entrada × participantes exacto (lo que pusieron)
    * Mesas playing/full: pozo += acumulado de manos anteriores
    *
-   * LÃ­mites: mÃ­nimo 1 jugador, mÃ¡ximo 10 jugadores por mesa
+   * Límites: mínimo 1 jugador, máximo 10 jugadores por mesa
    */
   const cats={
     //         entradas posibles     asientos posibles   manos previas
@@ -1627,7 +1627,7 @@ async function generateTables(){
     // Pozo acumulado para mesas en juego: base + ganancia del casino por manos
     let pot;
     if(st==='open'||st==='filling'){
-      pot=bi*occ; // estricto: entrada Ã— participantes
+      pot=bi*occ; // estricto: entrada × participantes
     } else {
       const potBase=bi*occ;
       const potAccum=Math.round(bi*occ*hands*0.55/50)*50;
@@ -1717,7 +1717,7 @@ function renderLobby(){
   });
 }
 
-// â•â• JOIN / WATCH â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ JOIN / WATCH ═════════════════════════════════════════════════
 function tryJoin(id){
   const t=TABLES.find(x=>x.id===id);if(!t)return;
   pendingJoin=t;
@@ -1776,7 +1776,7 @@ async function confirmJoin(){
 }
 function watchTable(id){const t=TABLES.find(x=>x.id===id);if(t)startGame(t,true);}
 
-// â•â• NAVEGACIÃ“N DE SCREENS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ NAVEGACIÓN DE SCREENS ════════════════════════════════════════
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>{
     if(s.id===id){s.classList.remove('hidden','back-hidden');}
@@ -1947,9 +1947,9 @@ function mkMini(c,isMid){
   return d;
 }
 
-// â•â• TAPETE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ TAPETE ═══════════════════════════════════════════════════════
 function clearFelt(){
-  ['s1','sm','s2'].forEach(id=>document.getElementById(id).innerHTML='<div class="card-ph">ðŸ‚ </div>');
+  ['s1','sm','s2'].forEach(id=>document.getElementById(id).innerHTML='<div class="card-ph">🂠</div>');
   document.getElementById('range-pills').style.display='none';
   document.getElementById('bet-panel').style.display='none';
   document.getElementById('idle-bar').style.display='none';
@@ -1965,10 +1965,10 @@ function cHTML(c,anim,delay){
 function backHTML(){
   const src=CARD_IMGS['back'];
   if(src)return`<div class="card-wrap back-card"><img src="${src}" class="card-img"></div>`;
-  return`<div class="card-wrap back-card" style="background:linear-gradient(135deg,#1a0a2e,#0d0520);display:flex;align-items:center;justify-content:center;font-size:28px;color:rgba(201,168,76,.4)">âœ¦</div>`;
+  return`<div class="card-wrap back-card" style="background:linear-gradient(135deg,#1a0a2e,#0d0520);display:flex;align-items:center;justify-content:center;font-size:28px;color:rgba(201,168,76,.4)">✦</div>`;
 }
 
-// â•â• LÃ“GICA DEL JUEGO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ LÓGICA DEL JUEGO ═════════════════════════════════════════════
 async function dealHand(){
   if(G.phase!=='idle')return;
   if(!G.spectate&&G.players.filter(p=>p.you&&p.bal>0).length===0){setMsg('Sin fondos','lose');return;}
@@ -2003,28 +2003,28 @@ async function dealHand(){
     console.warn('No se puede iniciar mano en DB: falta tableId');
   }
 
-  // PRE-REPARTIR pares Ãºnicos a TODOS los jugadores antes de cualquier setTimeout
+  // PRE-REPARTIR pares únicos a TODOS los jugadores antes de cualquier setTimeout
   preDealAllCards();
   if(G.spectate){
-    // Espectador: tapete vacÃ­o al inicio, se llena en cada turno de CPU
-    document.getElementById('s1').innerHTML='<div class="card-ph">ðŸ‚ </div>';
-    document.getElementById('s2').innerHTML='<div class="card-ph">ðŸ‚ </div>';
-    document.getElementById('sm').innerHTML='<div class="card-ph">ðŸ‚ </div>';
+    // Espectador: tapete vacío al inicio, se llena en cada turno de CPU
+    document.getElementById('s1').innerHTML='<div class="card-ph">🂠</div>';
+    document.getElementById('s2').innerHTML='<div class="card-ph">🂠</div>';
+    document.getElementById('sm').innerHTML='<div class="card-ph">🂠</div>';
     document.getElementById('range-pills').style.display='none';
   } else {
     document.getElementById('s1').innerHTML=cHTML(G.c1,'deal-in',0);
     document.getElementById('s2').innerHTML=cHTML(G.c2,'deal-in',.2);
     document.getElementById('sm').innerHTML=backHTML();
     document.getElementById('range-pills').style.display='flex';
-    document.getElementById('rp1').textContent=`${VN[G.c1.v]} â†” ${VN[G.c2.v]}`;
-    const heat=G.spread>=6?'Rango amplio ðŸ”¥':G.spread>=3?'Rango medio':'Rango cerrado âš ';
+    document.getElementById('rp1').textContent=`${VN[G.c1.v]} ↔ ${VN[G.c2.v]}`;
+    const heat=G.spread>=6?'Rango amplio 🔥':G.spread>=3?'Rango medio':'Rango cerrado ⚠';
     document.getElementById('rp2').textContent=heat;
   }
   G.players.forEach((p,i)=>updSeat(i,'wait',0,null,null,null));
-  const info=G.spread>=5?'Â¡Rango amplio! Las chances son buenas.':G.spread>=2?'Rango moderado â€” medÃ­ bien.':'Rango cerrado â€” el riesgo es alto.';
-  // Si el pozo es grande, agregar tensiÃ³n extra
+  const info=G.spread>=5?'¡Rango amplio! Las chances son buenas.':G.spread>=2?'Rango moderado — medí bien.':'Rango cerrado — el riesgo es alto.';
+  // Si el pozo es grande, agregar tensión extra
   if(G.pot>=40000){
-    const bigMsgs=[`ðŸ”¥ El pozo llega a $${G.pot.toLocaleString('es-AR')}. La mesa estÃ¡ caliente.`,`ðŸ’° $${G.pot.toLocaleString('es-AR')} acumulados. Alguien se lo va a llevar.`,`âš¡ Pozo enorme. Cada mano cuenta.`];
+    const bigMsgs=[`🔥 El pozo llega a $${G.pot.toLocaleString('es-AR')}. La mesa está caliente.`,`💰 $${G.pot.toLocaleString('es-AR')} acumulados. Alguien se lo va a llevar.`,`⚡ Pozo enorme. Cada mano cuenta.`];
     setMsg(bigMsgs[G.hand%bigMsgs.length],'info');
   } else {
     setMsg(info,'info');
@@ -2033,7 +2033,7 @@ async function dealHand(){
   const cpuIdxs=G.players.map((p,i)=>(!p.you&&p.bal>0)?i:-1).filter(i=>i>=0);
   runCPUs(cpuIdxs,0,()=>{
     document.getElementById('cpu-think-bar').style.display='none';
-    // â”€â”€ Chequear si un bot debe ganar el pozo completo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Chequear si un bot debe ganar el pozo completo ──────────
     // Marcar bot ganador del pozo ANTES de que corran los CPUs
     if(!G.spectate && !G._potWonThisHand) tryMarkBotPotWinner();
     G._potWonThisHand=false;
@@ -2044,37 +2044,37 @@ async function dealHand(){
       if(yi>=0)updSeat(yi,'active',0,G.c1,G.c2,null);
       document.getElementById('bet-panel').style.display='block';
       G.bet=autoSuggest();document.getElementById('bdv').textContent='$'+G.bet.toLocaleString('es-AR');
-      document.getElementById('bp-info').textContent=`MÃ­n. $${MIN_BET} Â· Pozo: $${G.pot.toLocaleString('es-AR')}`;
-      // Mensaje de turno con conciencia del pozo y persuasiÃ³n de apuesta
+      document.getElementById('bp-info').textContent=`Mín. $${MIN_BET} · Pozo: $${G.pot.toLocaleString('es-AR')}`;
+      // Mensaje de turno con conciencia del pozo y persuasión de apuesta
       const potBig=G.pot>=30000;
-      // Mensajes de turno que anclan psicolÃ³gicamente hacia apuestas mÃ¡s grandes
-      const betSugg=G.bet>=1000?`$${G.bet.toLocaleString('es-AR')} sugeridos`:`MÃ­n. $${MIN_BET}`;
+      // Mensajes de turno que anclan psicológicamente hacia apuestas más grandes
+      const betSugg=G.bet>=1000?`$${G.bet.toLocaleString('es-AR')} sugeridos`:`Mín. $${MIN_BET}`;
       const turnMsgs=potBig?
-        [`âš¡ POZO $${G.pot.toLocaleString('es-AR')} â€” Â¡El rango amplio llama! ApostÃ¡ fuerte.`,`ðŸ”¥ $${G.pot.toLocaleString('es-AR')} en juego. A mayor apuesta, mayor ganancia.`,`ðŸ’Ž El pozo estÃ¡ maduro. TenÃ©s ${BET_TIMER}s para llenarte los bolsillos.`]:
+        [`⚡ POZO $${G.pot.toLocaleString('es-AR')} — ¡El rango amplio llama! Apostá fuerte.`,`🔥 $${G.pot.toLocaleString('es-AR')} en juego. A mayor apuesta, mayor ganancia.`,`💎 El pozo está maduro. Tenés ${BET_TIMER}s para llenarte los bolsillos.`]:
         G.streak>0?
-        [`ðŸ˜¤ Â¡Racha ganadora! Ahora subÃ­ la apuesta y multiplicÃ¡. ${BET_TIMER}s.`,`ðŸŽ¯ La suerte estÃ¡ de tu lado â€” aprovechÃ¡ y apostÃ¡ mÃ¡s. ${BET_TIMER}s.`,`ðŸš€ Momento perfecto para ir con todo. ${BET_TIMER}s.`]:
-        [`Â¡Tu turno! ${betSugg} â€” TenÃ©s ${BET_TIMER}s`,`Â¿ApostÃ¡s mÃ¡s y ganÃ¡s mÃ¡s? ${BET_TIMER}s`,`La carta espera. Pozo: $${G.pot.toLocaleString('es-AR')} â€” ${BET_TIMER}s`];
+        [`😤 ¡Racha ganadora! Ahora subí la apuesta y multiplicá. ${BET_TIMER}s.`,`🎯 La suerte está de tu lado — aprovechá y apostá más. ${BET_TIMER}s.`,`🚀 Momento perfecto para ir con todo. ${BET_TIMER}s.`]:
+        [`¡Tu turno! ${betSugg} — Tenés ${BET_TIMER}s`,`¿Apostás más y ganás más? ${BET_TIMER}s`,`La carta espera. Pozo: $${G.pot.toLocaleString('es-AR')} — ${BET_TIMER}s`];
       setMsg(turnMsgs[G.hand%turnMsgs.length],'info');
       startCD(BET_TIMER);
       G.autoRevealTimer=setTimeout(()=>{if(G.phase==='your-turn')confirmBet();},BET_TIMER*1000);
-      // Bots presionan psicolÃ³gicamente al jugador para que apueste mÃ¡s
+      // Bots presionan psicológicamente al jugador para que apueste más
       botPressureChat();
     }
   });
 }
 
-// â”€â”€ APUESTA INTELIGENTE DEL BOT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── APUESTA INTELIGENTE DEL BOT ──────────────────────────────────
 // El bot solo apuesta lo que puede cubrir con el resultado
-// Si el pozo es ganador: apuesta mÃ¡ximo posible
+// Si el pozo es ganador: apuesta máximo posible
 function calcSmartBet(p, spread, isPotWinner){
   if(p.bal<=0) return 0;
-  const maxBet=Math.min(p.bal, G.pot); // no puede apostar mÃ¡s que el pozo
+  const maxBet=Math.min(p.bal, G.pot); // no puede apostar más que el pozo
   if(maxBet<MIN_BET) return 0;
   if(isPotWinner){
     // Apuesta todo lo que puede para barrer el pozo
     return Math.min(p.bal, G.pot, Math.round(p.bal*0.85/50)*50);
   }
-  // Apuesta normal segÃºn estilo y spread
+  // Apuesta normal según estilo y spread
   const r=Math.min(spread/10,1);
   let ratio;
   switch(p.style){
@@ -2083,7 +2083,7 @@ function calcSmartBet(p, spread, isPotWinner){
     case'cautious': ratio=spread>=5?0.15+r*0.22+Math.random()*0.12:0.03+Math.random()*0.07; break;
     default:        ratio=0.12+r*0.32+Math.random()*0.18;
   }
-  // VariaciÃ³n aleatoria pequeÃ±a (Â±12%)
+  // Variación aleatoria pequeña (±12%)
   if(Math.random()<0.12) ratio*=(0.5+Math.random()*0.5);
   const bet=Math.round(maxBet*ratio/50)*50;
   return Math.max(50, Math.min(bet, maxBet));
@@ -2092,7 +2092,7 @@ function calcSmartBet(p, spread, isPotWinner){
 function runCPUs(idxs,pos,done){
   if(pos>=idxs.length){done();return;}
 
-  // Saltar bots sin fondos â€” muestran recarga antes de su turno
+  // Saltar bots sin fondos — muestran recarga antes de su turno
   const i=idxs[pos];
   const p=G.players[i];
   if(!p){runCPUs(idxs,pos+1,done);return;} // null-safe
@@ -2102,10 +2102,10 @@ function runCPUs(idxs,pos,done){
     const reload=botReload(p);
     updSeat(i,'reload',0,null,null,null);
     const forcedMsgs=[
-      `ðŸ§ Recargando...`,
-      `ðŸ§ Recargando`,
-      `ðŸ’³ Recargando...`,
-      `ðŸ§ Recargo y sigo`,
+      `🏧 Recargando...`,
+      `🏧 Recargando`,
+      `💳 Recargando...`,
+      `🏧 Recargo y sigo`,
     ];
     const fmsg=forcedMsgs[Math.floor(Math.random()*forcedMsgs.length)];
     showBubble(i,fmsg,2400);
@@ -2116,10 +2116,10 @@ function runCPUs(idxs,pos,done){
     return;
   }
 
-  // â”€â”€ Determinar si este bot es el ganador forzado del pozo â”€â”€
+  // ── Determinar si este bot es el ganador forzado del pozo ──
   const isForcedWinner = p._forcedPotWin===true;
 
-  // â”€â”€ Mostrar cartas propias en el tapete (espectador) â”€â”€
+  // ── Mostrar cartas propias en el tapete (espectador) ──
   if(p.myC1&&p.myC2){
     const plo=p.myLo!==undefined?p.myLo:Math.min(VP[p.myC1.v],VP[p.myC2.v]);
     const phi=p.myHi!==undefined?p.myHi:Math.max(VP[p.myC1.v],VP[p.myC2.v]);
@@ -2127,10 +2127,10 @@ function runCPUs(idxs,pos,done){
       document.getElementById('s1').innerHTML=cHTML(p.myC1,'deal-in',0);
       document.getElementById('s2').innerHTML=cHTML(p.myC2,'deal-in',.15);
       document.getElementById('sm').innerHTML=backHTML();
-      document.getElementById('rp1').textContent=`${VN[p.myC1.v]} â†” ${VN[p.myC2.v]}`;
+      document.getElementById('rp1').textContent=`${VN[p.myC1.v]} ↔ ${VN[p.myC2.v]}`;
       document.getElementById('range-pills').style.display='flex';
       const sp=phi-plo-1;
-      document.getElementById('rp2').textContent=sp>=6?'Rango amplio ðŸ”¥':sp>=3?'Rango medio':'Rango cerrado âš ';
+      document.getElementById('rp2').textContent=sp>=6?'Rango amplio 🔥':sp>=3?'Rango medio':'Rango cerrado ⚠';
     }
   }
 
@@ -2139,7 +2139,7 @@ function runCPUs(idxs,pos,done){
   // Mostrar recarga progresiva si corresponde
   if(p._pendingReloadMsg){
     const rm=p._pendingReloadMsg; p._pendingReloadMsg=null;
-    const pmsg=['ðŸ§ Recargando...','ðŸ§ Recargando','ðŸ’³ Recargando...'][Math.floor(Math.random()*3)];
+    const pmsg=['🏧 Recargando...','🏧 Recargando','💳 Recargando...'][Math.floor(Math.random()*3)];
     showBubble(i,pmsg,2200);
     addChatFeed(p,pmsg);
     addHlog(p.name,{v:0,s:'so'},'reload',rm);
@@ -2148,30 +2148,30 @@ function runCPUs(idxs,pos,done){
   updSeat(i,'active',0,p.myC1||G.c1,p.myC2||G.c2,null);
   showThink(i);
 
-  // Comentario pre-apuesta â€” inteligente segÃºn contexto
+  // Comentario pre-apuesta — inteligente según contexto
   const mySpread=p.mySpread!==undefined?p.mySpread:G.spread;
-  const isEqualCards = mySpread===0; // cartas iguales â†’ paso obligatorio
+  const isEqualCards = mySpread===0; // cartas iguales → paso obligatorio
 
-  // Elegir quÃ© comentar segÃºn spread, pozo y estilo
+  // Elegir qué comentar según spread, pozo y estilo
   let preComment;
   if(isEqualCards){
     preComment = rc(p,'small');
   } else if(isForcedWinner && G.pot>=20000){
-    // Bot designado para el pozo â€” comentarios de presiÃ³n / confianza
+    // Bot designado para el pozo — comentarios de presión / confianza
     const potHunterMsgs=[
-      'Â¡Mano perfecta para este pozo!',
-      'Ese pozo es mÃ­o.',
-      'Â¡Todo adentro!',
-      'Â¡Ahora o nunca!',
+      '¡Mano perfecta para este pozo!',
+      'Ese pozo es mío.',
+      '¡Todo adentro!',
+      '¡Ahora o nunca!',
       'Rango justo para limpiar esto.',
-      'Â¡Pozo, acÃ¡ voy!',
+      '¡Pozo, acá voy!',
     ];
     preComment = potHunterMsgs[Math.floor(Math.random()*potHunterMsgs.length)];
   } else if(mySpread>=5 && G.pot>=5000 && Math.random()<0.5){
-    const bigPotMsgs=['Â¡Rango amplio y el pozo estÃ¡ cargado!','Â¡Esto es lo que esperaba!','Â¡Pozo grande, rango amplio!','Â¡Ahora o nunca!'];
+    const bigPotMsgs=['¡Rango amplio y el pozo está cargado!','¡Esto es lo que esperaba!','¡Pozo grande, rango amplio!','¡Ahora o nunca!'];
     preComment = p.style==='gambler'||p.style==='bold' ? bigPotMsgs[Math.floor(Math.random()*bigPotMsgs.length)] : rc(p,'big');
   } else if(mySpread<=1 && G.pot>=3000 && Math.random()<0.4){
-    const trapMsgs=['Rango cerrado, pozo tentador...','Poco margen pero el pozo llama.','DifÃ­cil decisiÃ³n...'];
+    const trapMsgs=['Rango cerrado, pozo tentador...','Poco margen pero el pozo llama.','Difícil decisión...'];
     preComment = trapMsgs[Math.floor(Math.random()*trapMsgs.length)];
   } else {
     const chatKey=mySpread>=5?'big':mySpread<=1?'small':'think';
@@ -2190,11 +2190,11 @@ function runCPUs(idxs,pos,done){
   setTimeout(()=>{
     rmThink(i);
 
-    // â”€â”€ PASO: cartas iguales (spread=0) â†’ penalizaciÃ³n y saltar â”€â”€
+    // ── PASO: cartas iguales (spread=0) → penalización y saltar ──
     if(isEqualCards){
       const penalty=Math.min(25,p.bal);
       if(penalty>0){p.bal-=penalty;G.pot+=penalty;}
-      const passMsgs=['Paso, par en mano ðŸ¤š','Iguales... paso','No hay rango, me bajo','Par igual â€” paso'];
+      const passMsgs=['Paso, par en mano 🤚','Iguales... paso','No hay rango, me bajo','Par igual — paso'];
       const msg=passMsgs[Math.floor(Math.random()*passMsgs.length)];
       showBubble(i,msg,2200);
       addChatFeed(p,msg);
@@ -2203,7 +2203,7 @@ function runCPUs(idxs,pos,done){
       updHUD();updPot();
       // Sincronizar con DB (bots pass)
       recordBetToDb(p, penalty, 'pass', null);
-      // Recarga proactiva si el saldo estÃ¡ bajo y va a pasar seguido
+      // Recarga proactiva si el saldo está bajo y va a pasar seguido
       botMaybeProactiveReload(p,i);
       setTimeout(()=>runCPUs(idxs,pos+1,done),900+Math.random()*500);
       return;
@@ -2211,17 +2211,17 @@ function runCPUs(idxs,pos,done){
 
     const bet=calcSmartBet(p,mySpread,isForcedWinner);
     if(bet<MIN_BET){
-      // No puede apostar â€” saltar sin consecuencias
+      // No puede apostar — saltar sin consecuencias
       runCPUs(idxs,pos+1,done);
       return;
     }
-    // â”€â”€ Recarga proactiva ANTES de apostar si el saldo estÃ¡ bajo â”€â”€
+    // ── Recarga proactiva ANTES de apostar si el saldo está bajo ──
     botMaybeProactiveReload(p,i);
     p.bet=bet; p.bal-=bet;
     updHUD(); updPot();
     setTimeout(()=>{showBubble(i,rc(p,'bet'),1800);addChatFeed(p,rc(p,'bet'));},100);
 
-    // Carta del bot â€” si es ganador forzado, asegurar carta ganadora
+    // Carta del bot — si es ganador forzado, asegurar carta ganadora
     let c3;
     if(isForcedWinner&&p.myC1&&p.myC2){
       // Buscar carta que caiga dentro del rango del bot
@@ -2246,7 +2246,7 @@ function runCPUs(idxs,pos,done){
     if(v3>pLo&&v3<pHi){res='win';p.bal+=bet*2;G.pot-=bet;p.wins++;}
     else{res='lose';G.pot+=bet;p.losses++;}
 
-    // â”€â”€ ESPECTADOR: revelar carta central â”€â”€
+    // ── ESPECTADOR: revelar carta central ──
     if(G.spectate&&p.myC1&&p.myC2){
       const cw=document.createElement('div');
       cw.className='card-wrap flip-in';
@@ -2268,10 +2268,10 @@ function runCPUs(idxs,pos,done){
     // Sincronizar con DB (bots bet)
     recordBetToDb(p, bet, res, c3);
 
-    // â”€â”€ Bot ganÃ³ el pozo completo â”€â”€
+    // ── Bot ganó el pozo completo ──
     if(res==='win'&&G.pot<=MIN_BET&&!G._potWonThisHand){
       G._potWonThisHand=true;
-      const reactEmoji=p.reacts?p.reacts.win:'ðŸŽ‰';
+      const reactEmoji=p.reacts?p.reacts.win:'🎉';
       setTimeout(()=>{
         if(reactEmoji)showReact(i,reactEmoji);
         showBubble(i,rc(p,'win'),2400);
@@ -2281,7 +2281,7 @@ function runCPUs(idxs,pos,done){
       return;
     }
 
-    // ReacciÃ³n normal â€” inteligente segÃºn monto, pozo y racha
+    // Reacción normal — inteligente según monto, pozo y racha
     const reactKey=res==='win'?'win':'lose';
     const emoji=p.reacts?p.reacts[reactKey]:'';
 
@@ -2290,21 +2290,21 @@ function runCPUs(idxs,pos,done){
     if(res==='win'){
       if(isForcedWinner||G.pot<=MIN_BET*3){
         // Va a ganar el pozo o lo acaba de limpiar
-        const sweepMsgs=['Â¡Eso era mÃ­o!','Â¡El pozo es mÃ­o!','Â¡Limpio!','Â¡SabÃ­a que iba!'];
+        const sweepMsgs=['¡Eso era mío!','¡El pozo es mío!','¡Limpio!','¡Sabía que iba!'];
         reaction = sweepMsgs[Math.floor(Math.random()*sweepMsgs.length)];
       } else if(bet>=1000 && Math.random()<0.5){
-        const bigWinMsgs=['Â¡Eso sÃ­ que duele al pozo!','Â¡Buen billete!','Â¡Sacando lo mÃ­o!'];
+        const bigWinMsgs=['¡Eso sí que duele al pozo!','¡Buen billete!','¡Sacando lo mío!'];
         reaction = bigWinMsgs[Math.floor(Math.random()*bigWinMsgs.length)];
       } else if(G.pot>=15000 && Math.random()<0.45){
-        const bigPotWinMsgs=['El pozo sigue gordo...','Sigo en la pelea.','Hay mÃ¡s para sacar.'];
+        const bigPotWinMsgs=['El pozo sigue gordo...','Sigo en la pelea.','Hay más para sacar.'];
         reaction = bigPotWinMsgs[Math.floor(Math.random()*bigPotWinMsgs.length)];
       } else {
         reaction = rc(p,'win');
       }
     } else {
-      // PÃ©rdida
+      // Pérdida
       if(bet>=500 && Math.random()<0.4){
-        const bigLossMsgs=['Me costÃ³ esa...','AhÃ­ fue el dinero.','Eso duele.','Mala suerte.'];
+        const bigLossMsgs=['Me costó esa...','Ahí fue el dinero.','Eso duele.','Mala suerte.'];
         reaction = bigLossMsgs[Math.floor(Math.random()*bigLossMsgs.length)];
       } else {
         reaction = rc(p,'lose');
@@ -2320,9 +2320,9 @@ function runCPUs(idxs,pos,done){
     const nextDelay=350+Math.random()*300;
     if(G.spectate&&pos+1<idxs.length){
       setTimeout(()=>{
-        document.getElementById('s1').innerHTML='<div class="card-ph">ðŸ‚ </div>';
-        document.getElementById('s2').innerHTML='<div class="card-ph">ðŸ‚ </div>';
-        document.getElementById('sm').innerHTML='<div class="card-ph">ðŸ‚ </div>';
+        document.getElementById('s1').innerHTML='<div class="card-ph">🂠</div>';
+        document.getElementById('s2').innerHTML='<div class="card-ph">🂠</div>';
+        document.getElementById('sm').innerHTML='<div class="card-ph">🂠</div>';
         document.getElementById('range-pills').style.display='none';
       }, nextDelay-120);
     }
@@ -2330,7 +2330,7 @@ function runCPUs(idxs,pos,done){
   },think+extra);
 }
 
-// â•â• BET CONTROLS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ BET CONTROLS ═════════════════════════════════════════════════
 function addBet(n){
   if(G.phase!=='your-turn')return;
   clearTimeout(G.autoRevealTimer);
@@ -2434,7 +2434,7 @@ function passTurn(){
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   saveProfileLocal();
   addHlog('Tú (paso)',{v:0,s:'so'},'lose',penalty);
-  setMsg(`Pasaste â€” penalizaciÃ³n $${penalty.toLocaleString('es-AR')}`,'lose');
+  setMsg(`Pasaste — penalización $${penalty.toLocaleString('es-AR')}`,'lose');
   
   // Sincronizar con DB
   recordBetToDb(G.players[yi], penalty, 'pass', null);
@@ -2445,17 +2445,17 @@ function confirmBet(){
   if(G.phase!=='your-turn')return;
   clearTimeout(G.autoRevealTimer);stopCD();
   if(G.bet<MIN_BET)G.bet=Math.max(MIN_BET,Math.min(G.yourBal,G.pot));
-  if(G.bet>G.yourBal||G.bet>G.pot){setMsg('Apuesta invÃ¡lida','lose');return;}
+  if(G.bet>G.yourBal||G.bet>G.pot){setMsg('Apuesta inválida','lose');return;}
   HOUSE.sessionBet+=G.bet;G.phase='reveal';G.yourBal-=G.bet;
   const yi=G.players.findIndex(p=>p.you);if(yi>=0)G.players[yi].bal=G.yourBal;
   document.getElementById('bet-panel').style.display='none';
   if(yi>=0)updSeat(yi,'bet',G.bet,G.c1,G.c2,null);
   updHUD();updPot();
 
-  // â”€â”€ SECUENCIA DE SUSPENSO PROGRESIVA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── SECUENCIA DE SUSPENSO PROGRESIVA ────────────────────────
   const suspenseMsgs=[
     {t:0,   txt:'Mezclando el destino...', cls:'info'},
-    {t:700, txt:'La carta estÃ¡ en camino...', cls:'info'},
+    {t:700, txt:'La carta está en camino...', cls:'info'},
     {t:1400,txt:'El pozo no perdona...', cls:'info'},
   ];
   suspenseMsgs.forEach(m=>setTimeout(()=>setMsg(m.txt,m.cls),m.t));
@@ -2468,7 +2468,7 @@ function confirmBet(){
     if(src3){cw.innerHTML=`<img src="${src3}" class="card-img"><div class="card-lbl">${VN[c3.v]} ${SYM[c3.s]}</div>`;}
     else{cw.style.cssText='background:#fff;display:flex;align-items:center;justify-content:center';cw.innerHTML=`<span style="font-size:20px">${VL[c3.v]}</span>`;}
     document.getElementById('sm').innerHTML='';document.getElementById('sm').appendChild(cw);
-    // pequeÃ±o flash antes de resolver
+    // pequeño flash antes de resolver
     const fl=document.createElement('div');
     fl.style.cssText='position:fixed;inset:0;z-index:800;background:rgba(201,168,76,.08);pointer-events:none;transition:opacity 400ms';
     document.body.appendChild(fl);
@@ -2487,20 +2487,20 @@ function resolveYour(c3,cw){
     G.wins++;G.streak=Math.max(0,G.streak)+1;
     const gain=G.bet;G.net+=gain;if(gain>G.bestWin)G.bestWin=gain;
     HOUSE.consecLoss=0;
-    const winMsgs=['Â¡LA CARTA ENTRÃ“! +$','Â¡SABÃAS QUE IBA! +$','Â¡EL INSTINTO NO FALLA! +$','Â¡PURO NERVIO! +$'];
+    const winMsgs=['¡LA CARTA ENTRÓ! +$','¡SABÍAS QUE IBA! +$','¡EL INSTINTO NO FALLA! +$','¡PURO NERVIO! +$'];
     msg=winMsgs[G.wins%winMsgs.length]+gain.toLocaleString('es-AR');mcls='win';
-    // Mensaje psicolÃ³gico de persuasiÃ³n post-ganancia (empuja a apostar mÃ¡s)
-    setTimeout(()=>setMsg('âœ¨ '+psychMsg('win'),'win'),1800);
+    // Mensaje psicológico de persuasión post-ganancia (empuja a apostar más)
+    setTimeout(()=>setMsg('✨ '+psychMsg('win'),'win'),1800);
     if(cw){cw.classList.add('c-win','card-shine');}
     spawnCoins();spawnParticles(22);
   }else{
     res='lose';G.losses++;G.streak=Math.min(0,G.streak)-1;G.net-=G.bet;HOUSE.consecLoss++;
     G.pot+=G.bet;
     const _enLimite=(v3===G.lo||v3===G.hi);
-    const loseMsgs=['Tan cerca... pero el pozo manda.','El azar te jugÃ³ una mala pasada.','Eso duele. Pero hay revancha.','La casa siempre tiene su turno.'];
-    msg=_enLimite?`LÃMITE EXACTO â€” ${VN[c3.v]}. Cruel. -$${G.bet.toLocaleString('es-AR')}`:loseMsgs[G.losses%loseMsgs.length]+` -$${G.bet.toLocaleString('es-AR')}`;mcls='lose';
-    // PersuasiÃ³n post-pÃ©rdida: empuja a seguir apostando mÃ¡s
-    setTimeout(()=>setMsg('ðŸ’­ '+psychMsg('lose'),'info'),1800);
+    const loseMsgs=['Tan cerca... pero el pozo manda.','El azar te jugó una mala pasada.','Eso duele. Pero hay revancha.','La casa siempre tiene su turno.'];
+    msg=_enLimite?`LÍMITE EXACTO — ${VN[c3.v]}. Cruel. -$${G.bet.toLocaleString('es-AR')}`:loseMsgs[G.losses%loseMsgs.length]+` -$${G.bet.toLocaleString('es-AR')}`;mcls='lose';
+    // Persuasión post-pérdida: empuja a seguir apostando más
+    setTimeout(()=>setMsg('💭 '+psychMsg('lose'),'info'),1800);
     if(s1w)s1w.classList.add('c-lose');if(s2w)s2w.classList.add('c-lose');
     if(cw)cw.classList.add('c-shake');
   }
@@ -2516,7 +2516,7 @@ function resolveYour(c3,cw){
   setTimeout(()=>{checkEnd();if(G.phase==='idle')setTimeout(()=>dealHand(),1600);},1500);
 }
 
-// â•â• HISTORIAL â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ HISTORIAL ════════════════════════════════════════════════════
 function addHlog(who,c3,res,amt){
   const l=document.getElementById('hlog');
   const d=document.createElement('div');
@@ -2535,7 +2535,7 @@ function addHlog(who,c3,res,amt){
   l.insertBefore(d,l.firstChild);while(l.children.length>30)l.removeChild(l.lastChild);
 }
 
-// â•â• HUD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ HUD ══════════════════════════════════════════════════════════
 function updHUD(){
   if(!G) return;
   const bal = (G.spectate ? playerBal : G.yourBal) || 0;
@@ -2569,7 +2569,7 @@ function updPot(){
   const potValue = G.pot || 0;
   pv.textContent='$'+potValue.toLocaleString('es-AR');
   pv.classList.toggle('pot-hot',potValue>=40000);
-  // Clases dinÃ¡micas de pozo enorme (sin lÃ­mite)
+  // Clases dinámicas de pozo enorme (sin límite)
   pv.classList.toggle('pot-huge',potValue>=80000);
   pv.classList.toggle('pot-legendary',potValue>=150000);
   const qhp = document.getElementById('qh-pot');
@@ -2589,7 +2589,7 @@ function updStats(){
   
   const tot=(G.wins || 0)+(G.losses || 0);
   const spct = document.getElementById('st-pct');
-  if(spct) spct.textContent=tot>0?Math.round((G.wins||0)/tot*100)+'%':'â€”';
+  if(spct) spct.textContent=tot>0?Math.round((G.wins||0)/tot*100)+'%':'—';
   
   const sbest = document.getElementById('st-best');
   if(sbest) sbest.textContent='$'+(G.bestWin || 0).toLocaleString('es-AR');
@@ -2603,7 +2603,7 @@ function updStats(){
 }
 function setMsg(txt,cls){const e=document.getElementById('gm');e.className='gmsg '+(cls||'idle');document.getElementById('gmt').textContent=txt;}
 
-// â•â• COUNTDOWN â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ COUNTDOWN ════════════════════════════════════════════════════
 function startCD(s){
   clearInterval(_cdInterval);
   const fill=document.getElementById('cd-fill'),cnt=document.getElementById('cd-count');
@@ -2617,22 +2617,22 @@ function startCD(s){
 }
 function stopCD(){clearInterval(_cdInterval);const f=document.getElementById('cd-fill');if(f)f.style.width='0%';}
 
-// â•â• FIN DE PARTIDA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-const POT_BIG_THRESHOLD   = 30000;  // pozo >= 30k â†’ bot lo gana SIEMPRE
+// ══ FIN DE PARTIDA ════════════════════════════════════════════════
+const POT_BIG_THRESHOLD   = 30000;  // pozo >= 30k → bot lo gana SIEMPRE
 const POT_HUGE_THRESHOLD  = 80000;  // referencia legacy
-// SIN lÃ­mite mÃ¡ximo: el pozo crece libre segÃºn las apuestas de los bots
+// SIN límite máximo: el pozo crece libre según las apuestas de los bots
 const MAX_POT = Infinity;
 const POT_WIN_CHANCE_BIG  = 1.0;
 const POT_WIN_CHANCE_HUGE = 1.0;
 
-// â”€â”€ BOT DESIGNADO PARA EL POZO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── BOT DESIGNADO PARA EL POZO ──────────────────────────────────
 // G._potBot persiste entre manos hasta que el bot gana el pozo
 
 function designatePotBot(){
   if(G._potBot)return;
   if(G.pot<=0)return;
   // Activar cuando el pozo supere POT_BIG_THRESHOLD (siempre) o antes con prob creciente
-  // Con pozo ilimitado: tambiÃ©n se reasigna cuando crece mucho mÃ¡s allÃ¡ del umbral
+  // Con pozo ilimitado: también se reasigna cuando crece mucho más allá del umbral
   let fire=false;
   if(G.pot>=POT_BIG_THRESHOLD){
     fire=true; // siempre al llegar al umbral
@@ -2653,7 +2653,7 @@ function designatePotBot(){
   const aggressive=candidates.filter(p=>p.style==='gambler'||p.style==='bold');
   const pool=aggressive.length?aggressive:candidates;
   const w=pool[Math.floor(Math.random()*pool.length)];
-  // Pozo sin lÃ­mite: cuanto mÃ¡s grande el pozo mÃ¡s urgencia
+  // Pozo sin límite: cuanto más grande el pozo más urgencia
   const urgency=G.pot>=100000?2:G.pot>=POT_BIG_THRESHOLD?3:G.pot>=20000?6:12;
   G._potBot={player:w,targetPot:G.pot,handsLeft:urgency};
 }
@@ -2667,7 +2667,7 @@ function tryMarkBotPotWinner(){
   if(!p||!p.name){G._potBot=null;return false;}
   pb.handsLeft--;
   if(pb.handsLeft<=0){G._potBot=null;return false;}
-  // Si le falta saldo para apostar al menos 40% del pozo â†’ recarga progresiva
+  // Si le falta saldo para apostar al menos 40% del pozo → recarga progresiva
   const needed=Math.max(MIN_BET,Math.round(G.pot*0.40/50)*50);
   if(p.bal<needed){
     const topup=botProgressiveReload(p,G.pot);
@@ -2760,14 +2760,14 @@ function botProgressiveReload(p,potSize){
   if(gap<=0)return 0;
   // Monto de recarga algo irregular, no siempre el mismo tramo
   const baseTramo=Math.max(3000,Math.round(gap*(0.35+Math.random()*0.45)/500)*500);
-  const jitter=Math.round((Math.random()-0.5)*1000/500)*500; // Â±500 de variaciÃ³n
+  const jitter=Math.round((Math.random()-0.5)*1000/500)*500; // ±500 de variación
   const reload=Math.min(baseTramo+jitter,gap+4000);
   const final=Math.max(2500,reload);
   p.bal+=final;
   p.totalReloads=(p.totalReloads||0)+1;
   return final;
 }
-// â•â• PANTALLA DE POZO GANADO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ PANTALLA DE POZO GANADO ══════════════════════════════════════
 function potWonAndExit(winnerName, amount, isYou){
   clearTimeout(G.autoRevealTimer); clearInterval(_cdInterval);
   G.phase='pot-won';
@@ -2823,7 +2823,7 @@ function potWonAndExit(winnerName, amount, isYou){
     /* Ornamento superior */
     #pw2-orn{font-size:9px;letter-spacing:6px;color:rgba(201,168,76,.35);font-family:'Cinzel',serif;margin-bottom:14px;opacity:0;animation:pw2-fade-up .4s .45s ease forwards}
 
-    /* LÃ­nea divisoria ornamental */
+    /* Línea divisoria ornamental */
     .pw2-rule{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent);margin:12px 10px;transform:scaleX(0);animation:pw2-line .5s ease forwards}
     .pw2-rule.r1{animation-delay:.6s}
     .pw2-rule.r2{animation-delay:1s}
@@ -2884,10 +2884,10 @@ function potWonAndExit(winnerName, amount, isYou){
     <div class="pw2-orb2"></div>
 
     <div id="pw2-card">
-      <div id="pw2-orn">âœ¦ &nbsp; âœ¦ &nbsp; âœ¦</div>
+      <div id="pw2-orn">✦ &nbsp; ✦ &nbsp; ✦</div>
       <div class="pw2-rule r1"></div>
       <div id="pw2-name">${winnerName}</div>
-      ${winnerCity?`<div id="pw2-city">ðŸ“ ${winnerCity}</div>`:''}
+      ${winnerCity?`<div id="pw2-city">📍 ${winnerCity}</div>`:''}
       <div class="pw2-rule r2"></div>
       <div id="pw2-dots">
         <div class="pw2-dot"></div><div class="pw2-dot"></div><div class="pw2-dot"></div>
@@ -2898,12 +2898,12 @@ function potWonAndExit(winnerName, amount, isYou){
 
   <div id="pw2-ticker">
     <div id="pw2-ticker-inner">
-      <span class="pw2-ts">${winnerName}</span><span class="pw2-td">â—†</span>
-      ${winnerCity?`<span class="pw2-ts">${winnerCity}</span><span class="pw2-td">â—†</span>`:''}
-      <span class="pw2-ts">El Intermedio</span><span class="pw2-td">â—†</span>
-      <span class="pw2-ts">${winnerName}</span><span class="pw2-td">â—†</span>
-      ${winnerCity?`<span class="pw2-ts">${winnerCity}</span><span class="pw2-td">â—†</span>`:''}
-      <span class="pw2-ts">El Intermedio</span><span class="pw2-td">â—†</span>
+      <span class="pw2-ts">${winnerName}</span><span class="pw2-td">◆</span>
+      ${winnerCity?`<span class="pw2-ts">${winnerCity}</span><span class="pw2-td">◆</span>`:''}
+      <span class="pw2-ts">El Intermedio</span><span class="pw2-td">◆</span>
+      <span class="pw2-ts">${winnerName}</span><span class="pw2-td">◆</span>
+      ${winnerCity?`<span class="pw2-ts">${winnerCity}</span><span class="pw2-td">◆</span>`:''}
+      <span class="pw2-ts">El Intermedio</span><span class="pw2-td">◆</span>
     </div>
   </div>
   `;
@@ -2911,7 +2911,7 @@ function potWonAndExit(winnerName, amount, isYou){
   document.getElementById('game-screen').appendChild(ov);
   if(isYou){spawnParticles(24);spawnCoins();}
 
-  // Redirect automÃ¡tico rÃ¡pido + toque para salir antes
+  // Redirect automático rápido + toque para salir antes
   const displayTime=isYou?4200:3000;
   setTimeout(()=>_exitToLobby(ov), displayTime);
 }
@@ -2932,9 +2932,9 @@ function _exitToLobby(ov){
 function checkEnd(){
   if(G.spectate)return;
   if(G.yourBal<MIN_BET){
-    showEnd('ðŸ’¸','Sin Fondos',`Jugaste ${G.hand} manos\nGanadas: ${G.wins} Â· Perdidas: ${G.losses}\nPozo restante: $${G.pot.toLocaleString('es-AR')}`,true);
+    showEnd('💸','Sin Fondos',`Jugaste ${G.hand} manos\nGanadas: ${G.wins} · Perdidas: ${G.losses}\nPozo restante: $${G.pot.toLocaleString('es-AR')}`,true);
   } else if(G.pot<MIN_BET){
-    // Jugador vaciÃ³ el pozo â€” mostrar lo que ganÃ³ (no el neto)
+    // Jugador vació el pozo — mostrar lo que ganó (no el neto)
     potWonAndExit(PROFILE.alias||'Vos', Math.max(0,G.initialPot||G.pot), true);
   }
 }
@@ -2946,11 +2946,11 @@ function showEnd(ic,ti,st,showRel){
   document.getElementById('end-overlay').classList.add('show');
 }
 
-// â•â• STATS DRAWER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ STATS DRAWER ═════════════════════════════════════════════════
 function openStats(){updStats();document.getElementById('stats-drawer').classList.add('open');}
 function closeStats(){document.getElementById('stats-drawer').classList.remove('open');}
 
-// â•â• EFECTOS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ EFECTOS ══════════════════════════════════════════════════════
 function spawnParticles(n){
   const c=document.getElementById('prt');
   const cols=['#c9a84c','#27ae60','#fff','#e74c3c','#f5c842','#8e44ad'];
@@ -2963,7 +2963,7 @@ function spawnParticles(n){
 }
 function spawnCoins(){
   const app=document.getElementById('app');
-  const coins=['ðŸ’°','ðŸª™','âœ¨','ðŸ’Ž','â­'];
+  const coins=['💰','🪙','✨','💎','⭐'];
   for(let i=0;i<8;i++){
     const c=document.createElement('div');c.className='coin-f';
     c.textContent=coins[Math.floor(Math.random()*coins.length)];
@@ -2972,16 +2972,16 @@ function spawnCoins(){
   }
 }
 
-// â•â• INIT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// VibraciÃ³n en chips (si el navegador soporta)
+// ══ INIT ═════════════════════════════════════════════════════════
+// Vibración en chips (si el navegador soporta)
 document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{if(navigator.vibrate)navigator.vibrate(15);}));
 generateTables();
 
-// â•â• BILLETERA JS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ BILLETERA JS ════════════════════════════════════════════════
 let _walletHistory=[];
 let _profileAvatars=[
-  'ðŸŽ­','ðŸ‘¨','ðŸ‘©','ðŸ§”','ðŸ‘±â€â™€ï¸','ðŸ§‘','ðŸ’â€â™€ï¸','ðŸ§‘â€ðŸ’¼','ðŸ‘©â€ðŸ¦±','ðŸ§“','ðŸ‘©â€ðŸ¦°','ðŸ‘´','ðŸ‘©â€ðŸ¦³','ðŸ§‘â€ðŸ¦²',
-  'â­','ðŸŽ©','ðŸ‘‘','ðŸ’Ž','ðŸƒ','ðŸŽ²','ðŸ¤µ','ðŸ•µï¸','ðŸ§™','ðŸ¥·','ðŸ‘¸','ðŸ¤´'
+  '🎭','👨','👩','🧔','👱‍♀ï¸','🧑','💁‍♀ï¸','🧑‍💼','👩‍🦱','🧓','👩‍🦰','👴','👩‍🦳','🧑‍🦲',
+  '⭐','🎩','👑','💎','🃏','🎲','🤵','🕵ï¸','🧙','🥷','👸','🤴'
 ];
 let _avatarIdx=0;
 let _avatarType='emoji';
@@ -3058,12 +3058,12 @@ function handleAvatarUpload(event){
 
 function applyPhotoAvatar(){
   if(!_photoDataURL)return;
-  _avatarType='photo';PROFILE.avatarType='photo';PROFILE.avatarPhoto=_photoDataURL;PROFILE.avatar='ðŸ“·';
+  _avatarType='photo';PROFILE.avatarType='photo';PROFILE.avatarPhoto=_photoDataURL;PROFILE.avatar='📷';
   const av=document.getElementById('profile-avatar');
   if(av){av.innerHTML=`<img src="${_photoDataURL}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;av.style.background='transparent';}
   updateLobbyHeader();
   const btn=document.querySelector('#avpanel-photo button[onclick="applyPhotoAvatar()"]');
-  if(btn){btn.textContent='âœ” Foto aplicada';setTimeout(()=>{btn.textContent='âœ¦ Usar esta foto';},2000);}
+  if(btn){btn.textContent='✔ Foto aplicada';setTimeout(()=>{btn.textContent='✦ Usar esta foto';},2000);}
 }
 
 function toggleAvatarPicker(){
@@ -3139,7 +3139,7 @@ async function confirmWalletDeposit(){
     return;
   }
   if(!PROFILE.userId){
-    alert('Primero sincronizÃ¡ tu usuario con Supabase iniciando sesiÃ³n nuevamente.');
+    alert('Primero sincronizá tu usuario con Supabase iniciando sesión nuevamente.');
     return;
   }
   try{
@@ -3168,11 +3168,11 @@ async function confirmWalletWithdraw(){
   const amt=parseInt(document.getElementById('wallet-wit-input').value)||0;
   const cbuVal=document.getElementById('wallet-wit-cbu').value.trim();
   if(amt<MIN_WITHDRAW){
-    alert('El mÃ­nimo de retiro es $'+MIN_WITHDRAW.toLocaleString('es-AR'));return;
+    alert('El mínimo de retiro es $'+MIN_WITHDRAW.toLocaleString('es-AR'));return;
   }
   if(amt>playerBal){alert('Saldo insuficiente');return;}
   if(!isProfileComplete()){
-    alert('CompletÃ¡ tu perfil (nombre y alias) antes de retirar');
+    alert('Completá tu perfil (nombre y alias) antes de retirar');
     closeWallet();openProfile();return;
   }
   if(cbuVal)PROFILE.cbu=cbuVal;
@@ -3191,14 +3191,14 @@ async function confirmWalletWithdraw(){
 function renderWalletHistory(){
   const el=document.getElementById('wallet-history-list');if(!el)return;
   if(_walletHistory.length===0){
-    el.innerHTML='<div style="text-align:center;color:rgba(255,255,255,.3);font-size:13px;padding:30px 0">Sin movimientos aÃºn</div>';
+    el.innerHTML='<div style="text-align:center;color:rgba(255,255,255,.3);font-size:13px;padding:30px 0">Sin movimientos aún</div>';
     return;
   }
   el.innerHTML=_walletHistory.slice(0,30).map(h=>{
     const pos=h.amount>0;
     return `<div class="wallet-history-item">
       <div>
-        <div class="whi-type">${pos?'ðŸ’³':'ðŸ¦'} ${h.type}</div>
+        <div class="whi-type">${pos?'💳':'🏦'} ${h.type}</div>
         <div class="whi-date">${h.date}</div>
       </div>
       <div class="${pos?'whi-amt-pos':'whi-amt-neg'}">${pos?'+':''}\$${Math.abs(h.amount).toLocaleString('es-AR')}</div>
@@ -3206,7 +3206,7 @@ function renderWalletHistory(){
   }).join('');
 }
 
-// â•â• PERFIL JS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ PERFIL JS ═══════════════════════════════════════════════════
 function openProfile(){
   const o=document.getElementById('profile-overlay');
   o.style.display='flex';
@@ -3233,7 +3233,7 @@ function openProfile(){
       _selectedInitialsColor=PROFILE.avatarInitialsColor||0;
       _avatarType='initials';
     } else {
-      const em=PROFILE.avatar||'ðŸŽ­';
+      const em=PROFILE.avatar||'🎭';
       av.style.background='linear-gradient(135deg,#1a3a7a,#0d1f4a)';
       av.innerHTML=em;
       _avatarType='emoji';
@@ -3251,8 +3251,8 @@ function saveProfileData(){
   PROFILE.cbu=document.getElementById('prof-cbu').value.trim();
   PROFILE.phone=document.getElementById('prof-phone').value.trim();
   PROFILE.bal=playerBal;
-  if(!PROFILE.name){alert('IngresÃ¡ tu nombre');return;}
-  if(!PROFILE.alias){alert('IngresÃ¡ un alias');return;}
+  if(!PROFILE.name){alert('Ingresá tu nombre');return;}
+  if(!PROFILE.alias){alert('Ingresá un alias');return;}
   // Si el tipo es initials, regenerar con el nuevo nombre
   if(_avatarType==='initials'){
     const parts=PROFILE.name.split(' ').filter(Boolean);
@@ -3262,14 +3262,14 @@ function saveProfileData(){
   }
   saveProfile();
   closeProfile();
-  setMsg('âœ¦ Perfil guardado â€” Â¡'+PROFILE.alias+'!','win');
+  setMsg('✦ Perfil guardado — ¡'+PROFILE.alias+'!','win');
   updateLobbyHeader();
 }
 
-// â”€â”€ Wallet & profile ready â”€â”€
+// ── Wallet & profile ready ──
 
 
-// â•â• AUTH JS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══ AUTH JS ══════════════════════════════════════════════════
 
 function showAuthScreen(){
   showScreen('auth-screen');
@@ -3302,13 +3302,13 @@ async function doLogin(){
   const user=document.getElementById('login-user').value;
   const pass=document.getElementById('login-pass').value;
   const err=document.getElementById('auth-login-err');
-  if(!user||!pass){err.style.display='block';err.textContent='CompletÃ¡ usuario y contraseÃ±a';return;}
+  if(!user||!pass){err.style.display='block';err.textContent='Completá usuario y contraseña';return;}
   if(await loginWithCredentials(user,pass)){
     err.style.display='none';
     enterLobby();
   } else {
     err.style.display='block';
-    err.textContent='Usuario o contraseÃ±a incorrectos';
+    err.textContent='Usuario o contraseña incorrectos';
     document.getElementById('login-pass').value='';
   }
 }
@@ -3323,13 +3323,13 @@ async function doRegister(){
   const saldo=0;
   const err=document.getElementById('auth-reg-err');
 
-  if(!name){err.style.display='block';err.textContent='IngresÃ¡ tu nombre completo';return;}
-  if(!alias){err.style.display='block';err.textContent='IngresÃ¡ un alias para el juego';return;}
-  if(!provincia){err.style.display='block';err.textContent='IngresÃ¡ tu provincia';return;}
-  if(!localidad){err.style.display='block';err.textContent='IngresÃ¡ tu localidad';return;}
+  if(!name){err.style.display='block';err.textContent='Ingresá tu nombre completo';return;}
+  if(!alias){err.style.display='block';err.textContent='Ingresá un alias para el juego';return;}
+  if(!provincia){err.style.display='block';err.textContent='Ingresá tu provincia';return;}
+  if(!localidad){err.style.display='block';err.textContent='Ingresá tu localidad';return;}
   // La recarga se solicita después de crear la cuenta.
 
-  // Generar credenciales Ãºnicas
+  // Generar credenciales únicas
   const creds=genCredentials(alias);
   // Verificar que no existan
   const all=getAllProfiles();
@@ -3339,7 +3339,7 @@ async function doRegister(){
   }
 
   PROFILE={
-    name, alias, cbu, phone, provincia, localidad, avatar:'ðŸŽ­',
+    name, alias, cbu, phone, provincia, localidad, avatar:'🎭',
     username:creds.username, password:creds.password,
     totalDeposited:0, totalWithdrawn:0, totalHands:0,
     bal:saldo, created:new Date().toLocaleDateString('es-AR')
@@ -3360,9 +3360,9 @@ function showCredentialsModal(user,pass,cb){
   div.style.cssText='position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.9);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px';
   div.innerHTML=`
     <div style="width:100%;max-width:380px;background:linear-gradient(180deg,#0d1a0a,#060e03);border:2px solid rgba(201,168,76,.4);border-radius:20px;padding:28px 24px;text-align:center">
-      <div style="font-size:28px;margin-bottom:8px">ðŸŽ‰</div>
-      <div style="font-family:'Cinzel',serif;font-size:16px;color:#f5c842;margin-bottom:4px">Â¡Cuenta creada!</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:24px">GuardÃ¡ estos datos para ingresar</div>
+      <div style="font-size:28px;margin-bottom:8px">🎉</div>
+      <div style="font-family:'Cinzel',serif;font-size:16px;color:#f5c842;margin-bottom:4px">¡Cuenta creada!</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:24px">Guardá estos datos para ingresar</div>
 
       <div style="background:rgba(0,0,0,.4);border:1.5px solid rgba(201,168,76,.25);border-radius:14px;padding:18px;margin-bottom:20px;text-align:left">
         <div style="margin-bottom:12px">
@@ -3370,19 +3370,19 @@ function showCredentialsModal(user,pass,cb){
           <div style="font-size:18px;color:#fff;font-weight:700;letter-spacing:1px;font-family:monospace">${user}</div>
         </div>
         <div style="margin-bottom:12px">
-          <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-bottom:3px">CONTRASEÃ‘A</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-bottom:3px">CONTRASEÑA</div>
           <div style="font-size:18px;color:#f5c842;font-weight:700;letter-spacing:1px;font-family:monospace">${pass}</div>
         </div>
         <div style="font-size:11px;color:rgba(255,255,255,.48);line-height:1.5">Tu cuenta empieza en $0. Al cerrar este aviso te abrimos la recarga segura.</div>
       </div>
 
       <div style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.2);border-radius:10px;padding:10px 14px;margin-bottom:20px;font-size:11px;color:rgba(255,255,255,.6);line-height:1.6">
-        âš  AnotÃ¡ tu usuario y contraseÃ±a.<br>No podremos recuperarlos si los perdÃ©s.
+        ⚠ Anotá tu usuario y contraseña.<br>No podremos recuperarlos si los perdés.
       </div>
 
       <button id="cred-enter-btn"
         style="width:100%;padding:15px;background:linear-gradient(135deg,#b8860b,#8b6914);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;cursor:pointer">
-        âœ¦ Entrar al Club
+        ✦ Entrar al Club
       </button>
     </div>`;
   document.body.appendChild(div);
@@ -3443,7 +3443,7 @@ function updateLobbyHeader(){
 
 </script>
 
-<!-- â•â• BILLETERA / WALLET MODAL â•â• -->
+<!-- ══ BILLETERA / WALLET MODAL ══ -->
 <div id="wallet-overlay" onclick="if(event.target===this)closeWallet()" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center">
   <div id="wallet-sheet" style="width:100%;max-width:480px;background:linear-gradient(180deg,#0d1a0a,#060e03);border:1.5px solid rgba(201,168,76,.3);border-radius:22px 22px 0 0;padding:0 20px 32px;animation:slideup .3s cubic-bezier(.4,0,.2,1);max-height:90vh;overflow-y:auto">
     <div style="width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin:12px auto 16px"></div>
@@ -3458,7 +3458,7 @@ function updateLobbyHeader(){
     <div style="text-align:center;margin-bottom:20px;padding:16px;background:rgba(0,0,0,.3);border-radius:14px;border:1px solid rgba(201,168,76,.2)">
       <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px;letter-spacing:1px">SALDO DISPONIBLE</div>
       <div id="wallet-bal-display" style="font-size:28px;font-weight:700;color:#f5c842;font-family:'Cinzel',serif">$0</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px">Galio Pay âœ¦ Pesos Argentinos</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px">Galio Pay ✦ Pesos Argentinos</div>
     </div>
 
     <!-- TAB: DEPOSITAR -->
@@ -3473,16 +3473,16 @@ function updateLobbyHeader(){
         <button onclick="setWalletAmt(20000)" class="wamt-btn">$20.000</button>
         <button onclick="setWalletAmt(50000)" class="wamt-btn">$50.000</button>
       </div>
-      <div style="color:rgba(255,255,255,.5);font-size:11px;margin-bottom:6px">O ingresÃ¡ un monto personalizado:</div>
+      <div style="color:rgba(255,255,255,.5);font-size:11px;margin-bottom:6px">O ingresá un monto personalizado:</div>
       <input id="wallet-amt-input" type="number" min="5000" step="500" value="5000" placeholder="Mínimo $5.000"
         style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1.5px solid rgba(201,168,76,.3);border-radius:10px;color:#fff;font-size:18px;padding:12px 16px;font-family:'Cinzel',serif;outline:none;margin-bottom:14px"
         oninput="syncWalletInput(this.value)">
       <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px;margin-bottom:16px;font-size:11px;color:rgba(255,255,255,.6);line-height:1.6">
-        <b style="color:#f5c842">Galio Pay</b> â€” El pago se procesa de forma segura.<br>
-        Mínimo de recarga: <b style="color:#fff">$5.000</b> Â· AcreditaciÃ³n inmediata.
+        <b style="color:#f5c842">Galio Pay</b> — El pago se procesa de forma segura.<br>
+        Mínimo de recarga: <b style="color:#fff">$5.000</b> · Acreditación inmediata.
       </div>
       <button onclick="confirmWalletDeposit()" style="width:100%;padding:16px;background:linear-gradient(135deg,#27ae60,#1a7a40);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px">
-        ðŸ’³ Pagar con Galio Pay
+        💳 Pagar con Galio Pay
       </button>
       <button onclick="closeWallet()" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:12px;color:rgba(255,255,255,.5);font-size:13px;cursor:pointer;margin-top:10px">Cancelar</button>
     </div>
@@ -3491,8 +3491,8 @@ function updateLobbyHeader(){
     <div id="wallet-wit" style="display:none">
       <div style="color:rgba(255,255,255,.7);font-size:12px;margin-bottom:10px;letter-spacing:.5px">MONTO A RETIRAR</div>
       <div style="background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:11px;color:rgba(255,255,255,.65);line-height:1.6">
-        âš  Mínimo de retiro: <b style="color:#f5c842">$10.000</b><br>
-        El dinero se acredita en tu CBU/CVU en 24-48hs vÃ­a Galio Pay.
+        ⚠ Mínimo de retiro: <b style="color:#f5c842">$10.000</b><br>
+        El dinero se acredita en tu CBU/CVU en 24-48hs vía Galio Pay.
       </div>
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px">
         
@@ -3506,7 +3506,7 @@ function updateLobbyHeader(){
       <input id="wallet-wit-cbu" type="text" placeholder="Tu CBU o CVU registrado" value=""
         style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;font-size:13px;padding:12px 16px;outline:none;margin-bottom:14px">
       <button onclick="confirmWalletWithdraw()" style="width:100%;padding:16px;background:linear-gradient(135deg,#1a4a8a,#0d2a5a);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px">
-        ðŸ¦ Solicitar Retiro vÃ­a Galio Pay
+        🏦 Solicitar Retiro vía Galio Pay
       </button>
       <button onclick="closeWallet()" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:12px;color:rgba(255,255,255,.5);font-size:13px;cursor:pointer;margin-top:10px">Cancelar</button>
     </div>
@@ -3514,37 +3514,37 @@ function updateLobbyHeader(){
     <!-- TAB: HISTORIAL -->
     <div id="wallet-his" style="display:none">
       <div id="wallet-history-list" style="max-height:300px;overflow-y:auto">
-        <div style="text-align:center;color:rgba(255,255,255,.3);font-size:13px;padding:30px 0">Sin movimientos aÃºn</div>
+        <div style="text-align:center;color:rgba(255,255,255,.3);font-size:13px;padding:30px 0">Sin movimientos aún</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- â•â• PERFIL MODAL â•â• -->
+<!-- ══ PERFIL MODAL ══ -->
 <div id="profile-overlay" onclick="if(event.target===this)closeProfile()" style="display:none;position:fixed;inset:0;z-index:1001;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);align-items:flex-end;justify-content:center">
   <div style="width:100%;max-width:480px;background:linear-gradient(180deg,#0a0f1a,#060812);border:1.5px solid rgba(100,140,255,.25);border-radius:22px 22px 0 0;padding:0 20px 32px;animation:slideup .3s cubic-bezier(.4,0,.2,1);max-height:85vh;overflow-y:auto">
     <div style="width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin:12px auto 20px"></div>
-    <div style="font-family:'Cinzel',serif;font-size:16px;color:#a0b4ff;text-align:center;margin-bottom:6px;letter-spacing:1px">ðŸ‘¤ MI PERFIL</div>
-    <div style="text-align:center;font-size:11px;color:rgba(255,255,255,.4);margin-bottom:20px">NecesitÃ¡s un perfil para retirar fondos</div>
+    <div style="font-family:'Cinzel',serif;font-size:16px;color:#a0b4ff;text-align:center;margin-bottom:6px;letter-spacing:1px">👤 MI PERFIL</div>
+    <div style="text-align:center;font-size:11px;color:rgba(255,255,255,.4);margin-bottom:20px">Necesitás un perfil para retirar fondos</div>
 
     <!-- Avatar -->
     <div style="text-align:center;margin-bottom:20px">
       <!-- Avatar display principal -->
       <div id="profile-avatar-wrap" style="position:relative;display:inline-block;margin-bottom:10px">
         <div id="profile-avatar" style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#1a3a7a,#0d1f4a);border:3px solid rgba(100,140,255,.4);display:inline-flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;overflow:hidden;transition:border-color .2s">
-          ðŸŽ­
+          🎭
         </div>
-        <div onclick="toggleAvatarPicker()" style="position:absolute;bottom:0;right:0;width:26px;height:26px;background:linear-gradient(135deg,#2a4aaa,#1a2a7a);border-radius:50%;border:2px solid #060812;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px">âœï¸</div>
+        <div onclick="toggleAvatarPicker()" style="position:absolute;bottom:0;right:0;width:26px;height:26px;background:linear-gradient(135deg,#2a4aaa,#1a2a7a);border-radius:50%;border:2px solid #060812;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px">✏ï¸</div>
       </div>
-      <div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:10px">TocÃ¡ el lÃ¡piz para cambiar</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.35);margin-bottom:10px">Tocá el lápiz para cambiar</div>
 
       <!-- Panel selector de avatar -->
       <div id="avatar-picker" style="display:none;background:rgba(0,0,0,.5);border:1.5px solid rgba(100,140,255,.2);border-radius:16px;padding:14px;margin-bottom:4px;text-align:left">
         <!-- Tabs modos -->
         <div style="display:flex;gap:6px;margin-bottom:12px">
-          <button onclick="avatarMode('emoji')" id="avmode-emoji" style="flex:1;padding:7px 4px;border-radius:8px;border:1px solid rgba(100,140,255,.4);background:rgba(100,140,255,.15);color:#a0b4ff;font-size:10px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.5px">ðŸ˜€ Avatares</button>
-          <button onclick="avatarMode('initials')" id="avmode-initials" style="flex:1;padding:7px 4px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-size:10px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.5px">ðŸ”¤ Iniciales</button>
-          <button onclick="avatarMode('photo')" id="avmode-photo" style="flex:1;padding:7px 4px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-size:10px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.5px">ðŸ“· Foto</button>
+          <button onclick="avatarMode('emoji')" id="avmode-emoji" style="flex:1;padding:7px 4px;border-radius:8px;border:1px solid rgba(100,140,255,.4);background:rgba(100,140,255,.15);color:#a0b4ff;font-size:10px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.5px">😀 Avatares</button>
+          <button onclick="avatarMode('initials')" id="avmode-initials" style="flex:1;padding:7px 4px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-size:10px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.5px">🔤 Iniciales</button>
+          <button onclick="avatarMode('photo')" id="avmode-photo" style="flex:1;padding:7px 4px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-size:10px;cursor:pointer;font-family:'Cinzel',serif;letter-spacing:.5px">📷 Foto</button>
         </div>
 
         <!-- Panel: Emojis -->
@@ -3560,16 +3560,16 @@ function updateLobbyHeader(){
 
         <!-- Panel: Foto -->
         <div id="avpanel-photo" style="display:none;text-align:center">
-          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px">SubÃ­ una foto de perfil (JPG/PNG)</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:12px">Subí una foto de perfil (JPG/PNG)</div>
           <label for="avatar-upload" style="display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#2a4aaa,#1a2a7a);border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:12px;cursor:pointer;letter-spacing:.5px">
-            ðŸ“· Elegir Foto
+            📷 Elegir Foto
           </label>
           <input type="file" id="avatar-upload" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
-          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:8px">MÃ¡x. 5MB Â· La foto se guarda en el dispositivo</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:8px">Máx. 5MB · La foto se guarda en el dispositivo</div>
           <div id="photo-preview" style="display:none;margin-top:10px">
             <img id="photo-preview-img" style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid rgba(100,140,255,.5)">
             <div style="margin-top:6px">
-              <button onclick="applyPhotoAvatar()" style="padding:8px 16px;background:linear-gradient(135deg,#2a4aaa,#1a2a7a);border:none;border-radius:8px;color:#fff;font-family:'Cinzel',serif;font-size:11px;cursor:pointer">âœ¦ Usar esta foto</button>
+              <button onclick="applyPhotoAvatar()" style="padding:8px 16px;background:linear-gradient(135deg,#2a4aaa,#1a2a7a);border:none;border-radius:8px;color:#fff;font-family:'Cinzel',serif;font-size:11px;cursor:pointer">✦ Usar esta foto</button>
             </div>
           </div>
         </div>
@@ -3584,16 +3584,16 @@ function updateLobbyHeader(){
       </div>
       <div>
         <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:5px;letter-spacing:.5px">ALIAS / APODO EN EL JUEGO *</div>
-        <input id="prof-alias" type="text" placeholder="Ej: ElTiburÃ³n88" maxlength="20"
+        <input id="prof-alias" type="text" placeholder="Ej: ElTiburón88" maxlength="20"
           style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1.5px solid rgba(100,140,255,.25);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none">
       </div>
       <div>
         <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:5px;letter-spacing:.5px">CBU / CVU (para retiros)</div>
-        <input id="prof-cbu" type="text" placeholder="22 dÃ­gitos de tu CBU o CVU" maxlength="22"
+        <input id="prof-cbu" type="text" placeholder="22 dígitos de tu CBU o CVU" maxlength="22"
           style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1.5px solid rgba(100,140,255,.25);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none">
       </div>
       <div>
-        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:5px;letter-spacing:.5px">TELÃ‰FONO (WhatsApp)</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:5px;letter-spacing:.5px">TELÉFONO (WhatsApp)</div>
         <input id="prof-phone" type="tel" placeholder="+54 9 11 xxxxxxxx"
           style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1.5px solid rgba(100,140,255,.25);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none">
       </div>
@@ -3616,10 +3616,10 @@ function updateLobbyHeader(){
     </div>
 
     <button onclick="saveProfileData()" style="width:100%;padding:16px;background:linear-gradient(135deg,#2a4aaa,#1a2a7a);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:18px;letter-spacing:.5px">
-      âœ¦ Guardar Perfil
+      ✦ Guardar Perfil
     </button>
     <button onclick="closeProfile()" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:12px;color:rgba(255,255,255,.5);font-size:13px;cursor:pointer;margin-top:10px">Cerrar</button>
-    <button onclick="if(confirm('Â¿Cerrar sesiÃ³n?'))logout()" style="width:100%;padding:10px;background:transparent;border:none;color:rgba(192,57,43,.6);font-size:12px;cursor:pointer;margin-top:4px">Cerrar sesiÃ³n</button>
+    <button onclick="if(confirm('¿Cerrar sesión?'))logout()" style="width:100%;padding:10px;background:transparent;border:none;color:rgba(192,57,43,.6);font-size:12px;cursor:pointer;margin-top:4px">Cerrar sesión</button>
   </div>
 </div>
 </body>
