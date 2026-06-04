@@ -1910,6 +1910,7 @@ function buildPlayers(){
 function updSeat(i,state,bet,c1,c2,c3){
   if(!G || !G.players || !G.players[i]) return;
   const p=G.players[i];
+  if(!p) return;
   const seat=document.getElementById('seat-'+i);
   if(!seat)return;
   const baseClass='seat '+(p.you?'s-you':'');
@@ -1920,7 +1921,7 @@ function updSeat(i,state,bet,c1,c2,c3){
   const sst=document.getElementById('sst-'+i);
   if(sst){sst.className='seat-state-tag '+(cls[state]||'sst-wait');sst.textContent=lbl[state]||state;}
   const sbd=document.getElementById('sbd-'+i);
-  if(sbd) sbd.textContent=bet>0?'$'+bet.toLocaleString('es-AR'):'';
+  if(sbd) sbd.textContent=(bet && bet>0)?'$'+bet.toLocaleString('es-AR'):'';
   const scd=document.getElementById('scd-'+i);
   if(scd){
     scd.innerHTML='';
@@ -2528,42 +2529,69 @@ function addHlog(who,c3,res,amt){
 
 // â•â• HUD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 function updHUD(){
+  if(!G) return;
   const bal = (G.spectate ? playerBal : G.yourBal) || 0;
   // Sincronizar UI principal con el saldo global que se actualiza desde DB
-  document.getElementById('g-bal').textContent = '$' + (playerBal || 0).toLocaleString('es-AR');
-  document.getElementById('qh-bal').textContent = '$' + bal.toLocaleString('es-AR');
-  document.getElementById('qh-pot').textContent = '$' + (G.pot || 0).toLocaleString('es-AR');
+  const gBal = document.getElementById('g-bal');
+  if(gBal) gBal.textContent = '$' + (playerBal || 0).toLocaleString('es-AR');
+  const qhBal = document.getElementById('qh-bal');
+  if(qhBal) qhBal.textContent = '$' + (bal || 0).toLocaleString('es-AR');
+  const qhPot = document.getElementById('qh-pot');
+  if(qhPot) qhPot.textContent = '$' + (G.pot || 0).toLocaleString('es-AR');
+  
   const ne = document.getElementById('qh-net');
-  const netValue = G.net || 0;
-  ne.textContent = (netValue >= 0 ? '+' : '') + '$' + Math.abs(netValue).toLocaleString('es-AR');
-  ne.className = 'qh-val ' + (netValue > 0 ? 'pos' : netValue < 0 ? 'neg' : '');
+  if(ne) {
+    const netValue = G.net || 0;
+    ne.textContent = (netValue >= 0 ? '+' : '') + '$' + Math.abs(netValue).toLocaleString('es-AR');
+    ne.className = 'qh-val ' + (netValue > 0 ? 'pos' : netValue < 0 ? 'neg' : '');
+  }
   const sr = document.getElementById('qh-str');
-  const streakValue = G.streak || 0;
-  sr.textContent = streakValue > 0 ? '+' + streakValue : String(streakValue);
-  sr.className = 'qh-val ' + (streakValue > 0 ? 'pos' : streakValue < 0 ? 'neg' : '');
-  document.getElementById('game-hand-badge').textContent = 'MANO #' + (G.hand || 0);
+  if(sr) {
+    const streakValue = G.streak || 0;
+    sr.textContent = streakValue > 0 ? '+' + streakValue : String(streakValue);
+    sr.className = 'qh-val ' + (streakValue > 0 ? 'pos' : streakValue < 0 ? 'neg' : '');
+  }
+  const hb = document.getElementById('game-hand-badge');
+  if(hb) hb.textContent = 'MANO #' + (G.hand || 0);
 }
 function updPot(){
+  if(!G) return;
   const pv=document.getElementById('pot-val');
+  if(!pv) return;
   const potValue = G.pot || 0;
   pv.textContent='$'+potValue.toLocaleString('es-AR');
   pv.classList.toggle('pot-hot',potValue>=40000);
   // Clases dinÃ¡micas de pozo enorme (sin lÃ­mite)
   pv.classList.toggle('pot-huge',potValue>=80000);
   pv.classList.toggle('pot-legendary',potValue>=150000);
-  document.getElementById('qh-pot').textContent='$'+potValue.toLocaleString('es-AR');
+  const qhp = document.getElementById('qh-pot');
+  if(qhp) qhp.textContent='$'+potValue.toLocaleString('es-AR');
   const act=(G.players || []).filter(p=>p && p.bal>0).length;
-  document.getElementById('pot-sub').textContent=act+' jugador'+(act!==1?'es':'')+' activo'+(act!==1?'s':'');
+  const ps = document.getElementById('pot-sub');
+  if(ps) ps.textContent=act+' jugador'+(act!==1?'es':'')+' activo'+(act!==1?'s':'');
 }
 function updStats(){
-  document.getElementById('st-w').textContent=G.wins;
-  document.getElementById('st-l').textContent=G.losses;
-  document.getElementById('st-t').textContent=G.ties;
-  const tot=G.wins+G.losses;document.getElementById('st-pct').textContent=tot>0?Math.round(G.wins/tot*100)+'%':'â€”';
-  document.getElementById('st-best').textContent='$'+G.bestWin.toLocaleString('es-AR');
+  if(!G) return;
+  const sw = document.getElementById('st-w');
+  if(sw) sw.textContent=G.wins || 0;
+  const sl = document.getElementById('st-l');
+  if(sl) sl.textContent=G.losses || 0;
+  const st = document.getElementById('st-t');
+  if(st) st.textContent=G.ties || 0;
+  
+  const tot=(G.wins || 0)+(G.losses || 0);
+  const spct = document.getElementById('st-pct');
+  if(spct) spct.textContent=tot>0?Math.round((G.wins||0)/tot*100)+'%':'â€”';
+  
+  const sbest = document.getElementById('st-best');
+  if(sbest) sbest.textContent='$'+(G.bestWin || 0).toLocaleString('es-AR');
+  
   const sn=document.getElementById('st-net');
-  sn.textContent=(G.net>=0?'+':'')+'$'+Math.abs(G.net).toLocaleString('es-AR');
-  sn.className='sbox-v '+(G.net>0?'g':G.net<0?'r':'');
+  if(sn) {
+    const net = G.net || 0;
+    sn.textContent=(net>=0?'+':'')+'$'+Math.abs(net).toLocaleString('es-AR');
+    sn.className='sbox-v '+(net>0?'g':net<0?'r':'');
+  }
 }
 function setMsg(txt,cls){const e=document.getElementById('gm');e.className='gmsg '+(cls||'idle');document.getElementById('gmt').textContent=txt;}
 
