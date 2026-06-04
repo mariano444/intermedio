@@ -935,68 +935,97 @@ const CARD_IMGS = {
 const TABLE_NAMES=['Salón Dorado','Mesa Roja','El Corralón','La Imperial','Sala Norte','El Reservado','Sala Privada','Mesa Ejecutiva','El Rulero','Sala VIP','La Clásica','El Fortín'];
 
 // ════ JUGADORES CON PERSONALIDAD COMPLETA ════════════════════════
-const ALL_PLAYERS=[
-  {name:'Carlos M.',emoji:'👨',col:'#e74c3c',style:'bold',thinkMin:500,thinkMax:1100,city:'Rosario',
-   trait:'Impulsivo — nunca duda cuando el rango es amplio',
-   chat:{think:['Veamos...','Esto pinta bien...','¿Cuánto arriesgo?'],bet:['¡Va todo!','Con ganas.','No me tiembla la mano.'],win:['¡eso es!','¡Sabía que entraba!','¡Sigo en racha!'],lose:['Mala suerte...','No puede ser.','La próxima es mía.'],tie:['Casi...','Al menos no perdí.'],big:['¡Con este rango no fallo!','¡Esto es un regalo!'],small:['Riesgo total...','Igual voy.']},
-   reacts:{win:'🎉',lose:'😤',tie:'😐'}},
-  {name:'Sofía R.',emoji:'👩',col:'#9b59b6',style:'cautious',thinkMin:1800,thinkMax:3500,city:'Buenos Aires',
-   trait:'Analítica — piensa mucho antes de apostar',
-   chat:{think:['Déjame calcular...','Analizando odds...','¿Cuánto hay en el pozo?'],bet:['Apuesto con cuidado.','Solo lo que conviene.','Con cabeza.'],win:['Lo sabía.','La matemática no falla.','Exacto como calculé.'],lose:['No esperaba eso.','Ajustaré la estrategia.','El azar es cruel.'],tie:['Dentro de mis cálculos.','Empate aceptable.'],big:['Probabilidad a favor.','Las chances son buenas.'],small:['Muy arriesgado para mí.','Las odds no me convencen.']},
-   reacts:{win:'😊',lose:'😟',tie:'😶'}},
-  {name:'Miguel Á.',emoji:'🧔',col:'#2471a3',style:'balanced',thinkMin:800,thinkMax:1800,city:'Córdoba',
-   trait:'Veterano — 20 años en el juego',
-   chat:{think:['Hmm...','Ya vi esto antes.','Conozco este juego.'],bet:['Apuesta clásica.','Así se juega.','Lo de siempre.'],win:['Como siempre.','20 años de práctica.','Así se hace.'],lose:['Sucede.','Parte del juego.','Me repongo.'],tie:['Un empate honesto.','Sigue el juego.'],big:['Rango favorable.','Hay que aprovecharlo.'],small:['Mala mano.','Hay que jugar igual.']},
-   reacts:{win:'👍',lose:'🤷',tie:'🤝'}},
-  {name:'Lucía F.',emoji:'👱‍♀️',col:'#16a085',style:'gambler',thinkMin:200,thinkMax:600,city:'Mendoza',
-   trait:'Apostadora — se emociona fácil',
-   chat:{think:['¡Voy!','¡Dale!','Sin pensar mucho.'],bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!'],win:['¡JAJAJA LO SABÍA!','¡Soy la mejor!','¡Imparable!'],lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!'],tie:['¡Uf, casi!','¡Revancha!'],big:['¡Esto es fácil!','¡Apuesto todo!'],small:['¡Da igual voy igual!','¡El riesgo es lo bueno!']},
-   reacts:{win:'🤑',lose:'😱',tie:'😏'}},
-  {name:'Andrés P.',emoji:'🧑',col:'#d35400',style:'cautious',thinkMin:2000,thinkMax:4000,city:'Salta',
-   trait:'Conservador — cuida cada peso',
-   chat:{think:['Mejor no apresurarse.','¿Vale la pena?','Viendo, viendo...'],bet:['Poquito nomás.','Lo justo.','Apuesta chica.'],win:['Bien, bien.','De a poco se llega.','Poquito a poco.'],lose:['No pasa nada.','Hay que cuidar el capital.','Seguimos.'],tie:['Siempre mejor que perder.','Está bien así.'],big:['Podría apostar algo.','Tal vez un poco más.'],small:['Apuesto lo mínimo.','Rango muy chico.']},
-   reacts:{win:'😊',lose:'😔',tie:'😌'}},
-  {name:'Valeria T.',emoji:'💁‍♀️',col:'#c0392b',style:'gambler',thinkMin:300,thinkMax:700,city:'Mar del Plata',
-   trait:'Audaz — le encanta el riesgo total',
-   chat:{think:['Vamos.','Rápido.','Ya lo sé.'],bet:['Fuerte.','Al máximo.','Con todo.'],win:['Obvio.','Nada que ver.','Así nomás.'],lose:['Igual voy.','No importa.','Siguiente.'],tie:['Ok.','Sigo.'],big:['Esto lo aprovecho.','Máximo posible.'],small:['Me da igual.','Apuesto igual.']},
-   reacts:{win:'😎',lose:'😏',tie:'🙄'}},
-  {name:'Diego S.',emoji:'🧑‍💼',col:'#0e6655',style:'balanced',thinkMin:1000,thinkMax:2200,city:'La Plata',
-   trait:'Metódico — lleva las estadísticas en la cabeza',
-   chat:{think:['Calculando EV...','Veamos probabilidades.','Analizando spread.'],bet:['Bet proporcional.','Según el spread.','Racionalmente.'],win:['EV positivo confirmado.','El método funciona.','Como calculé.'],lose:['Varianza normal.','Dentro del margen.','EV negativo esta vez.'],tie:['Break even.','Neutral.'],big:['EV alto en esta mano.','Vale apostar fuerte.'],small:['EV bajo, apuesta mínima.','No conviene.']},
-   reacts:{win:'👍',lose:'🤔',tie:'🤝'}},
-  {name:'Natalia G.',emoji:'👩‍🦰',col:'#7d3c98',style:'bold',thinkMin:600,thinkMax:1400,city:'Tucumán',
-   trait:'Intuitiva — juega con corazonadas',
-   chat:{think:['Siento que...','Mi instinto dice...','Tengo un pálpito.'],bet:['Me lo dice el cuerpo.','El pálpito manda.','Va con todo.'],win:['¡Mi instinto no falla!','¡Lo sentí!','¡Sabía!'],lose:['Traicionó el instinto.','La próxima no falla.','Igual confío en mí.'],tie:['El universo empató.','Algo raro pasó.'],big:['El cosmos está de mi lado.','Todo indica que sí.'],small:['No me convence el aura.','Instinto dice no... pero voy.']},
-   reacts:{win:'✨',lose:'😢',tie:'🌀'}},
-  {name:'Ramón V.',emoji:'👴',col:'#b7950b',style:'cautious',thinkMin:2500,thinkMax:5000,city:'Entre Ríos',
-   trait:'El abuelo — lento pero muy experimentado',
-   chat:{think:['Esperen que pienso...','No me apuren.','A ver, a ver...'],bet:['Con calma.','Poquito.','Lo considerado.'],win:['Bien nomás.','La experiencia paga.','¿Ven? La experiencia.'],lose:['Pasan cosas.','Hay que saber perder.','Así es la vida.'],tie:['Igual no perdí.','Empate honesto.'],big:['Hay que aprovechar.','Una buena mano esta.'],small:['Muy peligroso.','Apuesto poco.']},
-   reacts:{win:'😄',lose:'😫',tie:'🤗'}},
-  {name:'Paula M.',emoji:'👩‍🦱',col:'#1abc9c',style:'bold',thinkMin:500,thinkMax:1200,city:'Neuquén',
-   trait:'Agresiva — le gusta dominar la mesa',
-   chat:{think:['Domino la mesa.','Miren cómo se hace.','Atención todos.'],bet:['¡Apuesto FUERTE!','Que tiemblen.','Presión total.'],win:['Como dije.','Nadie me gana.','Claramente la mejor.'],lose:['Suerte de principiante.','No me afecta.','Voy más fuerte.'],tie:['Empate inaceptable.','La próxima gano.'],big:['Este rango es mío.','Apuesto todo.'],small:['Igual apuesto fuerte para intimidar.']},
-   reacts:{win:'💪',lose:'😡',tie:'😒'}},
-  {name:'Esteban Q.',emoji:'👴',col:'#e67e22',style:'gambler',thinkMin:150,thinkMax:500,city:'Posadas',
-   trait:'Jugador nato — nació en una mesa de cartas',
-   chat:{think:['Hecho.','No hay nada que pensar.','Siempre lo mismo.'],bet:['Todo.','Máximo.','De una.'],win:['Normal.','Obvio.','¿Alguien dudó?'],lose:['Racha.','Siguiente.','Me aburro.'],tie:['Qué lata.','Meh.'],big:['Perfecto.','Para eso nací.'],small:['¿Y? Igual todo.']},
-   reacts:{win:'😏',lose:'🤙',tie:'💤'}},
-  {name:'Marina L.',emoji:'👩‍🦳',col:'#8e44ad',style:'balanced',thinkMin:1100,thinkMax:2400,city:'Bahía Blanca',
-   trait:'Elegante — juega con clase',
-   chat:{think:['Considerando...','Un momento.','Evaluando.'],bet:['Con elegancia.','La justa medida.','Mi apuesta razonada.'],win:['Muy bien.','Como corresponde.','Con gusto.'],lose:['Qué contrariedad.','Con dignidad.','No pasa nada.'],tie:['Aceptable.','Resultado justo.'],big:['Excelente oportunidad.','Muy atractivo.'],small:['No muy prometedor.','Con prudencia.']},
-   reacts:{win:'💅',lose:'😤',tie:'🙃'}},
-  {name:'Facundo B.',emoji:'🧑‍🦲',col:'#c0392b',style:'bold',thinkMin:400,thinkMax:1000,city:'Santa Fe',
-   trait:'Novato con actitud — recién empieza',
-   chat:{think:['Ok ok ok...','Creo que...','A ver qué hago...'],bet:['¡Va!','Pruebo acá.','A ver qué pasa.'],win:['¡JAJAJA QUÉ BUENO!','¡Soy un crack!','¡Aprendí rápido!'],lose:['Ah no...','¿Qué pasó?','¿Cuánto perdí?'],tie:['¿Eso está bien?','Supongo que ok.'],big:['Está bueno el rango creo.','Pinta bien.'],small:['No sé si apostar...','Igual voy.']},
-   reacts:{win:'🤩',lose:'😳',tie:'🤷'}},
-  {name:'Florencia C.',emoji:'👩',col:'#2980b9',style:'cautious',thinkMin:1300,thinkMax:2800,city:'Resistencia',
-   trait:'Desconfiada — siempre sospecha algo',
-   chat:{think:['¿Están haciendo trampa?','Noto algo raro.','Verificando todo.'],bet:['Con reservas.','Apuesto poco.','Con sospecha.'],win:['Bien, aunque algo raro.','Gané... por esta vez.'],lose:['¡Trampa! ¡Trampa!','Lo sabía, algo rarete.','Sospechoso.'],tie:['¿Seguro que fue empate?','Raro, muy raro.'],big:['Rango amplio... ¿por qué?'],small:['Rango chico, ¿es trampa?']},
-   reacts:{win:'🤨',lose:'😡',tie:'🕵️'}},
-  {name:'Sebastián R.',emoji:'🧔',col:'#27ae60',style:'gambler',thinkMin:200,thinkMax:600,city:'Corrientes',
-   trait:'Streamer — juega en vivo para sus seguidores',
-   chat:{think:['¡Chat qué hago!','¡Votando en stream!','¡La gente dice todo in!'],bet:['¡Por el stream!','¡Para los subs!','¡Van a flipar!'],win:['¡CLIP! ¡CLIP!','¡Los subs están locos!','¡KEKW ganamos!'],lose:['¡Fue contenido igual!','¡F en el chat!','¡Al menos fue divertido!'],tie:['¡Momento tenso para los subs!'],big:['¡Chat esto es EZ!','¡Todo in necesario!'],small:['¡Chat dicen que vaya igual!']},
-   reacts:{win:'🎮',lose:'💀',tie:'😅'}},
+const BOT_STYLES={
+  bold:{
+    thinkMin:500,thinkMax:1100,
+    trait:'Impulsivo — nunca duda cuando el rango es amplio',
+    chat:{
+      think:['Veamos...','Esto pinta bien...','¿Cuánto arriesgo?','A ver qué sale de acá','Mmm, interesante'],
+      bet:['¡Va todo!','Con ganas.','No me tiembla la mano.','Subo la apuesta','¡Adentro!'],
+      win:['¡eso es!','¡Sabía que entraba!','¡Sigo en racha!','Viene para casa','¡Toma ya!'],
+      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta','Qué mala liga'],
+      tie:['Casi...','Al menos no perdí.','Empate, zafé','Podría haber sido peor'],
+      big:['¡Con este rango no fallo!','¡Esto es un regalo!','Acá no hay dudas','Regalado'],
+      small:['Riesgo total...','Igual voy.','Me la juego','A ver si sale']
+    },
+    reacts:{win:'🎉',lose:'😤',tie:'😐'}
+  },
+  cautious:{
+    thinkMin:1800,thinkMax:3500,
+    trait:'Analítica — piensa mucho antes de apostar',
+    chat:{
+      think:['Déjame calcular...','Analizando odds...','¿Cuánto hay en el pozo?','Viendo las chances','Un momento...'],
+      bet:['Apuesto con cuidado.','Solo lo que conviene.','Con cabeza.','Poco pero seguro','Calculado'],
+      win:['Lo sabía.','La matemática no falla.','Exacto como calculé.','Salió como esperaba','Controlado'],
+      lose:['No esperaba eso.','Ajustaré la estrategia.','El azar es cruel.','Varianza negativa','Inesperado'],
+      tie:['Dentro de mis cálculos.','Empate aceptable.','Neutral','Sin cambios'],
+      big:['Probabilidad a favor.','Las chances son buenas.','Buen margen','Margen aceptable'],
+      small:['Muy arriesgado para mí.','Las odds no me convencen.','Demasiado fino','Poco margen']
+    },
+    reacts:{win:'😊',lose:'😟',tie:'😶'}
+  },
+  balanced:{
+    thinkMin:800,thinkMax:1800,
+    trait:'Veterano — 20 años en el juego',
+    chat:{
+      think:['Hmm...','Ya vi esto antes.','Conozco este juego.','Interesante mano','Veamos qué pasa'],
+      bet:['Apuesta clásica.','Así se juega.','Lo de siempre.','Lo que corresponde','Firme'],
+      win:['Como siempre.','20 años de práctica.','Así se hace.','Gané bien','Sin sorpresas'],
+      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa','Otra vez será'],
+      tie:['Un empate honesto.','Sigue el juego.','Empate técnico','Seguimos'],
+      big:['Rango favorable.','Hay que aprovecharlo.','Buena oportunidad','Momento justo'],
+      small:['Mala mano.','Hay que jugar igual.','Poca cosa','Difícil esta']
+    },
+    reacts:{win:'👍',lose:'🤷',tie:'🤝'}
+  },
+  gambler:{
+    thinkMin:200,thinkMax:600,
+    trait:'Apostadora — se emociona fácil',
+    chat:{
+      think:['¡Voy!','¡Dale!','Sin pensar mucho.','¡Ya está!','¡Vamos!'],
+      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Va fuerte!','¡Mandale!'],
+      win:['¡JAJAJA LO SABÍA!','¡Soy la mejor!','¡Imparable!','¡Qué grande!','¡Vamos carajo!'],
+      lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!','¡Qué robo!','¡No te la puedo creer!'],
+      tie:['¡Uf, casi!','¡Revancha!','¡Zafé de una!','¡Casi casi!'],
+      big:['¡Esto es fácil!','¡Apuesto todo!','¡Venga!','¡Fiesta!'],
+      small:['¡Da igual voy igual!','¡El riesgo es lo bueno!','¡No importa nada!','¡Dale que va!']
+    },
+    reacts:{win:'🤑',lose:'😱',tie:'😏'}
+  }
+};
+
+
+const ARG_NAMES=[
+  "Juan P.","Matias S.","Lucas G.","Nicolas M.","Franco R.","Agustin B.","Federico L.","Gonzalo T.","Santiago V.","Rodrigo C.",
+  "Facundo A.","Lautaro D.","Julian E.","Tomas F.","Valentin H.","Martin J.","Sebastian K.","Cristian N.","Alejandro O.","Gabriel P.",
+  "Maria L.","Florencia B.","Camila S.","Martina G.","Sofia M.","Valentina R.","Luciana T.","Julieta V.","Agostina C.","Milagros D.",
+  "Rocio E.","Belen F.","Sol G.","Azul H.","Lola J.","Mora K.","Pilar N.","Juana O.","Elena P.","Clara Q.",
+  "El Colo","Cacho","Beto","Pepe","Tito","Negro","Gringo","Chino","Ruso","Polaco",
+  "Marcelo T.","Hernan P.","Jorge D.","Raul G.","Oscar M.","Hugo R.","Luis B.","Carlos S.","Alberto V.","Eduardo D.",
+  "Roberto C.","Guillermo B.","Fernando S.","Gustavo L.","Adrian M.","Claudio F.","Pablo G.","Ariel R.","Dario V.","Fabian T.",
+  "Mario P.","Jose L.","Daniel S.","Monica G.","Silvia R.","Patricia M.","Graciela B.","Marta S.","Alicia V.","Beatriz L.",
+  "Ana M.","Elsa P.","Mirta D.","Gladys T.","Norma C.","Liliana F.","Susana G.","Andrea R.","Claudia S.","Sandra M.",
+  "Marcela B.","Paola V.","Natalia L.","Romina P.","Vanina D.","Yanina T.","Lorena M.","Soledad F.","Erica S.","Vanesa G."
 ];
+
+const ARG_CITIES=['Buenos Aires','Rosario','Córdoba','Mendoza','La Plata','Mar del Plata','Tucumán','Salta','Santa Fe','Neuquén','Bahía Blanca','Resistencia','Corrientes','Posadas'];
+const COLORS=['#e74c3c','#9b59b6','#2471a3','#16a085','#d35400','#c0392b','#0e6655','#7d3c98','#b7950b','#1abc9c','#e67e22','#8e44ad','#2980b9','#27ae60'];
+const EMOJIS=['👨','👩','🧔','👱‍♀️','🧑','💁‍♀️','🧑‍💼','👩‍🦰','👴','👩‍🦱','👩‍🦳','🧑‍🦲','🤵','👰'];
+
+const ALL_PLAYERS=ARG_NAMES.map((name,i)=>{
+  const styleKeys=Object.keys(BOT_STYLES);
+  const styleKey=styleKeys[i%styleKeys.length];
+  const style=BOT_STYLES[styleKey];
+  return {
+    name,
+    emoji:EMOJIS[i%EMOJIS.length],
+    col:COLORS[i%COLORS.length],
+    style:styleKey,
+    city:ARG_CITIES[i%ARG_CITIES.length],
+    ...style
+  };
+});
+
 
 // ══ MOTOR DE VENTAJA DE LA CASA ══════════════════════════════════
 // Cuanto más apuesta el jugador, mayor la probabilidad de perder (efecto casino)
@@ -1561,6 +1590,8 @@ async function generateTables(){
   // Limpiar intervalo anterior — evita mesas zombie en el lobby
   if(_lobbyInterval){clearInterval(_lobbyInterval);_lobbyInterval=null;}
 
+  const usedBotNames = new Set();
+
   // Intentar cargar mesas de la DB si estamos logueados
   if(PROFILE.userId){
     try {
@@ -1621,7 +1652,9 @@ async function generateTables(){
     else{occ=Math.max(1,rnd(1,Math.max(1,mx-1)));st='open';}
     occ=Math.min(occ,mx);
 
-    const pl=[...ALL_PLAYERS].sort(()=>Math.random()-.5).slice(0,occ);
+    const availableBots = ALL_PLAYERS.filter(p => !usedBotNames.has(p.name));
+    const pl = availableBots.sort(()=>Math.random()-.5).slice(0,occ);
+    pl.forEach(p => usedBotNames.add(p.name));
 
     // Pozo exacto para mesas abiertas: solo lo que pagaron los presentes
     // Pozo acumulado para mesas en juego: base + ganancia del casino por manos
