@@ -11,8 +11,8 @@ Deno.serve(async (req) => {
     const { userId, username, amount, successUrl, failureUrl } = await req.json();
     const numericAmount = Number(amount);
     if (!userId || !username) return jsonResponse({ error: "Usuario inválido" }, 400);
-    if (!Number.isFinite(numericAmount) || numericAmount < 1000) {
-      return jsonResponse({ error: "Monto mínimo de recarga: $1000" }, 400);
+    if (!Number.isFinite(numericAmount) || numericAmount < 5000) {
+      return jsonResponse({ error: "Monto mínimo de recarga: $5000" }, 400);
     }
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
