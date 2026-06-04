@@ -800,14 +800,14 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
       <div class="chip call" onclick="goAllIn()">ALL<br>IN</div>
     </div>
     <div class="bet-row">
-      <div class="bet-ctrl-btn" onclick="halfBet()">Â½</div>
+      <div class="bet-ctrl-btn" onclick="halfBet()">½</div>
       <div class="bet-display"><div class="bd-lbl">APUESTA</div><div class="bd-amt" id="bdv">$0</div></div>
-      <div class="bet-ctrl-btn" onclick="doubleBet()">Ã—2</div>
+      <div class="bet-ctrl-btn" onclick="doubleBet()">×2</div>
     </div>
     <div class="action-row">
       <div class="abtn abtn-clr" onclick="clearBet()">Borrar</div>
-      <div class="abtn abtn-paso" onclick="passTurn()" title="Pasar sin apostar (-$25)">âŠ˜ Paso<br><span style="font-size:8px;opacity:.7">-$25</span></div>
-      <div class="abtn abtn-bet" onclick="confirmBet()">âœ¦ Apostar</div>
+      <div class="abtn abtn-paso" onclick="passTurn()" title="Pasar sin apostar (-$25)">⊘ Paso<br><span style="font-size:8px;opacity:.7">-$25</span></div>
+      <div class="abtn abtn-bet" onclick="confirmBet()">✧ Apostar</div>
     </div>
     <div class="cd-wrap">
       <div class="cd-label">CONFIRMANDO EN <span id="cd-count">10</span>s</div>
@@ -826,48 +826,48 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   <!-- End overlay -->
   <div id="end-overlay">
     <div class="end-card">
-      <div class="end-icon" id="ei">ðŸ†</div>
+      <div class="end-icon" id="ei">🏆</div>
       <div class="end-title" id="et">FIN</div>
       <div class="end-stats" id="es"></div>
       <div class="end-btns">
-        <button id="end-main-btn" class="ebtn ebtn-main" onclick="restartAtTable()">â†º Otra mano</button>
-        <button id="end-reload-btn" class="ebtn ebtn-reload" style="display:none" onclick="doReload()">ðŸ’³ Recargar Saldo</button>
-        <button class="ebtn ebtn-leave" onclick="leaveTable()">â† Volver al lobby</button>
+        <button id="end-main-btn" class="ebtn ebtn-main" onclick="restartAtTable()">↺ Otra mano</button>
+        <button id="end-reload-btn" class="ebtn ebtn-reload" style="display:none" onclick="doReload()">💳 Recargar Saldo</button>
+        <button class="ebtn ebtn-leave" onclick="leaveTable()">← Volver al lobby</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- â•â• MODAL ENTRADA â•â• -->
+<!-- ═ MODAL ENTRADA ═ -->
 <div id="modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
-    <div class="modal-title">ðŸ’³ Confirmar Entrada</div>
+    <div class="modal-title">💳 Confirmar Entrada</div>
     <div class="modal-sub">Mínimo de recarga: $5.000</div>
     <div class="modal-info">
-      <div class="mi-row"><span class="mi-lbl">Mesa</span><span class="mi-val" id="mi-name">â€”</span></div>
-      <div class="mi-row"><span class="mi-lbl">Entrada al pozo</span><span class="mi-val mi-red" id="mi-cost">â€”</span></div>
-      <div class="mi-row"><span class="mi-lbl">Tu saldo</span><span class="mi-val" id="mi-bal">â€”</span></div>
-      <div class="mi-row"><span class="mi-lbl">Saldo despuÃ©s</span><span class="mi-val" id="mi-after">â€”</span></div>
+      <div class="mi-row"><span class="mi-lbl">Mesa</span><span class="mi-val" id="mi-name">—</span></div>
+      <div class="mi-row"><span class="mi-lbl">Entrada al pozo</span><span class="mi-val mi-red" id="mi-cost">—</span></div>
+      <div class="mi-row"><span class="mi-lbl">Tu saldo</span><span class="mi-val" id="mi-bal">—</span></div>
+      <div class="mi-row"><span class="mi-lbl">Saldo después</span><span class="mi-val" id="mi-after">—</span></div>
     </div>
     <div id="mi-insuf">Saldo insuficiente para unirte a esta mesa</div>
     <div class="modal-btns">
       <button class="mbt mbt-no" onclick="closeModal()">Cancelar</button>
-      <button class="mbt mbt-ok" id="mi-confirm" onclick="confirmJoin()">âœ¦ Confirmar</button>
+      <button class="mbt mbt-ok" id="mi-confirm" onclick="confirmJoin()">✧ Confirmar</button>
     </div>
   </div>
 </div>
 
-<!-- â•â• STATS DRAWER â•â• -->
+<!-- ═ STATS DRAWER ═ -->
 <div id="stats-drawer" onclick="if(event.target===this)closeStats()">
   <div class="stats-sheet">
     <div class="ss-handle"></div>
-    <div class="ss-title">ðŸ“Š EstadÃ­sticas de SesiÃ³n</div>
+    <div class="ss-title">📊 Estadísticas de Sesión</div>
     <div class="stats-grid">
       <div class="sbox"><div class="sbox-l">Ganadas</div><div class="sbox-v g" id="st-w">0</div></div>
       <div class="sbox"><div class="sbox-l">Perdidas</div><div class="sbox-v r" id="st-l">0</div></div>
       <div class="sbox"><div class="sbox-l">Empates</div><div class="sbox-v" id="st-t">0</div></div>
-      <div class="sbox"><div class="sbox-l">% Acierto</div><div class="sbox-v" id="st-pct">â€”</div></div>
+      <div class="sbox"><div class="sbox-l">% Acierto</div><div class="sbox-v" id="st-pct">—</div></div>
       <div class="sbox"><div class="sbox-l">Mejor mano</div><div class="sbox-v g" id="st-best">$0</div></div>
       <div id="st-net" style="display:none"></div>
     </div>
@@ -881,7 +881,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 // â•â• CONSTANTES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 const SUITS=['so','co','es','ba'];
 const SNAME={so:'Oros',co:'Copas',es:'Espadas',ba:'Bastos'};
-const SYM={so:'âŠ›',co:'â™¥',es:'âš”',ba:'â™£'};
+const SYM={so:'♦',co:'♥',es:'⚔',ba:'♣'};
 const VALS=[1,2,3,4,5,6,7,10,11,12];
 const VL={1:'A',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',10:'S',11:'C',12:'R'};
 const VN={1:'As',2:'Dos',3:'Tres',4:'Cuatro',5:'Cinco',6:'Seis',7:'Siete',10:'Sota',11:'Caballo',12:'Rey'};
@@ -1774,7 +1774,7 @@ function showScreen(id){
 function mapToDbSuit(s){ return {so:'o',co:'c',es:'e',ba:'b'}[s] || 'o'; }
 function mapToDbVal(v){ return {1:'A',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',10:'J',11:'Q',12:'K'}[v] || 'A'; }
 
-// â•â• INICIAR JUEGO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════ INICIAR JUEGO ═══════════════════════════════════════════════════════════════
 async function startGame(tableData,spectate){
   isSpec=spectate;
   HOUSE.consecLoss=0;HOUSE.sessionBet=0;HOUSE.hands=0;
@@ -1782,7 +1782,7 @@ async function startGame(tableData,spectate){
   if(cpu.length<2){const ex=ALL_PLAYERS.filter(p=>!cpu.find(x=>x.name===p.name)).sort(()=>Math.random()-.5);while(cpu.length<2)cpu.push(ex.shift());}
   const potBase=Math.max(tableData.pot||0,tableData.buyIn*(cpu.length+1),MIN_POT);
   const players=[];
-  if(!spectate)players.push({name:'TÃº',emoji:'â­',col:'#c9a84c',you:true,style:'balanced',thinkMin:0,thinkMax:0,bal:playerBal,wins:0,losses:0,ties:0,asientoId:tableData.asientoId});
+  if(!spectate)players.push({name:'Tú',emoji:'⭐',col:'#c9a84c',you:true,style:'balanced',thinkMin:0,thinkMax:0,bal:playerBal,wins:0,losses:0,ties:0,asientoId:tableData.asientoId});
   
   // Registrar bots en DB para tener asientoId y poder guardar apuestas
   if(tableData.dbId && PROFILE.userId) {
@@ -1813,11 +1813,11 @@ async function startGame(tableData,spectate){
   document.getElementById('end-overlay').classList.remove('show');
   document.getElementById('hlog').innerHTML='';
   document.getElementById('spec-bar').style.display=spectate?'block':'none';
-  document.getElementById('spec-bar-txt').textContent='Observando '+tableData.name+' â€” solo mirÃ¡s';
+  document.getElementById('spec-bar-txt').textContent='Observando '+tableData.name+' — solo mirás';
   document.getElementById('stats-fab').style.display=spectate?'none':'flex';
   document.getElementById('end-main-btn').style.display=spectate?'none':'';
   buildPlayers();clearFelt();updHUD();updPot();
-  setMsg('Mesa '+G.tableName+' â€” Pozo $'+G.pot.toLocaleString('es-AR'),'info');
+  setMsg('Mesa '+G.tableName+' — Pozo $'+G.pot.toLocaleString('es-AR'),'info');
   setTimeout(()=>dealHand(),spectate?600:1200);
 }
 
@@ -1857,25 +1857,25 @@ function _applyReload(amount){
   if(G.yourBal!==undefined){G.yourBal=playerBal;const yp=G.players.find(p=>p.you);if(yp)yp.bal=playerBal;}
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   const gb=document.getElementById('gtb-bal');if(gb)gb.textContent='$'+playerBal.toLocaleString('es-AR');
-  setMsg('+$'+amount.toLocaleString('es-AR')+' recargado â€” Â¡SeguÃ­!','info');
+  setMsg('+$'+amount.toLocaleString('es-AR')+' recargado — ¡Seguí!','info');
   closeWallet();
   if(G.phase==='idle'||!G.phase){setTimeout(()=>{if(G.phase==='idle')dealHand();},800);}
 }
 function _applyWithdraw(amount){
-  if(amount<MIN_WITHDRAW){alert(`MÃ­nimo de retiro: $${MIN_WITHDRAW.toLocaleString('es-AR')}`);return;}
+  if(amount<MIN_WITHDRAW){alert(`Mínimo de retiro: $${MIN_WITHDRAW.toLocaleString('es-AR')}`);return;}
   if(amount>playerBal){alert('Saldo insuficiente');return;}
-  if(!isProfileComplete()){alert('CompletÃ¡ tu perfil antes de retirar');openProfile();return;}
+  if(!isProfileComplete()){alert('Completá tu perfil antes de retirar');openProfile();return;}
   playerBal-=amount;
   galioPayWithdraw(amount);
   PROFILE.bal=playerBal;saveProfile();
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   const gb=document.getElementById('gtb-bal');if(gb)gb.textContent='$'+playerBal.toLocaleString('es-AR');
-  setMsg('-$'+amount.toLocaleString('es-AR')+' retiro enviado vÃ­a Galio Pay','info');
+  setMsg('-$'+amount.toLocaleString('es-AR')+' retiro enviado vía Galio Pay','info');
   closeWallet();
 }
 
 
-// â•â• RENDER JUGADORES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ════ RENDER JUGADORES ═════════════════════════════════════════════════════════════
 function buildPlayers(){
   const row=document.getElementById('players-row');row.innerHTML='';
   G.players.forEach((p,i)=>{
@@ -1888,7 +1888,7 @@ function buildPlayers(){
         <div class="online-dot" style="background:${dotColor}"></div>
       </div>
       <div class="seat-name">${p.name}</div>
-      ${p.city?`<div class="seat-city">ðŸ“ ${p.city}</div>`:''}
+      ${p.city?`<div class="seat-city">📍 ${p.city}</div>`:''}
       <div class="seat-bal-row">$<b id="sbal-${i}">${p.bal.toLocaleString('es-AR')}</b></div>
       <div class="seat-state-tag sst-wait" id="sst-${i}">Esperando</div>
       <div class="seat-cards" id="scd-${i}"></div>
@@ -2495,15 +2495,15 @@ function addHlog(who,c3,res,amt){
   const d=document.createElement('div');
   if(res==='reload'){
     d.className='hi';
-    d.innerHTML=`<span class="hi-who">${who}</span><span class="hi-card" style="color:rgba(255,255,255,.4)">ðŸ§ recarga</span><span class="hi-res" style="color:#3498db">+$${(amt||0).toLocaleString('es-AR')}</span>`;
+    d.innerHTML=`<span class="hi-who">${who}</span><span class="hi-card" style="color:rgba(255,255,255,.4)">🏦 recarga</span><span class="hi-res" style="color:#3498db">+$${(amt||0).toLocaleString('es-AR')}</span>`;
     l.insertBefore(d,l.firstChild);while(l.children.length>30)l.removeChild(l.lastChild);
     return;
   }
   d.className='hi hi-'+res;
   const cls=res==='win'?'hw':res==='lose'?'hl':'ht';
-  const ic=res==='win'?'âœ”':res==='lose'?'âœ˜':'â•';
-  const at=res==='win'?`+$${amt.toLocaleString('es-AR')}`:res==='lose'?`-$${amt.toLocaleString('es-AR')}`:'Â±0';
-  const cardTxt=(!c3||c3.v===0)?'â€” sin carta â€”':`${VN[c3.v]||'?'} ${SYM[c3.s]||''}`;
+  const ic=res==='win'?'✔':res==='lose'?'✘':'═';
+  const at=res==='win'?`+$${amt.toLocaleString('es-AR')}`:res==='lose'?`-$${amt.toLocaleString('es-AR')}`:'±0';
+  const cardTxt=(!c3||c3.v===0)?'— sin carta —':`${VN[c3.v]||'?'} ${SYM[c3.s]||''}`;
   d.innerHTML=`<span class="hi-who">${who}</span><span class="hi-card">${cardTxt}</span><span class="hi-res ${cls}">${ic} ${at}</span>`;
   l.insertBefore(d,l.firstChild);while(l.children.length>30)l.removeChild(l.lastChild);
 }
