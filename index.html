@@ -706,13 +706,13 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
               onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
           </div>
           <div>
-            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">ALIAS EN EL JUEGO *</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">ALIAS EN EL JUEGO (OPCIONAL)</div>
             <input id="reg-alias" type="text" placeholder="Ej: ElTiburón88" maxlength="20"
               style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
               onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
           </div>
           <div>
-            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">CBU / CVU (retiros)</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">CBU / CVU (OPCIONAL)</div>
             <input id="reg-cbu" type="text" placeholder="22 dígitos" maxlength="22"
               style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
               onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
@@ -1290,18 +1290,32 @@ function mapDbUserToProfile(row,password){
 async function loginWithSupabase(username,password){
   if(!supabaseClient)return null;
   try{
-    const {data,error}=await supabaseClient.rpc('login',{p_username:username,p_password:password});
-    if(error||!data||!data[0]||!data[0].ok)return null;
-    const auth=data[0];
+    // Enviamos todos los parámetros para evitar errores de coincidencia de RPC (400 Bad Request)
+    const {data,error}=await supabaseClient.rpc('login',{
+      p_username: username,
+      p_password: password,
+      p_ip: null,
+      p_ua: navigator.userAgent
+    });
+    // PostgREST devuelve un array para funciones que retornan TABLE
+    const auth = (data && Array.isArray(data)) ? data[0] : data;
+    if(error || !auth || !auth.ok) return null;
+    
     const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:auth.usuario_id});
-    if(profileError||!userRows||!userRows[0])return null;
-    const profile=mapDbUserToProfile(userRows[0],password);
+    const userData = (userRows && Array.isArray(userRows)) ? userRows[0] : userRows;
+    if(profileError || !userData) return null;
+    
+    const profile=mapDbUserToProfile(userData,password);
     if(profile){
       profile.sessionToken=auth.token;
       profile.bal=Number(auth.saldo||profile.bal||0);
+      profile.alias=auth.alias || profile.alias;
     }
     return profile;
-  }catch(e){return null;}
+  }catch(e){
+    console.error('Login error:', e);
+    return null;
+  }
 }
 
 async function registerWithSupabase(profile,plainPassword){
@@ -3465,18 +3479,18 @@ async function doRegister(){
   const err=document.getElementById('auth-reg-err');
 
   if(!name){err.style.display='block';err.textContent='Ingresá tu nombre completo';return;}
-  if(!alias){err.style.display='block';err.textContent='Ingresá un alias para el juego';return;}
   if(!provincia){err.style.display='block';err.textContent='Ingresá tu provincia';return;}
   if(!localidad){err.style.display='block';err.textContent='Ingresá tu localidad';return;}
-  // La recarga se solicita después de crear la cuenta.
+  // El alias y CBU ahora son opcionales.
 
-  // Generar credenciales únicas
-  const creds=genCredentials(alias);
+  // Generar credenciales únicas usando alias o nombre
+  const baseForCreds = alias || name;
+  const creds=genCredentials(baseForCreds);
   // Verificar que no existan
   const all=getAllProfiles();
   let attempts=0;
   while(all[creds.username]&&attempts<10){
-    const c2=genCredentials(alias);creds.username=c2.username;creds.password=c2.password;attempts++;
+    const c2=genCredentials(baseForCreds);creds.username=c2.username;creds.password=c2.password;attempts++;
   }
 
   PROFILE={
