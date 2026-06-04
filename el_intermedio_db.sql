@@ -22,9 +22,9 @@ CREATE TABLE usuarios (
     provincia       VARCHAR(80),
     localidad       VARCHAR(80),
     -- Avatar
-    avatar_type     VARCHAR(10)     NOT NULL DEFAULT 'emoji'
+    avatar_type     VARCHAR(20)     NOT NULL DEFAULT 'emoji'
                         CHECK (avatar_type IN ('emoji','initials','photo')),
-    avatar_emoji    VARCHAR(10)     DEFAULT '🎭',
+    avatar_emoji    VARCHAR(50)     DEFAULT '🎭',
     avatar_iniciales VARCHAR(4),
     avatar_color_idx SMALLINT       DEFAULT 0,
     avatar_photo_url TEXT,                               -- URL o Base64 si se guarda en S3
@@ -103,8 +103,8 @@ CREATE TABLE mesa_asientos (
     usuario_id      UUID            REFERENCES usuarios(id) ON DELETE SET NULL,  -- NULL = bot
     -- Datos denormalizados para bots (no tienen registro en usuarios)
     nombre_display  VARCHAR(60)     NOT NULL,
-    emoji           VARCHAR(10)     DEFAULT '⭐',
-    color_hex       VARCHAR(7)      DEFAULT '#c9a84c',
+    emoji           VARCHAR(50)     DEFAULT '⭐',
+    color_hex       VARCHAR(20)     DEFAULT '#c9a84c',
     tipo            asiento_tipo    NOT NULL DEFAULT 'humano',
     -- Estado en mesa
     saldo_en_mesa   NUMERIC(14,2)   NOT NULL DEFAULT 0,
@@ -240,8 +240,8 @@ CREATE TABLE chat_mesa (
     mesa_id         UUID            NOT NULL REFERENCES mesas(id) ON DELETE CASCADE,
     mano_id         UUID            REFERENCES manos(id) ON DELETE SET NULL,
     autor_nombre    VARCHAR(60)     NOT NULL,
-    autor_emoji     VARCHAR(10),
-    autor_color     VARCHAR(7),
+    autor_emoji     VARCHAR(50),
+    autor_color     VARCHAR(20),
     es_bot          BOOLEAN         NOT NULL DEFAULT FALSE,
     mensaje         TEXT            NOT NULL,
     tipo_mensaje    VARCHAR(20)     DEFAULT 'chat',      -- chat, reaction, ambient, bubble
@@ -325,8 +325,8 @@ CREATE TYPE bot_estilo AS ENUM ('gambler','bold','balanced','cautious');
 CREATE TABLE bots (
     id              UUID            PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre          VARCHAR(60)     NOT NULL,
-    emoji           VARCHAR(10)     NOT NULL,
-    color_hex       VARCHAR(7)      NOT NULL,
+    emoji           VARCHAR(50)     NOT NULL,
+    color_hex       VARCHAR(20)     NOT NULL,
     ciudad          VARCHAR(60),
     estilo          bot_estilo      NOT NULL,
     think_min_ms    INTEGER         NOT NULL DEFAULT 300,
@@ -340,9 +340,9 @@ CREATE TABLE bots (
     chat_tie        JSONB,   -- empate
     chat_big        JSONB,   -- rango amplio
     chat_small      JSONB,   -- rango cerrado
-    react_win       VARCHAR(10),
-    react_lose      VARCHAR(10),
-    react_tie       VARCHAR(10),
+    react_win       VARCHAR(50),
+    react_lose      VARCHAR(50),
+    react_tie       VARCHAR(50),
     activo          BOOLEAN         NOT NULL DEFAULT TRUE
 );
 
@@ -713,6 +713,49 @@ BEGIN
 END;
 $$;
 
+-- ──────────────────────────────────────────────────────────────
+-- F6.1 Cerrar mesa
+-- ──────────────────────────────────────────────────────────────
+CREATE OR REPLACE FUNCTION cerrar_mesa(p_mesa_id UUID)
+RETURNS VOID 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+    UPDATE mesas SET estado = 'closed', cerrada_en = NOW() WHERE id = p_mesa_id;
+    UPDATE mesa_asientos SET activo = FALSE WHERE mesa_id = p_mesa_id;
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION cerrar_mesa(UUID) TO anon, authenticated;
+
+-- ──────────────────────────────────────────────────────────────
+-- F6.2 Agregar bot a mesa
+-- ──────────────────────────────────────────────────────────────
+CREATE OR REPLACE FUNCTION agregar_bot_asiento(
+    p_mesa_id UUID,
+    p_nombre  VARCHAR,
+    p_emoji   VARCHAR,
+    p_color   VARCHAR
+)
+RETURNS TABLE(asiento_id UUID) 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+    v_id UUID;
+BEGIN
+    INSERT INTO mesa_asientos (mesa_id, usuario_id, nombre_display, emoji, color_hex, tipo, saldo_en_mesa)
+    VALUES (p_mesa_id, NULL, p_nombre, p_emoji, p_color, 'bot', 0)
+    RETURNING id INTO v_id;
+    
+    RETURN QUERY SELECT v_id;
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION agregar_bot_asiento(UUID, VARCHAR, VARCHAR, VARCHAR) TO anon, authenticated;
 
 -- ──────────────────────────────────────────────────────────────
 -- F7. Crear mesa
@@ -723,16 +766,23 @@ CREATE OR REPLACE FUNCTION crear_mesa(
     p_buy_in        NUMERIC,
     p_max_asientos  SMALLINT
 )
-RETURNS UUID LANGUAGE plpgsql AS $$
+RETURNS TABLE(mesa_id UUID) 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 DECLARE
     v_id UUID;
 BEGIN
     INSERT INTO mesas (nombre, categoria, buy_in, max_asientos, estado, pozo)
     VALUES (p_nombre, p_categoria, p_buy_in, p_max_asientos, 'open', 0)
     RETURNING id INTO v_id;
-    RETURN v_id;
+    
+    RETURN QUERY SELECT v_id;
 END;
 $$;
+
+GRANT EXECUTE ON FUNCTION crear_mesa(VARCHAR, mesa_categoria, NUMERIC, SMALLINT) TO anon, authenticated;
 
 
 -- ──────────────────────────────────────────────────────────────
@@ -743,7 +793,10 @@ CREATE OR REPLACE FUNCTION unirse_mesa(
     p_mesa_id    UUID
 )
 RETURNS TABLE(ok BOOLEAN, asiento_id UUID, error TEXT)
-LANGUAGE plpgsql AS $$
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 DECLARE
     v_mesa    mesas%ROWTYPE;
     v_user    usuarios%ROWTYPE;
@@ -806,6 +859,8 @@ BEGIN
 END;
 $$;
 
+GRANT EXECUTE ON FUNCTION unirse_mesa(UUID, UUID) TO anon, authenticated;
+
 
 -- ──────────────────────────────────────────────────────────────
 -- F9. Iniciar mano
@@ -819,18 +874,21 @@ CREATE OR REPLACE FUNCTION iniciar_mano(
 )
 RETURNS TABLE(mano_id UUID, numero_mano INTEGER, rango_lo SMALLINT,
               rango_hi SMALLINT, spread SMALLINT)
-LANGUAGE plpgsql AS $$
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 DECLARE
     v_id    UUID;
     v_num   INT;
     -- Valores numéricos de la baraja española (Ases=1, J=8,Q=9,K=10 + 2..7)
-    v_vals  INT[] := ARRAY[1,2,3,4,5,6,7,8,9,10,11,12]; -- placeholder
     v_lo    SMALLINT;
     v_hi    SMALLINT;
     v_sp    SMALLINT;
 BEGIN
-    SELECT COALESCE(MAX(numero_mano), 0) + 1 INTO v_num
-    FROM manos WHERE mesa_id = p_mesa_id;
+    -- Resolvemos ambigüedad usando el nombre de la tabla
+    SELECT COALESCE(MAX(m.numero_mano), 0) + 1 INTO v_num
+    FROM manos m WHERE m.mesa_id = p_mesa_id;
 
     -- Calcular lo/hi/spread según valor de cartas
     -- Mapeamos: A=1,2=2,...,7=7,J=8,Q=9,K=10
@@ -853,14 +911,17 @@ BEGIN
            p_carta1_palo, p_carta1_valor, p_carta2_palo, p_carta2_valor,
            v_lo, v_hi, v_sp, m.pozo
     FROM mesas m WHERE m.id = p_mesa_id
-    RETURNING manos.id INTO v_id;
+    RETURNING id INTO v_id;
 
     UPDATE mesas SET estado = 'playing', ultima_actividad = NOW()
     WHERE id = p_mesa_id;
 
+    -- Usamos alias para el retorno para evitar conflictos con nombres de columnas
     RETURN QUERY SELECT v_id, v_num, v_lo, v_hi, v_sp;
 END;
 $$;
+
+GRANT EXECUTE ON FUNCTION iniciar_mano(UUID, carta_palo, carta_valor, carta_palo, carta_valor) TO anon, authenticated;
 
 
 -- ──────────────────────────────────────────────────────────────
@@ -877,7 +938,10 @@ CREATE OR REPLACE FUNCTION registrar_apuesta(
     p_resultado         resultado_apuesta
 )
 RETURNS TABLE(ok BOOLEAN, ganancia_neta NUMERIC, saldo_nuevo NUMERIC)
-LANGUAGE plpgsql AS $$
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 DECLARE
     v_mano      manos%ROWTYPE;
     v_saldo_ant NUMERIC;
@@ -887,6 +951,19 @@ DECLARE
 BEGIN
     SELECT * INTO v_mano FROM manos WHERE id = p_mano_id;
     IF NOT FOUND THEN RETURN QUERY SELECT FALSE, NULL::NUMERIC, NULL::NUMERIC; RETURN; END IF;
+
+    -- Intentar recuperar asiento_id si viene nulo pero tenemos usuario_id
+    IF p_asiento_id IS NULL AND p_usuario_id IS NOT NULL THEN
+        SELECT id INTO p_asiento_id FROM mesa_asientos 
+        WHERE mesa_id = v_mano.mesa_id AND usuario_id = p_usuario_id AND activo = TRUE 
+        LIMIT 1;
+    END IF;
+
+    -- Si sigue siendo nulo y es humano, error (o bot sin asiento)
+    IF p_asiento_id IS NULL THEN
+        RETURN QUERY SELECT FALSE, NULL::NUMERIC, NULL::NUMERIC;
+        RETURN;
+    END IF;
 
     -- Saldo actual del jugador humano
     IF NOT p_es_bot AND p_usuario_id IS NOT NULL THEN
@@ -900,7 +977,7 @@ BEGIN
         WHEN 'win'  THEN v_ganancia :=  p_monto;   -- recupera apuesta + igual
         WHEN 'lose' THEN v_ganancia := -p_monto;
         WHEN 'tie'  THEN v_ganancia :=  0;
-        WHEN 'pass' THEN v_ganancia :=  0;
+        WHEN 'pass' THEN v_ganancia := -p_monto;   -- penalización por paso
     END CASE;
 
     v_saldo_nue := v_saldo_ant + v_ganancia;
@@ -917,7 +994,7 @@ BEGIN
                                  mesa_id, mano_id, descripcion)
         VALUES (
             p_usuario_id,
-            CASE p_resultado WHEN 'win' THEN 'ganancia' ELSE 'apuesta' END,
+            CASE p_resultado WHEN 'win' THEN 'ganancia'::movimiento_tipo ELSE 'apuesta'::movimiento_tipo END,
             CASE p_resultado WHEN 'win' THEN v_ganancia ELSE -p_monto END,
             v_saldo_ant, v_saldo_nue,
             v_mano.mesa_id, p_mano_id,
@@ -932,7 +1009,8 @@ BEGIN
 
     -- Actualizar pozo de la mesa
     IF p_resultado = 'win' THEN
-        UPDATE mesas SET pozo = pozo - p_monto WHERE id = v_mano.mesa_id;
+        -- Evitar pozo negativo por si acaso hay desincronización
+        UPDATE mesas SET pozo = GREATEST(0, pozo - p_monto) WHERE id = v_mano.mesa_id;
     ELSIF p_resultado IN ('lose','pass') THEN
         UPDATE mesas SET pozo = pozo + p_monto WHERE id = v_mano.mesa_id;
     END IF;
@@ -952,6 +1030,8 @@ BEGIN
 END;
 $$;
 
+GRANT EXECUTE ON FUNCTION registrar_apuesta(UUID, UUID, UUID, BOOLEAN, NUMERIC, carta_palo, carta_valor, resultado_apuesta) TO anon, authenticated;
+
 
 -- ──────────────────────────────────────────────────────────────
 -- F11. Finalizar mano
@@ -963,7 +1043,11 @@ CREATE OR REPLACE FUNCTION finalizar_mano(
     p_ganador_nombre    VARCHAR,
     p_ganador_tipo      asiento_tipo
 )
-RETURNS VOID LANGUAGE plpgsql AS $$
+RETURNS VOID 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = public
+AS $$
 DECLARE
     v_mesa_id UUID;
 BEGIN
@@ -983,6 +1067,8 @@ BEGIN
     WHERE id = v_mesa_id;
 END;
 $$;
+
+GRANT EXECUTE ON FUNCTION finalizar_mano(UUID, carta_palo, carta_valor, VARCHAR, asiento_tipo) TO anon, authenticated;
 
 
 -- ──────────────────────────────────────────────────────────────
