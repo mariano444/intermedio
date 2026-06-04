@@ -1741,7 +1741,7 @@ async function confirmJoin(){
           p_buy_in: t.buyIn,
           p_max_asientos: t.maxSeats
         });
-        if(!mesaErr && newMesaId) t.dbId = newMesaId;
+        if(!mesaErr && newMesaId && newMesaId[0]) t.dbId = newMesaId[0].mesa_id;
       }
 
       const {data, error} = await supabaseClient.rpc('unirse_mesa', {
