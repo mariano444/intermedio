@@ -1048,60 +1048,430 @@ const TABLE_NAMES=['Salón Dorado','Mesa Roja','El Corralón','La Imperial','Sal
 // ════ JUGADORES CON PERSONALIDAD COMPLETA ════════════════════════
 const BOT_STYLES={
   bold:{
-    thinkMin:500,thinkMax:1100,
+    thinkMin:400,thinkMax:900,
     trait:'Impulsivo — nunca duda cuando el rango es amplio',
     chat:{
-      think:['Veamos...','Esto pinta bien...','¿Cuánto arriesgo?','A ver qué sale de acá','Mmm, interesante'],
-      bet:['¡Va todo!','Con ganas.','No me tiembla la mano.','Subo la apuesta','¡Adentro!'],
-      win:['¡eso es!','¡Sabía que entraba!','¡Sigo en racha!','Viene para casa','¡Toma ya!'],
-      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta','Qué mala liga'],
-      tie:['Casi...','Al menos no perdí.','Empate, zafé','Podría haber sido peor'],
-      big:['¡Con este rango no fallo!','¡Esto es un regalo!','Acá no hay dudas','Regalado'],
-      small:['Riesgo total...','Igual voy.','Me la juego','A ver si sale']
+      think:[
+        'Mmmm, vamos a ver...',
+        'Acá hay plata para sacar.',
+        'No me hago el vivo, pero esto pinta bien.',
+        'Dame un segundo... sí, voy.',
+        'Esto lo conozco de memoria.',
+        'A ver si la suerte acompaña hoy.',
+        'Rango interesante, ¿cuánto meto?'
+      ],
+      bet:[
+        '¡Va todo, no me tiembla la mano!',
+        'Fuerte y claro.',
+        'Con esto me quedo con el pozo.',
+        '¡Metele que sale!',
+        'No me guardo nada.',
+        '¡Adentro, sin vueltas!',
+        'El que no arriesga no gana, ¿no?'
+      ],
+      win:[
+        '¡Sabía que salía! ¡Pago la vuelta!',
+        '¡Eso es! ¡Sigo en racha!',
+        'La carta entró justa, pero entró.',
+        '¡Viene para casa! ¿Quién para esta racha?',
+        '¡Toma, toma! Bien ganado.',
+        'Yo sabía. Lo venía sintiendo.',
+        '¡Fiesta! El pozo es mío.'
+      ],
+      lose:[
+        'Ugh, me clavó la carta.',
+        'No puede ser, la tenía calculada...',
+        'Qué mala liga, justo ahí.',
+        'Me pegó donde duele, pero vuelvo.',
+        'Esa carta me mató... La próxima es mía.',
+        'Naaaa, ¿en serio? Justo esa.',
+        '*golpea la mesa* Seguimos.'
+      ],
+      tie:[
+        'Empate... zafé por un pelo.',
+        'Al menos no perdí nada importante.',
+        'Eso me lo firmo cualquier día.',
+        '¿Empate? Raro esto, pero bueno.',
+        'Casi, casi... la próxima entra.'
+      ],
+      big:[
+        '¡Con este rango no hay dónde perderse!',
+        '¡Esto es un regalo del cielo!',
+        '¡Acá no pienso dos veces, va todo!',
+        'Rango así de amplio... ¡eso se aprovecha!',
+        '¡Están servidas las fichas!'
+      ],
+      small:[
+        'Rango cerrado pero igual me la juego.',
+        'Con poco margen, doble o nada.',
+        'El riesgo es parte del juego.',
+        'Poco rango... igual le entro.',
+        'No me bajo por un rango apretado.'
+      ],
+      reload:[
+        'Acá meto más plata y sigo.',
+        'El saldo bajo no me detiene.',
+        'Recargo y vuelvo con todo.',
+        'No me voy de acá sin ganar.',
+        '¡Recargo y a otra!'
+      ]
     },
     reacts:{win:'🎉',lose:'😤',tie:'😐'}
   },
   cautious:{
-    thinkMin:1800,thinkMax:3500,
-    trait:'Analítica — piensa mucho antes de apostar',
+    thinkMin:2000,thinkMax:4000,
+    trait:'Analítica — calcula cada peso antes de moverlo',
     chat:{
-      think:['Déjame calcular...','Analizando odds...','¿Cuánto hay en el pozo?','Viendo las chances','Un momento...'],
-      bet:['Apuesto con cuidado.','Solo lo que conviene.','Con cabeza.','Poco pero seguro','Calculado'],
-      win:['Lo sabía.','La matemática no falla.','Exacto como calculé.','Salió como esperaba','Controlado'],
-      lose:['No esperaba eso.','Ajustaré la estrategia.','El azar es cruel.','Varianza negativa','Inesperado'],
-      tie:['Dentro de mis cálculos.','Empate aceptable.','Neutral','Sin cambios'],
-      big:['Probabilidad a favor.','Las chances son buenas.','Buen margen','Margen aceptable'],
-      small:['Muy arriesgado para mí.','Las odds no me convencen.','Demasiado fino','Poco margen']
+      think:[
+        'A ver, ¿cuánto hay en el pozo?',
+        'Déjame ver bien las cartas...',
+        'Calculando la probabilidad...',
+        'No me apuro, esto requiere análisis.',
+        'Hmm, el margen es lo que importa acá.',
+        '¿Vale la pena con este rango?',
+        'Un momento, estoy viendo las chances.'
+      ],
+      bet:[
+        'Apuesto lo que conviene, no más.',
+        'Con cuidado, pero voy.',
+        'Poco pero seguro. Así funciono yo.',
+        'Medido. Nada de locuras.',
+        'Apuesta controlada.',
+        'La matemática dice que voy.',
+        'Solo lo razonable, gracias.'
+      ],
+      win:[
+        'Salió como calculé. La matemática no miente.',
+        'Dentro de lo esperado. Bien.',
+        'Exactamente como lo vi.',
+        'Así se hace: con cabeza, se gana.',
+        'Sin apuros. Sin improvisación.',
+        'La paciencia tiene su recompensa.',
+        'Calculé bien. Sin sorpresas.'
+      ],
+      lose:[
+        'Varianza negativa. Sucede.',
+        'No lo esperaba, pero ajusto la estrategia.',
+        'El azar tiene sus caprichos.',
+        'Pérdida dentro del rango tolerable.',
+        'Mmm. Algo falló en mi análisis.',
+        'Inesperado. Analizo qué salió mal.',
+        'Una mano no define nada. Sigo.'
+      ],
+      tie:[
+        'Empate técnico. Aceptable.',
+        'Neutral. Sin pérdidas, sin ganancias.',
+        'Dentro de mis cálculos, esto entra.',
+        'El empate a veces es victoria.',
+        'Manejable. Sigo.'
+      ],
+      big:[
+        'Las probabilidades están claramente a favor.',
+        'Margen amplio. Esto tiene buena pinta.',
+        'Con este rango, el riesgo está controlado.',
+        'Condiciones favorables. Voy con más.',
+        'Buen spread. Apuesto con convicción.'
+      ],
+      small:[
+        'Las odds no me convencen del todo.',
+        'Rango muy fino. Cuidado acá.',
+        'Con poco margen, apuesto poco.',
+        'El riesgo no justifica la ganancia.',
+        'Paso con prudencia.'
+      ],
+      reload:[
+        'Recargo con lo necesario para seguir siendo competitivo.',
+        'Fondos reabastecidos. Continúo con el análisis.',
+        'Una recarga calculada.',
+        'Meto lo justo para seguir jugando bien.',
+        'Recargo y no cambio mi estrategia.'
+      ]
     },
     reacts:{win:'😊',lose:'😟',tie:'😶'}
   },
   balanced:{
-    thinkMin:800,thinkMax:1800,
-    trait:'Veterano — 20 años en el juego',
+    thinkMin:900,thinkMax:2000,
+    trait:'Veterano — lleva años en estas mesas',
     chat:{
-      think:['Hmm...','Ya vi esto antes.','Conozco este juego.','Interesante mano','Veamos qué pasa'],
-      bet:['Apuesta clásica.','Así se juega.','Lo de siempre.','Lo que corresponde','Firme'],
-      win:['Como siempre.','20 años de práctica.','Así se hace.','Gané bien','Sin sorpresas'],
-      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa','Otra vez será'],
-      tie:['Un empate honesto.','Sigue el juego.','Empate técnico','Seguimos'],
-      big:['Rango favorable.','Hay que aprovecharlo.','Buena oportunidad','Momento justo'],
-      small:['Mala mano.','Hay que jugar igual.','Poca cosa','Difícil esta']
+      think:[
+        'Ya vi esto cien veces...',
+        'El juego siempre vuelve a equilibrarse.',
+        'Hmm, ¿qué haría yo acá hace diez años?',
+        'Veamos qué nos manda el mazo.',
+        'Conozco este juego como la palma de mi mano.',
+        'Mano interesante. Voy despacio.',
+        'Años de mesa me dicen que espere.'
+      ],
+      bet:[
+        'Apuesta clásica. Lo de siempre.',
+        'Firme. Ni mucho ni poco.',
+        'Así se juega bien: con criterio.',
+        'Lo que corresponde para esta mano.',
+        'Con experiencia no se improvisa.',
+        'Directito. Sin vueltas.',
+        'La apuesta exacta para este momento.'
+      ],
+      win:[
+        'Como siempre. La experiencia no miente.',
+        'Veinte años de práctica, amigos.',
+        'La carta entró donde tenía que entrar.',
+        'Sin sorpresas para el que sabe.',
+        'Así se hace. Calma y puntería.',
+        'El veterano cobra.',
+        'Bien ganado. Lo merezco.'
+      ],
+      lose:[
+        'Sucede. Parte del juego.',
+        'No hay racha que no tenga sus tropiezos.',
+        'Me repongo. Siempre me repuse.',
+        'A veces la carta no acompaña. La vida.',
+        'Otra vez será. No es la primera.',
+        'El juego me debe una. Ya la cobro.',
+        'Pérdida. La proceso y sigo.'
+      ],
+      tie:[
+        'Un empate honesto. Acepto.',
+        'Sigue el juego. Sin dramas.',
+        'El empate a veces es sabiduría.',
+        'Técnicamente, zafé.',
+        'Seguimos. Larga noche todavía.'
+      ],
+      big:[
+        'Rango así... hay que aprovecharlo.',
+        'La mesa está generosa hoy.',
+        'Esto es lo que esperaba. Voy fuerte.',
+        'Buena oportunidad. No la dejo pasar.',
+        'El veterano reconoce una buena mano.'
+      ],
+      small:[
+        'Mano complicada, pero se juega igual.',
+        'Con poco rango, poco riesgo.',
+        'No siempre el juego es fácil.',
+        'Rango apretado. Cautela.',
+        'Esto lo vi mil veces. Igual voy.'
+      ],
+      reload:[
+        'Siempre tengo más para poner sobre la mesa.',
+        'Llevo años recargando y volviendo. Esta es una más.',
+        'El veterano no se rinde.',
+        'Recargo y vuelvo al ruedo.',
+        'Plata va, plata viene. Recargo.'
+      ]
     },
     reacts:{win:'👍',lose:'🤷',tie:'🤝'}
   },
   gambler:{
-    thinkMin:200,thinkMax:600,
-    trait:'Apostadora — se emociona fácil',
+    thinkMin:100,thinkMax:500,
+    trait:'Arriesgada — la adrenalina le gana al cálculo',
     chat:{
-      think:['¡Voy!','¡Dale!','Sin pensar mucho.','¡Ya está!','¡Vamos!'],
-      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Va fuerte!','¡Mandale!'],
-      win:['¡JAJAJA LO SABÍA!','¡Soy la mejor!','¡Imparable!','¡Qué grande!','¡Vamos carajo!'],
-      lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!','¡Qué robo!','¡No te la puedo creer!'],
-      tie:['¡Uf, casi!','¡Revancha!','¡Zafé de una!','¡Casi casi!'],
-      big:['¡Esto es fácil!','¡Apuesto todo!','¡Venga!','¡Fiesta!'],
-      small:['¡Da igual voy igual!','¡El riesgo es lo bueno!','¡No importa nada!','¡Dale que va!']
+      think:[
+        '¡Voy! No necesito pensar más.',
+        '¡Dale! ¿A qué espero?',
+        'La suerte está de mi lado, lo siento.',
+        '¡Ya! ¿Para qué dudar?',
+        '¡Vamos que es pa nosotros!',
+        'Instinto puro. ¡Adentro!',
+        '¡Hoy es mi día, lo sé!'
+      ],
+      bet:[
+        '¡TODO! Sin reservas.',
+        '¡A lo loco, que así se gana!',
+        '¡Ahora o nunca, baby!',
+        '¡Metele con todo! ¡Va fuerte!',
+        '¡All in! ¡Que se arme!',
+        '¡Qué carajo, doblo la apuesta!',
+        '¡Máximo! ¡El pozo es mío!'
+      ],
+      win:[
+        '¡JAJAJAJA LO SABÍA! ¡Soy una bestia!',
+        '¡Imparable! ¿Quién me para?',
+        '¡Soy la reina/el rey de esta mesa!',
+        '¡Qué grande! ¡Pago la vuelta!',
+        '¡Vamos carajo! ¡Otra vuelta!',
+        '¡Esto es lo mejor del mundo!',
+        '¡Nadie me gana cuando estoy en llamas!'
+      ],
+      lose:[
+        '¡¿CÓMO?! ¡No puede ser!',
+        '¡Qué robo! ¡Eso no es justo!',
+        '¡Voy de nuevo! ¡Doblo!',
+        '¡No te la puedo creer! ¡Esa carta!',
+        '¡Nooo! ¡Estaba segura/o de esa!',
+        '¡Maldita carta! ¡Revoooooooo!',
+        '¡Igual sigo! ¡Esto no me detiene!'
+      ],
+      tie:[
+        '¡¿Empate?! ¡Reclamo revancha!',
+        '¡Casi casi! ¡De nuevo!',
+        '¡Zafé de pedo! ¡Siguiente!',
+        '¡Empate no cuenta! ¡Otra mano!',
+        '¡Bueno, no perdí... pero tampoco gané!'
+      ],
+      big:[
+        '¡Con ESTE rango, ¡voy con todo y lo que no es mío también!',
+        '¡Esto es un regalo del universo! ¡TODO!',
+        '¡Rango amplio = apuesta máxima! ¡Simple!',
+        '¡FESTÍN! ¡Hoy cobro yo!',
+        '¡Esto se llama oportunidad y yo la aprovecho!'
+      ],
+      small:[
+        '¡Da igual! ¡El riesgo me carga las pilas!',
+        '¡Rango chico, emoción grande!',
+        '¡Al riesgo le digo sí siempre!',
+        '¡Que venga lo que sea! ¡Voy igual!',
+        '¡Más difícil = más emocionante!'
+      ],
+      reload:[
+        '¡Recargo y vuelvo con todo el doble!',
+        '¡Un poco de plata no me frena!',
+        '¡El saldo bajo es solo un obstáculo!',
+        '¡Recargo y a ganar se ha dicho!',
+        '¡El que se queda sin plata recarga y vuelve!'
+      ]
     },
     reacts:{win:'🤑',lose:'😱',tie:'😏'}
+  },
+  shark:{
+    thinkMin:600,thinkMax:1400,
+    trait:'Tiburón — frío, calculador, sin piedad',
+    chat:{
+      think:[
+        '...',
+        'Viendo el pozo.',
+        'Evaluando.',
+        'Cálculo en proceso.',
+        'Observando patrones.',
+        'Mmm.',
+        'El rango habla por sí solo.'
+      ],
+      bet:[
+        'Apuesta exacta.',
+        'Ni un peso de más, ni uno de menos.',
+        'Preciso.',
+        'El monto correcto.',
+        'Sin desperdiciar.',
+        'Apuesta quirúrgica.',
+        'Lo necesario para ganar.'
+      ],
+      win:[
+        'Predecible.',
+        'Era el resultado esperado.',
+        'El pozo sigue creciendo.',
+        'Correcto.',
+        'Sin sorpresas.',
+        'Lo calculé bien.',
+        'Sigo acumulando.'
+      ],
+      lose:[
+        'Una pérdida calculada.',
+        'Dentro del margen aceptable.',
+        'Estadísticamente normal.',
+        'Ajusto y sigo.',
+        'No cambia el panorama.',
+        'Ruido de corto plazo.',
+        'Irrelevante a largo plazo.'
+      ],
+      tie:[
+        'Neutro.',
+        'Sin impacto.',
+        'Sigue la jugada.',
+        'Empate. Próxima.',
+        'Acepto el resultado.'
+      ],
+      big:[
+        'Rango óptimo. Maximizo.',
+        'Las condiciones son favorables. Apuesto.',
+        'Aprovecho el spread.',
+        'Mano perfecta para sacar ventaja.',
+        'Momento de presionar.'
+      ],
+      small:[
+        'Riesgo alto, apuesta mínima.',
+        'No vale la pena sobreexponer.',
+        'Apuesta defensiva.',
+        'Margen insuficiente para arriesgar.',
+        'Paso estratégico.'
+      ],
+      reload:[
+        'Recargo.',
+        'Fondos reabastecidos.',
+        'Capital repuesto.',
+        'Sigo en el juego.',
+        'Recarga ejecutada.'
+      ]
+    },
+    reacts:{win:'😈',lose:'😑',tie:'🔄'}
+  },
+  charlatán:{
+    thinkMin:1200,thinkMax:2800,
+    trait:'El cuentero — siempre tiene una historia',
+    chat:{
+      think:[
+        'Mirá, te cuento que la semana pasada gané un pozo así...',
+        'Esto me recuerda a una vez en Mar del Plata...',
+        'Esperate, déjame ver... sí, justo como aquella vez.',
+        'Uy, esto es igual a cuando le gané a Cacho...',
+        'Una vez un viejo me enseñó: cuando el rango es así...',
+        'Mi cuñado dice que la clave es no apurarse.',
+        'Sabés qué, el año pasado en estas mismas cartas...'
+      ],
+      bet:[
+        'Mi viejo decía: apostá lo que no te duela perder. Así que meto bastante.',
+        'Te juro que tengo pálpito. Va esto.',
+        'Instinto de jugador. Llevo años en esto.',
+        'Ya gané con peores cartas. Va.',
+        'Un amigo mío apuesta siempre el doble. Hoy lo sigo.',
+        'Apuesto lo mismo que la última vez que gané.',
+        'El corazón dice que va. Le hago caso.'
+      ],
+      win:[
+        '¿Ves? ¡Te dije! ¡El pálpito no me falla nunca!',
+        '¡Como aquella vez! ¡Idéntico!',
+        '¡Ja! Mi suegra no me creería esto.',
+        '¡Años de experiencia, amigos!',
+        '¡Esto lo cuento en el asado del domingo!',
+        '¡El instinto nunca miente!',
+        '¡Yo lo sentía! ¡Lo venía sintiendo desde el principio!'
+      ],
+      lose:[
+        'Uy... como en Córdoba aquel verano. Mal recuerdo.',
+        'No pasa nada, la racha vuelve. Siempre vuelve.',
+        'Mi tío decía: después de tres pérdidas viene el premio.',
+        'Bueno, el que no pierde no aprende nada.',
+        'El año pasado me pasó igual y al final terminé ganando.',
+        'Qué raro, tenía pálpito seguro en esta...',
+        'Erré el cálculo. Pasa hasta en las mejores familias.'
+      ],
+      tie:[
+        'Empate. Como cuando jugué contra mi primo en Navidad.',
+        'Ni ganamos ni perdemos. Mi abuela diría que es señal de algo.',
+        '¿Empate? En veinte años me pasó tres veces. Curioso.',
+        'Ni fu ni fa. La próxima seguro que sí.',
+        'Empate, como en la final que no quiero recordar.'
+      ],
+      big:[
+        '¡Esto es lo que esperaba! ¡Igual que aquella noche en Rosario!',
+        '¡Rango así de grande no se ve todos los días!',
+        '¡Mi momento favorito del juego! ¡Acá me crezco!',
+        '¡Tremendo rango! ¡Este pozo tiene mi nombre!',
+        '¡Una vez tuve un rango así y gané el doble del pozo!'
+      ],
+      small:[
+        'Ay, rango chico. Como aquella vez que perdí todo con un dos y un tres.',
+        'Difícil esto... pero con fe se puede.',
+        'Mi cuñado dice que los rangos chicos son para los valientes.',
+        'A veces lo difícil tiene su magia. Igual voy.',
+        'Complicado, pero no imposible. Lo vi antes.'
+      ],
+      reload:[
+        '¡Recargo! Total, tengo más donde salió esto.',
+        'Mi viejo decía: el que se va sin plata se va sin dignidad. Recargo.',
+        '¡Otra recarga! Esta mesa me conoce bien.',
+        'Volveré con más. Siempre vuelvo.',
+        'Un rato nomás y ya recargaré. La adrenalina me llama.'
+      ]
+    },
+    reacts:{win:'🎊',lose:'😤',tie:'🤔'}
   }
 };
 
@@ -1614,86 +1984,222 @@ function addChatFeed(p,txt){
 const AMBIENT=[
   {txt:'*revisa el pozo*'},{txt:'*tamborilea los dedos*'},{txt:'*soba las fichas*'},
   {txt:'*suspira*'},{txt:'*mira de reojo*'},{txt:'*cruza los brazos*'},
-  {txt:'*bebe un sorbo*'},{txt:'*mira las cartas de reojo*'},{txt:'*se acomoda en la silla*'},
-  {txt:'*chasquea los dedos*'},{txt:'*se frota las manos*'},{txt:'*mira al costado*'}
-];
-// Mensajes de presión social — los bots "convencen" al jugador de apostar más
-const BOT_PRESSURE=[
-  '¿Poco dinero? Apostá todo y ganá más rápido.',
-  'El que no arriesga no gana. Simple.',
-  'Yo puse el doble y mirá cómo me fue...',
-  'El pozo está ahí para el que se anima.',
-  'No te achiques, el rango está amplio.',
-  'Apuesta chica, ganancia chica. ¿Vale la pena?',
-  'La racha es tuya — ¡aprovechala!',
-  '¿Cuándo vas a animarte a ir en serio?',
-  'Yo que vos metía todo ahora.',
-  'El pozo no espera, ¡metele!',
+  {txt:'*bebe algo*'},{txt:'*mira las cartas de reojo*'},{txt:'*se acomoda en la silla*'},
+  {txt:'*chasquea los dedos*'},{txt:'*se frota las manos*'},{txt:'*mira al costado*'},
+  {txt:'*mueve la silla*'},{txt:'*toca la mesa*'},{txt:'*mira el saldo*'},
+  {txt:'*estira el cuello*'},{txt:'*respira hondo*'},{txt:'*se rasca la cabeza*'}
 ];
 
-// Comentarios contextuales del pozo
+// Presión social contextual — adaptada al spread, pozo y situación del jugador
+function buildPressureMsg(spread, pot, yourBet, yourBal){
+  const maxBet = Math.min(yourBal, pot);
+  const isPotBig = pot >= 15000;
+  const isSpreadWide = spread >= 5;
+  const isBetSmall = yourBet < maxBet * 0.3;
+  const isBetZero = yourBet <= 50;
+
+  // Mensajes según contexto
+  const byContext = {
+    bigPotWideSpread:[
+      '¡Con ese rango y ese pozo no hay excusa para apostar poco!',
+      'Mirá el pozo y mirá el rango. ¿Qué más necesitás para meterte de lleno?',
+      '¡Este es el momento! Rango amplio, pozo gordo. ¡Dale!',
+      'Si no vas con todo ahora, ¿cuándo? Las condiciones son perfectas.',
+      '¡Yo que vos metía todo en este momento!'
+    ],
+    bigPotSmallSpread:[
+      'El pozo es grande pero el rango es trampero. Cuidado...',
+      'Hay mucha plata en juego. ¿Te animás igual con ese rango?',
+      'Pozo tentador con rango difícil. Los valientes se arriesgan igual.',
+      'La plata del pozo no tiene rango chico ni grande. ¿O sí?'
+    ],
+    wideSpread:[
+      '¡Con un rango así, los miedosos pierden plata!',
+      'Ocho cartas de margen... Si no apostás bien con esto, ¿cuándo?',
+      '¡Rango generoso! La mesa está hablando, escuchala.',
+      '¡Estos rangos no se ven todos los días! Aprovechalo.',
+      'Yo en tu lugar metía el doble con ese spread.'
+    ],
+    smallBet:[
+      'Apuesta chica, ganancia chica. ¿Vale la pena?',
+      '¿Tanto saldo y tanta timidez? Metele más.',
+      'Con esa apuesta, aunque ganes, no ganas nada.',
+      '¿Jugás para ganar o para no perder? Hay diferencia.',
+      'El que apuesta de a poco tarda mucho en ganar.'
+    ],
+    zeroBet:[
+      '¿Seguís mirando? El pozo no espera.',
+      '¡El que no apuesta no gana! Básico.',
+      'La mesa está esperando tu decisión.',
+      '¿Vas a dejar pasar esta mano?',
+      'Con $0 apostado, la ganancia también es $0.'
+    ],
+    generic:[
+      'El que no arriesga no gana. Así de simple.',
+      'La racha está de tu lado. Aprovechala.',
+      'Yo que vos confiaba más en mi pálpito.',
+      'El pozo está ahí para el que se anima.',
+      '¿Cuándo vas a animarte a ir en serio?',
+      'Un poco más de coraje, que está para ganar.',
+      'La fortuna favorece a los valientes. Lo dijo alguien inteligente.',
+      'Mirá cuánto hay en ese pozo... ¿no te tienta?'
+    ]
+  };
+
+  let pool;
+  if(isPotBig && isSpreadWide) pool = byContext.bigPotWideSpread;
+  else if(isPotBig && !isSpreadWide) pool = byContext.bigPotSmallSpread;
+  else if(isSpreadWide) pool = byContext.wideSpread;
+  else if(isBetZero) pool = byContext.zeroBet;
+  else if(isBetSmall) pool = byContext.smallBet;
+  else pool = byContext.generic;
+
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// Comentarios contextuales del pozo — más naturales
 function potComment(p){
   const pot=G.pot;
+  const style = p ? p.style : 'balanced';
   if(pot>=100000){
-    const msgs=['¡Pozo histórico!','¡Esto es serio!','¡Jamás vi un pozo así!','¡El pozo está monstruoso!','¡Esto es una fortuna!'];
-    return msgs[Math.floor(Math.random()*msgs.length)];
+    const msgs={
+      gambler:['¡POZO HISTÓRICO! ¡Esto es lo que vine a buscar!','¡Jamás vi tanta plata junta en esta mesa!','¡Si gano esto me cambió la vida!'],
+      bold:['¡Pozo monstruoso! ¿Quién lo para?','¡Eso es plata de verdad ahí!','¡El pozo está legendario hoy!'],
+      cautious:['Pozo excepcionalmente alto. Máxima atención.','Ese monto exige precisión total.','No vi un pozo así en mucho tiempo.'],
+      shark:['Pozo óptimo para cerrar.','Capital significativo en juego.','Momento de máxima concentración.'],
+      charlatán:['¡Una vez vi un pozo parecido en Mendoza! ¡Fue histórico!','¡Mi cuñado habla de este tipo de pozo todavía!','¡Jamás en mi carrera vi tanto dinero junto!'],
+      balanced:['¡Qué pozo! En veinte años no vi este monto.','Esto es lo que los viejos jugadores esperan.','Pozo que no se olvida.']
+    };
+    return (msgs[style]||msgs.balanced)[Math.floor(Math.random()*3)];
   } else if(pot>=50000){
-    const msgs=['¡Pozo descomunal!','¡Qué pozo más grande!','¡Hay plata de verdad ahí!','¡Esto no lo vi nunca!'];
+    const msgs=['¡Pozo descomunal! Hay plata seria.','¡Qué pozo más grande, esto está serio!','¡Tremendo pozo, eso es billete!','¡Mirá la plata que hay ahí!'];
     return msgs[Math.floor(Math.random()*msgs.length)];
   } else if(pot>=20000){
-    const msgs=['¡Qué pozo!','¡Pozo enorme!','Ahí hay plata seria.','¡Hay que ganarse ese pozo!','¡Esto está serio!'];
+    const msgs=['¡Buen pozo! Ahí hay plata de verdad.','El pozo está cargado hoy.','¡Eso ya es plata seria, amigos!','¡Hay que ganarse ese pozo!'];
     return msgs[Math.floor(Math.random()*msgs.length)];
   } else if(pot>=10000){
-    const msgs=['¡Pozo importante...','El pozo está creciendo.','Eso ya es plata seria.'];
+    const msgs=['El pozo está creciendo bien...','Eso ya es plata respetable.','¡Pozo importante! Hay que estar atentos.'];
     return msgs[Math.floor(Math.random()*msgs.length)];
   } else if(pot>=5000){
-    const msgs=['Buen pozo...','No está mal el pozo.'];
+    const msgs=['Buen pozo para empezar...','No está nada mal el pozo.','El pozo promete.'];
     return msgs[Math.floor(Math.random()*msgs.length)];
   }
   return null;
 }
 
-// Comentario sobre el spread de cartas
+// Comentario sobre el spread — contextual y variado
 function spreadComment(p, spread){
+  const style = p ? p.style : 'balanced';
   if(spread>=7){
-    const msgs=['¡Rango enorme!','¡Este sí que paga!','¡Ocho cartas de rango!'];
-    return msgs[Math.floor(Math.random()*msgs.length)];
+    const msgs={
+      gambler:['¡RANGO MÁXIMO! ¡Esto se llama OPORTUNIDAD!','¡Ocho cartas de margen! ¡Imposible fallar!'],
+      bold:['¡Con este rango no hay excusa para perder!','¡Rango enorme! ¡Adentro!'],
+      cautious:['Rango muy favorable. Las probabilidades acompañan.','Spread de 7+. Apuesto con convicción.'],
+      shark:['Spread óptimo. Maximizo la apuesta.','Condiciones ideales.'],
+      charlatán:['¡Esto es lo que describía el manual del jugador!','¡Rango así sólo vi dos o tres veces en mi vida!'],
+      balanced:['Rango así de amplio es una oportunidad que no se desaprovecha.','¡Este rango habla solo!']
+    };
+    const pool = msgs[style]||msgs.balanced;
+    return pool[Math.floor(Math.random()*pool.length)];
   } else if(spread<=1){
-    const msgs=['Rango muy cerrado...','Casi no hay margen.','Difícil con este par.'];
-    return msgs[Math.floor(Math.random()*msgs.length)];
+    const msgs={
+      gambler:['¡Rango chico pero igual le entro!','¡El riesgo me carga las pilas!'],
+      bold:['Rango cerrado... voy igual.','Poco margen, mucho valor.'],
+      cautious:['Rango mínimo. Apuesto lo mínimo.','Las odds no son favorables acá.'],
+      shark:['Riesgo elevado. Apuesta reducida.','Margen insuficiente.'],
+      charlatán:['Mi cuñado perdió todo con un rango así...','Difícil esto. Vi casos peores.'],
+      balanced:['Rango apretado. Esto tiene trampa.','Cuidado con este par de cartas.']
+    };
+    const pool = msgs[style]||msgs.balanced;
+    return pool[Math.floor(Math.random()*pool.length)];
   }
   return null;
+}
+
+// Reacción de los bots al resultado de OTRO bot (comentarios cruzados)
+function maybeCrossReact(winner, result, bet, tableIdx){
+  if(!G.players) return;
+  const others = G.players.filter((p,i)=>!p.you && i!==tableIdx && p.bal>0 && Math.random()<0.2);
+  if(!others.length) return;
+  const reactor = others[0];
+  const reactorIdx = G.players.indexOf(reactor);
+  let msg;
+  if(result==='win'){
+    const envy = [
+      `¡Bien ${winner.name.split(' ')[0]}!`,
+      '¡Qué racha tiene este!',
+      '¡Siempre ganás vos!',
+      '¡Cómo te va bien hoy!',
+      'Algún día seré yo el que gane así...'
+    ];
+    msg = envy[Math.floor(Math.random()*envy.length)];
+  } else {
+    const comfort = [
+      'No te preocupes, la próxima sale.',
+      '¡Mala suerte! Eso pasa.',
+      'Yo tuve una racha así una vez...',
+      'El juego es así, dale.',
+      '¡Arriba que se puede!'
+    ];
+    msg = comfort[Math.floor(Math.random()*comfort.length)];
+  }
+  setTimeout(()=>{
+    if(G.phase!=='idle'){
+      showBubble(reactorIdx, msg, 2000);
+      addChatFeed(reactor, msg);
+    }
+  }, 800 + Math.random()*1200);
 }
 
 function maybeAmbient(p,idx){
-  // 25% chance ambient action
-  if(Math.random()<.25){
+  // 20% chance ambient action (físico)
+  if(Math.random()<.20){
     const m=AMBIENT[Math.floor(Math.random()*AMBIENT.length)];
     setTimeout(()=>{addChatFeed(p,m.txt);},200+Math.random()*800);
     return;
   }
-  // 20% chance of smart contextual comment
-  if(Math.random()<.20){
-    const comment = potComment(p) || spreadComment(p, p.mySpread||G.spread);
+  // 25% chance contextual comment sobre pozo o spread
+  if(Math.random()<.25){
+    const spread = p.mySpread!==undefined?p.mySpread:G.spread;
+    const comment = (Math.random()<0.55 ? potComment(p) : null) || spreadComment(p, spread);
     if(comment){
-      setTimeout(()=>{showBubble(idx,comment,1800);addChatFeed(p,comment);},300+Math.random()*600);
+      setTimeout(()=>{showBubble(idx,comment,2200);addChatFeed(p,comment);},300+Math.random()*700);
     }
   }
 }
 
-// Presión social de bots durante el turno del jugador — se activa en la fase 'your-turn'
+// Presión social de bots durante el turno del jugador — contextual e inteligente
 function botPressureChat(){
   if(G.spectate||!G.players)return;
   const cpus=G.players.filter(p=>!p.you&&p.bal>0);
   if(!cpus.length)return;
-  // Solo 40% de las veces lanza un mensaje de presión
-  if(Math.random()>.40)return;
+  // 55% de las veces lanza un mensaje de presión (más frecuente)
+  if(Math.random()>.55)return;
   const p=cpus[Math.floor(Math.random()*cpus.length)];
   const idx=G.players.indexOf(p);
-  const msg=BOT_PRESSURE[Math.floor(Math.random()*BOT_PRESSURE.length)];
-  const delay=1500+Math.random()*2500;
+  const spread = G.spread || 0;
+  const pot = G.pot || 0;
+  const yourBet = G.bet || 0;
+  const yourBal = G.yourBal || 0;
+  const msg = buildPressureMsg(spread, pot, yourBet, yourBal);
+  const delay=1200+Math.random()*3000;
   setTimeout(()=>{
-    if(G.phase==='your-turn'){showBubble(idx,msg,2400);addChatFeed(p,msg);}
+    if(G.phase==='your-turn'){
+      showBubble(idx,msg,2800);
+      addChatFeed(p,msg);
+      // A veces un segundo bot también presiona
+      if(Math.random()<0.3){
+        const others = cpus.filter(x=>x!==p);
+        if(others.length){
+          const p2 = others[Math.floor(Math.random()*others.length)];
+          const idx2 = G.players.indexOf(p2);
+          const msg2 = buildPressureMsg(spread, pot, yourBet, yourBal);
+          setTimeout(()=>{
+            if(G.phase==='your-turn'){showBubble(idx2,msg2,2400);addChatFeed(p2,msg2);}
+          }, 1500+Math.random()*1500);
+        }
+      }
+    }
   },delay);
 }
 
@@ -2287,11 +2793,12 @@ function runCPUs(idxs,pos,done){
     // Bot sin fondos: recarga con mensaje conciso
     const reload=botReload(p);
     updSeat(i,'reload',0,null,null,null);
-    const forcedMsgs=[
-      `🏧 Recargando...`,
-      `🏧 Recargando`,
-      `💳 Recargando...`,
-      `🏧 Recargo y sigo`,
+    const forcedMsgs=p.chat&&p.chat.reload?[...p.chat.reload]:[
+      '🏦 Recargo y sigo.',
+      '💳 Meto más plata y vuelvo.',
+      '🏦 Recargando, no me voy de acá.',
+      '💳 Un poco más y seguimos.',
+      '🏦 Recargo. El juego continúa.',
     ];
     const fmsg=forcedMsgs[Math.floor(Math.random()*forcedMsgs.length)];
     showBubble(i,fmsg,2400);
@@ -2344,20 +2851,45 @@ function runCPUs(idxs,pos,done){
     preComment = rc(p,'small');
   } else if(isForcedWinner && G.pot>=20000){
     // Bot designado para el pozo — comentarios de presión / confianza
-    const potHunterMsgs=[
+    const potHunterMsgs= p.style==='gambler' ? [
+      '¡ESTE POZO ES MÍO! ¡Todo adentro!',
+      '¡Mano perfecta para limpiar esto!',
+      '¡Ahora o nunca! ¡Voy con todo!',
+      '¡Esperé este momento! ¡POZO MÍO!',
+    ] : p.style==='bold' ? [
+      '¡Ese pozo es mío, lo siento!',
+      '¡Rango justo para limpiar esto!',
+      '¡Ahora es cuando! ¡Fuerte!',
+      '¡Mano perfecta para barrer el pozo!',
+    ] : p.style==='shark' ? [
+      'Es el momento de cerrar.',
+      'Apuesta máxima. Pozo a limpiar.',
+      'Condiciones óptimas para el remate.',
+      'Este pozo se cierra acá.',
+    ] : p.style==='charlatán' ? [
+      '¡Esto es como aquella noche en Mendoza! ¡Mi momento!',
+      '¡Una vez cada tanto viene una mano así! ¡Es la mía!',
+      '¡El pálpito me dice que este pozo es mío!',
+      '¡Mi viejo me enseñó a reconocer estas manos!',
+    ] : [
       '¡Mano perfecta para este pozo!',
-      'Ese pozo es mío.',
-      '¡Todo adentro!',
-      '¡Ahora o nunca!',
+      'Ese pozo lo noto mío.',
+      '¡Todo adentro, que está para ganar!',
       'Rango justo para limpiar esto.',
-      '¡Pozo, acá voy!',
     ];
     preComment = potHunterMsgs[Math.floor(Math.random()*potHunterMsgs.length)];
   } else if(mySpread>=5 && G.pot>=5000 && Math.random()<0.5){
-    const bigPotMsgs=['¡Rango amplio y el pozo está cargado!','¡Esto es lo que esperaba!','¡Pozo grande, rango amplio!','¡Ahora o nunca!'];
+    const bigPotMsgs= p.style==='gambler' ? ['¡RANGO AMPLIO Y POZO GORDO! ¡FIESTA!','¡Esto es lo que vine a buscar!','¡Oportunidad única! ¡TODO!'] :
+      p.style==='bold' ? ['¡Rango amplio y el pozo está cargado! ¡Ahora!','¡Esto es lo que esperaba todo el tiempo!','¡Pozo grande, rango amplio: apuesta máxima!'] :
+      p.style==='shark' ? ['Spread amplio + pozo alto. Maximizo.','Condiciones ideales. Apuesta fuerte.','Momento de sacar ventaja.'] :
+      p.style==='charlatán' ? ['¡Igual que aquella noche del 2018! ¡Era exactamente así!','¡El destino pone estas manos!','¡Rango así con pozo así es un regalo!'] :
+      ['¡Rango amplio y el pozo está cargado!','¡Esto es lo que esperaba!','¡Pozo grande, rango amplio — hay que aprovecharlo!'];
     preComment = p.style==='gambler'||p.style==='bold' ? bigPotMsgs[Math.floor(Math.random()*bigPotMsgs.length)] : rc(p,'big');
   } else if(mySpread<=1 && G.pot>=3000 && Math.random()<0.4){
-    const trapMsgs=['Rango cerrado, pozo tentador...','Poco margen pero el pozo llama.','Difícil decisión...'];
+    const trapMsgs= p.style==='gambler' ? ['¡Rango cerrado pero igual le entro! ¡Eso es coraje!','¡El riesgo me da adrenalina! ¡Voy!','¡Pozo tentador con rango chico! ¡Me la juego!'] :
+      p.style==='cautious' ? ['Rango cerrado con pozo tentador... paso con calma.','Las odds no convencen. Apuesto mínimo.','Difícil decisión. Voy con lo mínimo por las dudas.'] :
+      p.style==='charlatán' ? ['Mi cuñado perdió todo con un rango así... pero yo no soy mi cuñado.','Pozo tentador, rango peligroso... como aquella vez en Rosario.','Qué dilema. Igual voy un poco.'] :
+      ['Rango cerrado, pozo tentador...','Poco margen pero el pozo llama.','Difícil decisión con este spread.'];
     preComment = trapMsgs[Math.floor(Math.random()*trapMsgs.length)];
   } else {
     const chatKey=mySpread>=5?'big':mySpread<=1?'small':'think';
@@ -2380,7 +2912,11 @@ function runCPUs(idxs,pos,done){
     if(isEqualCards){
       const penalty=Math.min(25,p.bal);
       if(penalty>0){p.bal-=penalty;G.pot+=penalty;}
-      const passMsgs=['Paso, par en mano 🤚','Iguales... paso','No hay rango, me bajo','Par igual — paso'];
+      const passMsgs= p.style==='gambler' ? ['¡Cartas iguales! ¡Qué robo! Paso 😤','Par igual... ¡qué bronca! Paso.','¡Iguales! ¡La peor! Me bajo.'] :
+        p.style==='charlatán' ? ['Par igual... como en casa de mi primo. Paso.','Iguales... esto lo vi venir. Paso.','¡Cartas iguales! Mi suegra dice que es mala señal. Paso.'] :
+        p.style==='cautious' ? ['Cartas iguales. Paso obligatorio.','Sin rango. Paso con corrección.','Par en mano. Paso calculado.'] :
+        p.style==='shark' ? ['Iguales. Paso.','Sin rango. Paso estratégico.','Cartas iguales. Siguiente.'] :
+        ['Paso, par en mano 🤚','Iguales... me bajo.','No hay rango — paso.','Par igual, sin rango. Paso.'];
       const msg=passMsgs[Math.floor(Math.random()*passMsgs.length)];
       showBubble(i,msg,2200);
       addChatFeed(p,msg);
@@ -2451,6 +2987,9 @@ function runCPUs(idxs,pos,done){
     updSeat(i,res,bet,p.myC1||G.c1,p.myC2||G.c2,c3);
     addHlog(p.name,c3,res,bet); updHUD(); updPot();
     
+    // Reacciones cruzadas — otro bot comenta el resultado (naturalidad)
+    if(Math.random()<0.22) maybeCrossReact(p, res, bet, i);
+    
     // Sincronizar con DB (bots bet)
     recordBetToDb(p, bet, res, c3);
 
@@ -2476,13 +3015,23 @@ function runCPUs(idxs,pos,done){
     if(res==='win'){
       if(isForcedWinner||G.pot<=MIN_BET*3){
         // Va a ganar el pozo o lo acaba de limpiar
-        const sweepMsgs=['¡Eso era mío!','¡El pozo es mío!','¡Limpio!','¡Sabía que iba!'];
+        const sweepMsgs= p.style==='gambler' ? ['¡¡¡EL POZO ES MÍO!!! ¡JAJAJA!','¡LIMPIOOOO! ¡Soy una bestia!','¡TODO PARA MÍ! ¡Quién me para!'] :
+          p.style==='bold' ? ['¡EL POZO ES MÍO! ¡Lo sabía!','¡LIMPIO! ¡Ahí está la plata!','¡El pozo vino para casa!'] :
+          p.style==='shark' ? ['Pozo liquidado.','El objetivo estaba claro.','Cierre ejecutado.'] :
+          p.style==='charlatán' ? ['¡IGUAL QUE EN MENDOZA! ¡IGUAL! ¡Lo supe desde el principio!','¡Mi viejo me enseñó bien! ¡Pozo limpio!','¡Cuántas veces conté esto? ¡Ahora lo viví!'] :
+          ['¡Eso era mío desde el principio!','¡El pozo es mío!','¡Limpio! ¡Bien ganado!','¡Sabía que iba!'];
         reaction = sweepMsgs[Math.floor(Math.random()*sweepMsgs.length)];
       } else if(bet>=1000 && Math.random()<0.5){
-        const bigWinMsgs=['¡Eso sí que duele al pozo!','¡Buen billete!','¡Sacando lo mío!'];
+        const bigWinMsgs= p.style==='gambler' ? ['¡Arrancándole la plata al pozo!','¡Qué golazo! ¡El billete para mí!','¡Eso sí que duele al pozo! ¡Bien!'] :
+          p.style==='shark' ? ['Ganancia registrada.','Extracción exitosa.','Capital incrementado.'] :
+          p.style==='charlatán' ? ['¡Una vez aposté el doble y me fue igual de bien!','¡Bien ganado! Mi cuñado no me creería esto.','¡Así se saca plata de un pozo!'] :
+          ['¡Eso sí que duele al pozo!','¡Buen billete ganado!','¡Sacando lo mío!','¡Así se hace!'];
         reaction = bigWinMsgs[Math.floor(Math.random()*bigWinMsgs.length)];
       } else if(G.pot>=15000 && Math.random()<0.45){
-        const bigPotWinMsgs=['El pozo sigue gordo...','Sigo en la pelea.','Hay más para sacar.'];
+        const bigPotWinMsgs= p.style==='gambler' ? ['¡El pozo sigue GORDO! ¡Más para mí!','¡Hay más plata ahí! ¡Sigo!','¡Todavía queda mucho para sacar!'] :
+          p.style==='shark' ? ['Pozo aún sustancial. Continúo.','Hay más capital disponible.','Sigo extrayendo valor.'] :
+          p.style==='charlatán' ? ['¡El pozo sigue creciendo como aquella noche mítica!','¡Hay más plata ahí! ¡Lo cuento en el asado!','¡Sigo en la pelea! Como siempre.'] :
+          ['El pozo sigue gordo... hay más para sacar.','Sigo en la pelea.','Todavía queda plata ahí.'];
         reaction = bigPotWinMsgs[Math.floor(Math.random()*bigPotWinMsgs.length)];
       } else {
         reaction = rc(p,'win');
@@ -2490,7 +3039,11 @@ function runCPUs(idxs,pos,done){
     } else {
       // Pérdida
       if(bet>=500 && Math.random()<0.4){
-        const bigLossMsgs=['Me costó esa...','Ahí fue el dinero.','Eso duele.','Mala suerte.'];
+        const bigLossMsgs= p.style==='gambler' ? ['¡Nooo! ¡Eso dolió en serio!','¡Ahí fue la plata! ¡Voy de nuevo!','¡Maldita carta! ¡No lo puedo creer!'] :
+          p.style==='bold' ? ['Me costó caro esa...','Ahí fue buena plata. La recupero.','Eso duele, pero sigo.'] :
+          p.style==='shark' ? ['Pérdida significativa. Ajusto.','Capital reducido. Recalculo.','Resultado negativo. Siguiente.'] :
+          p.style==='charlatán' ? ['Uy... como aquella vez que perdí en Rosario. Mal recuerdo.','Ahí fue el dinero... mi cuñado diría que lo vi venir.','Qué bronca. Igual me pasó peor.'] :
+          ['Me costó esa...','Ahí fue el dinero.','Eso duele.','Mala suerte, pero sigo.'];
         reaction = bigLossMsgs[Math.floor(Math.random()*bigLossMsgs.length)];
       } else {
         reaction = rc(p,'lose');
@@ -2918,11 +3471,12 @@ function botMaybeProactiveReload(p,seatIdx){
   setTimeout(()=>{p._reloadCooldown=false;},12000+Math.random()*8000);
 
   // Mensaje natural variado
-  const reloadMsgs=[
-    `🏦 Recargando...`,
-    `🏦 Recargando`,
-    `💳 Recargando...`,
-    `🏦 Recargo y sigo`,
+  const reloadMsgs= p.chat&&p.chat.reload ? [...p.chat.reload] : [
+    '🏦 Recargo y sigo.',
+    '💳 Meto más y vuelvo.',
+    '🏦 Recargando. No me voy de acá.',
+    '💳 Un poco más y seguimos.',
+    '🏦 Recargo. El juego continúa.',
   ];
   const msg=reloadMsgs[Math.floor(Math.random()*reloadMsgs.length)];
   setTimeout(()=>{
