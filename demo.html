@@ -1048,58 +1048,62 @@ const TABLE_NAMES=['Salón Dorado','Mesa Roja','El Corralón','La Imperial','Sal
 // ════ JUGADORES CON PERSONALIDAD COMPLETA ════════════════════════
 const BOT_STYLES={
   bold:{
-    thinkMin:500,thinkMax:1100,
-    trait:'Impulsivo — nunca duda cuando el rango es amplio',
+    thinkMin:1200,thinkMax:2800,
+    bluffProb:0.25,
+    trait:'Agresivo — le gusta presionar la mesa',
     chat:{
-      think:['Veamos...','Esto pinta bien...','¿Cuánto arriesgo?','A ver qué sale de acá','Mmm, interesante'],
-      bet:['¡Va todo!','Con ganas.','No me tiembla la mano.','Subo la apuesta','¡Adentro!'],
-      win:['¡eso es!','¡Sabía que entraba!','¡Sigo en racha!','Viene para casa','¡Toma ya!'],
-      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta','Qué mala liga'],
-      tie:['Casi...','Al menos no perdí.','Empate, zafé','Podría haber sido peor'],
-      big:['¡Con este rango no fallo!','¡Esto es un regalo!','Acá no hay dudas','Regalado'],
-      small:['Riesgo total...','Igual voy.','Me la juego','A ver si sale']
+      think:['¿Se animan?','Hay mucha plata acá...','Mmm, me gusta.','Veamos quién tiene coraje','Interesante.'],
+      bet:['¡Va fuerte!','Para que duela.','Subiendo el nivel.','No se regalen.','¡Adentro!'],
+      win:['Como debe ser.','Sabía que no fallaba.','Fácil.','A cobrar, señores.','Cobrado.'],
+      lose:['Se me escapó por poco.','Era buena la jugada.','Mala suerte.','Ya la voy a recuperar.','Pasó.'],
+      tie:['Zafaron esta vez.','Parda.','Sigue igual.','Casi.','Empate.'],
+      big:['¡Esta es la mía!','No hay vuelta atrás.','¡Voy con todo!','Miren y aprendan.','Riesgo total...'],
+      small:['Un tirito.','Para ver qué hacen.','Igual voy.','Me la juego','A ver si sale']
     },
     reacts:{win:'🎉',lose:'😤',tie:'😐'}
   },
   cautious:{
-    thinkMin:1800,thinkMax:3500,
-    trait:'Analítica — piensa mucho antes de apostar',
+    thinkMin:2500,thinkMax:5000,
+    bluffProb:0.05,
+    trait:'Analítico — piensa mucho antes de apostar',
     chat:{
-      think:['Déjame calcular...','Analizando odds...','¿Cuánto hay en el pozo?','Viendo las chances','Un momento...'],
-      bet:['Apuesto con cuidado.','Solo lo que conviene.','Con cabeza.','Poco pero seguro','Calculado'],
-      win:['Lo sabía.','La matemática no falla.','Exacto como calculé.','Salió como esperaba','Controlado'],
-      lose:['No esperaba eso.','Ajustaré la estrategia.','El azar es cruel.','Varianza negativa','Inesperado'],
-      tie:['Dentro de mis cálculos.','Empate aceptable.','Neutral','Sin cambios'],
-      big:['Probabilidad a favor.','Las chances son buenas.','Buen margen','Margen aceptable'],
-      small:['Muy arriesgado para mí.','Las odds no me convencen.','Demasiado fino','Poco margen']
+      think:['Déjame calcular...','Analizando chances...','¿Vale la pena el pozo?','Viendo los números','Un momento...'],
+      bet:['Apuesto con cuidado.','Solo lo justo.','Con cabeza.','Poco pero seguro','Calculado'],
+      win:['La matemática no falla.','Salió como esperaba.','Exacto.','Controlado','Bien jugado'],
+      lose:['Varianza negativa.','No esperaba eso.','Ajustando estrategia.','El azar es cruel.','Inesperado'],
+      tie:['Dentro de los cálculos.','Empate aceptable.','Neutral','Sin cambios','Parda'],
+      big:['Probabilidad a favor.','Las odds son buenas.','Buen margen','Margen aceptable','Confío'],
+      small:['Muy arriesgado para mí.','Las odds no convencen.','Demasiado fino','Poco margen','Paso']
     },
     reacts:{win:'😊',lose:'😟',tie:'😶'}
   },
   balanced:{
-    thinkMin:800,thinkMax:1800,
-    trait:'Veterano — 20 años en el juego',
+    thinkMin:1500,thinkMax:3500,
+    bluffProb:0.15,
+    trait:'Veterano — conoce todos los trucos',
     chat:{
-      think:['Hmm...','Ya vi esto antes.','Conozco este juego.','Interesante mano','Veamos qué pasa'],
-      bet:['Apuesta clásica.','Así se juega.','Lo de siempre.','Lo que corresponde','Firme'],
-      win:['Como siempre.','20 años de práctica.','Así se hace.','Gané bien','Sin sorpresas'],
-      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa','Otra vez será'],
-      tie:['Un empate honesto.','Sigue el juego.','Empate técnico','Seguimos'],
-      big:['Rango favorable.','Hay que aprovecharlo.','Buena oportunidad','Momento justo'],
-      small:['Mala mano.','Hay que jugar igual.','Poca cosa','Difícil esta']
+      think:['Hmm...','Ya vi esta mano antes.','Conozco el paño.','Interesante...','Veamos qué pasa'],
+      bet:['Apuesta clásica.','Así se juega esto.','Lo de siempre.','Lo que corresponde','Firme'],
+      win:['La experiencia pesa.','20 años de esto.','Así se hace.','Gané bien','Sin sorpresas'],
+      lose:['Sucede.','Parte del juego.','Ya vendrá la nuestra.','A veces pasa','Otra vez será'],
+      tie:['Un empate honesto.','Sigue el baile.','Empate técnico','Seguimos','Nada para nadie'],
+      big:['Buen rango.','Hay que aprovechar.','Buena oportunidad','Momento justo','Ahora!'],
+      small:['Mala mano, pero voy.','Hay que estar.','Poca cosa','Difícil esta','Acompaño']
     },
     reacts:{win:'👍',lose:'🤷',tie:'🤝'}
   },
   gambler:{
-    thinkMin:200,thinkMax:600,
-    trait:'Apostadora — se emociona fácil',
+    thinkMin:500,thinkMax:1500,
+    bluffProb:0.40,
+    trait:'Apostador nato — vive por la adrenalina',
     chat:{
-      think:['¡Voy!','¡Dale!','Sin pensar mucho.','¡Ya está!','¡Vamos!'],
-      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Va fuerte!','¡Mandale!'],
-      win:['¡JAJAJA LO SABÍA!','¡Soy la mejor!','¡Imparable!','¡Qué grande!','¡Vamos carajo!'],
-      lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!','¡Qué robo!','¡No te la puedo creer!'],
-      tie:['¡Uf, casi!','¡Revancha!','¡Zafé de una!','¡Casi casi!'],
-      big:['¡Esto es fácil!','¡Apuesto todo!','¡Venga!','¡Fiesta!'],
-      small:['¡Da igual voy igual!','¡El riesgo es lo bueno!','¡No importa nada!','¡Dale que va!']
+      think:['¡Dale que va!','¡Mandale!','Sin pensar mucho.','¡Ya fue!','¡Vamos carajo!'],
+      bet:['¡TODO AL ROJO!','¡A lo loco!','¡Ahora o nunca!','¡Va fuerte!','¡Mandale mecha!'],
+      win:['¡JAJAJA LO SABÍA!','¡Soy un genio!','¡Imparable!','¡Qué grande!','¡VAMOOOS!'],
+      lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!','¡Qué robo!','¡Me quiero morir!'],
+      tie:['¡Uf, casi!','¡Revancha!','¡Zafé de una!','¡Casi casi!','¡Nooo!'],
+      big:['¡Esto es una fiesta!','¡Apuesto todo!','¡Venga!','¡A cobrar!','¡TODO!'],
+      small:['¡Da igual, voy igual!','¡El riesgo es lo lindo!','¡No importa nada!','¡Dale!','Cualquiera']
     },
     reacts:{win:'🤑',lose:'😱',tie:'😏'}
   }
@@ -1116,7 +1120,14 @@ const ARG_NAMES=[
   "Roberto C.","Guillermo B.","Fernando S.","Gustavo L.","Adrian M.","Claudio F.","Pablo G.","Ariel R.","Dario V.","Fabian T.",
   "Mario P.","Jose L.","Daniel S.","Monica G.","Silvia R.","Patricia M.","Graciela B.","Marta S.","Alicia V.","Beatriz L.",
   "Ana M.","Elsa P.","Mirta D.","Gladys T.","Norma C.","Liliana F.","Susana G.","Andrea R.","Claudia S.","Sandra M.",
-  "Marcela B.","Paola V.","Natalia L.","Romina P.","Vanina D.","Yanina T.","Lorena M.","Soledad F.","Erica S.","Vanesa G."
+  "Marcela B.","Paola V.","Natalia L.","Romina P.","Vanina D.","Yanina T.","Lorena M.","Soledad F.","Erica S.","Vanesa G.",
+  "Pichi","Lalo","Quique","Charly","Pancho","Nacho","Lucho","Toto","Tato","Coco",
+  "El Pibe","El Maestro","El Mago","El Loco","El Profe","El Capo","El Duque","El Leon","El Toro","El Halcon",
+  "Bauti M.","Tobi S.","Benja G.","Thiago L.","Ian R.","Noah B.","Ciro V.","Milo C.","Gael F.","Enzo P.",
+  "Joni B.","Brian S.","Kevin G.","Alan M.","Dany R.","Alex B.","Maxi L.","Seba T.","Leo V.","Ricky C.",
+  "La Sole","La Mona","La Tana","La Turca","La Flaca","La Gringa","La China","La Negra","La Colo","La Rusa",
+  "Mati","Nico","Fran","Agus","Fede","Gonza","Santi","Rodri","Facu","Lauti",
+  "Juani","Tomy","Valen","Tincho","Sebas","Cris","Ale","Gabi","Marce","Her"
 ];
 
 const ARG_CITIES=['Buenos Aires','Rosario','Córdoba','Mendoza','La Plata','Mar del Plata','Tucumán','Salta','Santa Fe','Neuquén','Bahía Blanca','Resistencia','Corrientes','Posadas'];
