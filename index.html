@@ -458,6 +458,14 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   transition:background .12s;font-weight:700;
 }
 .bet-ctrl-btn:active{background:rgba(201,168,76,.2)}
+.pct-row{display:flex;gap:8px;margin:10px 0}
+.pct-btn{
+  flex:1;padding:10px 5px;border-radius:10px;background:rgba(201,168,76,0.1);
+  border:1px solid rgba(201,168,76,0.25);color:var(--gold2);
+  font-family:'Cinzel',serif;font-size:10px;font-weight:700;cursor:pointer;
+  text-align:center;transition:all 0.1s;
+}
+.pct-btn:active{background:rgba(201,168,76,0.3);transform:scale(0.96)}
 /* Action buttons */
 .action-row{display:flex;gap:8px}
 .abtn{
@@ -895,12 +903,17 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
       <div class="chip c500" onclick="addBet(500)">$500</div>
       <div class="chip c1k" onclick="addBet(1000)">$1K</div>
       <div class="chip c2k" onclick="addBet(2000)">$2K</div>
-      <div class="chip call" onclick="goAllIn()">ALL<br>IN</div>
+      <div class="chip call" onclick="goAllIn()">POZO</div>
+    </div>
+    <div class="pct-row">
+      <div class="pct-btn" onclick="setBetPercentage(0)">MIN</div>
+      <div class="pct-btn" onclick="setBetPercentage(0.25)">25%</div>
+      <div class="pct-btn" onclick="setBetPercentage(0.50)">50%</div>
+      <div class="pct-btn" onclick="setBetPercentage(0.75)">75%</div>
+      <div class="pct-btn" onclick="goAllIn()">MAX</div>
     </div>
     <div class="bet-row">
-      <div class="bet-ctrl-btn" onclick="halfBet()">½</div>
-      <div class="bet-display"><div class="bd-lbl">APUESTA</div><div class="bd-amt" id="bdv">$0</div></div>
-      <div class="bet-ctrl-btn" onclick="doubleBet()">×2</div>
+      <div class="bet-display"><div class="bd-lbl">TU APUESTA</div><div class="bd-amt" id="bdv">$0</div></div>
     </div>
     <div class="action-row">
       <div class="abtn abtn-clr" onclick="clearBet()">Borrar</div>
@@ -1533,16 +1546,16 @@ function calcCPUBet(p,mb,sp){
 // Lógica de casino: el "valor sugerido" sube progresivamente para normalizar apuestas grandes
 function autoSuggest(){
   const m=Math.min(G.yourBal,G.pot);
-  const r=G.spread/10;
-  // Base: más agresiva que antes — entre 35% y 65% del máximo posible según rango
-  let base=Math.round(m*(.35+r*.30)/50)*50;
-  // Si el jugador ganó la última mano: ancla más arriba ("aprovechá la racha")
-  if(G.streak>0) base=Math.round(m*(.45+r*.35)/50)*50;
-  // Si perdió: sugiere un poco menos para que "recupere" (pero igual pierde más a la larga)
-  if(G.streak<-1) base=Math.round(m*(.28+r*.22)/50)*50;
-  // Pozo grande: urgencia visual — sugiere más
-  if(G.pot>=20000) base=Math.round(base*1.25/50)*50;
-  return Math.max(50,Math.min(base,m));
+  const winProb=Math.min(G.spread/10,1);
+  // Base: sugerencia según probabilidad de ganar
+  let basePct = 0.15 + (winProb * 0.5);
+  // Ajuste por racha
+  if(G.streak > 0) basePct += 0.1;
+  else if(G.streak < -1) basePct -= 0.05;
+  // Si el pozo es grande, incita a apostar un poco más
+  if(G.pot >= 25000) basePct *= 1.15;
+  let suggested = Math.round(m * basePct / 50) * 50;
+  return Math.max(MIN_BET, Math.min(suggested, m));
 }
 // psychMsg: mensajes psicológicos de casino — crean ilusión de control y esperanza
 function psychMsg(res){
@@ -2227,22 +2240,39 @@ function calcSmartBet(p, spread, isPotWinner){
   const maxBet=Math.min(p.bal, G.pot); // no puede apostar más que el pozo
   if(maxBet<MIN_BET) return 0;
   if(isPotWinner){
-    // Apuesta todo lo que puede para barrer el pozo
-    return Math.min(p.bal, G.pot, Math.round(p.bal*0.85/50)*50);
+    // Si es ganador forzado, apuesta fuerte pero con cierta varianza para que parezca natural
+    const pct = 0.75 + Math.random() * 0.2; 
+    return Math.max(MIN_BET, Math.min(maxBet, Math.round(maxBet * pct / 50) * 50));
   }
-  // Apuesta normal según estilo y spread
-  const r=Math.min(spread/10,1);
-  let ratio;
+  // Apuesta inteligente según estilo, spread y riesgo
+  const winProb = Math.min(spread / 10, 1);
+  let ratio = 0;
   switch(p.style){
-    case'gambler':  ratio=0.45+Math.random()*0.45; break;
-    case'bold':     ratio=spread>=3?0.30+r*0.40+Math.random()*0.18:0.05+Math.random()*0.10; break;
-    case'cautious': ratio=spread>=5?0.15+r*0.22+Math.random()*0.12:0.03+Math.random()*0.07; break;
-    default:        ratio=0.12+r*0.32+Math.random()*0.18;
+    case 'gambler':
+      ratio = 0.35 + (winProb * 0.6) + (Math.random() * 0.15);
+      break;
+    case 'bold':
+      if (winProb > 0.6) ratio = 0.45 + (winProb * 0.5);
+      else if (winProb > 0.3) ratio = 0.15 + (winProb * 0.25);
+      else ratio = 0.05;
+      break;
+    case 'cautious':
+      if (winProb > 0.8) ratio = 0.4 + (winProb * 0.45);
+      else if (winProb > 0.5) ratio = 0.1 + (winProb * 0.2);
+      else ratio = 0.02;
+      break;
+    default: // balanced
+      ratio = 0.15 + (winProb * 0.55) + (Math.random() * 0.1);
+      break;
   }
-  // Variación aleatoria pequeña (±12%)
-  if(Math.random()<0.12) ratio*=(0.5+Math.random()*0.5);
-  const bet=Math.round(maxBet*ratio/50)*50;
-  return Math.max(50, Math.min(bet, maxBet));
+  // Ajuste por tamaño del pozo
+  if (G.pot > p.bal * 2.5 && winProb < 0.7) ratio *= 0.8;
+  
+  let bet = Math.round(maxBet * ratio / 50) * 50;
+  bet = Math.max(MIN_BET, Math.min(bet, maxBet));
+  // Sanidad para rangos muy bajos
+  if (spread <= 2 && p.style !== 'gambler' && !isPotWinner && Math.random() > 0.15) bet = MIN_BET;
+  return bet;
 }
 
 function runCPUs(idxs,pos,done){
@@ -2499,6 +2529,17 @@ function addBet(n){
 function goAllIn(){if(G.phase!=='your-turn')return;clearTimeout(G.autoRevealTimer);G.bet=Math.min(G.yourBal,G.pot);document.getElementById('bdv').textContent='$'+G.bet.toLocaleString('es-AR');resetCD();}
 function doubleBet(){if(G.phase!=='your-turn')return;clearTimeout(G.autoRevealTimer);const m=Math.min(G.yourBal,G.pot);G.bet=Math.min((G.bet||MIN_BET)*2,m);document.getElementById('bdv').textContent='$'+G.bet.toLocaleString('es-AR');resetCD();}
 function halfBet(){if(G.phase!=='your-turn')return;clearTimeout(G.autoRevealTimer);G.bet=Math.floor(G.bet/2);if(G.bet>0&&G.bet<MIN_BET)G.bet=MIN_BET;document.getElementById('bdv').textContent='$'+G.bet.toLocaleString('es-AR');resetCD();}
+function setBetPercentage(pct){
+  if(G.phase!=='your-turn')return;
+  clearTimeout(G.autoRevealTimer);
+  const m=Math.min(G.yourBal,G.pot);
+  if(pct === 0) G.bet = MIN_BET;
+  else G.bet=Math.round((m*pct)/50)*50;
+  if(G.bet>0 && G.bet<MIN_BET) G.bet=Math.min(MIN_BET, m);
+  if(G.bet>m) G.bet=m;
+  document.getElementById('bdv').textContent='$'+G.bet.toLocaleString('es-AR');
+  resetCD();
+}
 function clearBet(){clearTimeout(G.autoRevealTimer);G.bet=0;document.getElementById('bdv').textContent='$0';}
 function resetCD(){startCD(BET_TIMER);G.autoRevealTimer=setTimeout(()=>{if(G.phase==='your-turn')confirmBet();},BET_TIMER*1000);}
 
