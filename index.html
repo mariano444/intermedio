@@ -708,7 +708,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   50%{box-shadow:0 4px 20px rgba(0,0,0,.7),0 0 0 5px rgba(201,168,76,.0)}
 }
 #stats-fab:active{transform:scale(.88)}
-#game-screen.active #stats-fab{display:flex}
+#game-screen.active #stats-fab{display:none!important}
 
 /* ══ BILLETERA & PERFIL ═══════════════════════════════════════════ */
 .sb-right{display:flex;align-items:center;gap:8px}
@@ -1039,7 +1039,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   </div>
 
   <!-- Stats FAB -->
-  <div id="stats-fab" onclick="openStats()">📊</div>
+  <div id="stats-fab" onclick="openStats()" style="display:none!important">📊</div>
 
   <!-- End overlay -->
   <div id="end-overlay">
@@ -2168,7 +2168,7 @@ async function startGame(tableData,spectate){
   document.getElementById('hlog').innerHTML='';
   document.getElementById('spec-bar').style.display=spectate?'block':'none';
   document.getElementById('spec-bar-txt').textContent='Observando '+tableData.name+' — solo mirás';
-  document.getElementById('stats-fab').style.display=spectate?'none':'flex';
+  document.getElementById('stats-fab').style.display='none';
   document.getElementById('end-main-btn').style.display=spectate?'none':'';
   buildPlayers();clearFelt();updHUD();updPot();
   setMsg('Mesa '+G.tableName+' — Pozo $'+G.pot.toLocaleString('es-AR'),'info');
