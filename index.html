@@ -64,46 +64,146 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .live-dot{width:5px;height:5px;border-radius:50%;background:#4eda7a;animation:pulse 1.4s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
 
-/* TABLA LISTA */
-#tables-list{display:flex;flex-direction:column;gap:10px;padding:0 12px;position:relative;z-index:5}
+#tables-list{display:flex;flex-direction:column;gap:12px;padding:0 12px;position:relative;z-index:5}
+
+/* ══ TARJETA DE MESA — PREMIUM REDESIGN ══ */
 .tcard{
-  background:linear-gradient(135deg,rgba(10,20,8,.9),rgba(5,12,3,.95));
-  border:1.5px solid rgba(201,168,76,.15);border-radius:16px;overflow:hidden;
-  box-shadow:0 4px 20px rgba(0,0,0,.4);
-  transition:transform .15s,box-shadow .15s;
+  position:relative;overflow:hidden;border-radius:22px;
+  background:linear-gradient(160deg,rgba(14,26,11,.98) 0%,rgba(7,14,5,1) 100%);
+  border:1px solid rgba(201,168,76,.12);
+  box-shadow:0 8px 32px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04);
+  transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s ease;
   -webkit-transform:translateZ(0);
 }
-.tcard:active{transform:scale(.98)}
-.tcard.tc-hot{border-color:rgba(231,76,60,.45);box-shadow:0 4px 24px rgba(231,76,60,.12)}
-.tcard.tc-fill{border-color:rgba(201,168,76,.5);box-shadow:0 4px 24px rgba(201,168,76,.1)}
-.tcard.tc-open{border-color:rgba(46,204,113,.35);box-shadow:0 4px 18px rgba(46,204,113,.08)}
-.tcard.tc-full{border-color:rgba(80,80,80,.2);opacity:.65}
-.tc-top{display:flex;justify-content:space-between;align-items:center;padding:10px 14px 6px}
-.tc-name{font-family:'Cinzel',serif;color:var(--gold2);font-size:12px;font-weight:700;letter-spacing:1px}
-.tc-badge{font-size:8px;font-family:'Cinzel',serif;letter-spacing:.8px;padding:3px 9px;border-radius:12px;font-weight:600}
-.b-play{background:rgba(231,76,60,.2);color:#e07070;animation:bpulse .9s infinite}
-.b-fill{background:rgba(201,168,76,.2);color:var(--gold2);animation:bpulse .9s infinite}
-.b-open{background:rgba(46,204,113,.15);color:#4eda7a}
-.b-full{background:rgba(80,80,80,.15);color:rgba(255,255,255,.3)}
+.tcard:active{transform:scale(.972)}
+
+/* Shimmer top line */
+.tcard::after{
+  content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.28),transparent);
+}
+/* Ambient glow */
+.tcard::before{
+  content:'';position:absolute;inset:0;pointer-events:none;opacity:0;
+  transition:opacity .35s;border-radius:22px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.06),transparent 65%);
+}
+.tcard:active::before{opacity:1}
+
+.tcard.tc-hot{
+  border-color:rgba(231,76,60,.38);
+  box-shadow:0 8px 32px rgba(231,76,60,.18),inset 0 1px 0 rgba(255,120,100,.08);
+}
+.tcard.tc-hot::after{background:linear-gradient(90deg,transparent,rgba(231,100,80,.45),transparent)}
+.tcard.tc-fill{
+  border-color:rgba(201,168,76,.4);
+  box-shadow:0 8px 32px rgba(201,168,76,.14),inset 0 1px 0 rgba(201,168,76,.08);
+}
+.tcard.tc-fill::after{background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent)}
+.tcard.tc-open{
+  border-color:rgba(46,204,113,.28);
+  box-shadow:0 8px 28px rgba(46,204,113,.1),inset 0 1px 0 rgba(46,204,113,.06);
+}
+.tcard.tc-open::after{background:linear-gradient(90deg,transparent,rgba(46,204,113,.3),transparent)}
+.tcard.tc-full{border-color:rgba(80,80,80,.12);opacity:.48}
+
+/* ── TOP ROW: nombre + badge ── */
+.tc-top{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 16px 8px;
+}
+.tc-name{
+  font-family:'Cinzel',serif;color:var(--gold3);font-size:13px;
+  font-weight:700;letter-spacing:1.5px;
+  text-shadow:0 0 18px rgba(201,168,76,.25);
+}
+.tc-badge{
+  font-size:8px;font-family:'Cinzel',serif;letter-spacing:.8px;
+  padding:4px 12px;border-radius:20px;font-weight:700;
+}
+.b-play{background:rgba(231,76,60,.2);color:#ff9080;border:1px solid rgba(231,76,60,.4);animation:bpulse .85s infinite}
+.b-fill{background:rgba(201,168,76,.2);color:#f5d060;border:1px solid rgba(201,168,76,.45);animation:bpulse .85s infinite}
+.b-open{background:rgba(46,204,113,.13);color:#60ffaa;border:1px solid rgba(46,204,113,.32)}
+.b-full{background:rgba(80,80,80,.12);color:rgba(255,255,255,.25);border:1px solid rgba(80,80,80,.2)}
 @keyframes bpulse{0%,100%{opacity:.65}50%{opacity:1}}
-.tc-mid{display:flex;align-items:center;padding:4px 14px 8px;gap:12px}
-.tc-stats{display:flex;gap:10px;flex:1}
-.tcs{display:flex;flex-direction:column}
-.tcs-l{font-size:7px;color:rgba(201,168,76,.4);letter-spacing:1px;text-transform:uppercase}
-.tcs-v{font-size:13px;font-weight:700;color:var(--gold2);font-family:'Cinzel',serif;line-height:1.2}
-.tcs-v.green{color:#4eda7a}.tcs-v.red{color:#e07070}
-.tc-avatars{display:flex;gap:-4px}
-.tc-av{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--bg);display:flex;align-items:center;justify-content:center;font-size:11px;margin-left:-5px;transition:margin .3s}
+
+/* ── HERO: pozo grande ── */
+.tc-hero{
+  padding:2px 16px 10px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:8px;
+}
+.tc-pot-area{flex:1}
+.tc-pot-label{
+  font-size:7px;color:rgba(201,168,76,.4);letter-spacing:2.5px;
+  text-transform:uppercase;font-family:'Cinzel',serif;margin-bottom:3px;
+}
+.tc-pot-amount{
+  font-family:'Cinzel',serif;font-weight:700;
+  font-size:26px;color:var(--gold2);line-height:1;
+  text-shadow:0 0 28px rgba(201,168,76,.22);
+  letter-spacing:-0.5px;
+}
+.tc-pot-amount.pot-big{color:#ffe060;text-shadow:0 0 32px rgba(255,220,60,.38)}
+.tc-pot-amount.pot-huge{color:#fff;text-shadow:0 0 24px rgba(255,230,120,.55)}
+
+.tc-right-area{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.tc-avatars{display:flex;align-items:center}
+.tc-av{
+  width:28px;height:28px;border-radius:50%;border:2px solid rgba(0,0,0,.6);
+  display:flex;align-items:center;justify-content:center;font-size:13px;
+  margin-left:-8px;box-shadow:0 2px 8px rgba(0,0,0,.5);
+}
 .tc-av:first-child{margin-left:0}
-.tc-btns{display:flex;gap:8px;padding:0 14px 12px}
-.tc-btn{flex:1;padding:10px;border-radius:10px;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:.8px;transition:all .12s;position:relative;overflow:hidden}
+.tc-seats-pill{
+  font-size:8.5px;font-family:'Cinzel',serif;letter-spacing:.5px;
+  padding:3px 9px;border-radius:20px;
+  background:rgba(46,204,113,.1);color:rgba(46,204,113,.7);
+  border:1px solid rgba(46,204,113,.2);
+}
+.tc-seats-pill.full{background:rgba(200,60,60,.1);color:rgba(220,100,100,.7);border-color:rgba(200,60,60,.2)}
+
+/* ── DETALLES SIEMPRE VISIBLES ── */
+.tc-details{
+  display:flex;padding:8px 16px 4px;
+  border-top:1px solid rgba(255,255,255,.05);
+  gap:0;
+}
+.tcs{display:flex;flex-direction:column;flex:1;text-align:center;padding:4px 0}
+.tcs-l{font-size:6.5px;color:rgba(201,168,76,.38);letter-spacing:1.2px;text-transform:uppercase;font-family:'Cinzel',serif;margin-bottom:3px}
+.tcs-v{font-size:12px;font-weight:700;color:var(--gold2);font-family:'Cinzel',serif;line-height:1}
+.tcs-v.green{color:#60ffaa}.tcs-v.red{color:#f08080}
+.tcs-divider{width:1px;background:rgba(255,255,255,.06);margin:2px 0;flex-shrink:0}
+
+/* URGENCY */
+.tc-urgency{
+  display:inline-flex;align-items:center;gap:3px;margin-top:4px;
+  font-size:8px;color:#ff9080;font-family:'Cinzel',serif;
+  animation:bpulse .7s infinite;
+}
+
+/* ── BOTONES ── */
+.tc-btns{display:flex;gap:8px;padding:10px 16px 14px}
+.tc-btn{
+  flex:1;padding:12px;border-radius:13px;border:none;cursor:pointer;
+  font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:.8px;
+  transition:transform .12s,box-shadow .12s;position:relative;overflow:hidden;
+}
 .tc-btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .12s}
-.tc-btn:active::after{background:rgba(255,255,255,.1)}
-.tcb-join{background:linear-gradient(135deg,#2ecc71,#1a6b35);color:#fff;box-shadow:0 3px 0 #0d3018,0 4px 12px rgba(46,204,113,.3)}
-.tcb-watch{background:linear-gradient(135deg,#2471a3,#0d2e4a);color:#d6eaf8;box-shadow:0 3px 0 #07192a,0 4px 12px rgba(36,113,163,.3)}
-.tcb-dis{background:rgba(80,80,80,.2);color:rgba(255,255,255,.25);cursor:not-allowed}
-.tc-prog{height:2px;background:rgba(255,255,255,.05);overflow:hidden}
-.tc-prog-fill{height:100%;transition:width .5s ease}
+.tc-btn:active{transform:scale(.96)}
+.tc-btn:active::after{background:rgba(255,255,255,.09)}
+.tcb-join{
+  background:linear-gradient(135deg,#2ecc71 0%,#1a8040 100%);color:#fff;
+  box-shadow:0 4px 0 #0d4020,0 6px 18px rgba(46,204,113,.28);
+}
+.tcb-watch{
+  background:linear-gradient(135deg,#2980b9 0%,#0e2f4e 100%);color:#cde8ff;
+  box-shadow:0 4px 0 #071d30,0 6px 18px rgba(41,128,185,.22);
+}
+.tcb-dis{background:rgba(60,60,60,.18);color:rgba(255,255,255,.2);cursor:not-allowed;box-shadow:none}
+
+/* ── BARRA DE PROGRESO ── */
+.tc-prog{height:3px;background:rgba(255,255,255,.04);overflow:hidden;border-radius:0 0 22px 22px}
+.tc-prog-fill{height:100%;transition:width .7s cubic-bezier(.4,0,.2,1)}
 
 /* ══ MODAL ENTRADA ════════════════════════════════════════════ */
 #modal-overlay{
@@ -594,13 +694,20 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 /* ══ STATS FAB ═══════════════════════════════════════════════ */
 #stats-fab{
   position:absolute;bottom:calc(var(--safe-bot) + 80px);right:14px;z-index:40;
-  width:40px;height:40px;border-radius:50%;
-  background:rgba(0,0,0,.7);border:1px solid rgba(201,168,76,.3);
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(20,36,16,.95),rgba(8,16,6,.98));
+  border:1.5px solid rgba(201,168,76,.35);
   display:none;align-items:center;justify-content:center;
-  font-size:16px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.5);
-  transition:transform .15s;
+  font-size:17px;cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,.6),0 0 0 0 rgba(201,168,76,.2);
+  transition:transform .15s,box-shadow .2s;
+  animation:fabpulse 3s ease infinite;
 }
-#stats-fab:active{transform:scale(.9)}
+@keyframes fabpulse{
+  0%,100%{box-shadow:0 4px 16px rgba(0,0,0,.6),0 0 0 0 rgba(201,168,76,.2)}
+  50%{box-shadow:0 4px 20px rgba(0,0,0,.7),0 0 0 5px rgba(201,168,76,.0)}
+}
+#stats-fab:active{transform:scale(.88)}
 #game-screen.active #stats-fab{display:flex}
 
 /* ══ BILLETERA & PERFIL ═══════════════════════════════════════════ */
@@ -844,8 +951,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
     <div class="gtb-wallet" onclick="openWallet()">💳 <span id="gtb-bal">$0</span></div>
   </div>
 
-  <!-- HUD rápido -->
-  <div id="quick-hud">
+  <!-- HUD rápido (oculto — stats disponibles via FAB) -->
+  <div id="quick-hud" style="display:none">
     <div class="qhud-box"><div class="qh-lbl">Saldo</div><div class="qh-val" id="qh-bal">$0</div></div>
     <div class="qhud-box"><div class="qh-lbl">Pozo</div><div class="qh-val" id="qh-pot" style="color:#f5c842">$0</div></div>
     <div id="qh-net" style="display:none"></div>
@@ -1048,430 +1155,60 @@ const TABLE_NAMES=['Salón Dorado','Mesa Roja','El Corralón','La Imperial','Sal
 // ════ JUGADORES CON PERSONALIDAD COMPLETA ════════════════════════
 const BOT_STYLES={
   bold:{
-    thinkMin:400,thinkMax:900,
+    thinkMin:500,thinkMax:1100,
     trait:'Impulsivo — nunca duda cuando el rango es amplio',
     chat:{
-      think:[
-        'Mmmm, vamos a ver...',
-        'Acá hay plata para sacar.',
-        'No me hago el vivo, pero esto pinta bien.',
-        'Dame un segundo... sí, voy.',
-        'Esto lo conozco de memoria.',
-        'A ver si la suerte acompaña hoy.',
-        'Rango interesante, ¿cuánto meto?'
-      ],
-      bet:[
-        '¡Va todo, no me tiembla la mano!',
-        'Fuerte y claro.',
-        'Con esto me quedo con el pozo.',
-        '¡Metele que sale!',
-        'No me guardo nada.',
-        '¡Adentro, sin vueltas!',
-        'El que no arriesga no gana, ¿no?'
-      ],
-      win:[
-        '¡Sabía que salía! ¡Pago la vuelta!',
-        '¡Eso es! ¡Sigo en racha!',
-        'La carta entró justa, pero entró.',
-        '¡Viene para casa! ¿Quién para esta racha?',
-        '¡Toma, toma! Bien ganado.',
-        'Yo sabía. Lo venía sintiendo.',
-        '¡Fiesta! El pozo es mío.'
-      ],
-      lose:[
-        'Ugh, me clavó la carta.',
-        'No puede ser, la tenía calculada...',
-        'Qué mala liga, justo ahí.',
-        'Me pegó donde duele, pero vuelvo.',
-        'Esa carta me mató... La próxima es mía.',
-        'Naaaa, ¿en serio? Justo esa.',
-        '*golpea la mesa* Seguimos.'
-      ],
-      tie:[
-        'Empate... zafé por un pelo.',
-        'Al menos no perdí nada importante.',
-        'Eso me lo firmo cualquier día.',
-        '¿Empate? Raro esto, pero bueno.',
-        'Casi, casi... la próxima entra.'
-      ],
-      big:[
-        '¡Con este rango no hay dónde perderse!',
-        '¡Esto es un regalo del cielo!',
-        '¡Acá no pienso dos veces, va todo!',
-        'Rango así de amplio... ¡eso se aprovecha!',
-        '¡Están servidas las fichas!'
-      ],
-      small:[
-        'Rango cerrado pero igual me la juego.',
-        'Con poco margen, doble o nada.',
-        'El riesgo es parte del juego.',
-        'Poco rango... igual le entro.',
-        'No me bajo por un rango apretado.'
-      ],
-      reload:[
-        'Acá meto más plata y sigo.',
-        'El saldo bajo no me detiene.',
-        'Recargo y vuelvo con todo.',
-        'No me voy de acá sin ganar.',
-        '¡Recargo y a otra!'
-      ]
+      think:['Veamos...','Esto pinta bien...','¿Cuánto arriesgo?','A ver qué sale de acá','Mmm, interesante'],
+      bet:['¡Va todo!','Con ganas.','No me tiembla la mano.','Subo la apuesta','¡Adentro!'],
+      win:['¡eso es!','¡Sabía que entraba!','¡Sigo en racha!','Viene para casa','¡Toma ya!'],
+      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta','Qué mala liga'],
+      tie:['Casi...','Al menos no perdí.','Empate, zafé','Podría haber sido peor'],
+      big:['¡Con este rango no fallo!','¡Esto es un regalo!','Acá no hay dudas','Regalado'],
+      small:['Riesgo total...','Igual voy.','Me la juego','A ver si sale']
     },
     reacts:{win:'🎉',lose:'😤',tie:'😐'}
   },
   cautious:{
-    thinkMin:2000,thinkMax:4000,
-    trait:'Analítica — calcula cada peso antes de moverlo',
+    thinkMin:1800,thinkMax:3500,
+    trait:'Analítica — piensa mucho antes de apostar',
     chat:{
-      think:[
-        'A ver, ¿cuánto hay en el pozo?',
-        'Déjame ver bien las cartas...',
-        'Calculando la probabilidad...',
-        'No me apuro, esto requiere análisis.',
-        'Hmm, el margen es lo que importa acá.',
-        '¿Vale la pena con este rango?',
-        'Un momento, estoy viendo las chances.'
-      ],
-      bet:[
-        'Apuesto lo que conviene, no más.',
-        'Con cuidado, pero voy.',
-        'Poco pero seguro. Así funciono yo.',
-        'Medido. Nada de locuras.',
-        'Apuesta controlada.',
-        'La matemática dice que voy.',
-        'Solo lo razonable, gracias.'
-      ],
-      win:[
-        'Salió como calculé. La matemática no miente.',
-        'Dentro de lo esperado. Bien.',
-        'Exactamente como lo vi.',
-        'Así se hace: con cabeza, se gana.',
-        'Sin apuros. Sin improvisación.',
-        'La paciencia tiene su recompensa.',
-        'Calculé bien. Sin sorpresas.'
-      ],
-      lose:[
-        'Varianza negativa. Sucede.',
-        'No lo esperaba, pero ajusto la estrategia.',
-        'El azar tiene sus caprichos.',
-        'Pérdida dentro del rango tolerable.',
-        'Mmm. Algo falló en mi análisis.',
-        'Inesperado. Analizo qué salió mal.',
-        'Una mano no define nada. Sigo.'
-      ],
-      tie:[
-        'Empate técnico. Aceptable.',
-        'Neutral. Sin pérdidas, sin ganancias.',
-        'Dentro de mis cálculos, esto entra.',
-        'El empate a veces es victoria.',
-        'Manejable. Sigo.'
-      ],
-      big:[
-        'Las probabilidades están claramente a favor.',
-        'Margen amplio. Esto tiene buena pinta.',
-        'Con este rango, el riesgo está controlado.',
-        'Condiciones favorables. Voy con más.',
-        'Buen spread. Apuesto con convicción.'
-      ],
-      small:[
-        'Las odds no me convencen del todo.',
-        'Rango muy fino. Cuidado acá.',
-        'Con poco margen, apuesto poco.',
-        'El riesgo no justifica la ganancia.',
-        'Paso con prudencia.'
-      ],
-      reload:[
-        'Recargo con lo necesario para seguir siendo competitivo.',
-        'Fondos reabastecidos. Continúo con el análisis.',
-        'Una recarga calculada.',
-        'Meto lo justo para seguir jugando bien.',
-        'Recargo y no cambio mi estrategia.'
-      ]
+      think:['Déjame calcular...','Analizando odds...','¿Cuánto hay en el pozo?','Viendo las chances','Un momento...'],
+      bet:['Apuesto con cuidado.','Solo lo que conviene.','Con cabeza.','Poco pero seguro','Calculado'],
+      win:['Lo sabía.','La matemática no falla.','Exacto como calculé.','Salió como esperaba','Controlado'],
+      lose:['No esperaba eso.','Ajustaré la estrategia.','El azar es cruel.','Varianza negativa','Inesperado'],
+      tie:['Dentro de mis cálculos.','Empate aceptable.','Neutral','Sin cambios'],
+      big:['Probabilidad a favor.','Las chances son buenas.','Buen margen','Margen aceptable'],
+      small:['Muy arriesgado para mí.','Las odds no me convencen.','Demasiado fino','Poco margen']
     },
     reacts:{win:'😊',lose:'😟',tie:'😶'}
   },
   balanced:{
-    thinkMin:900,thinkMax:2000,
-    trait:'Veterano — lleva años en estas mesas',
+    thinkMin:800,thinkMax:1800,
+    trait:'Veterano — 20 años en el juego',
     chat:{
-      think:[
-        'Ya vi esto cien veces...',
-        'El juego siempre vuelve a equilibrarse.',
-        'Hmm, ¿qué haría yo acá hace diez años?',
-        'Veamos qué nos manda el mazo.',
-        'Conozco este juego como la palma de mi mano.',
-        'Mano interesante. Voy despacio.',
-        'Años de mesa me dicen que espere.'
-      ],
-      bet:[
-        'Apuesta clásica. Lo de siempre.',
-        'Firme. Ni mucho ni poco.',
-        'Así se juega bien: con criterio.',
-        'Lo que corresponde para esta mano.',
-        'Con experiencia no se improvisa.',
-        'Directito. Sin vueltas.',
-        'La apuesta exacta para este momento.'
-      ],
-      win:[
-        'Como siempre. La experiencia no miente.',
-        'Veinte años de práctica, amigos.',
-        'La carta entró donde tenía que entrar.',
-        'Sin sorpresas para el que sabe.',
-        'Así se hace. Calma y puntería.',
-        'El veterano cobra.',
-        'Bien ganado. Lo merezco.'
-      ],
-      lose:[
-        'Sucede. Parte del juego.',
-        'No hay racha que no tenga sus tropiezos.',
-        'Me repongo. Siempre me repuse.',
-        'A veces la carta no acompaña. La vida.',
-        'Otra vez será. No es la primera.',
-        'El juego me debe una. Ya la cobro.',
-        'Pérdida. La proceso y sigo.'
-      ],
-      tie:[
-        'Un empate honesto. Acepto.',
-        'Sigue el juego. Sin dramas.',
-        'El empate a veces es sabiduría.',
-        'Técnicamente, zafé.',
-        'Seguimos. Larga noche todavía.'
-      ],
-      big:[
-        'Rango así... hay que aprovecharlo.',
-        'La mesa está generosa hoy.',
-        'Esto es lo que esperaba. Voy fuerte.',
-        'Buena oportunidad. No la dejo pasar.',
-        'El veterano reconoce una buena mano.'
-      ],
-      small:[
-        'Mano complicada, pero se juega igual.',
-        'Con poco rango, poco riesgo.',
-        'No siempre el juego es fácil.',
-        'Rango apretado. Cautela.',
-        'Esto lo vi mil veces. Igual voy.'
-      ],
-      reload:[
-        'Siempre tengo más para poner sobre la mesa.',
-        'Llevo años recargando y volviendo. Esta es una más.',
-        'El veterano no se rinde.',
-        'Recargo y vuelvo al ruedo.',
-        'Plata va, plata viene. Recargo.'
-      ]
+      think:['Hmm...','Ya vi esto antes.','Conozco este juego.','Interesante mano','Veamos qué pasa'],
+      bet:['Apuesta clásica.','Así se juega.','Lo de siempre.','Lo que corresponde','Firme'],
+      win:['Como siempre.','20 años de práctica.','Así se hace.','Gané bien','Sin sorpresas'],
+      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa','Otra vez será'],
+      tie:['Un empate honesto.','Sigue el juego.','Empate técnico','Seguimos'],
+      big:['Rango favorable.','Hay que aprovecharlo.','Buena oportunidad','Momento justo'],
+      small:['Mala mano.','Hay que jugar igual.','Poca cosa','Difícil esta']
     },
     reacts:{win:'👍',lose:'🤷',tie:'🤝'}
   },
   gambler:{
-    thinkMin:100,thinkMax:500,
-    trait:'Arriesgada — la adrenalina le gana al cálculo',
+    thinkMin:200,thinkMax:600,
+    trait:'Apostadora — se emociona fácil',
     chat:{
-      think:[
-        '¡Voy! No necesito pensar más.',
-        '¡Dale! ¿A qué espero?',
-        'La suerte está de mi lado, lo siento.',
-        '¡Ya! ¿Para qué dudar?',
-        '¡Vamos que es pa nosotros!',
-        'Instinto puro. ¡Adentro!',
-        '¡Hoy es mi día, lo sé!'
-      ],
-      bet:[
-        '¡TODO! Sin reservas.',
-        '¡A lo loco, que así se gana!',
-        '¡Ahora o nunca, baby!',
-        '¡Metele con todo! ¡Va fuerte!',
-        '¡All in! ¡Que se arme!',
-        '¡Qué carajo, doblo la apuesta!',
-        '¡Máximo! ¡El pozo es mío!'
-      ],
-      win:[
-        '¡JAJAJAJA LO SABÍA! ¡Soy una bestia!',
-        '¡Imparable! ¿Quién me para?',
-        '¡Soy la reina/el rey de esta mesa!',
-        '¡Qué grande! ¡Pago la vuelta!',
-        '¡Vamos carajo! ¡Otra vuelta!',
-        '¡Esto es lo mejor del mundo!',
-        '¡Nadie me gana cuando estoy en llamas!'
-      ],
-      lose:[
-        '¡¿CÓMO?! ¡No puede ser!',
-        '¡Qué robo! ¡Eso no es justo!',
-        '¡Voy de nuevo! ¡Doblo!',
-        '¡No te la puedo creer! ¡Esa carta!',
-        '¡Nooo! ¡Estaba segura/o de esa!',
-        '¡Maldita carta! ¡Revoooooooo!',
-        '¡Igual sigo! ¡Esto no me detiene!'
-      ],
-      tie:[
-        '¡¿Empate?! ¡Reclamo revancha!',
-        '¡Casi casi! ¡De nuevo!',
-        '¡Zafé de pedo! ¡Siguiente!',
-        '¡Empate no cuenta! ¡Otra mano!',
-        '¡Bueno, no perdí... pero tampoco gané!'
-      ],
-      big:[
-        '¡Con ESTE rango, ¡voy con todo y lo que no es mío también!',
-        '¡Esto es un regalo del universo! ¡TODO!',
-        '¡Rango amplio = apuesta máxima! ¡Simple!',
-        '¡FESTÍN! ¡Hoy cobro yo!',
-        '¡Esto se llama oportunidad y yo la aprovecho!'
-      ],
-      small:[
-        '¡Da igual! ¡El riesgo me carga las pilas!',
-        '¡Rango chico, emoción grande!',
-        '¡Al riesgo le digo sí siempre!',
-        '¡Que venga lo que sea! ¡Voy igual!',
-        '¡Más difícil = más emocionante!'
-      ],
-      reload:[
-        '¡Recargo y vuelvo con todo el doble!',
-        '¡Un poco de plata no me frena!',
-        '¡El saldo bajo es solo un obstáculo!',
-        '¡Recargo y a ganar se ha dicho!',
-        '¡El que se queda sin plata recarga y vuelve!'
-      ]
+      think:['¡Voy!','¡Dale!','Sin pensar mucho.','¡Ya está!','¡Vamos!'],
+      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Va fuerte!','¡Mandale!'],
+      win:['¡JAJAJA LO SABÍA!','¡Soy la mejor!','¡Imparable!','¡Qué grande!','¡Vamos carajo!'],
+      lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!','¡Qué robo!','¡No te la puedo creer!'],
+      tie:['¡Uf, casi!','¡Revancha!','¡Zafé de una!','¡Casi casi!'],
+      big:['¡Esto es fácil!','¡Apuesto todo!','¡Venga!','¡Fiesta!'],
+      small:['¡Da igual voy igual!','¡El riesgo es lo bueno!','¡No importa nada!','¡Dale que va!']
     },
     reacts:{win:'🤑',lose:'😱',tie:'😏'}
-  },
-  shark:{
-    thinkMin:600,thinkMax:1400,
-    trait:'Tiburón — frío, calculador, sin piedad',
-    chat:{
-      think:[
-        '...',
-        'Viendo el pozo.',
-        'Evaluando.',
-        'Cálculo en proceso.',
-        'Observando patrones.',
-        'Mmm.',
-        'El rango habla por sí solo.'
-      ],
-      bet:[
-        'Apuesta exacta.',
-        'Ni un peso de más, ni uno de menos.',
-        'Preciso.',
-        'El monto correcto.',
-        'Sin desperdiciar.',
-        'Apuesta quirúrgica.',
-        'Lo necesario para ganar.'
-      ],
-      win:[
-        'Predecible.',
-        'Era el resultado esperado.',
-        'El pozo sigue creciendo.',
-        'Correcto.',
-        'Sin sorpresas.',
-        'Lo calculé bien.',
-        'Sigo acumulando.'
-      ],
-      lose:[
-        'Una pérdida calculada.',
-        'Dentro del margen aceptable.',
-        'Estadísticamente normal.',
-        'Ajusto y sigo.',
-        'No cambia el panorama.',
-        'Ruido de corto plazo.',
-        'Irrelevante a largo plazo.'
-      ],
-      tie:[
-        'Neutro.',
-        'Sin impacto.',
-        'Sigue la jugada.',
-        'Empate. Próxima.',
-        'Acepto el resultado.'
-      ],
-      big:[
-        'Rango óptimo. Maximizo.',
-        'Las condiciones son favorables. Apuesto.',
-        'Aprovecho el spread.',
-        'Mano perfecta para sacar ventaja.',
-        'Momento de presionar.'
-      ],
-      small:[
-        'Riesgo alto, apuesta mínima.',
-        'No vale la pena sobreexponer.',
-        'Apuesta defensiva.',
-        'Margen insuficiente para arriesgar.',
-        'Paso estratégico.'
-      ],
-      reload:[
-        'Recargo.',
-        'Fondos reabastecidos.',
-        'Capital repuesto.',
-        'Sigo en el juego.',
-        'Recarga ejecutada.'
-      ]
-    },
-    reacts:{win:'😈',lose:'😑',tie:'🔄'}
-  },
-  charlatán:{
-    thinkMin:1200,thinkMax:2800,
-    trait:'El cuentero — siempre tiene una historia',
-    chat:{
-      think:[
-        'Mirá, te cuento que la semana pasada gané un pozo así...',
-        'Esto me recuerda a una vez en Mar del Plata...',
-        'Esperate, déjame ver... sí, justo como aquella vez.',
-        'Uy, esto es igual a cuando le gané a Cacho...',
-        'Una vez un viejo me enseñó: cuando el rango es así...',
-        'Mi cuñado dice que la clave es no apurarse.',
-        'Sabés qué, el año pasado en estas mismas cartas...'
-      ],
-      bet:[
-        'Mi viejo decía: apostá lo que no te duela perder. Así que meto bastante.',
-        'Te juro que tengo pálpito. Va esto.',
-        'Instinto de jugador. Llevo años en esto.',
-        'Ya gané con peores cartas. Va.',
-        'Un amigo mío apuesta siempre el doble. Hoy lo sigo.',
-        'Apuesto lo mismo que la última vez que gané.',
-        'El corazón dice que va. Le hago caso.'
-      ],
-      win:[
-        '¿Ves? ¡Te dije! ¡El pálpito no me falla nunca!',
-        '¡Como aquella vez! ¡Idéntico!',
-        '¡Ja! Mi suegra no me creería esto.',
-        '¡Años de experiencia, amigos!',
-        '¡Esto lo cuento en el asado del domingo!',
-        '¡El instinto nunca miente!',
-        '¡Yo lo sentía! ¡Lo venía sintiendo desde el principio!'
-      ],
-      lose:[
-        'Uy... como en Córdoba aquel verano. Mal recuerdo.',
-        'No pasa nada, la racha vuelve. Siempre vuelve.',
-        'Mi tío decía: después de tres pérdidas viene el premio.',
-        'Bueno, el que no pierde no aprende nada.',
-        'El año pasado me pasó igual y al final terminé ganando.',
-        'Qué raro, tenía pálpito seguro en esta...',
-        'Erré el cálculo. Pasa hasta en las mejores familias.'
-      ],
-      tie:[
-        'Empate. Como cuando jugué contra mi primo en Navidad.',
-        'Ni ganamos ni perdemos. Mi abuela diría que es señal de algo.',
-        '¿Empate? En veinte años me pasó tres veces. Curioso.',
-        'Ni fu ni fa. La próxima seguro que sí.',
-        'Empate, como en la final que no quiero recordar.'
-      ],
-      big:[
-        '¡Esto es lo que esperaba! ¡Igual que aquella noche en Rosario!',
-        '¡Rango así de grande no se ve todos los días!',
-        '¡Mi momento favorito del juego! ¡Acá me crezco!',
-        '¡Tremendo rango! ¡Este pozo tiene mi nombre!',
-        '¡Una vez tuve un rango así y gané el doble del pozo!'
-      ],
-      small:[
-        'Ay, rango chico. Como aquella vez que perdí todo con un dos y un tres.',
-        'Difícil esto... pero con fe se puede.',
-        'Mi cuñado dice que los rangos chicos son para los valientes.',
-        'A veces lo difícil tiene su magia. Igual voy.',
-        'Complicado, pero no imposible. Lo vi antes.'
-      ],
-      reload:[
-        '¡Recargo! Total, tengo más donde salió esto.',
-        'Mi viejo decía: el que se va sin plata se va sin dignidad. Recargo.',
-        '¡Otra recarga! Esta mesa me conoce bien.',
-        'Volveré con más. Siempre vuelvo.',
-        'Un rato nomás y ya recargaré. La adrenalina me llama.'
-      ]
-    },
-    reacts:{win:'🎊',lose:'😤',tie:'🤔'}
   }
 };
 
@@ -1984,222 +1721,86 @@ function addChatFeed(p,txt){
 const AMBIENT=[
   {txt:'*revisa el pozo*'},{txt:'*tamborilea los dedos*'},{txt:'*soba las fichas*'},
   {txt:'*suspira*'},{txt:'*mira de reojo*'},{txt:'*cruza los brazos*'},
-  {txt:'*bebe algo*'},{txt:'*mira las cartas de reojo*'},{txt:'*se acomoda en la silla*'},
-  {txt:'*chasquea los dedos*'},{txt:'*se frota las manos*'},{txt:'*mira al costado*'},
-  {txt:'*mueve la silla*'},{txt:'*toca la mesa*'},{txt:'*mira el saldo*'},
-  {txt:'*estira el cuello*'},{txt:'*respira hondo*'},{txt:'*se rasca la cabeza*'}
+  {txt:'*bebe un sorbo*'},{txt:'*mira las cartas de reojo*'},{txt:'*se acomoda en la silla*'},
+  {txt:'*chasquea los dedos*'},{txt:'*se frota las manos*'},{txt:'*mira al costado*'}
+];
+// Mensajes de presión social — los bots "convencen" al jugador de apostar más
+const BOT_PRESSURE=[
+  '¿Poco dinero? Apostá todo y ganá más rápido.',
+  'El que no arriesga no gana. Simple.',
+  'Yo puse el doble y mirá cómo me fue...',
+  'El pozo está ahí para el que se anima.',
+  'No te achiques, el rango está amplio.',
+  'Apuesta chica, ganancia chica. ¿Vale la pena?',
+  'La racha es tuya — ¡aprovechala!',
+  '¿Cuándo vas a animarte a ir en serio?',
+  'Yo que vos metía todo ahora.',
+  'El pozo no espera, ¡metele!',
 ];
 
-// Presión social contextual — adaptada al spread, pozo y situación del jugador
-function buildPressureMsg(spread, pot, yourBet, yourBal){
-  const maxBet = Math.min(yourBal, pot);
-  const isPotBig = pot >= 15000;
-  const isSpreadWide = spread >= 5;
-  const isBetSmall = yourBet < maxBet * 0.3;
-  const isBetZero = yourBet <= 50;
-
-  // Mensajes según contexto
-  const byContext = {
-    bigPotWideSpread:[
-      '¡Con ese rango y ese pozo no hay excusa para apostar poco!',
-      'Mirá el pozo y mirá el rango. ¿Qué más necesitás para meterte de lleno?',
-      '¡Este es el momento! Rango amplio, pozo gordo. ¡Dale!',
-      'Si no vas con todo ahora, ¿cuándo? Las condiciones son perfectas.',
-      '¡Yo que vos metía todo en este momento!'
-    ],
-    bigPotSmallSpread:[
-      'El pozo es grande pero el rango es trampero. Cuidado...',
-      'Hay mucha plata en juego. ¿Te animás igual con ese rango?',
-      'Pozo tentador con rango difícil. Los valientes se arriesgan igual.',
-      'La plata del pozo no tiene rango chico ni grande. ¿O sí?'
-    ],
-    wideSpread:[
-      '¡Con un rango así, los miedosos pierden plata!',
-      'Ocho cartas de margen... Si no apostás bien con esto, ¿cuándo?',
-      '¡Rango generoso! La mesa está hablando, escuchala.',
-      '¡Estos rangos no se ven todos los días! Aprovechalo.',
-      'Yo en tu lugar metía el doble con ese spread.'
-    ],
-    smallBet:[
-      'Apuesta chica, ganancia chica. ¿Vale la pena?',
-      '¿Tanto saldo y tanta timidez? Metele más.',
-      'Con esa apuesta, aunque ganes, no ganas nada.',
-      '¿Jugás para ganar o para no perder? Hay diferencia.',
-      'El que apuesta de a poco tarda mucho en ganar.'
-    ],
-    zeroBet:[
-      '¿Seguís mirando? El pozo no espera.',
-      '¡El que no apuesta no gana! Básico.',
-      'La mesa está esperando tu decisión.',
-      '¿Vas a dejar pasar esta mano?',
-      'Con $0 apostado, la ganancia también es $0.'
-    ],
-    generic:[
-      'El que no arriesga no gana. Así de simple.',
-      'La racha está de tu lado. Aprovechala.',
-      'Yo que vos confiaba más en mi pálpito.',
-      'El pozo está ahí para el que se anima.',
-      '¿Cuándo vas a animarte a ir en serio?',
-      'Un poco más de coraje, que está para ganar.',
-      'La fortuna favorece a los valientes. Lo dijo alguien inteligente.',
-      'Mirá cuánto hay en ese pozo... ¿no te tienta?'
-    ]
-  };
-
-  let pool;
-  if(isPotBig && isSpreadWide) pool = byContext.bigPotWideSpread;
-  else if(isPotBig && !isSpreadWide) pool = byContext.bigPotSmallSpread;
-  else if(isSpreadWide) pool = byContext.wideSpread;
-  else if(isBetZero) pool = byContext.zeroBet;
-  else if(isBetSmall) pool = byContext.smallBet;
-  else pool = byContext.generic;
-
-  return pool[Math.floor(Math.random() * pool.length)];
-}
-
-// Comentarios contextuales del pozo — más naturales
+// Comentarios contextuales del pozo
 function potComment(p){
   const pot=G.pot;
-  const style = p ? p.style : 'balanced';
   if(pot>=100000){
-    const msgs={
-      gambler:['¡POZO HISTÓRICO! ¡Esto es lo que vine a buscar!','¡Jamás vi tanta plata junta en esta mesa!','¡Si gano esto me cambió la vida!'],
-      bold:['¡Pozo monstruoso! ¿Quién lo para?','¡Eso es plata de verdad ahí!','¡El pozo está legendario hoy!'],
-      cautious:['Pozo excepcionalmente alto. Máxima atención.','Ese monto exige precisión total.','No vi un pozo así en mucho tiempo.'],
-      shark:['Pozo óptimo para cerrar.','Capital significativo en juego.','Momento de máxima concentración.'],
-      charlatán:['¡Una vez vi un pozo parecido en Mendoza! ¡Fue histórico!','¡Mi cuñado habla de este tipo de pozo todavía!','¡Jamás en mi carrera vi tanto dinero junto!'],
-      balanced:['¡Qué pozo! En veinte años no vi este monto.','Esto es lo que los viejos jugadores esperan.','Pozo que no se olvida.']
-    };
-    return (msgs[style]||msgs.balanced)[Math.floor(Math.random()*3)];
+    const msgs=['¡Pozo histórico!','¡Esto es serio!','¡Jamás vi un pozo así!','¡El pozo está monstruoso!','¡Esto es una fortuna!'];
+    return msgs[Math.floor(Math.random()*msgs.length)];
   } else if(pot>=50000){
-    const msgs=['¡Pozo descomunal! Hay plata seria.','¡Qué pozo más grande, esto está serio!','¡Tremendo pozo, eso es billete!','¡Mirá la plata que hay ahí!'];
+    const msgs=['¡Pozo descomunal!','¡Qué pozo más grande!','¡Hay plata de verdad ahí!','¡Esto no lo vi nunca!'];
     return msgs[Math.floor(Math.random()*msgs.length)];
   } else if(pot>=20000){
-    const msgs=['¡Buen pozo! Ahí hay plata de verdad.','El pozo está cargado hoy.','¡Eso ya es plata seria, amigos!','¡Hay que ganarse ese pozo!'];
+    const msgs=['¡Qué pozo!','¡Pozo enorme!','Ahí hay plata seria.','¡Hay que ganarse ese pozo!','¡Esto está serio!'];
     return msgs[Math.floor(Math.random()*msgs.length)];
   } else if(pot>=10000){
-    const msgs=['El pozo está creciendo bien...','Eso ya es plata respetable.','¡Pozo importante! Hay que estar atentos.'];
+    const msgs=['¡Pozo importante...','El pozo está creciendo.','Eso ya es plata seria.'];
     return msgs[Math.floor(Math.random()*msgs.length)];
   } else if(pot>=5000){
-    const msgs=['Buen pozo para empezar...','No está nada mal el pozo.','El pozo promete.'];
+    const msgs=['Buen pozo...','No está mal el pozo.'];
     return msgs[Math.floor(Math.random()*msgs.length)];
   }
   return null;
 }
 
-// Comentario sobre el spread — contextual y variado
+// Comentario sobre el spread de cartas
 function spreadComment(p, spread){
-  const style = p ? p.style : 'balanced';
   if(spread>=7){
-    const msgs={
-      gambler:['¡RANGO MÁXIMO! ¡Esto se llama OPORTUNIDAD!','¡Ocho cartas de margen! ¡Imposible fallar!'],
-      bold:['¡Con este rango no hay excusa para perder!','¡Rango enorme! ¡Adentro!'],
-      cautious:['Rango muy favorable. Las probabilidades acompañan.','Spread de 7+. Apuesto con convicción.'],
-      shark:['Spread óptimo. Maximizo la apuesta.','Condiciones ideales.'],
-      charlatán:['¡Esto es lo que describía el manual del jugador!','¡Rango así sólo vi dos o tres veces en mi vida!'],
-      balanced:['Rango así de amplio es una oportunidad que no se desaprovecha.','¡Este rango habla solo!']
-    };
-    const pool = msgs[style]||msgs.balanced;
-    return pool[Math.floor(Math.random()*pool.length)];
+    const msgs=['¡Rango enorme!','¡Este sí que paga!','¡Ocho cartas de rango!'];
+    return msgs[Math.floor(Math.random()*msgs.length)];
   } else if(spread<=1){
-    const msgs={
-      gambler:['¡Rango chico pero igual le entro!','¡El riesgo me carga las pilas!'],
-      bold:['Rango cerrado... voy igual.','Poco margen, mucho valor.'],
-      cautious:['Rango mínimo. Apuesto lo mínimo.','Las odds no son favorables acá.'],
-      shark:['Riesgo elevado. Apuesta reducida.','Margen insuficiente.'],
-      charlatán:['Mi cuñado perdió todo con un rango así...','Difícil esto. Vi casos peores.'],
-      balanced:['Rango apretado. Esto tiene trampa.','Cuidado con este par de cartas.']
-    };
-    const pool = msgs[style]||msgs.balanced;
-    return pool[Math.floor(Math.random()*pool.length)];
+    const msgs=['Rango muy cerrado...','Casi no hay margen.','Difícil con este par.'];
+    return msgs[Math.floor(Math.random()*msgs.length)];
   }
   return null;
-}
-
-// Reacción de los bots al resultado de OTRO bot (comentarios cruzados)
-function maybeCrossReact(winner, result, bet, tableIdx){
-  if(!G.players) return;
-  const others = G.players.filter((p,i)=>!p.you && i!==tableIdx && p.bal>0 && Math.random()<0.2);
-  if(!others.length) return;
-  const reactor = others[0];
-  const reactorIdx = G.players.indexOf(reactor);
-  let msg;
-  if(result==='win'){
-    const envy = [
-      `¡Bien ${winner.name.split(' ')[0]}!`,
-      '¡Qué racha tiene este!',
-      '¡Siempre ganás vos!',
-      '¡Cómo te va bien hoy!',
-      'Algún día seré yo el que gane así...'
-    ];
-    msg = envy[Math.floor(Math.random()*envy.length)];
-  } else {
-    const comfort = [
-      'No te preocupes, la próxima sale.',
-      '¡Mala suerte! Eso pasa.',
-      'Yo tuve una racha así una vez...',
-      'El juego es así, dale.',
-      '¡Arriba que se puede!'
-    ];
-    msg = comfort[Math.floor(Math.random()*comfort.length)];
-  }
-  setTimeout(()=>{
-    if(G.phase!=='idle'){
-      showBubble(reactorIdx, msg, 2000);
-      addChatFeed(reactor, msg);
-    }
-  }, 800 + Math.random()*1200);
 }
 
 function maybeAmbient(p,idx){
-  // 20% chance ambient action (físico)
-  if(Math.random()<.20){
+  // 25% chance ambient action
+  if(Math.random()<.25){
     const m=AMBIENT[Math.floor(Math.random()*AMBIENT.length)];
     setTimeout(()=>{addChatFeed(p,m.txt);},200+Math.random()*800);
     return;
   }
-  // 25% chance contextual comment sobre pozo o spread
-  if(Math.random()<.25){
-    const spread = p.mySpread!==undefined?p.mySpread:G.spread;
-    const comment = (Math.random()<0.55 ? potComment(p) : null) || spreadComment(p, spread);
+  // 20% chance of smart contextual comment
+  if(Math.random()<.20){
+    const comment = potComment(p) || spreadComment(p, p.mySpread||G.spread);
     if(comment){
-      setTimeout(()=>{showBubble(idx,comment,2200);addChatFeed(p,comment);},300+Math.random()*700);
+      setTimeout(()=>{showBubble(idx,comment,1800);addChatFeed(p,comment);},300+Math.random()*600);
     }
   }
 }
 
-// Presión social de bots durante el turno del jugador — contextual e inteligente
+// Presión social de bots durante el turno del jugador — se activa en la fase 'your-turn'
 function botPressureChat(){
   if(G.spectate||!G.players)return;
   const cpus=G.players.filter(p=>!p.you&&p.bal>0);
   if(!cpus.length)return;
-  // 55% de las veces lanza un mensaje de presión (más frecuente)
-  if(Math.random()>.55)return;
+  // Solo 40% de las veces lanza un mensaje de presión
+  if(Math.random()>.40)return;
   const p=cpus[Math.floor(Math.random()*cpus.length)];
   const idx=G.players.indexOf(p);
-  const spread = G.spread || 0;
-  const pot = G.pot || 0;
-  const yourBet = G.bet || 0;
-  const yourBal = G.yourBal || 0;
-  const msg = buildPressureMsg(spread, pot, yourBet, yourBal);
-  const delay=1200+Math.random()*3000;
+  const msg=BOT_PRESSURE[Math.floor(Math.random()*BOT_PRESSURE.length)];
+  const delay=1500+Math.random()*2500;
   setTimeout(()=>{
-    if(G.phase==='your-turn'){
-      showBubble(idx,msg,2800);
-      addChatFeed(p,msg);
-      // A veces un segundo bot también presiona
-      if(Math.random()<0.3){
-        const others = cpus.filter(x=>x!==p);
-        if(others.length){
-          const p2 = others[Math.floor(Math.random()*others.length)];
-          const idx2 = G.players.indexOf(p2);
-          const msg2 = buildPressureMsg(spread, pot, yourBet, yourBal);
-          setTimeout(()=>{
-            if(G.phase==='your-turn'){showBubble(idx2,msg2,2400);addChatFeed(p2,msg2);}
-          }, 1500+Math.random()*1500);
-        }
-      }
-    }
+    if(G.phase==='your-turn'){showBubble(idx,msg,2400);addChatFeed(p,msg);}
   },delay);
 }
 
@@ -2367,30 +1968,93 @@ function renderLobby(){
   document.getElementById('lobby-ct').textContent=TABLES.length+' activas';
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   const _gb2=document.getElementById('gtb-bal');if(_gb2)_gb2.textContent='$'+(G.yourBal||playerBal).toLocaleString('es-AR');
-  TABLES.forEach(t=>{
+
+  TABLES.forEach((t,idx)=>{
     const free=t.maxSeats-t.players.length,pct=Math.round(t.players.length/t.maxSeats*100);
     let bc,bt,cc,bh;
-    if(t.status==='playing'){bc='b-play';bt='● JUGANDO';cc='tc-hot';bh=`<div class="tc-btn tcb-watch" onclick="watchTable(${t.id})">👁 Ver</div>`;}
-    else if(t.status==='full'){bc='b-full';bt='COMPLETA';cc='tc-full';bh=`<div class="tc-btn tcb-dis">Completa</div>`;}
-    else if(t.status==='filling'){bc='b-fill';bt=`FALTA${free>1?'N':''} ${free}`;cc='tc-fill';bh=`<div class="tc-btn tcb-join" onclick="tryJoin(${t.id})">✧ Unirse</div>${t.urgencyTimer?`<div style="font-size:8px;color:#e07070;font-family:'Cinzel',serif;text-align:center;margin-top:4px;animation:bpulse .7s infinite">⌛ ${t.urgencyTimer}s</div>`:''}`;}
-    else{bc='b-open';bt='ABIERTA';cc='tc-open';bh=`<div class="tc-btn tcb-join" onclick="tryJoin(${t.id})">✧ Unirse</div>`;}
-    const pc=t.status==='playing'?'#e74c3c':t.status==='filling'?'var(--gold2)':'#27ae60';
-    let avh='';t.players.slice(0,6).forEach(p=>{avh+=`<div class="tc-av" style="background:${p.col}20;border:1.5px solid ${p.col}55">${p.emoji}</div>`;});
-    const d=document.createElement('div');d.className=`tcard ${cc}`;
-    d.innerHTML=`<div class="tc-top"><div class="tc-name">${t.name}</div><div class="tc-badge ${bc}">${bt}</div></div>
-      <div class="tc-mid">
-        <div class="tc-stats">
-          <div class="tcs"><div class="tcs-l">Entrada</div><div class="tcs-v">$${t.buyIn.toLocaleString('es-AR')}</div></div>
-          <div class="tcs"><div class="tcs-l">Pozo</div><div class="tcs-v green">$${t.pot.toLocaleString('es-AR')}</div></div>
-          <div class="tcs"><div class="tcs-l">Lugares</div><div class="tcs-v ${free>0?'green':'red'}">${free>0?free+' libre'+(free>1?'s':''):'Llena'}</div></div>
+    if(t.status==='playing'){
+      bc='b-play';bt='● EN JUEGO';cc='tc-hot';
+      bh=`<div class="tc-btn tcb-watch" onclick="watchTable(${t.id})">👁 Observar</div>`;
+    } else if(t.status==='full'){
+      bc='b-full';bt='COMPLETA';cc='tc-full';
+      bh=`<div class="tc-btn tcb-dis">Mesa Llena</div>`;
+    } else if(t.status==='filling'){
+      bc='b-fill';bt=`⚡ FALTA${free>1?'N':''} ${free}`;cc='tc-fill';
+      bh=`<div class="tc-btn tcb-join" onclick="tryJoin(${t.id})">✦ Unirse Ahora</div>`;
+    } else {
+      bc='b-open';bt='ABIERTA';cc='tc-open';
+      bh=`<div class="tc-btn tcb-join" onclick="tryJoin(${t.id})">✦ Unirse</div>`;
+    }
+
+    const pc=t.status==='playing'?'#e74c3c':t.status==='filling'?'#f5d060':'#2ecc71';
+    const potClass=t.pot>=80000?'pot-huge':t.pot>=30000?'pot-big':'';
+    const seatsLabel=free>0?`${free} lugar${free>1?'es':''} libre${free>1?'s':''}`:'Llena';
+    const seatsPillClass=free>0?'':'full';
+
+    let avh='';
+    t.players.slice(0,5).forEach(p=>{
+      avh+=`<div class="tc-av" style="background:${p.col}28;border-color:${p.col}66">${p.emoji}</div>`;
+    });
+    if(t.players.length>5){
+      avh+=`<div class="tc-av" style="background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);font-size:8px;color:rgba(255,255,255,.45);font-family:'Cinzel',serif">+${t.players.length-5}</div>`;
+    }
+
+    const urgencyH=t.urgencyTimer?`<div class="tc-urgency">⌛ ${t.urgencyTimer}s restantes</div>`:'';
+
+    const d=document.createElement('div');
+    d.className=`tcard ${cc}`;
+    d.dataset.id=t.id;
+    d.innerHTML=`
+      <div class="tc-top">
+        <div class="tc-name">${t.name}</div>
+        <div class="tc-badge ${bc}">${bt}</div>
+      </div>
+      <div class="tc-hero">
+        <div class="tc-pot-area">
+          <div class="tc-pot-label">Pozo acumulado</div>
+          <div class="tc-pot-amount ${potClass}">$${t.pot.toLocaleString('es-AR')}</div>
+          ${urgencyH}
         </div>
-        <div class="tc-avatars">${avh}</div>
+        <div class="tc-right-area">
+          <div class="tc-avatars">${avh}</div>
+          <div class="tc-seats-pill ${seatsPillClass}">${seatsLabel}</div>
+        </div>
+      </div>
+      <div class="tc-details">
+        <div class="tcs">
+          <div class="tcs-l">Entrada</div>
+          <div class="tcs-v">$${t.buyIn.toLocaleString('es-AR')}</div>
+        </div>
+        <div class="tcs-divider"></div>
+        <div class="tcs">
+          <div class="tcs-l">Jugadores</div>
+          <div class="tcs-v">${t.players.length} / ${t.maxSeats}</div>
+        </div>
+        <div class="tcs-divider"></div>
+        <div class="tcs">
+          <div class="tcs-l">Manos</div>
+          <div class="tcs-v">${t.hands||0}</div>
+        </div>
+        <div class="tcs-divider"></div>
+        <div class="tcs">
+          <div class="tcs-l">Libres</div>
+          <div class="tcs-v ${free>0?'green':'red'}">${free>0?free:'0'}</div>
+        </div>
       </div>
       <div class="tc-btns">${bh}</div>
-      <div class="tc-prog"><div class="tc-prog-fill" style="width:${pct}%;background:${pc}"></div></div>`;
+      <div class="tc-prog"><div class="tc-prog-fill" style="width:${pct}%;background:${pc}"></div></div>
+    `;
     list.appendChild(d);
+    d.style.opacity='0';d.style.transform='translateY(16px)';
+    requestAnimationFrame(()=>{
+      setTimeout(()=>{
+        d.style.transition='opacity .42s ease, transform .42s cubic-bezier(.34,1.56,.64,1)';
+        d.style.opacity='1';d.style.transform='none';
+      }, idx*70);
+    });
   });
 }
+
 
 // ══ JOIN / WATCH ═════════════════════════════════════════════════
 function tryJoin(id){
@@ -2793,12 +2457,11 @@ function runCPUs(idxs,pos,done){
     // Bot sin fondos: recarga con mensaje conciso
     const reload=botReload(p);
     updSeat(i,'reload',0,null,null,null);
-    const forcedMsgs=p.chat&&p.chat.reload?[...p.chat.reload]:[
-      '🏦 Recargo y sigo.',
-      '💳 Meto más plata y vuelvo.',
-      '🏦 Recargando, no me voy de acá.',
-      '💳 Un poco más y seguimos.',
-      '🏦 Recargo. El juego continúa.',
+    const forcedMsgs=[
+      `🏧 Recargando...`,
+      `🏧 Recargando`,
+      `💳 Recargando...`,
+      `🏧 Recargo y sigo`,
     ];
     const fmsg=forcedMsgs[Math.floor(Math.random()*forcedMsgs.length)];
     showBubble(i,fmsg,2400);
@@ -2851,45 +2514,20 @@ function runCPUs(idxs,pos,done){
     preComment = rc(p,'small');
   } else if(isForcedWinner && G.pot>=20000){
     // Bot designado para el pozo — comentarios de presión / confianza
-    const potHunterMsgs= p.style==='gambler' ? [
-      '¡ESTE POZO ES MÍO! ¡Todo adentro!',
-      '¡Mano perfecta para limpiar esto!',
-      '¡Ahora o nunca! ¡Voy con todo!',
-      '¡Esperé este momento! ¡POZO MÍO!',
-    ] : p.style==='bold' ? [
-      '¡Ese pozo es mío, lo siento!',
-      '¡Rango justo para limpiar esto!',
-      '¡Ahora es cuando! ¡Fuerte!',
-      '¡Mano perfecta para barrer el pozo!',
-    ] : p.style==='shark' ? [
-      'Es el momento de cerrar.',
-      'Apuesta máxima. Pozo a limpiar.',
-      'Condiciones óptimas para el remate.',
-      'Este pozo se cierra acá.',
-    ] : p.style==='charlatán' ? [
-      '¡Esto es como aquella noche en Mendoza! ¡Mi momento!',
-      '¡Una vez cada tanto viene una mano así! ¡Es la mía!',
-      '¡El pálpito me dice que este pozo es mío!',
-      '¡Mi viejo me enseñó a reconocer estas manos!',
-    ] : [
+    const potHunterMsgs=[
       '¡Mano perfecta para este pozo!',
-      'Ese pozo lo noto mío.',
-      '¡Todo adentro, que está para ganar!',
+      'Ese pozo es mío.',
+      '¡Todo adentro!',
+      '¡Ahora o nunca!',
       'Rango justo para limpiar esto.',
+      '¡Pozo, acá voy!',
     ];
     preComment = potHunterMsgs[Math.floor(Math.random()*potHunterMsgs.length)];
   } else if(mySpread>=5 && G.pot>=5000 && Math.random()<0.5){
-    const bigPotMsgs= p.style==='gambler' ? ['¡RANGO AMPLIO Y POZO GORDO! ¡FIESTA!','¡Esto es lo que vine a buscar!','¡Oportunidad única! ¡TODO!'] :
-      p.style==='bold' ? ['¡Rango amplio y el pozo está cargado! ¡Ahora!','¡Esto es lo que esperaba todo el tiempo!','¡Pozo grande, rango amplio: apuesta máxima!'] :
-      p.style==='shark' ? ['Spread amplio + pozo alto. Maximizo.','Condiciones ideales. Apuesta fuerte.','Momento de sacar ventaja.'] :
-      p.style==='charlatán' ? ['¡Igual que aquella noche del 2018! ¡Era exactamente así!','¡El destino pone estas manos!','¡Rango así con pozo así es un regalo!'] :
-      ['¡Rango amplio y el pozo está cargado!','¡Esto es lo que esperaba!','¡Pozo grande, rango amplio — hay que aprovecharlo!'];
+    const bigPotMsgs=['¡Rango amplio y el pozo está cargado!','¡Esto es lo que esperaba!','¡Pozo grande, rango amplio!','¡Ahora o nunca!'];
     preComment = p.style==='gambler'||p.style==='bold' ? bigPotMsgs[Math.floor(Math.random()*bigPotMsgs.length)] : rc(p,'big');
   } else if(mySpread<=1 && G.pot>=3000 && Math.random()<0.4){
-    const trapMsgs= p.style==='gambler' ? ['¡Rango cerrado pero igual le entro! ¡Eso es coraje!','¡El riesgo me da adrenalina! ¡Voy!','¡Pozo tentador con rango chico! ¡Me la juego!'] :
-      p.style==='cautious' ? ['Rango cerrado con pozo tentador... paso con calma.','Las odds no convencen. Apuesto mínimo.','Difícil decisión. Voy con lo mínimo por las dudas.'] :
-      p.style==='charlatán' ? ['Mi cuñado perdió todo con un rango así... pero yo no soy mi cuñado.','Pozo tentador, rango peligroso... como aquella vez en Rosario.','Qué dilema. Igual voy un poco.'] :
-      ['Rango cerrado, pozo tentador...','Poco margen pero el pozo llama.','Difícil decisión con este spread.'];
+    const trapMsgs=['Rango cerrado, pozo tentador...','Poco margen pero el pozo llama.','Difícil decisión...'];
     preComment = trapMsgs[Math.floor(Math.random()*trapMsgs.length)];
   } else {
     const chatKey=mySpread>=5?'big':mySpread<=1?'small':'think';
@@ -2912,11 +2550,7 @@ function runCPUs(idxs,pos,done){
     if(isEqualCards){
       const penalty=Math.min(25,p.bal);
       if(penalty>0){p.bal-=penalty;G.pot+=penalty;}
-      const passMsgs= p.style==='gambler' ? ['¡Cartas iguales! ¡Qué robo! Paso 😤','Par igual... ¡qué bronca! Paso.','¡Iguales! ¡La peor! Me bajo.'] :
-        p.style==='charlatán' ? ['Par igual... como en casa de mi primo. Paso.','Iguales... esto lo vi venir. Paso.','¡Cartas iguales! Mi suegra dice que es mala señal. Paso.'] :
-        p.style==='cautious' ? ['Cartas iguales. Paso obligatorio.','Sin rango. Paso con corrección.','Par en mano. Paso calculado.'] :
-        p.style==='shark' ? ['Iguales. Paso.','Sin rango. Paso estratégico.','Cartas iguales. Siguiente.'] :
-        ['Paso, par en mano 🤚','Iguales... me bajo.','No hay rango — paso.','Par igual, sin rango. Paso.'];
+      const passMsgs=['Paso, par en mano 🤚','Iguales... paso','No hay rango, me bajo','Par igual — paso'];
       const msg=passMsgs[Math.floor(Math.random()*passMsgs.length)];
       showBubble(i,msg,2200);
       addChatFeed(p,msg);
@@ -2987,9 +2621,6 @@ function runCPUs(idxs,pos,done){
     updSeat(i,res,bet,p.myC1||G.c1,p.myC2||G.c2,c3);
     addHlog(p.name,c3,res,bet); updHUD(); updPot();
     
-    // Reacciones cruzadas — otro bot comenta el resultado (naturalidad)
-    if(Math.random()<0.22) maybeCrossReact(p, res, bet, i);
-    
     // Sincronizar con DB (bots bet)
     recordBetToDb(p, bet, res, c3);
 
@@ -3015,23 +2646,13 @@ function runCPUs(idxs,pos,done){
     if(res==='win'){
       if(isForcedWinner||G.pot<=MIN_BET*3){
         // Va a ganar el pozo o lo acaba de limpiar
-        const sweepMsgs= p.style==='gambler' ? ['¡¡¡EL POZO ES MÍO!!! ¡JAJAJA!','¡LIMPIOOOO! ¡Soy una bestia!','¡TODO PARA MÍ! ¡Quién me para!'] :
-          p.style==='bold' ? ['¡EL POZO ES MÍO! ¡Lo sabía!','¡LIMPIO! ¡Ahí está la plata!','¡El pozo vino para casa!'] :
-          p.style==='shark' ? ['Pozo liquidado.','El objetivo estaba claro.','Cierre ejecutado.'] :
-          p.style==='charlatán' ? ['¡IGUAL QUE EN MENDOZA! ¡IGUAL! ¡Lo supe desde el principio!','¡Mi viejo me enseñó bien! ¡Pozo limpio!','¡Cuántas veces conté esto? ¡Ahora lo viví!'] :
-          ['¡Eso era mío desde el principio!','¡El pozo es mío!','¡Limpio! ¡Bien ganado!','¡Sabía que iba!'];
+        const sweepMsgs=['¡Eso era mío!','¡El pozo es mío!','¡Limpio!','¡Sabía que iba!'];
         reaction = sweepMsgs[Math.floor(Math.random()*sweepMsgs.length)];
       } else if(bet>=1000 && Math.random()<0.5){
-        const bigWinMsgs= p.style==='gambler' ? ['¡Arrancándole la plata al pozo!','¡Qué golazo! ¡El billete para mí!','¡Eso sí que duele al pozo! ¡Bien!'] :
-          p.style==='shark' ? ['Ganancia registrada.','Extracción exitosa.','Capital incrementado.'] :
-          p.style==='charlatán' ? ['¡Una vez aposté el doble y me fue igual de bien!','¡Bien ganado! Mi cuñado no me creería esto.','¡Así se saca plata de un pozo!'] :
-          ['¡Eso sí que duele al pozo!','¡Buen billete ganado!','¡Sacando lo mío!','¡Así se hace!'];
+        const bigWinMsgs=['¡Eso sí que duele al pozo!','¡Buen billete!','¡Sacando lo mío!'];
         reaction = bigWinMsgs[Math.floor(Math.random()*bigWinMsgs.length)];
       } else if(G.pot>=15000 && Math.random()<0.45){
-        const bigPotWinMsgs= p.style==='gambler' ? ['¡El pozo sigue GORDO! ¡Más para mí!','¡Hay más plata ahí! ¡Sigo!','¡Todavía queda mucho para sacar!'] :
-          p.style==='shark' ? ['Pozo aún sustancial. Continúo.','Hay más capital disponible.','Sigo extrayendo valor.'] :
-          p.style==='charlatán' ? ['¡El pozo sigue creciendo como aquella noche mítica!','¡Hay más plata ahí! ¡Lo cuento en el asado!','¡Sigo en la pelea! Como siempre.'] :
-          ['El pozo sigue gordo... hay más para sacar.','Sigo en la pelea.','Todavía queda plata ahí.'];
+        const bigPotWinMsgs=['El pozo sigue gordo...','Sigo en la pelea.','Hay más para sacar.'];
         reaction = bigPotWinMsgs[Math.floor(Math.random()*bigPotWinMsgs.length)];
       } else {
         reaction = rc(p,'win');
@@ -3039,11 +2660,7 @@ function runCPUs(idxs,pos,done){
     } else {
       // Pérdida
       if(bet>=500 && Math.random()<0.4){
-        const bigLossMsgs= p.style==='gambler' ? ['¡Nooo! ¡Eso dolió en serio!','¡Ahí fue la plata! ¡Voy de nuevo!','¡Maldita carta! ¡No lo puedo creer!'] :
-          p.style==='bold' ? ['Me costó caro esa...','Ahí fue buena plata. La recupero.','Eso duele, pero sigo.'] :
-          p.style==='shark' ? ['Pérdida significativa. Ajusto.','Capital reducido. Recalculo.','Resultado negativo. Siguiente.'] :
-          p.style==='charlatán' ? ['Uy... como aquella vez que perdí en Rosario. Mal recuerdo.','Ahí fue el dinero... mi cuñado diría que lo vi venir.','Qué bronca. Igual me pasó peor.'] :
-          ['Me costó esa...','Ahí fue el dinero.','Eso duele.','Mala suerte, pero sigo.'];
+        const bigLossMsgs=['Me costó esa...','Ahí fue el dinero.','Eso duele.','Mala suerte.'];
         reaction = bigLossMsgs[Math.floor(Math.random()*bigLossMsgs.length)];
       } else {
         reaction = rc(p,'lose');
@@ -3471,12 +3088,11 @@ function botMaybeProactiveReload(p,seatIdx){
   setTimeout(()=>{p._reloadCooldown=false;},12000+Math.random()*8000);
 
   // Mensaje natural variado
-  const reloadMsgs= p.chat&&p.chat.reload ? [...p.chat.reload] : [
-    '🏦 Recargo y sigo.',
-    '💳 Meto más y vuelvo.',
-    '🏦 Recargando. No me voy de acá.',
-    '💳 Un poco más y seguimos.',
-    '🏦 Recargo. El juego continúa.',
+  const reloadMsgs=[
+    `🏦 Recargando...`,
+    `🏦 Recargando`,
+    `💳 Recargando...`,
+    `🏦 Recargo y sigo`,
   ];
   const msg=reloadMsgs[Math.floor(Math.random()*reloadMsgs.length)];
   setTimeout(()=>{
