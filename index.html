@@ -1155,60 +1155,74 @@ const TABLE_NAMES=['Salón Dorado','Mesa Roja','El Corralón','La Imperial','Sal
 // ════ JUGADORES CON PERSONALIDAD COMPLETA ════════════════════════
 const BOT_STYLES={
   bold:{
-    thinkMin:500,thinkMax:1100,
-    trait:'Impulsivo — nunca duda cuando el rango es amplio',
+    thinkMin:420,thinkMax:950,
+    trait:'Impulsivo — decide rápido, apuesta fuerte',
     chat:{
-      think:['Veamos...','Esto pinta bien...','¿Cuánto arriesgo?','A ver qué sale de acá','Mmm, interesante'],
-      bet:['¡Va todo!','Con ganas.','No me tiembla la mano.','Subo la apuesta','¡Adentro!'],
-      win:['¡eso es!','¡Sabía que entraba!','¡Sigo en racha!','Viene para casa','¡Toma ya!'],
-      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta','Qué mala liga'],
-      tie:['Casi...','Al menos no perdí.','Empate, zafé','Podría haber sido peor'],
-      big:['¡Con este rango no fallo!','¡Esto es un regalo!','Acá no hay dudas','Regalado'],
-      small:['Riesgo total...','Igual voy.','Me la juego','A ver si sale']
+      think:['Veamos...','Esto pinta bien...','¿Cuánto arriesgo?','A ver qué sale','Mmm...','Dame un segundo','Interesante...'],
+      bet:['¡Va todo!','Con ganas.','No me tiembla la mano.','Subo la apuesta.','¡Adentro!','Cargado y listo.','Sin dudas.'],
+      win:['¡Eso es!','¡Sabía que entraba!','¡En racha!','Viene para casa.','¡Toma ya!','¡Siempre supe!','Como lo planeé.'],
+      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta.','Qué mala liga.','La revancha es mía.','Igual voy de nuevo.'],
+      tie:['Casi...','Al menos no perdí.','Empate, zafé.','Podría ser peor.'],
+      big:['¡Con este rango no fallo!','¡Es un regalo!','Acá no hay dudas.','Regalado esto.','Perfecto para mí.'],
+      small:['Riesgo total...','Igual voy.','Me la juego.','A ver si sale.','Lo que sea.']
     },
     reacts:{win:'🎉',lose:'😤',tie:'😐'}
   },
   cautious:{
-    thinkMin:1800,thinkMax:3500,
-    trait:'Analítica — piensa mucho antes de apostar',
+    thinkMin:1600,thinkMax:3200,
+    trait:'Analítica — calcula antes de cada peso',
     chat:{
-      think:['Déjame calcular...','Analizando odds...','¿Cuánto hay en el pozo?','Viendo las chances','Un momento...'],
-      bet:['Apuesto con cuidado.','Solo lo que conviene.','Con cabeza.','Poco pero seguro','Calculado'],
-      win:['Lo sabía.','La matemática no falla.','Exacto como calculé.','Salió como esperaba','Controlado'],
-      lose:['No esperaba eso.','Ajustaré la estrategia.','El azar es cruel.','Varianza negativa','Inesperado'],
-      tie:['Dentro de mis cálculos.','Empate aceptable.','Neutral','Sin cambios'],
-      big:['Probabilidad a favor.','Las chances son buenas.','Buen margen','Margen aceptable'],
-      small:['Muy arriesgado para mí.','Las odds no me convencen.','Demasiado fino','Poco margen']
+      think:['Calculando...','¿Cuánto hay en el pozo?','Viendo las chances...','Un momento...','Analizo el rango.','Las odds...','Déjame pensar.'],
+      bet:['Apuesto con cuidado.','Solo lo que conviene.','Con cabeza.','Poco pero seguro.','Calculado.','Apuesta medida.','Sin excesos.'],
+      win:['Lo sabía.','La matemática no falla.','Calculé bien.','Salió como esperaba.','Controlado.','Exacto.','Bien jugado.'],
+      lose:['No esperaba eso.','Ajusto estrategia.','El azar es cruel.','Varianza negativa.','Inesperado.','Qué mala probabilidad.','Estadística en contra.'],
+      tie:['Dentro de lo esperado.','Empate aceptable.','Neutral.','Sin cambios.'],
+      big:['Probabilidad a favor.','Las chances son buenas.','Buen margen.','Margen aceptable.','Conviene apostar.'],
+      small:['Demasiado arriesgado.','Las odds no convencen.','Fino esto.','Poco margen.','Me cuido acá.']
     },
     reacts:{win:'😊',lose:'😟',tie:'😶'}
   },
   balanced:{
-    thinkMin:800,thinkMax:1800,
-    trait:'Veterano — 20 años en el juego',
+    thinkMin:700,thinkMax:1600,
+    trait:'Veterano — 20 años en el tapete',
     chat:{
-      think:['Hmm...','Ya vi esto antes.','Conozco este juego.','Interesante mano','Veamos qué pasa'],
-      bet:['Apuesta clásica.','Así se juega.','Lo de siempre.','Lo que corresponde','Firme'],
-      win:['Como siempre.','20 años de práctica.','Así se hace.','Gané bien','Sin sorpresas'],
-      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa','Otra vez será'],
-      tie:['Un empate honesto.','Sigue el juego.','Empate técnico','Seguimos'],
-      big:['Rango favorable.','Hay que aprovecharlo.','Buena oportunidad','Momento justo'],
-      small:['Mala mano.','Hay que jugar igual.','Poca cosa','Difícil esta']
+      think:['Hmm...','Ya vi esto antes.','Conozco este juego.','Interesante mano.','Veamos...','Siempre lo mismo.','Esta la conozco.'],
+      bet:['Apuesta clásica.','Así se juega.','Lo de siempre.','Lo que corresponde.','Firme.','Sin vueltas.','Directo.'],
+      win:['Como siempre.','20 años de práctica.','Así se hace.','Sin sorpresas.','Bien ganado.','Lo esperaba.','Uno más.'],
+      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa.','Otra vez será.','No es la primera.','Sigo.'],
+      tie:['Un empate honesto.','Sigue el juego.','Empate técnico.','Seguimos.'],
+      big:['Rango favorable.','Hay que aprovecharlo.','Buena oportunidad.','Momento justo.','Este lo agarro.'],
+      small:['Mala mano.','Igual hay que jugar.','Poca cosa esto.','Difícil esta mano.','Con lo que hay.']
     },
     reacts:{win:'👍',lose:'🤷',tie:'🤝'}
   },
   gambler:{
-    thinkMin:200,thinkMax:600,
-    trait:'Apostadora — se emociona fácil',
+    thinkMin:150,thinkMax:500,
+    trait:'Apostadora compulsiva — el riesgo la divierte',
     chat:{
-      think:['¡Voy!','¡Dale!','Sin pensar mucho.','¡Ya está!','¡Vamos!'],
-      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Va fuerte!','¡Mandale!'],
-      win:['¡JAJAJA LO SABÍA!','¡Soy la mejor!','¡Imparable!','¡Qué grande!','¡Vamos carajo!'],
-      lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!','¡Qué robo!','¡No te la puedo creer!'],
-      tie:['¡Uf, casi!','¡Revancha!','¡Zafé de una!','¡Casi casi!'],
-      big:['¡Esto es fácil!','¡Apuesto todo!','¡Venga!','¡Fiesta!'],
-      small:['¡Da igual voy igual!','¡El riesgo es lo bueno!','¡No importa nada!','¡Dale que va!']
+      think:['¡Voy!','¡Dale!','Sin pensarlo mucho.','¡Ya está!','¡Vamos!','¡No espero más!','¡Qué espero!'],
+      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Va fuerte!','¡Mandale!','¡Sin miedo!','¡Al máximo!'],
+      win:['¡LO SABÍA!','¡Soy imparable!','¡Qué grande!','¡Vamos!','¡Siempre supe!','¡Increíble!','¡Sigo así!'],
+      lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!','¡Qué robo!','¡No lo puedo creer!','¡Revancha!','¡Otra vez!'],
+      tie:['¡Uf, casi!','¡Revancha ya!','¡Zafé de una!','¡Casi casi!'],
+      big:['¡Fácil esto!','¡Apuesto todo!','¡Venga!','¡Fiesta!','¡Todo adentro!'],
+      small:['¡Da igual, voy!','¡El riesgo es lo bueno!','¡No me importa!','¡Dale que va!','¡Qué puede salir mal!']
     },
     reacts:{win:'🤑',lose:'😱',tie:'😏'}
+  },
+  shark:{
+    thinkMin:900,thinkMax:2000,
+    trait:'Tiburón — frío, calculador, sin emociones',
+    chat:{
+      think:['...','Evaluando.','Rango analizado.','Relación riesgo/pozo.','Sin apuro.','Lo veo claro.','Proceso.'],
+      bet:['Calculado.','Apuesta óptima.','Según el modelo.','Risk ajustado.','Ejecutando.','Todo medido.','Sin ruido.'],
+      win:['Ejecutado.','Resultado esperado.','Buen retorno.','Modelo correcto.','Próximo.','Confirmado.','Sin sorpresas.'],
+      lose:['Variable aleatoria.','Dentro del rango.','Continúa el modelo.','No afecta.','EV positivo igual.','Error del sistema.','Próxima mano.'],
+      tie:['Neutro.','Sin ganancia ni pérdida.','Continúa.','Eficiencia cero.'],
+      big:['Esperanza matemática positiva.','Rango favorable, apuesta máxima.','El modelo dice que sí.','Excelente EV.','Acá hay valor.'],
+      small:['EV negativo.','Rango desfavorable.','Paso estratégico.','No hay edge.','Sin ventaja.']
+    },
+    reacts:{win:'😐',lose:'😑',tie:'🫥'}
   }
 };
 
@@ -1232,7 +1246,9 @@ const EMOJIS=['👨','👩','🧔','👱‍♀️','🧑','💁‍♀️','🧑�
 
 const ALL_PLAYERS=ARG_NAMES.map((name,i)=>{
   const styleKeys=Object.keys(BOT_STYLES);
-  const styleKey=styleKeys[i%styleKeys.length];
+  // Distribución natural: más gamblers/bold, menos sharks
+  const styleWeights=['gambler','bold','balanced','cautious','balanced','bold','gambler','shark','balanced','cautious'];
+  const styleKey=styleWeights[i%styleWeights.length];
   const style=BOT_STYLES[styleKey];
   return {
     name,
@@ -1873,50 +1889,72 @@ async function generateTables(){
    * Límites: mínimo 1 jugador, máximo 10 jugadores por mesa
    */
   const cats={
-    //         entradas posibles     asientos posibles   manos previas
-    small:{ buyIns:[200,300,500],    minSeats:5,maxSeats:10, handsRange:[2,10] },
-    mid:  { buyIns:[750,1000,1500],  minSeats:3,maxSeats:7,  handsRange:[5,20] },
-    big:  { buyIns:[2000,3000,5000], minSeats:1,maxSeats:4,  handsRange:[8,30] },
+    // Alta frecuencia: mesas populares, entradas accesibles, mucho movimiento
+    popular:{ buyIns:[100,200,300,500],  minSeats:5,maxSeats:10, handsRange:[3,15],  weight:0.40 },
+    // Media frecuencia: el corazón del casino
+    mid:    { buyIns:[500,750,1000,1500],minSeats:3,maxSeats:7,  handsRange:[8,25],  weight:0.35 },
+    // Baja frecuencia: mesas exclusivas, pozo concentrado
+    vip:    { buyIns:[2000,3000,5000],   minSeats:2,maxSeats:5,  handsRange:[12,35], weight:0.18 },
+    // Rarísima: la mesa de alto riesgo
+    elite:  { buyIns:[8000,10000,15000], minSeats:1,maxSeats:3,  handsRange:[20,50], weight:0.07 },
   };
+
+  // Precalcular umbrales acumulados para selección ponderada
+  const catKeys=Object.keys(cats);
+  const catThresh=[];let acc=0;
+  catKeys.forEach(k=>{acc+=cats[k].weight;catThresh.push(acc);});
 
   for(let i=0;i<n;i++){
     const roll=Math.random();
-    const catKey=roll<.35?'small':roll<.75?'mid':'big';
+    const catKey=catKeys[catThresh.findIndex(t=>roll<t)]||'mid';
     const cat=cats[catKey];
 
     const bi=cat.buyIns[rnd(0,cat.buyIns.length-1)];
-    const mx=Math.max(1,Math.min(10,rnd(cat.minSeats,cat.maxSeats)));
-    const hands=rnd(cat.handsRange[0],cat.handsRange[1]);
+    const mx=Math.max(2,Math.min(10,rnd(cat.minSeats,cat.maxSeats)));
+    // Manos jugadas: distribución realista — la mayoría en rango bajo, pocas muy jugadas
+    const handsRoll=Math.random();
+    const hands=handsRoll<0.55
+      ? rnd(cat.handsRange[0], Math.round(cat.handsRange[0]+(cat.handsRange[1]-cat.handsRange[0])*0.4))
+      : rnd(cat.handsRange[0], cat.handsRange[1]);
 
+    // Estado: distribución natural de casino activo
     const stRoll=Math.random();let st,occ;
-    if(stRoll<.25){st='playing';occ=mx;}
-    else if(stRoll<.42){st='full';occ=mx;}
-    else if(stRoll<.70){occ=Math.max(1,Math.min(mx,mx-rnd(1,2)));st='filling';}
-    else{occ=Math.max(1,rnd(1,Math.max(1,mx-1)));st='open';}
+    if(stRoll<.20){st='playing';occ=mx;}          // 20% en juego
+    else if(stRoll<.32){st='full';occ=mx;}         // 12% completa esperando
+    else if(stRoll<.60){                            // 28% llenándose — máxima tensión
+      occ=Math.max(1,mx-rnd(1,Math.min(2,mx-1)));st='filling';
+    } else {                                        // 40% abierta — invitación a entrar
+      occ=Math.max(1,rnd(1,Math.max(1,mx-2)));st='open';
+    }
     occ=Math.min(occ,mx);
 
     const availableBots = ALL_PLAYERS.filter(p => !usedBotNames.has(p.name));
     const pl = availableBots.sort(()=>Math.random()-.5).slice(0,occ);
     pl.forEach(p => usedBotNames.add(p.name));
 
-    // Pozo exacto para mesas abiertas: solo lo que pagaron los presentes
-    // Pozo acumulado para mesas en juego: base + ganancia del casino por manos
     let pot;
     if(st==='open'||st==='filling'){
-      pot=bi*occ; // estricto: entrada × participantes
+      // Pozo = entrada × participantes + pequeño acumulado de rondas previas
+      const prevAccum=Math.round(bi*occ*rnd(0,3)*0.18/50)*50;
+      pot=bi*occ+prevAccum;
     } else {
-      const potBase=bi*occ;
-      const potAccum=Math.round(bi*occ*hands*0.55/50)*50;
-      const jitter=Math.round(potBase*(0.88+Math.random()*0.24)/50)*50;
-      pot=Math.max(potBase,potBase+potAccum+jitter);
+      // Mesas activas: pozo crece orgánicamente por las manos
+      const potBase=bi*mx;
+      const growthRate=catKey==='elite'?0.72:catKey==='vip'?0.60:catKey==='mid'?0.50:0.38;
+      const potAccum=Math.round(potBase*hands*growthRate/50)*50;
+      const jitter=Math.round(potBase*(0.82+Math.random()*0.36)/50)*50;
+      pot=Math.max(potBase, potBase+potAccum+jitter);
     }
+
+    // Variación de urgencia más natural
+    const urgBase=catKey==='popular'?rnd(20,90):catKey==='mid'?rnd(30,120):rnd(45,180);
 
     TABLES.push({
       id:i, dbId: null, name:names[i]||'Mesa '+(i+1),
       maxSeats:mx, buyIn:bi,
       status:st, players:pl,
       pot:pot, hands:hands,
-      urgencyTimer:st==='filling'?rnd(30,120):null,
+      urgencyTimer:st==='filling'?urgBase:null,
       potCat:catKey
     });
   }
@@ -1926,37 +1964,65 @@ async function generateTables(){
 
 function lobbyTick(){
   TABLES.forEach(t=>{
+    // Frecuencia de actividad según categoría de mesa
+    const freq=t.potCat==='popular'?1.0:t.potCat==='mid'?0.75:t.potCat==='vip'?0.50:0.30;
+
     if(t.status==='playing'){
       t.hands++;
-      if(Math.random()<.04){t.status='open';t.players=[];t.pot=0;t.hands=0;}
+      // El pozo crece un poco con cada mano jugada (simula apuestas internas)
+      const handGrow=Math.round(t.buyIn*(0.05+Math.random()*0.12)/50)*50;
+      t.pot=Math.max(t.pot,t.pot+handGrow);
+      // Cierre de mesa: más frecuente en mesas populares (reciclan rápido)
+      const closeChance=t.potCat==='popular'?0.06:t.potCat==='mid'?0.04:0.025;
+      if(Math.random()<closeChance){
+        t.status='open';t.players=t.players.slice(0,Math.floor(t.players.length*0.4)||1);
+        t.pot=t.buyIn*t.players.length;t.hands=0;
+      }
     } else if(t.status==='filling'){
-      if(Math.random()<.25){
+      // Velocidad de llenado proporcional a la categoría
+      const fillChance=0.15+freq*0.18;
+      if(Math.random()<fillChance){
         const u=new Set(t.players.map(p=>p.name));
         const av=ALL_PLAYERS.filter(p=>!u.has(p.name));
         if(av.length>0&&t.players.length<t.maxSeats){
           t.players.push(av[rnd(0,av.length-1)]);
-          t.pot=t.buyIn*t.players.length; // pozo exacto
+          t.pot=t.buyIn*t.players.length;
         }
       }
-      if(t.urgencyTimer!==null)t.urgencyTimer=Math.max(0,t.urgencyTimer-3);
+      if(t.urgencyTimer!==null)t.urgencyTimer=Math.max(0,t.urgencyTimer-4);
       if(t.players.length>=t.maxSeats){t.status='playing';t.urgencyTimer=null;}
+      // Veces que alguien se va mientras se llena
+      if(Math.random()<0.04&&t.players.length>1){
+        t.players.splice(rnd(0,t.players.length-1),1);
+        t.pot=t.buyIn*t.players.length;
+        t.urgencyTimer=rnd(15,50); // timer se reinicia — más urgente
+      }
     } else if(t.status==='open'){
-      if(Math.random()<.18){
+      const joinChance=0.10+freq*0.20;
+      if(Math.random()<joinChance){
         const u=new Set(t.players.map(p=>p.name));
         const av=ALL_PLAYERS.filter(p=>!u.has(p.name));
         if(av.length>0&&t.players.length<t.maxSeats){
           t.players.push(av[rnd(0,av.length-1)]);
-          t.pot=t.buyIn*t.players.length; // pozo exacto
+          t.pot=t.buyIn*t.players.length;
         }
         if(t.maxSeats-t.players.length<=2&&t.players.length>0){
-          t.status='filling';t.urgencyTimer=rnd(30,90);
+          t.status='filling';
+          const urgBase=t.potCat==='popular'?rnd(15,60):t.potCat==='mid'?rnd(25,90):rnd(40,150);
+          t.urgencyTimer=urgBase;
         }
       }
-    } else if(t.status==='full'){
-      if(Math.random()<.03&&t.players.length>1){
+      // Alguien se va de una mesa abierta (natural)
+      if(Math.random()<0.05&&t.players.length>1){
         t.players.splice(rnd(0,t.players.length-1),1);
-        t.pot=t.buyIn*t.players.length; // pozo exacto al bajar un jugador
-        t.status='filling';t.urgencyTimer=rnd(20,60);
+        t.pot=t.buyIn*t.players.length;
+      }
+    } else if(t.status==='full'){
+      const leaveChance=t.potCat==='popular'?0.05:0.025;
+      if(Math.random()<leaveChance&&t.players.length>1){
+        t.players.splice(rnd(0,t.players.length-1),1);
+        t.pot=t.buyIn*t.players.length;
+        t.status='filling';t.urgencyTimer=rnd(15,55);
       }
     }
   });
@@ -2362,8 +2428,21 @@ async function dealHand(){
   G.players.forEach((p,i)=>updSeat(i,'wait',0,null,null,null));
   const info=G.spread>=5?'¡Rango amplio! Las chances son buenas.':G.spread>=2?'Rango moderado — medí bien.':'Rango cerrado — el riesgo es alto.';
   // Si el pozo es grande, agregar tensión extra
-  if(G.pot>=40000){
-    const bigMsgs=[`🔥 El pozo llega a $${G.pot.toLocaleString('es-AR')}. La mesa está caliente.`,`💰 $${G.pot.toLocaleString('es-AR')} acumulados. Alguien se lo va a llevar.`,`⚡ Pozo enorme. Cada mano cuenta.`];
+  if(G.pot<=1000&&G.pot>0){
+    // Pozo pequeño — empujar a vaciarlo antes que los bots
+    const smallMsgs=[
+      `🎯 ¡Pozo de $${G.pot.toLocaleString('es-AR')}! Apostá todo y terminá la ronda.`,
+      `⚡ $${G.pot.toLocaleString('es-AR')} en el pozo — fácil de ganar si apostás el total.`,
+      `💸 Pozo chico: $${G.pot.toLocaleString('es-AR')}. Los bots ya lo están mirando. ¡Actuá!`
+    ];
+    setMsg(smallMsgs[G.hand%smallMsgs.length],'info');
+  } else if(G.pot>=40000){
+    const bigMsgs=[
+      `🔥 $${G.pot.toLocaleString('es-AR')} en el pozo — la mesa está al rojo vivo.`,
+      `💰 $${G.pot.toLocaleString('es-AR')} acumulados. Alguien se lo lleva esta ronda. ¿Vas a ser vos?`,
+      `⚡ Pozo histórico: $${G.pot.toLocaleString('es-AR')}. Cada apuesta importa.`,
+      `🏆 $${G.pot.toLocaleString('es-AR')} esperándote. Apostá fuerte y cambiá el juego.`
+    ];
     setMsg(bigMsgs[G.hand%bigMsgs.length],'info');
   } else {
     setMsg(info,'info');
@@ -2388,11 +2467,30 @@ async function dealHand(){
       const potBig=G.pot>=30000;
       // Mensajes de turno que anclan psicológicamente hacia apuestas más grandes
       const betSugg=G.bet>=1000?`$${G.bet.toLocaleString('es-AR')} sugeridos`:`Mín. $${MIN_BET}`;
-      const turnMsgs=potBig?
-        [`⚡ POZO $${G.pot.toLocaleString('es-AR')} — ¡El rango amplio llama! Apostá fuerte.`,`🔥 $${G.pot.toLocaleString('es-AR')} en juego. A mayor apuesta, mayor ganancia.`,`💎 El pozo está maduro. Tenés ${BET_TIMER}s para llenarte los bolsillos.`]:
+      // Mensajes según contexto del pozo actual
+      const potSmall=G.pot<=1000&&G.pot>0;
+      const turnMsgs=potSmall?
+        // Pozo pequeño — urgencia de vaciarlo antes que un bot
+        [`⚠ El pozo tiene $${G.pot.toLocaleString('es-AR')} — ¡apostá el pozo y llevátelo!`,
+         `💥 $${G.pot.toLocaleString('es-AR')} esperándote. Apostá todo y vacía la mesa.`,
+         `🎯 Pozo chico, fácil de ganar. ¡Apostá $${G.pot.toLocaleString('es-AR')} y terminá la mano!`]:
+        potBig?
+        [`⚡ POZO $${G.pot.toLocaleString('es-AR')} — ¡Rango amplio! Esta es tu chance. ${BET_TIMER}s.`,
+         `🔥 $${G.pot.toLocaleString('es-AR')} en juego. Cuanto más apostás, más ganás. ${BET_TIMER}s.`,
+         `💎 El pozo está maduro. Apostá fuerte — quedan ${BET_TIMER}s.`,
+         `🚀 Con este rango y este pozo no hay excusas. ¡Adentro! ${BET_TIMER}s.`]:
         G.streak>0?
-        [`😤 ¡Racha ganadora! Ahora subí la apuesta y multiplicá. ${BET_TIMER}s.`,`🎯 La suerte está de tu lado — aprovechá y apostá más. ${BET_TIMER}s.`,`🚀 Momento perfecto para ir con todo. ${BET_TIMER}s.`]:
-        [`¡Tu turno! ${betSugg} — Tenés ${BET_TIMER}s`,`¿Apostás más y ganás más? ${BET_TIMER}s`,`La carta espera. Pozo: $${G.pot.toLocaleString('es-AR')} — ${BET_TIMER}s`];
+        [`🎯 ¡Racha ganadora! La suerte sigue — apostá más y multiplicá. ${BET_TIMER}s.`,
+         `🔥 En racha. Momento de subir la apuesta. ${BET_TIMER}s.`,
+         `💪 Estás caliente — aprovechá y apostá fuerte. ${BET_TIMER}s.`]:
+        G.streak<-1?
+        [`😤 La revancha está en tus manos. Apostá más y recuperá lo perdido. ${BET_TIMER}s.`,
+         `💭 Una buena apuesta cambia la historia. Pozo: $${G.pot.toLocaleString('es-AR')} — ${BET_TIMER}s.`,
+         `🎲 La próxima es tuya — apostá con confianza. ${BET_TIMER}s.`]:
+        [`¡Tu turno! ${betSugg} — Tenés ${BET_TIMER}s`,
+         `La carta espera. Pozo: $${G.pot.toLocaleString('es-AR')} — ${BET_TIMER}s`,
+         `¿Apostás más y ganás más? Pozo: $${G.pot.toLocaleString('es-AR')} — ${BET_TIMER}s`,
+         `Confiá en el rango. Apostá y revelá. ${BET_TIMER}s.`];
       setMsg(turnMsgs[G.hand%turnMsgs.length],'info');
       startCD(BET_TIMER);
       G.autoRevealTimer=setTimeout(()=>{if(G.phase==='your-turn')confirmBet();},BET_TIMER*1000);
@@ -2403,45 +2501,76 @@ async function dealHand(){
 }
 
 // ── APUESTA INTELIGENTE DEL BOT ──────────────────────────────────
-// El bot solo apuesta lo que puede cubrir con el resultado
-// Si el pozo es ganador: apuesta máximo posible
+// Apuesta inteligente del bot — pozo ≤$1000: SIEMPRE juega el pozo completo
 function calcSmartBet(p, spread, isPotWinner){
   if(p.bal<=0) return 0;
-  const maxBet=Math.min(p.bal, G.pot); // no puede apostar más que el pozo
+  const maxBet=Math.min(p.bal, G.pot);
   if(maxBet<MIN_BET) return 0;
-  if(isPotWinner){
-    // Si es ganador forzado, apuesta fuerte pero con cierta varianza para que parezca natural
-    const pct = 0.75 + Math.random() * 0.2; 
-    return Math.max(MIN_BET, Math.min(maxBet, Math.round(maxBet * pct / 50) * 50));
+
+  // ── REGLA CLAVE: pozo pequeño (≤$1000) con posibilidades ──
+  // El bot siempre lo va a buscar — apuesta aleatoria ≤ pozo, deja pozo en 0
+  if(G.pot<=1000 && spread>=1 && p.bal>=MIN_BET){
+    // Apuesta exactamente el pozo (o lo que tiene si es menos) — pozo queda en 0
+    const potBet=Math.min(p.bal, G.pot);
+    // Pequeña varianza natural: a veces apuesta exacto, a veces un poco menos pero siempre ≥ MIN_BET
+    const rollStyle=Math.random();
+    if(rollStyle<0.65 || potBet<=MIN_BET){
+      return potBet; // apuesta el pozo completo
+    } else {
+      // Apuesta entre 70-100% del pozo — resultado igual vacía el pozo si gana
+      const pct=0.70+Math.random()*0.30;
+      return Math.max(MIN_BET, Math.round(potBet*pct/50)*50);
+    }
   }
-  // Apuesta inteligente según estilo, spread y riesgo
-  const winProb = Math.min(spread / 10, 1);
-  let ratio = 0;
+
+  // ── GANADOR FORZADO del pozo grande ──
+  if(isPotWinner){
+    const pct=0.72+Math.random()*0.25;
+    return Math.max(MIN_BET, Math.min(maxBet, Math.round(maxBet*pct/50)*50));
+  }
+
+  // ── APUESTA SEGÚN ESTILO y contexto ──
+  const winProb=Math.min(spread/10,1);
+  let ratio=0;
   switch(p.style){
     case 'gambler':
-      ratio = 0.35 + (winProb * 0.6) + (Math.random() * 0.15);
+      // Siempre apuesta fuerte, especialmente con buen rango
+      ratio=0.38+(winProb*0.58)+(Math.random()*0.14);
+      // Boost de pozo tentador
+      if(G.pot>=5000&&winProb>=0.4)ratio=Math.min(ratio*1.2,0.95);
       break;
     case 'bold':
-      if (winProb > 0.6) ratio = 0.45 + (winProb * 0.5);
-      else if (winProb > 0.3) ratio = 0.15 + (winProb * 0.25);
-      else ratio = 0.05;
+      if(winProb>0.6)ratio=0.48+(winProb*0.48);
+      else if(winProb>0.3)ratio=0.18+(winProb*0.28);
+      else ratio=0.06+(Math.random()*0.06);
       break;
     case 'cautious':
-      if (winProb > 0.8) ratio = 0.4 + (winProb * 0.45);
-      else if (winProb > 0.5) ratio = 0.1 + (winProb * 0.2);
-      else ratio = 0.02;
+      if(winProb>0.8)ratio=0.42+(winProb*0.42);
+      else if(winProb>0.55)ratio=0.12+(winProb*0.22);
+      else ratio=0.03+(Math.random()*0.04);
+      break;
+    case 'shark':
+      // Tiburón: apuesta máxima con EV positivo, casi nada con EV negativo
+      if(winProb>0.7)ratio=0.55+(winProb*0.40);
+      else if(winProb>0.45)ratio=0.20+(winProb*0.30);
+      else ratio=0.04;
       break;
     default: // balanced
-      ratio = 0.15 + (winProb * 0.55) + (Math.random() * 0.1);
+      ratio=0.18+(winProb*0.52)+(Math.random()*0.10);
       break;
   }
-  // Ajuste por tamaño del pozo
-  if (G.pot > p.bal * 2.5 && winProb < 0.7) ratio *= 0.8;
-  
-  let bet = Math.round(maxBet * ratio / 50) * 50;
-  bet = Math.max(MIN_BET, Math.min(bet, maxBet));
-  // Sanidad para rangos muy bajos
-  if (spread <= 2 && p.style !== 'gambler' && !isPotWinner && Math.random() > 0.15) bet = MIN_BET;
+
+  // Ajuste defensivo: pozo muy grande vs saldo bajo
+  if(G.pot>p.bal*2.5&&winProb<0.65)ratio*=0.82;
+
+  // Boost cuando el pozo es un múltiplo del buyIn (vale la pena apostar más)
+  if(G.pot>=G.buyIn*4&&winProb>=0.5)ratio=Math.min(ratio*1.10,0.90);
+
+  let bet=Math.round(maxBet*ratio/50)*50;
+  bet=Math.max(MIN_BET,Math.min(bet,maxBet));
+
+  // Con spread muy bajo: solo gambler y bold apuestan fuerte, el resto va al mínimo
+  if(spread<=2&&p.style!=='gambler'&&p.style!=='bold'&&!isPotWinner&&Math.random()>0.12)bet=MIN_BET;
   return bet;
 }
 
@@ -2522,7 +2651,16 @@ function runCPUs(idxs,pos,done){
       'Rango justo para limpiar esto.',
       '¡Pozo, acá voy!',
     ];
-    preComment = potHunterMsgs[Math.floor(Math.random()*potHunterMsgs.length)];
+    // Comentarios especiales si el pozo es pequeño y el bot va a vaciarlo
+    if(G.pot<=1000&&G.pot>0){
+      const smallPotHunterMsgs=[
+        '¡Ese pozo es mío!','Fácil, me lo llevo.','¡Apostá o te lo gano!',
+        'Pozo chico, apuesta grande.','¡Un solo tiro y listo!','¡El pozo me llama!'
+      ];
+      preComment=smallPotHunterMsgs[Math.floor(Math.random()*smallPotHunterMsgs.length)];
+    } else {
+      preComment = potHunterMsgs[Math.floor(Math.random()*potHunterMsgs.length)];
+    }
   } else if(mySpread>=5 && G.pot>=5000 && Math.random()<0.5){
     const bigPotMsgs=['¡Rango amplio y el pozo está cargado!','¡Esto es lo que esperaba!','¡Pozo grande, rango amplio!','¡Ahora o nunca!'];
     preComment = p.style==='gambler'||p.style==='bold' ? bigPotMsgs[Math.floor(Math.random()*bigPotMsgs.length)] : rc(p,'big');
@@ -2624,16 +2762,32 @@ function runCPUs(idxs,pos,done){
     // Sincronizar con DB (bots bet)
     recordBetToDb(p, bet, res, c3);
 
-    // ── Bot ganó el pozo completo ──
-    if(res==='win'&&G.pot<=MIN_BET&&!G._potWonThisHand){
+    // ── Bot ganó el pozo ──
+    // Caso 1: pozo quedó muy bajo después de la apuesta (normal)
+    // Caso 2: pozo era ≤1000 y el bot apostó para vaciarlo (regla especial)
+    const potCleared = G.pot<=0 || (G._potBot&&G._potBot.smallPot&&res==='win'&&G.pot<=MIN_BET);
+    if(res==='win'&&(G.pot<=MIN_BET||potCleared)&&!G._potWonThisHand){
       G._potWonThisHand=true;
+      // Vaciar pozo completamente — queda en 0
+      const wonAmount=Math.max(0,G.pot);
+      p.bal+=wonAmount; // el bot se lleva el resto
+      G.pot=0;
       const reactEmoji=p.reacts?p.reacts.win:'🎉';
+      // Mensajes especiales para pozo pequeño vaciado
+      const smallPotMsgs=[
+        '¡Me llevo el resto!','¡El pozo es mío!','¡Todo para mí!',
+        '¡Limpié la mesa!','¡Era mío ese pozo!','¡Barrí con todo!'
+      ];
+      const winMsg=potCleared&&wonAmount<=1000
+        ? smallPotMsgs[Math.floor(Math.random()*smallPotMsgs.length)]
+        : rc(p,'win');
       setTimeout(()=>{
         if(reactEmoji)showReact(i,reactEmoji);
-        showBubble(i,rc(p,'win'),2400);
-        addChatFeed(p,rc(p,'win'));
+        showBubble(i,winMsg,2600);
+        addChatFeed(p,winMsg);
       },300);
-      setTimeout(()=>potWonAndExit(p.name,Math.max(0,G.pot),false),1200);
+      updHUD();updPot();
+      setTimeout(()=>potWonAndExit(p.name,wonAmount,false),1300);
       return;
     }
 
@@ -2820,10 +2974,11 @@ function confirmBet(){
   updHUD();updPot();
 
   // ── SECUENCIA DE SUSPENSO PROGRESIVA ────────────────────────
+  const _potPct=Math.round((G.bet/(G.pot+G.bet||1))*100);
   const suspenseMsgs=[
-    {t:0,   txt:'Mezclando el destino...', cls:'info'},
-    {t:700, txt:'La carta está en camino...', cls:'info'},
-    {t:1400,txt:'El pozo no perdona...', cls:'info'},
+    {t:0,   txt:`Mezclando el destino... $${G.bet.toLocaleString('es-AR')} en juego`, cls:'info'},
+    {t:650, txt:'La carta está en camino — respirá hondo...', cls:'info'},
+    {t:1350,txt:`El pozo tiene $${G.pot.toLocaleString('es-AR')}. La suerte elige ahora.`, cls:'info'},
   ];
   suspenseMsgs.forEach(m=>setTimeout(()=>setMsg(m.txt,m.cls),m.t));
 
@@ -2998,31 +3153,38 @@ const POT_WIN_CHANCE_HUGE = 1.0;
 function designatePotBot(){
   if(G._potBot)return;
   if(G.pot<=0)return;
-  // Activar cuando el pozo supere POT_BIG_THRESHOLD (siempre) o antes con prob creciente
-  // Con pozo ilimitado: también se reasigna cuando crece mucho más allá del umbral
   let fire=false;
-  if(G.pot>=POT_BIG_THRESHOLD){
-    fire=true; // siempre al llegar al umbral
+  if(G.pot<=1000&&G.pot>0){
+    // Pozo pequeño: SIEMPRE designar un bot para vaciarlo — es la regla del juego
+    fire=true;
+  } else if(G.pot>=POT_BIG_THRESHOLD){
+    fire=true;
   } else if(G.pot>=15000){
     const ratio=(G.pot-15000)/(POT_BIG_THRESHOLD-15000);
-    fire=Math.random()<(0.25+ratio*0.75);
+    fire=Math.random()<(0.30+ratio*0.70);
   } else if(G.pot>=8000){
-    fire=Math.random()<0.10;
+    fire=Math.random()<0.15;
+  } else if(G.pot>=3000){
+    fire=Math.random()<0.06;
   }
   if(!fire)return;
   const candidates=G.players.filter(p=>{
     if(p.you||!p.name)return false;
     const sp=p.mySpread!==undefined?p.mySpread:G.spread;
-    return sp>=2;
+    return sp>=1; // con pozo chico hasta con spread=1 van
   });
   if(!candidates.length)return;
-  // Preferir bots con estilo gambler/bold para mayor drama
-  const aggressive=candidates.filter(p=>p.style==='gambler'||p.style==='bold');
-  const pool=aggressive.length?aggressive:candidates;
+  // Para pozos pequeños: todos los estilos compiten — es plata fácil
+  let pool;
+  if(G.pot<=1000){
+    pool=candidates; // cualquiera puede ir por el pozo chico
+  } else {
+    const aggressive=candidates.filter(p=>p.style==='gambler'||p.style==='bold'||p.style==='shark');
+    pool=aggressive.length?aggressive:candidates;
+  }
   const w=pool[Math.floor(Math.random()*pool.length)];
-  // Pozo sin límite: cuanto más grande el pozo más urgencia
-  const urgency=G.pot>=100000?2:G.pot>=POT_BIG_THRESHOLD?3:G.pot>=20000?6:12;
-  G._potBot={player:w,targetPot:G.pot,handsLeft:urgency};
+  const urgency=G.pot<=1000?1:G.pot>=100000?2:G.pot>=POT_BIG_THRESHOLD?3:G.pot>=20000?5:10;
+  G._potBot={player:w,targetPot:G.pot,handsLeft:urgency,smallPot:G.pot<=1000};
 }
 
 function tryMarkBotPotWinner(){
