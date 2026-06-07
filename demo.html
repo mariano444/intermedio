@@ -741,6 +741,193 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .whi-amt-pos{font-size:13px;font-weight:700;color:#27ae60}
 .whi-amt-neg{font-size:13px;font-weight:700;color:#e74c3c}
 .whi-date{font-size:10px;color:rgba(255,255,255,.3)}
+
+/* ══ CTA BANNER ══════════════════════════════════════════════ */
+#cta-banner{
+  width:100%;background:linear-gradient(135deg,#1a5c2e 0%,#0d3a1a 40%,#1a1a00 100%);
+  border-bottom:2px solid rgba(201,168,76,.4);
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
+  position:relative;overflow:hidden;flex-shrink:0;z-index:10;
+  animation:bannerslide .5s cubic-bezier(.4,0,.2,1);
+}
+@keyframes bannerslide{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}
+#cta-banner::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(201,168,76,.03) 40px,rgba(201,168,76,.03) 41px);
+}
+#cta-banner::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);
+  animation:banshine 3s infinite;
+}
+@keyframes banshine{to{left:130%}}
+.cta-left{flex:1;position:relative;z-index:1}
+.cta-fire{font-size:18px;animation:fireani .6s infinite alternate}
+@keyframes fireani{from{transform:scale(1)}to{transform:scale(1.2) rotate(5deg)}}
+.cta-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:#f5e060;letter-spacing:1px;line-height:1.3;text-shadow:0 0 14px rgba(245,200,66,.5)}
+.cta-sub{font-size:9px;color:rgba(255,255,255,.55);font-family:'Cinzel',serif;letter-spacing:.5px;margin-top:2px}
+.cta-btn{
+  background:linear-gradient(135deg,#f5c842,#b8860b);color:#0a1205;
+  font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.5px;
+  border:none;border-radius:20px;padding:9px 15px;cursor:pointer;
+  white-space:nowrap;position:relative;z-index:1;
+  box-shadow:0 3px 12px rgba(245,200,66,.4);
+  animation:ctapulse 2s infinite;
+}
+@keyframes ctapulse{0%,100%{box-shadow:0 3px 12px rgba(245,200,66,.4)}50%{box-shadow:0 3px 22px rgba(245,200,66,.75),0 0 0 4px rgba(245,200,66,.15)}}
+.cta-btn:active{transform:scale(.95)}
+
+/* ══ RESEÑAS CARRUSEL ══════════════════════════════════════════ */
+#reviews-section{
+  width:100%;padding:10px 0 6px;
+  flex-shrink:0;position:relative;z-index:5;overflow:hidden;
+}
+.reviews-title{
+  font-family:'Cinzel',serif;font-size:8px;color:rgba(201,168,76,.45);
+  letter-spacing:2.5px;text-align:center;margin-bottom:8px;text-transform:uppercase;
+}
+.reviews-track{
+  display:flex;gap:10px;animation:reviewscroll 28s linear infinite;
+  width:max-content;
+}
+.reviews-track:hover{animation-play-state:paused}
+@keyframes reviewscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.review-card{
+  background:linear-gradient(145deg,rgba(15,25,10,.95),rgba(5,10,3,1));
+  border:1px solid rgba(201,168,76,.18);border-radius:14px;
+  padding:10px 14px;min-width:200px;max-width:200px;
+  flex-shrink:0;position:relative;overflow:hidden;
+}
+.review-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);
+}
+.review-stars{font-size:9px;color:#f5c842;margin-bottom:4px;letter-spacing:1px}
+.review-text{font-size:10px;color:rgba(255,255,255,.7);line-height:1.5;margin-bottom:6px;font-style:italic}
+.review-author{display:flex;align-items:center;gap:5px}
+.review-avatar{font-size:13px}
+.review-name{font-family:'Cinzel',serif;font-size:8px;color:rgba(201,168,76,.6);letter-spacing:.5px}
+.review-amount{font-size:9px;color:#4eda7a;font-weight:700;margin-left:auto}
+
+/* ══ MINI GAME INTERACTIVE ══════════════════════════════════════ */
+#mini-game-section{
+  width:100%;padding:8px 16px;flex-shrink:0;position:relative;z-index:5;
+}
+.mg-wrap{
+  background:linear-gradient(145deg,rgba(12,22,8,.98),rgba(5,10,3,1));
+  border:1px solid rgba(201,168,76,.2);border-radius:16px;
+  padding:12px 14px;position:relative;overflow:hidden;cursor:pointer;
+  transition:border-color .2s;
+}
+.mg-wrap:active{border-color:rgba(201,168,76,.55)}
+.mg-wrap::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.05),transparent 65%);
+}
+.mg-title{
+  font-family:'Cinzel',serif;font-size:9px;color:rgba(201,168,76,.5);
+  letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;
+}
+.mg-live-dot{width:5px;height:5px;border-radius:50%;background:#4eda7a;animation:pulse 1.4s infinite;flex-shrink:0}
+.mg-cards-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+.mg-card{
+  width:52px;height:74px;border-radius:9px;
+  background:#fff;
+  border:2px solid rgba(201,168,76,.5);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:16px;font-weight:700;font-family:'Cinzel',serif;
+  box-shadow:0 4px 16px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.9);
+  position:relative;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  overflow:hidden;
+}
+/* Estado inicial: carta tapada con patrón — se pisa al revelar */
+.mg-card.mg-slot{
+  background:linear-gradient(145deg,#1a3010 0%,#0d1e08 50%,#060e04 100%);
+  border-color:rgba(201,168,76,.4);
+  box-shadow:0 4px 16px rgba(0,0,0,.6),inset 0 1px 0 rgba(201,168,76,.12);
+}
+.mg-card.mg-slot::before{
+  content:'';position:absolute;inset:5px;border-radius:5px;pointer-events:none;
+  border:1px solid rgba(201,168,76,.25);
+  background:
+    repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(201,168,76,.05) 4px,rgba(201,168,76,.05) 5px),
+    repeating-linear-gradient(-45deg,transparent,transparent 4px,rgba(201,168,76,.05) 4px,rgba(201,168,76,.05) 5px);
+}
+.mg-card.mg-slot::after{
+  content:'♦';position:absolute;font-size:22px;
+  color:rgba(201,168,76,.25);z-index:1;
+}
+.mg-card.flip-in{animation:cardflip .4s cubic-bezier(.4,0,.2,1)}
+@keyframes cardflip{0%{transform:rotateY(90deg) scale(.8)}100%{transform:rotateY(0) scale(1)}}
+.mg-card.red-card{color:#c0392b}
+.mg-card.black-card{color:#1a1a2e}
+.mg-card-back{
+  width:60px;height:84px;border-radius:10px;
+  background:linear-gradient(160deg,#1a0a00 0%,#0d0500 60%,#060300 100%);
+  border:2px solid rgba(201,168,76,.6);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.1),inset 0 1px 0 rgba(201,168,76,.2);
+  position:relative;overflow:hidden;
+}
+.mg-card-back::before{
+  content:'';position:absolute;inset:0;border-radius:8px;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 30%,rgba(201,168,76,.12),transparent 65%);
+}
+.mg-card-back::after{
+  content:'?';position:absolute;
+  font-size:32px;font-family:'Cinzel',serif;font-weight:900;
+  color:rgba(201,168,76,.8);
+  text-shadow:0 0 20px rgba(201,168,76,.6),0 0 40px rgba(201,168,76,.2);
+  z-index:1;animation:qpulse 2s ease-in-out infinite;
+}
+@keyframes qpulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+.mg-sep{font-family:'Cinzel',serif;font-size:11px;color:rgba(201,168,76,.4)}
+.mg-result{
+  text-align:center;font-family:'Cinzel',serif;font-size:10px;
+  min-height:18px;letter-spacing:.5px;transition:all .3s;margin-bottom:6px;
+}
+.mg-result.win{color:#4eda7a;animation:mglow .3s ease}
+.mg-result.lose{color:#e07070}
+.mg-result.tie{color:#f5c842}
+.mg-result.idle{color:rgba(255,255,255,.35)}
+.mg-explain{
+  display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;
+  padding:6px 8px;background:rgba(0,0,0,.3);border-radius:10px;
+  border:1px solid rgba(255,255,255,.05);
+}
+.mg-exp-item{display:flex;align-items:center;gap:4px;font-family:'Cinzel',serif;font-size:8px;color:rgba(255,255,255,.5);letter-spacing:.4px}
+.mg-exp-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.win-dot{background:#4eda7a;box-shadow:0 0 5px rgba(78,218,122,.5)}
+.lose-dot{background:#e07070;box-shadow:0 0 5px rgba(224,112,112,.5)}
+.mg-exp-sep{color:rgba(255,255,255,.15);font-size:10px}
+
+/* Ocultar scrollbars del auth screen */
+#auth-screen div::-webkit-scrollbar{display:none}
+#auth-screen div{scrollbar-width:none}
+
+/* ══ WHATSAPP BUTTON ════════════════════════════════════════════ */
+.wa-support-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px;border-radius:12px;
+  background:linear-gradient(135deg,#25d366,#128c3e);
+  border:none;cursor:pointer;
+  font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:#fff;
+  letter-spacing:.5px;
+  box-shadow:0 4px 16px rgba(37,211,102,.3);
+  transition:transform .12s,box-shadow .12s;
+  margin-top:14px;position:relative;overflow:hidden;
+}
+.wa-support-btn::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+  animation:washine 2.5s infinite;
+}
+@keyframes washine{to{left:130%}}
+.wa-support-btn:active{transform:scale(.97);box-shadow:0 2px 8px rgba(37,211,102,.3)}
+.wa-icon{font-size:18px;animation:wabounce 2s ease infinite}
+@keyframes wabounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 </style>
 </head>
 <body>
@@ -751,123 +938,304 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 <!-- ══ LOBBY SCREEN ══ -->
 <!-- ══ AUTH SCREEN ══ -->
 <div class="screen" id="auth-screen">
-  <div style="min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(180deg,#0a0f05,#060c03)">
+  <div style="min-height:100dvh;display:flex;flex-direction:column;background:linear-gradient(180deg,#0a0f05,#060c03);overflow-y:auto;scrollbar-width:none">
 
-    <!-- Logo -->
-    <div style="text-align:center;margin-bottom:32px">
-      <div style="font-family:'Cinzel Decorative',serif;font-size:26px;color:#f5c842;letter-spacing:2px;text-shadow:0 0 30px rgba(245,200,66,.4)">✧ EL INTERMEDIO</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.35);margin-top:6px;letter-spacing:3px">CLUB DE CARTAS</div>
+    <!-- ═ BANNER CTA ═ -->
+    <div id="cta-banner">
+      <div class="cta-left">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+          <span class="cta-fire">🔥</span>
+          <div class="cta-title">¡REGISTRATE GRATIS Y JUGÁ HOY!</div>
+        </div>
+        <div class="cta-sub">+2.400 jugadores activos · Pozo acumulado $485.000</div>
+      </div>
+      <button class="cta-btn" onclick="authTab('reg')">UNIRME →</button>
     </div>
 
-    <!-- Card container -->
-    <div style="width:100%;max-width:400px;background:rgba(255,255,255,.04);border:1.5px solid rgba(201,168,76,.2);border-radius:20px;padding:28px 24px;backdrop-filter:blur(10px)">
 
-      <!-- Tabs -->
-      <div style="display:flex;background:rgba(0,0,0,.3);border-radius:12px;padding:3px;margin-bottom:24px">
-        <button id="atab-login" onclick="authTab('login')"
-          style="flex:1;padding:9px;border-radius:10px;border:none;font-family:'Cinzel',serif;font-size:12px;cursor:pointer;transition:all .2s;background:rgba(201,168,76,.2);color:#f5c842">
-          Ingresar
-        </button>
-        <button id="atab-reg" onclick="authTab('reg')"
-          style="flex:1;padding:9px;border-radius:10px;border:none;font-family:'Cinzel',serif;font-size:12px;cursor:pointer;transition:all .2s;background:transparent;color:rgba(255,255,255,.4)">
-          Registrarse
-        </button>
-      </div>
+    <!-- ═ LOGO ═ -->
+    <div style="text-align:center;padding:14px 24px 8px">
+      <div style="font-family:'Cinzel Decorative',serif;font-size:24px;color:#f5c842;letter-spacing:2px;text-shadow:0 0 30px rgba(245,200,66,.4)">✧ EL INTERMEDIO</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px;letter-spacing:3px">CLUB DE CARTAS</div>
+    </div>
 
-      <!-- LOGIN PANEL -->
-      <div id="auth-login" style="display:block">
-        <div id="auth-login-err" style="display:none;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#e74c3c;text-align:center">
-          Usuario o contraseña incorrectos
+    <!-- ═ CARD CONTAINER ═ -->
+    <div style="padding:0 20px 24px;flex:1">
+      <div style="width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(201,168,76,.2);border-radius:20px;padding:24px 20px;backdrop-filter:blur(10px)">
+
+        <!-- Tabs: REGISTRO primero -->
+        <div style="display:flex;background:rgba(0,0,0,.3);border-radius:12px;padding:3px;margin-bottom:24px">
+          <button id="atab-reg" onclick="authTab('reg')"
+            style="flex:1;padding:9px;border-radius:10px;border:none;font-family:'Cinzel',serif;font-size:12px;cursor:pointer;transition:all .2s;background:rgba(39,174,96,.25);color:#4eda7a">
+            🎁 Registrarse Gratis
+          </button>
+          <button id="atab-login" onclick="authTab('login')"
+            style="flex:1;padding:9px;border-radius:10px;border:none;font-family:'Cinzel',serif;font-size:12px;cursor:pointer;transition:all .2s;background:transparent;color:rgba(255,255,255,.4)">
+            Ingresar
+          </button>
         </div>
-        <div style="margin-bottom:14px">
-          <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">USUARIO</div>
-          <input id="login-user" type="text" placeholder="Tu usuario" autocomplete="username"
-            style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:15px;padding:13px 14px;outline:none;transition:border-color .2s"
-            onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'"
-            onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()">
+
+        <!-- REGISTRO PANEL (visible por defecto) -->
+        <div id="auth-reg" style="display:block">
+          <div id="auth-reg-err" style="display:none;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#e74c3c;text-align:center"></div>
+          <div style="display:grid;gap:12px;margin-bottom:18px">
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">NOMBRE COMPLETO *</div>
+              <input id="reg-name" type="text" placeholder="Nombre y apellido"
+                style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
+                onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+            </div>
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">ALIAS EN EL JUEGO (OPCIONAL)</div>
+              <input id="reg-alias" type="text" placeholder="Ej: ElTiburón88" maxlength="20"
+                style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
+                onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+            </div>
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">CBU / CVU (OPCIONAL)</div>
+              <input id="reg-cbu" type="text" placeholder="22 dígitos" maxlength="22"
+                style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
+                onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+            </div>
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">TELÉFONO WHATSAPP</div>
+              <input id="reg-phone" type="tel" placeholder="+54 9 11 xxxxxxxx"
+                style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
+                onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div>
+                <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">PROVINCIA *</div>
+                <input id="reg-provincia" type="text" placeholder="Ej: Córdoba"
+                  style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
+                  onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+              </div>
+              <div>
+                <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">LOCALIDAD *</div>
+                <input id="reg-localidad" type="text" placeholder="Ej: Villa Carlos Paz"
+                  style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
+                  onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+              </div>
+            </div>
+            <div style="background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.2);border-radius:12px;padding:12px;font-size:11px;color:rgba(255,255,255,.7);line-height:1.6">
+              🎁 <b style="color:#4eda7a">Registro 100% GRATIS.</b> Jugá con fichas de práctica. Recargá cuando quieras con Transferencia Directa.
+            </div>
+          </div>
+          <button onclick="doRegister()"
+            style="width:100%;padding:15px;background:linear-gradient(135deg,#27ae60,#1a7a40);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(39,174,96,.3)">
+            🎁 Crear Cuenta Gratis
+          </button>
+          <!-- WhatsApp soporte -->
+          <a href="https://wa.me/5493541000000?text=Hola%2C+necesito+ayuda+para+registrarme+en+El+Intermedio" target="_blank" style="text-decoration:none;display:block">
+            <button class="wa-support-btn">
+              <span class="wa-icon">💬</span>
+              <span>¿Necesitás ayuda? Escribinos al WhatsApp</span>
+            </button>
+          </a>
+          <div style="text-align:center;margin-top:12px;font-size:10px;color:rgba(255,255,255,.25);line-height:1.6">
+            Al registrarte recibís tu usuario y contraseña automáticos.<br>Guardálos para volver a ingresar.
+          </div>
         </div>
-        <div style="margin-bottom:20px">
-          <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">CONTRASEÑA</div>
-          <div style="position:relative">
-            <input id="login-pass" type="password" placeholder="Tu contraseña" autocomplete="current-password"
-              style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:15px;padding:13px 44px 13px 14px;outline:none;transition:border-color .2s"
+
+        <!-- ═ JUEGO EN VIVO (debajo del formulario de registro) ═ -->
+        <div id="mini-game-section" style="margin:0 -20px;padding:0 20px 0">
+          <div class="mg-wrap" onclick="mgPlay()" style="border-radius:12px;margin-bottom:14px">
+            <div class="mg-title"><span class="mg-live-dot"></span> JUEGO EN VIVO</div>
+            <div class="mg-cards-row">
+              <div class="mg-card mg-slot" id="mg-c1"></div>
+              <div class="mg-sep">↔</div>
+              <div class="mg-card-back" id="mg-cm"></div>
+              <div class="mg-sep">↔</div>
+              <div class="mg-card mg-slot" id="mg-c2"></div>
+            </div>
+            <div class="mg-result idle" id="mg-result">¿La carta del medio entra entre las dos puntas?</div>
+            <div class="mg-explain">
+              <span class="mg-exp-item"><span class="mg-exp-dot win-dot"></span>Adentro = ganás el pozo</span>
+              <span class="mg-exp-sep">·</span>
+              <span class="mg-exp-item"><span class="mg-exp-dot lose-dot"></span>Afuera = perdés la apuesta</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- LOGIN PANEL (oculto por defecto) -->
+        <div id="auth-login" style="display:none">
+          <div id="auth-login-err" style="display:none;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#e74c3c;text-align:center">
+            Usuario o contraseña incorrectos
+          </div>
+          <div style="margin-bottom:14px">
+            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">USUARIO</div>
+            <input id="login-user" type="text" placeholder="Tu usuario" autocomplete="username"
+              style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:15px;padding:13px 14px;outline:none;transition:border-color .2s"
               onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'"
-              onkeydown="if(event.key==='Enter')doLogin()">
-            <span onclick="togglePass('login-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;opacity:.5">👁</span>
+              onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()">
+          </div>
+          <div style="margin-bottom:20px">
+            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">CONTRASEÑA</div>
+            <div style="position:relative">
+              <input id="login-pass" type="password" placeholder="Tu contraseña" autocomplete="current-password"
+                style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:15px;padding:13px 44px 13px 14px;outline:none;transition:border-color .2s"
+                onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'"
+                onkeydown="if(event.key==='Enter')doLogin()">
+              <span onclick="togglePass('login-pass',this)" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:16px;opacity:.5">👁</span>
+            </div>
+          </div>
+          <button onclick="doLogin()"
+            style="width:100%;padding:15px;background:linear-gradient(135deg,#b8860b,#8b6914);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(184,134,11,.3)">
+            ✧ Ingresar al Club
+          </button>
+          <!-- WhatsApp soporte -->
+          <a href="https://wa.me/5493541000000?text=Hola%2C+olvidé+mi+usuario+o+contraseña+de+El+Intermedio" target="_blank" style="text-decoration:none;display:block">
+            <button class="wa-support-btn">
+              <span class="wa-icon">💬</span>
+              <span>¿Problemas para ingresar? WhatsApp Soporte</span>
+            </button>
+          </a>
+          <div style="text-align:center;margin-top:16px;font-size:12px;color:rgba(255,255,255,.3)">
+            ¿No tenés cuenta? <span onclick="authTab('reg')" style="color:#4eda7a;cursor:pointer;text-decoration:underline">Registrate GRATIS</span>
+          </div>
+          <div style="text-align:center;margin-top:12px;">
+            <span onclick="openInstructions()" style="font-size:11px;color:var(--gold2);cursor:pointer;text-decoration:underline;letter-spacing:1px;font-family:'Cinzel',serif;opacity:0.8">
+              ✧ Instrucciones de Juego
+            </span>
           </div>
         </div>
-        <button onclick="doLogin()"
-          style="width:100%;padding:15px;background:linear-gradient(135deg,#b8860b,#8b6914);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(184,134,11,.3)">
-          ✧ Ingresar al Club
-        </button>
-        <div style="text-align:center;margin-top:16px;font-size:12px;color:rgba(255,255,255,.3)">
-          ¿No tenés cuenta? <span onclick="authTab('reg')" style="color:#f5c842;cursor:pointer;text-decoration:underline">Registrate</span>
-        </div>
-        <div style="text-align:center;margin-top:12px;">
-          <span onclick="openInstructions()" style="font-size:11px;color:var(--gold2);cursor:pointer;text-decoration:underline;letter-spacing:1px;font-family:'Cinzel',serif;opacity:0.8;transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.8">
-            ✧ Instrucciones de Juego
-          </span>
-        </div>
-      </div>
 
-      <!-- REGISTRO PANEL -->
-      <div id="auth-reg" style="display:none">
-        <div id="auth-reg-err" style="display:none;background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.4);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#e74c3c;text-align:center"></div>
-        <div style="display:grid;gap:12px;margin-bottom:18px">
-          <div>
-            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">NOMBRE COMPLETO *</div>
-            <input id="reg-name" type="text" placeholder="Nombre y apellido"
-              style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
-              onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+      </div>
+    </div>
+
+    <!-- ═ RESEÑAS ═ -->
+    <div id="reviews-section">
+      <div class="reviews-title">✧ LO QUE DICEN NUESTROS JUGADORES ✧</div>
+      <div style="overflow:hidden">
+        <div class="reviews-track" id="reviews-track">
+          <!-- set A -->
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Gané $32.000 en una sola mano. El pozo estaba enorme, aposté con todo y entró perfecto!"</div>
+            <div class="review-author"><span class="review-avatar">🃏</span><span class="review-name">ElTiburón88</span><span class="review-amount">+$32.000</span></div>
           </div>
-          <div>
-            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">ALIAS EN EL JUEGO (OPCIONAL)</div>
-            <input id="reg-alias" type="text" placeholder="Ej: ElTiburón88" maxlength="20"
-              style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
-              onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"El juego más adictivo que probé. La dinámica del pozo te tiene al borde del asiento todo el tiempo."</div>
+            <div class="review-author"><span class="review-avatar">♠</span><span class="review-name">LaMandria</span><span class="review-amount">+$18.500</span></div>
           </div>
-          <div>
-            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">CBU / CVU (OPCIONAL)</div>
-            <input id="reg-cbu" type="text" placeholder="22 dígitos" maxlength="22"
-              style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
-              onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"En 20 minutos recuperé todo lo que había perdido y me fui con $15.000 de ganancia. Increíble."</div>
+            <div class="review-author"><span class="review-avatar">♦</span><span class="review-name">PachiCba</span><span class="review-amount">+$15.000</span></div>
           </div>
-          <div>
-            <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">TELÉFONO WHATSAPP</div>
-            <input id="reg-phone" type="tel" placeholder="+54 9 11 xxxxxxxx"
-              style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
-              onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+          <div class="review-card">
+            <div class="review-stars">★★★★☆</div>
+            <div class="review-text">"Muy buena plataforma, los retiros rápidos y el soporte por WhatsApp te responde enseguida."</div>
+            <div class="review-author"><span class="review-avatar">🎴</span><span class="review-name">Rodrigo_VCP</span><span class="review-amount">+$9.200</span></div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div>
-              <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">PROVINCIA *</div>
-              <input id="reg-provincia" type="text" placeholder="Ej: Córdoba"
-                style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
-                onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
-            </div>
-            <div>
-              <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">LOCALIDAD *</div>
-              <input id="reg-localidad" type="text" placeholder="Ej: Villa Carlos Paz"
-                style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:14px;padding:12px 14px;outline:none"
-                onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
-            </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Me junté con amigos y llenamos una mesa. Fue una noche épica, nos llevamos el pozo entre todos."</div>
+            <div class="review-author"><span class="review-avatar">🥇</span><span class="review-name">GrupoNoche</span><span class="review-amount">+$56.000</span></div>
           </div>
-          <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:12px;font-size:11px;color:rgba(255,255,255,.62);line-height:1.6">
-            ✧ Primero creás tu usuario. Después te mostramos la billetera para recargar con Transferencia Directa.
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Rango de 2 a Rey, aposté todo el pozo. La intermedia fue un 7. No lo podía creer."</div>
+            <div class="review-author"><span class="review-avatar">♥</span><span class="review-name">CarlitosRosario</span><span class="review-amount">+$44.000</span></div>
           </div>
-        </div>
-        <button onclick="doRegister()"
-          style="width:100%;padding:15px;background:linear-gradient(135deg,#27ae60,#1a7a40);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(39,174,96,.3)">
-          ✧ Crear Cuenta
-        </button>
-        <div style="text-align:center;margin-top:12px;font-size:10px;color:rgba(255,255,255,.25);line-height:1.6">
-          Al registrarte recibís tu usuario y contraseña automáticos.<br>Guardálos para volver a ingresar.
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Primera vez que juego y ya recuperé mi recarga. La interfaz es impecable y las cartas vuelan."</div>
+            <div class="review-author"><span class="review-avatar">🎲</span><span class="review-name">NachitoMza</span><span class="review-amount">+$12.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Juego todos los viernes con mi grupo. Siempre hay pozo grande y la emoción es real. ¡100% recomendado!"</div>
+            <div class="review-author"><span class="review-avatar">🏆</span><span class="review-name">Viernes10pm</span><span class="review-amount">+$28.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Estaba esperando el colectivo y saqué $7.500 en tres manos. Esto es lo más fácil de entender."</div>
+            <div class="review-author"><span class="review-avatar">🚌</span><span class="review-name">Mati_Rosario</span><span class="review-amount">+$7.500</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★☆</div>
+            <div class="review-text">"Las cartas españolas le dan un toque especial. Se nota que hay trabajo detrás. Y el pozo... adictivo."</div>
+            <div class="review-author"><span class="review-avatar">🎭</span><span class="review-name">SandraBaires</span><span class="review-amount">+$21.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Gané tres manos seguidas con rango amplio. Me llevé todo el pozo acumulado. ¡Increíble la racha!"</div>
+            <div class="review-author"><span class="review-avatar">🔥</span><span class="review-name">FernandoCórdoba</span><span class="review-amount">+$67.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"El retiro me llegó al CBU en menos de 2 horas. Transparente y sin vueltas. Volvería mil veces."</div>
+            <div class="review-author"><span class="review-avatar">💳</span><span class="review-name">LuciaSalta</span><span class="review-amount">+$35.000</span></div>
+          </div>
+          <!-- set B duplicado para loop infinito -->
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Gané $32.000 en una sola mano. El pozo estaba enorme, aposté con todo y entró perfecto!"</div>
+            <div class="review-author"><span class="review-avatar">🃏</span><span class="review-name">ElTiburón88</span><span class="review-amount">+$32.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"El juego más adictivo que probé. La dinámica del pozo te tiene al borde del asiento todo el tiempo."</div>
+            <div class="review-author"><span class="review-avatar">♠</span><span class="review-name">LaMandria</span><span class="review-amount">+$18.500</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"En 20 minutos recuperé todo lo que había perdido y me fui con $15.000 de ganancia. Increíble."</div>
+            <div class="review-author"><span class="review-avatar">♦</span><span class="review-name">PachiCba</span><span class="review-amount">+$15.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★☆</div>
+            <div class="review-text">"Muy buena plataforma, los retiros rápidos y el soporte por WhatsApp te responde enseguida."</div>
+            <div class="review-author"><span class="review-avatar">🎴</span><span class="review-name">Rodrigo_VCP</span><span class="review-amount">+$9.200</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Me junté con amigos y llenamos una mesa. Fue una noche épica, nos llevamos el pozo entre todos."</div>
+            <div class="review-author"><span class="review-avatar">🥇</span><span class="review-name">GrupoNoche</span><span class="review-amount">+$56.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Rango de 2 a Rey, aposté todo el pozo. La intermedia fue un 7. No lo podía creer."</div>
+            <div class="review-author"><span class="review-avatar">♥</span><span class="review-name">CarlitosRosario</span><span class="review-amount">+$44.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Primera vez que juego y ya recuperé mi recarga. La interfaz es impecable y las cartas vuelan."</div>
+            <div class="review-author"><span class="review-avatar">🎲</span><span class="review-name">NachitoMza</span><span class="review-amount">+$12.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Juego todos los viernes con mi grupo. Siempre hay pozo grande y la emoción es real. ¡100% recomendado!"</div>
+            <div class="review-author"><span class="review-avatar">🏆</span><span class="review-name">Viernes10pm</span><span class="review-amount">+$28.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Estaba esperando el colectivo y saqué $7.500 en tres manos. Esto es lo más fácil de entender."</div>
+            <div class="review-author"><span class="review-avatar">🚌</span><span class="review-name">Mati_Rosario</span><span class="review-amount">+$7.500</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★☆</div>
+            <div class="review-text">"Las cartas españolas le dan un toque especial. Se nota que hay trabajo detrás. Y el pozo... adictivo."</div>
+            <div class="review-author"><span class="review-avatar">🎭</span><span class="review-name">SandraBaires</span><span class="review-amount">+$21.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"Gané tres manos seguidas con rango amplio. Me llevé todo el pozo acumulado. ¡Increíble la racha!"</div>
+            <div class="review-author"><span class="review-avatar">🔥</span><span class="review-name">FernandoCórdoba</span><span class="review-amount">+$67.000</span></div>
+          </div>
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <div class="review-text">"El retiro me llegó al CBU en menos de 2 horas. Transparente y sin vueltas. Volvería mil veces."</div>
+            <div class="review-author"><span class="review-avatar">💳</span><span class="review-name">LuciaSalta</span><span class="review-amount">+$35.000</span></div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Decoración inferior -->
-    <div style="margin-top:24px;text-align:center;font-size:10px;color:rgba(255,255,255,.2);letter-spacing:1px">
+    <div style="text-align:center;font-size:10px;color:rgba(255,255,255,.2);letter-spacing:1px;padding:0 0 16px">
       PAGOS SEGUROS VÍA TRANSFERENCIA ✧ SOLO PARA MAYORES DE 18
     </div>
   </div>
@@ -3802,7 +4170,7 @@ function saveProfileData(){
 
 function showAuthScreen(){
   showScreen('auth-screen');
-  authTab('login');
+  authTab('reg');
 }
 
 function authTab(t){
@@ -3812,9 +4180,104 @@ function authTab(t){
     if(!p||!b)return;
     const on=x===t;
     p.style.display=on?'block':'none';
-    b.style.background=on?'rgba(201,168,76,.2)':'transparent';
-    b.style.color=on?'#f5c842':'rgba(255,255,255,.4)';
+    if(x==='reg'){
+      b.style.background=on?'rgba(39,174,96,.25)':'transparent';
+      b.style.color=on?'#4eda7a':'rgba(255,255,255,.4)';
+    } else {
+      b.style.background=on?'rgba(201,168,76,.2)':'transparent';
+      b.style.color=on?'#f5c842':'rgba(255,255,255,.4)';
+    }
   });
+}
+
+// ══ MINI GAME AUTH ════════════════════════════════════════════
+// MG constants moved below mgPlay definition
+const MG_VALS=[1,2,3,4,5,6,7,10,11,12];
+const MG_VL={1:'As',2:'Dos',3:'Tres',4:'Cuatro',5:'Cinco',6:'Seis',7:'Siete',10:'Sota',11:'Caballo',12:'Rey'};
+const MG_SUITS=['so','co','es','ba'];
+const MG_SNAME={so:'Oros',co:'Copas',es:'Espadas',ba:'Bastos'};
+let mgWins=0,mgLosses=0,mgStreak=0,mgPlaying=false,mgAutoTimer=null;
+
+function mgRandCard(){
+  const v=MG_VALS[Math.floor(Math.random()*MG_VALS.length)];
+  const s=MG_SUITS[Math.floor(Math.random()*MG_SUITS.length)];
+  return{v,s};
+}
+
+// Genera la carta del medio sesgada: 80% adentro, 20% afuera
+function mgRandMiddle(c1,c2){
+  const lo=Math.min(VP[c1.v],VP[c2.v]);
+  const hi=Math.max(VP[c1.v],VP[c2.v]);
+  const s=MG_SUITS[Math.floor(Math.random()*MG_SUITS.length)];
+  // Si no hay rango válido, carta aleatoria
+  if(hi-lo<=1) return mgRandCard();
+  const winBias=Math.random()<0.82; // 82% de probabilidad de ganar
+  if(winBias){
+    // Elegir valor dentro del rango (lo < v < hi)
+    const valid=MG_VALS.filter(v=>VP[v]>lo&&VP[v]<hi);
+    if(valid.length){
+      const v=valid[Math.floor(Math.random()*valid.length)];
+      return{v,s};
+    }
+  }
+  // Afuera: valor fuera del rango
+  const outside=MG_VALS.filter(v=>VP[v]<=lo||VP[v]>=hi);
+  if(outside.length){
+    const v=outside[Math.floor(Math.random()*outside.length)];
+    return{v,s};
+  }
+  return mgRandCard();
+}
+
+function mgCardHTML(c){
+  const src=CARD_IMGS[c.s+c.v];
+  const isRed=c.s==='co'||c.s==='so';
+  const col=isRed?'#c0392b':'#1a1a2e';
+  if(src){
+    return `<img src="${src}" style="width:100%;height:100%;object-fit:contain;display:block;border-radius:7px">`;
+  }
+  // Fallback sin imagen
+  return `<span style="font-size:20px;font-family:'Cinzel',serif;font-weight:900;color:${col};line-height:1">${MG_VL[c.v]}</span><span style="font-size:7px;color:rgba(0,0,0,.4);margin-top:2px">${MG_SNAME[c.s]}</span>`;
+}
+
+function mgPlay(){
+  if(mgPlaying)return;mgPlaying=true;
+  clearTimeout(mgAutoTimer);
+  const c1=mgRandCard(),c2=mgRandCard();
+  let cm=mgRandMiddle(c1,c2);
+  const el1=document.getElementById('mg-c1'),el2=document.getElementById('mg-c2'),elm=document.getElementById('mg-cm');
+  const res=document.getElementById('mg-result');
+  // show c1 and c2 with Spanish card images
+  el1.className='mg-card flip-in';el1.style.cssText='background:#fff';
+  el2.className='mg-card flip-in';el2.style.cssText='background:#fff';
+  el1.innerHTML=mgCardHTML(c1);
+  el2.innerHTML=mgCardHTML(c2);
+  // middle stays as back
+  elm.className='mg-card-back';
+  res.className='mg-result idle';res.textContent='...';
+  // reveal middle after delay
+  setTimeout(()=>{
+    elm.className='mg-card flip-in';
+    elm.style.cssText='background:#fff';
+    elm.innerHTML=mgCardHTML(cm);
+    const lo=Math.min(VP[c1.v],VP[c2.v]),hi=Math.max(VP[c1.v],VP[c2.v]);
+    const win=VP[cm.v]>lo&&VP[cm.v]<hi;
+    const tie=VP[c1.v]===VP[c2.v];
+    if(tie){res.className='mg-result tie';res.textContent='¡Iguales! Sin rango posible.';mgStreak=0;}
+    else if(win){mgWins++;mgStreak=mgStreak>0?mgStreak+1:1;res.className='mg-result win';res.textContent='¡ADENTRO! 💰 ¡Habrías ganado!';}
+    else{mgLosses++;mgStreak=mgStreak<0?mgStreak-1:-1;res.className='mg-result lose';res.textContent='Afuera. Perdiste esta.';}
+
+    // auto-reset and auto-play infinitely
+    setTimeout(()=>{
+      mgPlaying=false;
+      elm.className='mg-card-back';elm.style.cssText='';elm.innerHTML='';
+      el1.className='mg-card mg-slot';el1.style.cssText='';el1.innerHTML='';
+      el2.className='mg-card mg-slot';el2.style.cssText='';el2.innerHTML='';
+      res.className='mg-result idle';res.textContent='¿La carta del medio entra entre las dos puntas?';
+      // auto play next round
+      mgAutoTimer=setTimeout(()=>mgPlay(),1200);
+    },2000);
+  },700);
 }
 
 function togglePass(id,btn){
@@ -3961,12 +4424,14 @@ function updateLobbyHeader(){
 
 // ── BOOT: decidir qué pantalla mostrar ──────────────────
 (function boot(){
+  // Iniciar mini-juego automático
+  setTimeout(()=>mgPlay(),1500);
   if(_hasSession&&SESSION){
     // Sesión activa — ir directo al lobby
     setTimeout(()=>{enterLobby();},50);
   } else {
     // Sin sesión — mostrar auth
-    setTimeout(()=>{showScreen('auth-screen');authTab('login');},50);
+    setTimeout(()=>{showScreen('auth-screen');authTab('reg');},50);
   }
 })();
 
