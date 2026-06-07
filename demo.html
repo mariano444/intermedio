@@ -2512,14 +2512,34 @@ async function confirmJoin(){
   if(PROFILE.userId){
     try {
       if(!t.dbId) {
-        const {data: newMesaId, error: mesaErr} = await supabaseClient.rpc('crear_mesa', {
-          p_nombre: t.name,
-          p_categoria: t.potCat || 'mid',
-          p_buy_in: t.buyIn,
-          p_max_asientos: t.maxSeats
-        });
+        // Mapear categorías internas a los valores del enum de la DB
+        // Posibles nombres del enum: intentar en orden hasta que uno funcione
+        const catMap={
+          popular:['bajo','basica','normal','starter','bronze','comun','estandar','popular_ok'],
+          mid:    ['medio','media','normal','standard','silver','intermedia','mid'],
+          vip:    ['alto','alta','vip','premium','gold','avanzado'],
+          elite:  ['elite','platino','platinum','exclusiva','high','ultra']
+        };
+        const candidates=catMap[t.potCat]||catMap['mid'];
+        let newMesaId=null,mesaErr=null;
+        for(const dbCat of candidates){
+          const res=await supabaseClient.rpc('crear_mesa',{
+            p_nombre:t.name,
+            p_categoria:dbCat,
+            p_buy_in:t.buyIn,
+            p_max_asientos:t.maxSeats
+          });
+          if(!res.error&&res.data&&res.data[0]){
+            console.log('[Mesa] Categoría DB válida para "'+t.potCat+'":', dbCat);
+            newMesaId=res.data;mesaErr=null;break;
+          }
+          if(res.error&&res.error.message&&!res.error.message.includes('invalid input value')){
+            mesaErr=res.error;break; // Error distinto al del enum, no seguir probando
+          }
+          mesaErr=res.error;
+        }
         if(mesaErr || !newMesaId || !newMesaId[0]) {
-          console.error('Error al crear mesa en DB:', mesaErr || 'No se recibió ID');
+          console.error('Error al crear mesa en DB (ninguna categoría funcionó):', mesaErr || 'No se recibió ID');
           setMsg('Error al conectar con el servidor de mesas','lose');
           return; // Detener flujo
         }
