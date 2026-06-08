@@ -1025,8 +1025,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
             style="width:100%;padding:15px;background:linear-gradient(135deg,#27ae60,#1a7a40);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(39,174,96,.3)">
             🎁 Crear Cuenta Gratis
           </button>
-          <!-- WhatsApp soporte -->
-          <a href="https://wa.me/5493541000000?text=Hola%2C+necesito+ayuda+para+registrarme+en+El+Intermedio" target="_blank" style="text-decoration:none;display:block">
+          <!-- WhatsApp soporte (oculto) -->
+          <a href="https://wa.me/5493541000000?text=Hola%2C+necesito+ayuda+para+registrarme+en+El+Intermedio" target="_blank" style="text-decoration:none;display:none">
             <button class="wa-support-btn">
               <span class="wa-icon">💬</span>
               <span>¿Necesitás ayuda? Escribinos al WhatsApp</span>
@@ -1083,8 +1083,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
             style="width:100%;padding:15px;background:linear-gradient(135deg,#b8860b,#8b6914);border:none;border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 16px rgba(184,134,11,.3)">
             ✧ Ingresar al Club
           </button>
-          <!-- WhatsApp soporte -->
-          <a href="https://wa.me/5493541000000?text=Hola%2C+olvidé+mi+usuario+o+contraseña+de+El+Intermedio" target="_blank" style="text-decoration:none;display:block">
+          <!-- WhatsApp soporte (oculto) -->
+          <a href="https://wa.me/5493541000000?text=Hola%2C+olvidé+mi+usuario+o+contraseña+de+El+Intermedio" target="_blank" style="text-decoration:none;display:none">
             <button class="wa-support-btn">
               <span class="wa-icon">💬</span>
               <span>¿Problemas para ingresar? WhatsApp Soporte</span>
@@ -1291,7 +1291,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   <div id="status-bar">
     <div class="sb-logo" onclick="openProfile()">✧ EL INTERMEDIO</div>
     <div class="sb-right">
-      <div class="sb-wallet-btn" onclick="openWallet()">💳 Billetera</div>
+      <div class="sb-wallet-btn" onclick="openWallet()">💳 Recargar / Retirar</div>
       <div class="sb-bal" onclick="openWallet()"><span class="sb-bal-ico">💰</span><span class="sb-bal-amt" id="g-bal">$0</span></div>
     </div>
   </div>
@@ -1436,7 +1436,10 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
       <div class="mi-row"><span class="mi-lbl">Tu saldo</span><span class="mi-val" id="mi-bal">—</span></div>
       <div class="mi-row"><span class="mi-lbl">Saldo después</span><span class="mi-val" id="mi-after">—</span></div>
     </div>
-    <div id="mi-insuf">Saldo insuficiente para unirte a esta mesa</div>
+    <div id="mi-insuf">
+      Saldo insuficiente para unirte a esta mesa
+      <button onclick="closeModal();openWalletDeposit()" style="display:block;width:100%;margin-top:10px;padding:11px;background:linear-gradient(135deg,#27ae60,#145a32);border:none;border-radius:10px;color:#fff;font-family:'Cinzel',serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px">💳 Recargar Cuenta</button>
+    </div>
     <div class="modal-btns">
       <button class="mbt mbt-no" onclick="closeModal()">Cancelar</button>
       <button class="mbt mbt-ok" id="mi-confirm" onclick="confirmJoin()">✧ Confirmar</button>
@@ -2258,7 +2261,7 @@ async function generateTables(){
    */
   const cats={
     // Alta frecuencia: mesas populares, entradas accesibles, mucho movimiento
-    popular:{ buyIns:[100,200,300,500],  minSeats:5,maxSeats:10, handsRange:[3,15],  weight:0.40 },
+    popular:{ buyIns:[500,700,1000],      minSeats:5,maxSeats:10, handsRange:[3,15],  weight:0.40 },
     // Media frecuencia: el corazón del casino
     mid:    { buyIns:[500,750,1000,1500],minSeats:3,maxSeats:7,  handsRange:[8,25],  weight:0.35 },
     // Baja frecuencia: mesas exclusivas, pozo concentrado
@@ -2513,29 +2516,24 @@ async function confirmJoin(){
     try {
       if(!t.dbId) {
         // Mapear categorías internas a los valores del enum de la DB
-        // Posibles nombres del enum: intentar en orden hasta que uno funcione
+        // mesa_categoria ENUM: 'small','mid','big'
         const catMap={
-          popular:['bajo','basica','normal','starter','bronze','comun','estandar','popular_ok'],
-          mid:    ['medio','media','normal','standard','silver','intermedia','mid'],
-          vip:    ['alto','alta','vip','premium','gold','avanzado'],
-          elite:  ['elite','platino','platinum','exclusiva','high','ultra']
+          popular:'small',
+          mid:    'mid',
+          vip:    'big',
+          elite:  'big'
         };
-        const candidates=catMap[t.potCat]||catMap['mid'];
+        const dbCat=catMap[t.potCat]||'mid';
         let newMesaId=null,mesaErr=null;
-        for(const dbCat of candidates){
-          const res=await supabaseClient.rpc('crear_mesa',{
-            p_nombre:t.name,
-            p_categoria:dbCat,
-            p_buy_in:t.buyIn,
-            p_max_asientos:t.maxSeats
-          });
-          if(!res.error&&res.data&&res.data[0]){
-            console.log('[Mesa] Categoría DB válida para "'+t.potCat+'":', dbCat);
-            newMesaId=res.data;mesaErr=null;break;
-          }
-          if(res.error&&res.error.message&&!res.error.message.includes('invalid input value')){
-            mesaErr=res.error;break; // Error distinto al del enum, no seguir probando
-          }
+        const res=await supabaseClient.rpc('crear_mesa',{
+          p_nombre:t.name,
+          p_categoria:dbCat,
+          p_buy_in:t.buyIn,
+          p_max_asientos:t.maxSeats
+        });
+        if(!res.error&&res.data&&res.data[0]){
+          newMesaId=res.data;mesaErr=null;
+        } else {
           mesaErr=res.error;
         }
         if(mesaErr || !newMesaId || !newMesaId[0]) {
@@ -2836,7 +2834,7 @@ async function dealHand(){
     setMsg(info,'info');
   }
   document.getElementById('cpu-think-bar').style.display='flex';
-  const cpuIdxs=G.players.map((p,i)=>(!p.you&&p.bal>0)?i:-1).filter(i=>i>=0);
+  const cpuIdxs=G.players.map((p,i)=>(!p.you&&p.bal>0&&typeof i==='number')?i:-1).filter(i=>i>=0&&i<G.players.length);
   runCPUs(cpuIdxs,0,()=>{
     document.getElementById('cpu-think-bar').style.display='none';
     // ── Chequear si un bot debe ganar el pozo completo ──────────
@@ -2963,12 +2961,15 @@ function calcSmartBet(p, spread, isPotWinner){
 }
 
 function runCPUs(idxs,pos,done){
-  if(pos>=idxs.length){done();return;}
+  // Guard completo: idxs debe ser array, pos debe ser índice válido
+  if(!Array.isArray(idxs)||pos>=idxs.length){if(typeof done==='function')done();return;}
 
   // Saltar bots sin fondos — muestran recarga antes de su turno
   const i=idxs[pos];
+  // Doble guard: índice válido y jugador existe
+  if(i===undefined||i===null||typeof i!=='number'||!G||!G.players||i>=G.players.length){runCPUs(idxs,pos+1,done);return;}
   const p=G.players[i];
-  if(!p){runCPUs(idxs,pos+1,done);return;} // null-safe
+  if(!p||p.you){runCPUs(idxs,pos+1,done);return;} // null-safe, saltar al jugador humano
 
   if(p.bal<MIN_BET){
     // Bot sin fondos: recarga con mensaje conciso
