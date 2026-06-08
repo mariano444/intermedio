@@ -1291,7 +1291,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   <div id="status-bar">
     <div class="sb-logo" onclick="openProfile()">✧ EL INTERMEDIO</div>
     <div class="sb-right">
-      <div class="sb-wallet-btn" onclick="openWallet()">💳 Billetera</div>
+      <div class="sb-wallet-btn" onclick="openWallet()">💳 Recargar / Retirar</div>
       <div class="sb-bal" onclick="openWallet()"><span class="sb-bal-ico">💰</span><span class="sb-bal-amt" id="g-bal">$0</span></div>
     </div>
   </div>
@@ -1436,7 +1436,10 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
       <div class="mi-row"><span class="mi-lbl">Tu saldo</span><span class="mi-val" id="mi-bal">—</span></div>
       <div class="mi-row"><span class="mi-lbl">Saldo después</span><span class="mi-val" id="mi-after">—</span></div>
     </div>
-    <div id="mi-insuf">Saldo insuficiente para unirte a esta mesa</div>
+    <div id="mi-insuf">
+      Saldo insuficiente para unirte a esta mesa
+      <button onclick="closeModal();openWalletDeposit()" style="display:block;width:100%;margin-top:10px;padding:11px;background:linear-gradient(135deg,#27ae60,#145a32);border:none;border-radius:10px;color:#fff;font-family:'Cinzel',serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.5px">💳 Recargar Cuenta</button>
+    </div>
     <div class="modal-btns">
       <button class="mbt mbt-no" onclick="closeModal()">Cancelar</button>
       <button class="mbt mbt-ok" id="mi-confirm" onclick="confirmJoin()">✧ Confirmar</button>
