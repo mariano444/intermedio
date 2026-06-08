@@ -1524,76 +1524,103 @@ const CARD_IMGS = {
 const TABLE_NAMES=['Salón Dorado','Mesa Roja','El Corralón','La Imperial','Sala Norte','El Reservado','Sala Privada','Mesa Ejecutiva','El Rulero','Sala VIP','La Clásica','El Fortín'];
 
 // ════ JUGADORES CON PERSONALIDAD COMPLETA ════════════════════════
+// ══ BOT STYLES — Personalidades ricas con diálogo contextual y natural ══
 const BOT_STYLES={
   bold:{
-    thinkMin:420,thinkMax:950,
-    trait:'Impulsivo — decide rápido, apuesta fuerte',
+    thinkMin:320,thinkMax:800,
+    trait:'Impulsivo — instinto puro, decide en segundos',
+    personality:'impulsive',
+    // Frases por contexto de MANO (spread = rango) y POZO
     chat:{
-      think:['Veamos...','Esto pinta bien...','¿Cuánto arriesgo?','A ver qué sale','Mmm...','Dame un segundo','Interesante...'],
-      bet:['¡Va todo!','Con ganas.','No me tiembla la mano.','Subo la apuesta.','¡Adentro!','Cargado y listo.','Sin dudas.'],
-      win:['¡Eso es!','¡Sabía que entraba!','¡En racha!','Viene para casa.','¡Toma ya!','¡Siempre supe!','Como lo planeé.'],
-      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta.','Qué mala liga.','La revancha es mía.','Igual voy de nuevo.'],
-      tie:['Casi...','Al menos no perdí.','Empate, zafé.','Podría ser peor.'],
-      big:['¡Con este rango no fallo!','¡Es un regalo!','Acá no hay dudas.','Regalado esto.','Perfecto para mí.'],
-      small:['Riesgo total...','Igual voy.','Me la juego.','A ver si sale.','Lo que sea.']
+      think:['Veamos qué hay...','Esto pinta bien.','¿Cuánto meto?','A ver qué sale.','Mmm... voy.','Dame un segundo.','Interesante mano.'],
+      thinkBig:['Rango ancho, voy con todo.','Esto está regalado.','Ni lo pienso, adentro.'],
+      thinkSmall:['Rango cerrado, igual voy.','Me la juego igual.','El riesgo es parte del juego.'],
+      bet:['¡Adentro!','Con ganas, va.','No me tiembla la mano.','¡Sin dudas!','Cargado y listo.','¡Tiro todo!'],
+      betBig:['¡TODO al pozo!','¡Esta es la mía!','¡Al máximo, sin miedo!'],
+      win:['¡Sabía que entraba!','¡En racha!','¡Eso es!','¡Viene para casa!','¡Siempre supe!','¡Boom!'],
+      winStreak:['¡Imparable hoy!','¡Nadie me para!','¡Qué racha tengo!'],
+      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta.','¡Revancha!'],
+      loseConsec:['No entiendo nada hoy...','Algo raro pasa.','Igual no paro.','Cambio la estrategia.'],
+      tie:['¡Al menos zafé!','Empate sirve.','Casi...','Podría ser peor.'],
+      pressurePlayer:['¡Metele más!','El rango está amplio, aprovechá.','¿A qué esperás? ¡Adentro!','Yo que vos no lo dudo.','¡Tirá todo y ganás más!']
     },
-    reacts:{win:'🎉',lose:'😤',tie:'😐'}
+    reacts:{win:'🎉',lose:'😤',tie:'😐',big:'🔥',small:'😬'}
   },
   cautious:{
-    thinkMin:1600,thinkMax:3200,
-    trait:'Analítica — calcula antes de cada peso',
+    thinkMin:1800,thinkMax:3500,
+    trait:'Analítica — no mueve un peso sin calcular',
+    personality:'analyst',
     chat:{
-      think:['Calculando...','¿Cuánto hay en el pozo?','Viendo las chances...','Un momento...','Analizo el rango.','Las odds...','Déjame pensar.'],
-      bet:['Apuesto con cuidado.','Solo lo que conviene.','Con cabeza.','Poco pero seguro.','Calculado.','Apuesta medida.','Sin excesos.'],
-      win:['Lo sabía.','La matemática no falla.','Calculé bien.','Salió como esperaba.','Controlado.','Exacto.','Bien jugado.'],
-      lose:['No esperaba eso.','Ajusto estrategia.','El azar es cruel.','Varianza negativa.','Inesperado.','Qué mala probabilidad.','Estadística en contra.'],
-      tie:['Dentro de lo esperado.','Empate aceptable.','Neutral.','Sin cambios.'],
-      big:['Probabilidad a favor.','Las chances son buenas.','Buen margen.','Margen aceptable.','Conviene apostar.'],
-      small:['Demasiado arriesgado.','Las odds no convencen.','Fino esto.','Poco margen.','Me cuido acá.']
+      think:['Calculando...','¿Cuánto hay en el pozo?','Viendo las chances...','Analizo el rango.','Las odds...','Necesito pensar esto.','Un momento más.'],
+      thinkBig:['Con este spread, conviene.','Las probabilidades favorecen.','El riesgo/beneficio es bueno.'],
+      thinkSmall:['Rango muy acotado...','Las chances no convencen.','Debo ser prudente acá.'],
+      bet:['Apuesto lo justo.','Solo lo que conviene.','Con cabeza.','Calculado.','Apuesta medida.'],
+      betBig:['Las probabilidades lo justifican.','Rango amplio, apuesta grande.','EV positivo, ejecuto.'],
+      win:['Lo sabía.','La matemática no falla.','Calculé bien.','Salió como esperaba.','Exacto.'],
+      winStreak:['Modelo funcionando.','Consistencia esperada.','Estrategia correcta.'],
+      lose:['No esperaba esa carta.','Ajusto estrategia.','El azar es cruel.','Varianza negativa.'],
+      loseConsec:['Rachas negativas son estadísticas.','El modelo sigue siendo correcto.','No cambio por ruido.'],
+      tie:['Dentro de lo esperado.','Empate aceptable.','Neutro.'],
+      pressurePlayer:['El rango es bueno, ¿cuánto vas a apostar?','Si yo calculo bien, convenía ir más.','Las chances están a tu favor, ¿no?','Con ese spread, yo hubiese apostado más.']
     },
-    reacts:{win:'😊',lose:'😟',tie:'😶'}
+    reacts:{win:'😌',lose:'😟',tie:'😶',big:'🧮',small:'😐'}
   },
   balanced:{
-    thinkMin:700,thinkMax:1600,
-    trait:'Veterano — 20 años en el tapete',
+    thinkMin:700,thinkMax:1500,
+    trait:'Veterano — lleva años en estas mesas',
+    personality:'veteran',
     chat:{
-      think:['Hmm...','Ya vi esto antes.','Conozco este juego.','Interesante mano.','Veamos...','Siempre lo mismo.','Esta la conozco.'],
-      bet:['Apuesta clásica.','Así se juega.','Lo de siempre.','Lo que corresponde.','Firme.','Sin vueltas.','Directo.'],
-      win:['Como siempre.','20 años de práctica.','Así se hace.','Sin sorpresas.','Bien ganado.','Lo esperaba.','Uno más.'],
-      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa.','Otra vez será.','No es la primera.','Sigo.'],
-      tie:['Un empate honesto.','Sigue el juego.','Empate técnico.','Seguimos.'],
-      big:['Rango favorable.','Hay que aprovecharlo.','Buena oportunidad.','Momento justo.','Este lo agarro.'],
-      small:['Mala mano.','Igual hay que jugar.','Poca cosa esto.','Difícil esta mano.','Con lo que hay.']
+      think:['Ya vi esto antes.','Conozco esta mano.','Interesante...','Veamos.','Esta la conozco.','Hmm...','Un clásico.'],
+      thinkBig:['Buen rango, lo aprovecho.','Acá hay oportunidad.','Esto lo vi mil veces, se va adentro.'],
+      thinkSmall:['Mala mano, igual hay que jugar.','Lo que tocó.','A veces el rango no acompaña.'],
+      bet:['Así se juega.','Lo de siempre.','Firme.','Sin vueltas.','Lo que corresponde.'],
+      betBig:['Buena oportunidad, voy con todo.','Este momento lo esperaba.','Acá es cuando hay que arriesgar.'],
+      win:['Uno más.','Así es el juego.','Sin sorpresas.','20 manos así en la memoria.','Bien ganado.'],
+      winStreak:['Esta mesa me trata bien.','Buen día hoy.','Así se disfruta.'],
+      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa.','No es la primera, no será la última.'],
+      loseConsec:['Rachas malas se superan.','Cambio el ritmo.','Algo va a cambiar.'],
+      tie:['Un empate honesto.','Sigue el juego.','Seguimos.'],
+      pressurePlayer:['El pozo está ahí para quien se anima.','En este juego el que arriesga gana.','Yo a tu lugar metería más.','Ese rango aguanta una apuesta buena.']
     },
-    reacts:{win:'👍',lose:'🤷',tie:'🤝'}
+    reacts:{win:'👍',lose:'🤷',tie:'🤝',big:'😏',small:'😑'}
   },
   gambler:{
-    thinkMin:150,thinkMax:500,
-    trait:'Apostadora compulsiva — el riesgo la divierte',
+    thinkMin:100,thinkMax:380,
+    trait:'Apostadora compulsiva — el riesgo es el fin, no el medio',
+    personality:'reckless',
     chat:{
-      think:['¡Voy!','¡Dale!','Sin pensarlo mucho.','¡Ya está!','¡Vamos!','¡No espero más!','¡Qué espero!'],
-      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Va fuerte!','¡Mandale!','¡Sin miedo!','¡Al máximo!'],
-      win:['¡LO SABÍA!','¡Soy imparable!','¡Qué grande!','¡Vamos!','¡Siempre supe!','¡Increíble!','¡Sigo así!'],
-      lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!','¡Qué robo!','¡No lo puedo creer!','¡Revancha!','¡Otra vez!'],
-      tie:['¡Uf, casi!','¡Revancha ya!','¡Zafé de una!','¡Casi casi!'],
-      big:['¡Fácil esto!','¡Apuesto todo!','¡Venga!','¡Fiesta!','¡Todo adentro!'],
-      small:['¡Da igual, voy!','¡El riesgo es lo bueno!','¡No me importa!','¡Dale que va!','¡Qué puede salir mal!']
+      think:['¡Voy!','¡Dale!','¡Ya está, adentro!','¡Vamos!','¡No espero más!','¡Ni lo pienso!','¡Qué espero!'],
+      thinkBig:['¡TODO TODO TODO!','¡Rango enorme, apuesta enorme!','¡Esto no se pierde!'],
+      thinkSmall:['¡Da igual, igual voy!','¡El riesgo es lo bueno!','¡Qué puede salir mal!'],
+      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Mandale!','¡Sin miedo! ¡Va!'],
+      betBig:['¡TODO AL POZO, AHORA!','¡La apuesta más grande de mi vida!','¡VAMOS VAMOS VAMOS!'],
+      win:['¡LO SABÍA!','¡Soy imparable!','¡JEJE!','¡Qué grande!','¡Siempre supe!','¡VAMOS!'],
+      winStreak:['¡Nadie me para hoy!','¡Qué racha bestial!','¡Sigo apostando más!'],
+      lose:['¡NOOOO!','¡No puede ser!','¡Voy de nuevo con más!','¡Qué ROBO!','¡REVANCHA ahora!'],
+      loseConsec:['¡PEOR ES NO JUGAR!','¡La mía viene ya!','¡No me bajo!','¡Sigo hasta ganar!'],
+      tie:['¡Uf, casi!','¡Revancha ya!','¡Zafé de casualidad!'],
+      pressurePlayer:['¡APOSTÁ TODO O NO SIRVE!','¡Miedoso! ¡El pozo te espera!','¿Qué estás esperando, un milagro?','¡El riesgo GRANDE da el premio GRANDE!']
     },
-    reacts:{win:'🤑',lose:'😱',tie:'😏'}
+    reacts:{win:'🤑',lose:'😱',tie:'😏',big:'😤',small:'🤪'}
   },
   shark:{
-    thinkMin:900,thinkMax:2000,
-    trait:'Tiburón — frío, calculador, sin emociones',
+    thinkMin:1000,thinkMax:2200,
+    trait:'Tiburón — frío, sin emociones, solo números',
+    personality:'cold',
     chat:{
-      think:['...','Evaluando.','Rango analizado.','Relación riesgo/pozo.','Sin apuro.','Lo veo claro.','Proceso.'],
-      bet:['Calculado.','Apuesta óptima.','Según el modelo.','Risk ajustado.','Ejecutando.','Todo medido.','Sin ruido.'],
-      win:['Ejecutado.','Resultado esperado.','Buen retorno.','Modelo correcto.','Próximo.','Confirmado.','Sin sorpresas.'],
-      lose:['Variable aleatoria.','Dentro del rango.','Continúa el modelo.','No afecta.','EV positivo igual.','Error del sistema.','Próxima mano.'],
-      tie:['Neutro.','Sin ganancia ni pérdida.','Continúa.','Eficiencia cero.'],
-      big:['Esperanza matemática positiva.','Rango favorable, apuesta máxima.','El modelo dice que sí.','Excelente EV.','Acá hay valor.'],
-      small:['EV negativo.','Rango desfavorable.','Paso estratégico.','No hay edge.','Sin ventaja.']
+      think:['...','Evaluando.','Relación riesgo/beneficio.','Sin apuro.','Lo proceso.','Rango analizado.'],
+      thinkBig:['EV positivo claro.','El modelo lo aprueba.','Spread óptimo para apostar máximo.'],
+      thinkSmall:['EV negativo.','Paso o apuesta mínima.','Sin ventaja real acá.'],
+      bet:['Calculado.','Apuesta óptima.','Según el modelo.','Risk ajustado.','Ejecutando.'],
+      betBig:['Apuesta máxima justificada.','El algoritmo dice todo.','Sin ruido emocional.'],
+      win:['Resultado esperado.','Modelo correcto.','Próximo.','Buen retorno.','Confirmado.'],
+      winStreak:['Consistencia del modelo.','El edge se manifiesta.','Como proyectado.'],
+      lose:['Variable aleatoria.','Dentro del rango.','EV positivo igual.','No afecta el modelo.'],
+      loseConsec:['Varianza negativa temporal.','El edge se mantiene a largo plazo.','El modelo no cambia.'],
+      tie:['Neutro.','Eficiencia cero.','Continúa.'],
+      pressurePlayer:['El spread sugiere apuesta mayor.','Tu EV esperado sube con más chips.','La probabilidad de ganancia justifica una apuesta más alta.','Estadísticamente, deberías ir con más.']
     },
-    reacts:{win:'😐',lose:'😑',tie:'🫥'}
+    reacts:{win:'😐',lose:'😑',tie:'🫥',big:'🎯',small:'🔕'}
   }
 };
 
@@ -2070,8 +2097,31 @@ function psychMsg(res){
   return'¡Recuperaste lo apostado! Ahora que el rango acompañe, subí las fichas.';
 }
 
-// ══ CHAT DE MESA ════════════════════════════════════════════════
-function rc(p,k){const a=(p.chat&&p.chat[k])||['...'];return a[Math.floor(Math.random()*a.length)];}
+// Chat helper mejorado — selecciona frases por contexto de mano
+function rc(p,k){
+  // Intentar key específico, luego fallback al básico
+  const pool=(p.chat&&p.chat[k])||(p.chat&&p.chat[k.replace(/Big|Small|Streak|Consec/,'')])||['...'];
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+// Selección inteligente de key según contexto real del juego
+function rcSmart(p,baseKey){
+  if(!p||!p.chat) return '...';
+  const spread=p.mySpread!==undefined?p.mySpread:G.spread;
+  const consec=p._consecutiveLosses||0;
+  const streak=p._winStreak||0;
+  // Sufijo contextual
+  let suffix='';
+  if(baseKey==='think'){
+    suffix=spread>=5?'Big':spread<=1?'Small':'';
+  } else if(baseKey==='bet'){
+    suffix=spread>=5?'Big':'';
+  } else if(baseKey==='win'){
+    suffix=streak>=2?'Streak':'';
+  } else if(baseKey==='lose'){
+    suffix=consec>=2?'Consec':'';
+  }
+  return rc(p, suffix?baseKey+suffix:baseKey);
+}
 
 function showBubble(idx,txt,dur){
   const seat=document.getElementById('seat-'+idx);if(!seat)return;
@@ -2111,19 +2161,64 @@ const AMBIENT=[
   {txt:'*bebe un sorbo*'},{txt:'*mira las cartas de reojo*'},{txt:'*se acomoda en la silla*'},
   {txt:'*chasquea los dedos*'},{txt:'*se frota las manos*'},{txt:'*mira al costado*'}
 ];
-// Mensajes de presión social — los bots "convencen" al jugador de apostar más
-const BOT_PRESSURE=[
-  '¿Poco dinero? Apostá todo y ganá más rápido.',
-  'El que no arriesga no gana. Simple.',
-  'Yo puse el doble y mirá cómo me fue...',
-  'El pozo está ahí para el que se anima.',
-  'No te achiques, el rango está amplio.',
-  'Apuesta chica, ganancia chica. ¿Vale la pena?',
-  'La racha es tuya — ¡aprovechala!',
-  '¿Cuándo vas a animarte a ir en serio?',
-  'Yo que vos metía todo ahora.',
-  'El pozo no espera, ¡metele!',
-];
+// ── SISTEMA DE PRESIÓN SOCIAL CONTEXTUAL ─────────────────────────────────────
+// Los bots leen la situación actual y generan frases específicas al contexto
+function generateBotPressure(p){
+  const spread = G.spread||0;
+  const pot = G.pot||0;
+  const streak = G.streak||0;
+  const yourBet = G.bet||0;
+  const playerBal_ = G.yourBal||playerBal;
+  const style = p.style||'balanced';
+
+  // Pool base por personalidad
+  const byStyle = (p.chat&&p.chat.pressurePlayer)||[
+    'El pozo está ahí para el que se anima.',
+    'Yo que vos no lo pensaría tanto.',
+    'Apostá más, ganás más.'
+  ];
+
+  // Contexto concreto: spread amplio
+  const spreadMsgs = spread >= 6 ? [
+    `Rango de ${spread} cartas... eso es un regalo. ¿No lo ves?`,
+    `Con ${spread} cartas de rango, el riesgo casi no existe. ¡Metele!`,
+    `Yo con ese rango apuesto hasta el baño. ${spread} cartas de margen.`
+  ] : spread >= 3 ? [
+    `El rango está decente. Apostá lo que podés.`,
+    `Con este spread, las chances están.`
+  ] : [
+    `Rango chico, pero el pozo vale el riesgo.`,
+    `Hasta con este rango se puede ganar bien.`
+  ];
+
+  // Contexto: pozo grande
+  const potMsgs = pot >= 50000 ? [
+    `¡$${pot.toLocaleString('es-AR')} en el pozo! ¿Cuándo vas a ver eso otra vez?`,
+    `El pozo está monstruoso. Una mano puede cambiarte la noche.`,
+    `$${pot.toLocaleString('es-AR')} y vos apostás poco... Eso no cuadra.`
+  ] : pot >= 15000 ? [
+    `$${pot.toLocaleString('es-AR')} esperando. Animate.`,
+    `El pozo está bueno. No lo desperdicies.`
+  ] : null;
+
+  // Contexto: racha
+  const streakMsgs = streak > 1 ? [
+    `¡Estás en racha! Es el momento de subir la apuesta.`,
+    `Dos ganadas seguidas y apostás lo mismo... ¿Qué estás esperando?`,
+    `La racha no dura para siempre. Aprovechala ahora.`
+  ] : streak < -2 ? [
+    `La revancha siempre llega. Una apuesta grande lo recupera todo.`,
+    `Cuando cambia la racha, hay que tener fichas. Apostá más.`,
+    `Las rachas malas se revierten. Vas a ver.`
+  ] : null;
+
+  // Mezclar contexto y estilo
+  const pools = [byStyle, spreadMsgs];
+  if(potMsgs) pools.push(potMsgs);
+  if(streakMsgs) pools.push(streakMsgs);
+  const pool = pools[Math.floor(Math.random()*pools.length)];
+  return pool[Math.floor(Math.random()*pool.length)];
+}
 
 // Comentarios contextuales del pozo
 function potComment(p){
@@ -2160,17 +2255,30 @@ function spreadComment(p, spread){
 }
 
 function maybeAmbient(p,idx){
-  // 25% chance ambient action
-  if(Math.random()<.25){
+  const r=Math.random();
+  // 22% ambient action (gestos físicos)
+  if(r<.22){
     const m=AMBIENT[Math.floor(Math.random()*AMBIENT.length)];
     setTimeout(()=>{addChatFeed(p,m.txt);},200+Math.random()*800);
     return;
   }
-  // 20% chance of smart contextual comment
-  if(Math.random()<.20){
-    const comment = potComment(p) || spreadComment(p, p.mySpread||G.spread);
+  // 25% comentario contextual inteligente
+  if(r<.47){
+    const spread=p.mySpread||G.spread;
+    // Elegir fuente de comentario según contexto
+    let comment=null;
+    const roll=Math.random();
+    if(roll<0.4) comment=potComment(p);
+    else if(roll<0.7) comment=spreadComment(p,spread);
+    else {
+      // Comentario de estilo del bot
+      const isGoodSpread=spread>=5;
+      const key=isGoodSpread?'thinkBig':'thinkSmall';
+      const pool=(p.chat&&p.chat[key])||(p.chat&&p.chat.think)||['...'];
+      comment=pool[Math.floor(Math.random()*pool.length)];
+    }
     if(comment){
-      setTimeout(()=>{showBubble(idx,comment,1800);addChatFeed(p,comment);},300+Math.random()*600);
+      setTimeout(()=>{showBubble(idx,comment,2000);addChatFeed(p,comment);},300+Math.random()*700);
     }
   }
 }
@@ -2180,15 +2288,31 @@ function botPressureChat(){
   if(G.spectate||!G.players)return;
   const cpus=G.players.filter(p=>!p.you&&p.bal>0);
   if(!cpus.length)return;
-  // Solo 40% de las veces lanza un mensaje de presión
-  if(Math.random()>.40)return;
-  const p=cpus[Math.floor(Math.random()*cpus.length)];
-  const idx=G.players.indexOf(p);
-  const msg=BOT_PRESSURE[Math.floor(Math.random()*BOT_PRESSURE.length)];
-  const delay=1500+Math.random()*2500;
+  // 45% de probabilidad de presionar
+  if(Math.random()>.45)return;
+  // Elegir bot con preferencia por los más "presionadores" (gambler, bold)
+  const weights=cpus.map(p=>p.style==='gambler'?3:p.style==='bold'?2:1);
+  const totalW=weights.reduce((a,b)=>a+b,0);
+  let r=Math.random()*totalW,chosen=cpus[cpus.length-1];
+  for(let i=0;i<cpus.length;i++){r-=weights[i];if(r<=0){chosen=cpus[i];break;}}
+  const idx=G.players.indexOf(chosen);
+  const msg=generateBotPressure(chosen);
+  const delay=1200+Math.random()*2800;
   setTimeout(()=>{
-    if(G.phase==='your-turn'){showBubble(idx,msg,2400);addChatFeed(p,msg);}
+    if(G.phase==='your-turn'){showBubble(idx,msg,2800);addChatFeed(chosen,msg);}
   },delay);
+  // 20% de chance de un segundo bot comentando justo después
+  if(Math.random()<.20){
+    const otros=cpus.filter(p=>p!==chosen);
+    if(otros.length){
+      const p2=otros[Math.floor(Math.random()*otros.length)];
+      const idx2=G.players.indexOf(p2);
+      const m2=generateBotPressure(p2);
+      setTimeout(()=>{
+        if(G.phase==='your-turn'){showBubble(idx2,m2,2400);addChatFeed(p2,m2);}
+      },delay+1200+Math.random()*1000);
+    }
+  }
 }
 
 // ══ BG CANVAS ANIMATION ═════════════════════════════════════════
@@ -2216,11 +2340,31 @@ function botPressureChat(){
 // ══ LOBBY ═══════════════════════════════════════════════════════
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 
+// ══ SISTEMA DE HORARIOS PICO ═════════════════════════════════════
+// Simula demanda real según hora del día (Argentina, UTC-3)
+function getLobbyDemand(){
+  const now = new Date();
+  const hour = (now.getUTCHours() - 3 + 24) % 24; // hora Argentina
+  // Tabla de demanda: 0=madrugada baja, 10=pico máximo
+  // Picos: 13-15h (almuerzo), 21-02h (noche)
+  const demandByHour = [
+    0.3, 0.2, 0.15, 0.1, 0.1, 0.15, // 0-5: madrugada muerta
+    0.25, 0.4, 0.55, 0.65, 0.7, 0.75, // 6-11: mañana
+    0.8, 0.9, 0.85, 0.75, 0.7, 0.75,  // 12-17: mediodía/tarde
+    0.8, 0.85, 0.95, 1.0, 1.0, 0.9    // 18-23: noche pico
+  ];
+  const demand = demandByHour[hour] || 0.5;
+  const isPeak = hour >= 20 || (hour >= 12 && hour <= 14);
+  const isQuiet = hour < 6 || (hour >= 4 && hour < 7);
+  return { demand, isPeak, isQuiet, hour };
+}
+
 async function generateTables(){
   // Limpiar intervalo anterior — evita mesas zombie en el lobby
   if(_lobbyInterval){clearInterval(_lobbyInterval);_lobbyInterval=null;}
 
   const usedBotNames = new Set();
+  const { demand, isPeak, isQuiet } = getLobbyDemand();
 
   // Intentar cargar mesas de la DB si estamos logueados
   if(PROFILE.userId){
@@ -2234,69 +2378,84 @@ async function generateTables(){
           maxSeats: m.max_asientos,
           buyIn: Number(m.buy_in),
           status: m.estado,
-          players: [], // En una implementación real, esto vendría de mesa_asientos
+          players: [],
           pot: Number(m.pozo),
           hands: m.manos_jugadas,
           urgencyTimer: null,
-          potCat: m.categoria
+          potCat: m.categoria,
+          demandLevel: demand
         }));
         renderLobby();
+        // Frecuencia de tick según demanda: pico cada 3s, normal cada 5s, tranquilo cada 8s
+        const tickMs = isPeak ? 3000 : isQuiet ? 8000 : 5000;
+        _lobbyInterval=setInterval(lobbyTick, tickMs);
         return;
       }
     } catch(e) { console.warn('Error fetching mesas:', e); }
   }
 
-  // Fallback a generación aleatoria si no hay DB o no hay mesas
-  const n=5+rnd(0,3),names=[...TABLE_NAMES].sort(()=>Math.random()-.5);TABLES=[];
+  // Número de mesas según demanda real
+  const baseN = isPeak ? rnd(7,11) : isQuiet ? rnd(3,5) : rnd(5,8);
+  const names=[...TABLE_NAMES].sort(()=>Math.random()-.5);
+  TABLES=[];
 
   /*
-   * Relación entrada ↔ jugadores (INVERSA):
-   *   Entrada alta  → menos asientos  (mesa exclusiva, pozo concentrado)
-   *   Entrada baja  → más asientos    (mesa popular, pozo por volumen)
-   *
-   * Mesas open/filling: pozo = entrada × participantes exacto (lo que pusieron)
-   * Mesas playing/full: pozo += acumulado de manos anteriores
-   *
-   * Límites: mínimo 1 jugador, máximo 10 jugadores por mesa
+   * Distribución de categorías ajustada por horario pico:
+   * - Horario pico: más mesas "filling" y "playing", menos "open"
+   * - Madrugada: predominan mesas "open" con pocos jugadores
+   * - Cada categoría tiene frecuencia de tick diferente
    */
-  const cats={
-    // Alta frecuencia: mesas populares, entradas accesibles, mucho movimiento
+  const cats = isPeak ? {
+    popular:{ buyIns:[500,700,1000],      minSeats:5,maxSeats:10, handsRange:[5,20],  weight:0.38 },
+    mid:    { buyIns:[500,750,1000,1500], minSeats:4,maxSeats:8,  handsRange:[10,30], weight:0.35 },
+    vip:    { buyIns:[2000,3000,5000],    minSeats:2,maxSeats:5,  handsRange:[15,40], weight:0.20 },
+    elite:  { buyIns:[8000,10000,15000],  minSeats:1,maxSeats:3,  handsRange:[25,60], weight:0.07 },
+  } : isQuiet ? {
+    popular:{ buyIns:[500,700,1000],      minSeats:3,maxSeats:7,  handsRange:[2,10],  weight:0.50 },
+    mid:    { buyIns:[500,750,1000,1500], minSeats:2,maxSeats:5,  handsRange:[5,15],  weight:0.35 },
+    vip:    { buyIns:[2000,3000,5000],    minSeats:1,maxSeats:3,  handsRange:[8,25],  weight:0.12 },
+    elite:  { buyIns:[8000,10000,15000],  minSeats:1,maxSeats:2,  handsRange:[15,35], weight:0.03 },
+  } : {
     popular:{ buyIns:[500,700,1000],      minSeats:5,maxSeats:10, handsRange:[3,15],  weight:0.40 },
-    // Media frecuencia: el corazón del casino
-    mid:    { buyIns:[500,750,1000,1500],minSeats:3,maxSeats:7,  handsRange:[8,25],  weight:0.35 },
-    // Baja frecuencia: mesas exclusivas, pozo concentrado
-    vip:    { buyIns:[2000,3000,5000],   minSeats:2,maxSeats:5,  handsRange:[12,35], weight:0.18 },
-    // Rarísima: la mesa de alto riesgo
-    elite:  { buyIns:[8000,10000,15000], minSeats:1,maxSeats:3,  handsRange:[20,50], weight:0.07 },
+    mid:    { buyIns:[500,750,1000,1500], minSeats:3,maxSeats:7,  handsRange:[8,25],  weight:0.35 },
+    vip:    { buyIns:[2000,3000,5000],    minSeats:2,maxSeats:5,  handsRange:[12,35], weight:0.18 },
+    elite:  { buyIns:[8000,10000,15000],  minSeats:1,maxSeats:3,  handsRange:[20,50], weight:0.07 },
   };
 
-  // Precalcular umbrales acumulados para selección ponderada
   const catKeys=Object.keys(cats);
   const catThresh=[];let acc=0;
   catKeys.forEach(k=>{acc+=cats[k].weight;catThresh.push(acc);});
 
-  for(let i=0;i<n;i++){
+  // Distribución de estados ajustada a horario pico
+  const stateWeights = isPeak
+    ? { playing:0.28, full:0.15, filling:0.35, open:0.22 }   // pico: más acción
+    : isQuiet
+    ? { playing:0.10, full:0.05, filling:0.18, open:0.67 }   // tranquilo: mesas vacías esperando
+    : { playing:0.20, full:0.12, filling:0.28, open:0.40 };  // normal
+
+  for(let i=0;i<baseN;i++){
     const roll=Math.random();
     const catKey=catKeys[catThresh.findIndex(t=>roll<t)]||'mid';
     const cat=cats[catKey];
 
     const bi=cat.buyIns[rnd(0,cat.buyIns.length-1)];
     const mx=Math.max(2,Math.min(10,rnd(cat.minSeats,cat.maxSeats)));
-    // Manos jugadas: distribución realista — la mayoría en rango bajo, pocas muy jugadas
     const handsRoll=Math.random();
     const hands=handsRoll<0.55
       ? rnd(cat.handsRange[0], Math.round(cat.handsRange[0]+(cat.handsRange[1]-cat.handsRange[0])*0.4))
       : rnd(cat.handsRange[0], cat.handsRange[1]);
 
-    // Estado: distribución natural de casino activo
-    const stRoll=Math.random();let st,occ;
-    if(stRoll<.20){st='playing';occ=mx;}          // 20% en juego
-    else if(stRoll<.32){st='full';occ=mx;}         // 12% completa esperando
-    else if(stRoll<.60){                            // 28% llenándose — máxima tensión
-      occ=Math.max(1,mx-rnd(1,Math.min(2,mx-1)));st='filling';
-    } else {                                        // 40% abierta — invitación a entrar
-      occ=Math.max(1,rnd(1,Math.max(1,mx-2)));st='open';
+    // Estado con distribución ponderada por horario
+    const stRoll=Math.random();
+    let cumSt=0,st='open',occ;
+    for(const [sKey,sW] of Object.entries(stateWeights)){
+      cumSt+=sW;
+      if(stRoll<cumSt){st=sKey;break;}
     }
+    // Calcular ocupación según estado
+    if(st==='playing'||st==='full'){occ=mx;}
+    else if(st==='filling'){occ=Math.max(1,mx-rnd(1,Math.min(2,mx-1)));}
+    else{occ=Math.max(1,rnd(1,Math.max(1,mx-2)));}
     occ=Math.min(occ,mx);
 
     const availableBots = ALL_PLAYERS.filter(p => !usedBotNames.has(p.name));
@@ -2305,19 +2464,18 @@ async function generateTables(){
 
     let pot;
     if(st==='open'||st==='filling'){
-      // Pozo = entrada × participantes + pequeño acumulado de rondas previas
       const prevAccum=Math.round(bi*occ*rnd(0,3)*0.18/50)*50;
       pot=bi*occ+prevAccum;
     } else {
-      // Mesas activas: pozo crece orgánicamente por las manos
       const potBase=bi*mx;
       const growthRate=catKey==='elite'?0.72:catKey==='vip'?0.60:catKey==='mid'?0.50:0.38;
-      const potAccum=Math.round(potBase*hands*growthRate/50)*50;
+      // Pozo más alto en horario pico (más apuestas acumuladas)
+      const peakBoost = isPeak ? 1.35 : 1.0;
+      const potAccum=Math.round(potBase*hands*growthRate*peakBoost/50)*50;
       const jitter=Math.round(potBase*(0.82+Math.random()*0.36)/50)*50;
       pot=Math.max(potBase, potBase+potAccum+jitter);
     }
 
-    // Variación de urgencia más natural
     const urgBase=catKey==='popular'?rnd(20,90):catKey==='mid'?rnd(30,120):rnd(45,180);
 
     TABLES.push({
@@ -2326,32 +2484,40 @@ async function generateTables(){
       status:st, players:pl,
       pot:pot, hands:hands,
       urgencyTimer:st==='filling'?urgBase:null,
-      potCat:catKey
+      potCat:catKey,
+      demandLevel:demand
     });
   }
   renderLobby();
-  _lobbyInterval=setInterval(lobbyTick,4000);
+  // Tick más frecuente en horario pico
+  const tickMs = isPeak ? 3000 : isQuiet ? 8000 : 5000;
+  _lobbyInterval=setInterval(lobbyTick, tickMs);
 }
 
 function lobbyTick(){
+  const { demand, isPeak } = getLobbyDemand();
+
   TABLES.forEach(t=>{
-    // Frecuencia de actividad según categoría de mesa
-    const freq=t.potCat==='popular'?1.0:t.potCat==='mid'?0.75:t.potCat==='vip'?0.50:0.30;
+    // Frecuencia de actividad según categoría + demanda horaria
+    const catFreq=t.potCat==='popular'?1.0:t.potCat==='mid'?0.75:t.potCat==='vip'?0.50:0.30;
+    const freq = catFreq * (0.6 + demand * 0.8); // demanda amplifica actividad
 
     if(t.status==='playing'){
       t.hands++;
-      // El pozo crece un poco con cada mano jugada (simula apuestas internas)
-      const handGrow=Math.round(t.buyIn*(0.05+Math.random()*0.12)/50)*50;
+      // El pozo crece más en hora pico
+      const peakMult = isPeak ? 1.35 : 1.0;
+      const handGrow=Math.round(t.buyIn*(0.05+Math.random()*0.14)*peakMult/50)*50;
       t.pot=Math.max(t.pot,t.pot+handGrow);
-      // Cierre de mesa: más frecuente en mesas populares (reciclan rápido)
-      const closeChance=t.potCat==='popular'?0.06:t.potCat==='mid'?0.04:0.025;
+      // Cierre de mesa: más frecuente en hora pico (reciclan más rápido)
+      const closeChance=isPeak
+        ? (t.potCat==='popular'?0.10:t.potCat==='mid'?0.07:0.04)
+        : (t.potCat==='popular'?0.06:t.potCat==='mid'?0.04:0.025);
       if(Math.random()<closeChance){
         t.status='open';t.players=t.players.slice(0,Math.floor(t.players.length*0.4)||1);
         t.pot=t.buyIn*t.players.length;t.hands=0;
       }
     } else if(t.status==='filling'){
-      // Velocidad de llenado proporcional a la categoría
-      const fillChance=0.15+freq*0.18;
+      const fillChance=0.15+freq*0.20;
       if(Math.random()<fillChance){
         const u=new Set(t.players.map(p=>p.name));
         const av=ALL_PLAYERS.filter(p=>!u.has(p.name));
@@ -2360,16 +2526,18 @@ function lobbyTick(){
           t.pot=t.buyIn*t.players.length;
         }
       }
-      if(t.urgencyTimer!==null)t.urgencyTimer=Math.max(0,t.urgencyTimer-4);
+      // Timer baja más rápido en hora pico (urgencia real)
+      const timerDec = isPeak ? 6 : 4;
+      if(t.urgencyTimer!==null)t.urgencyTimer=Math.max(0,t.urgencyTimer-timerDec);
       if(t.players.length>=t.maxSeats){t.status='playing';t.urgencyTimer=null;}
-      // Veces que alguien se va mientras se llena
+      // Alguien se va mientras se llena
       if(Math.random()<0.04&&t.players.length>1){
         t.players.splice(rnd(0,t.players.length-1),1);
         t.pot=t.buyIn*t.players.length;
-        t.urgencyTimer=rnd(15,50); // timer se reinicia — más urgente
+        t.urgencyTimer=rnd(15,50);
       }
     } else if(t.status==='open'){
-      const joinChance=0.10+freq*0.20;
+      const joinChance=0.10+freq*0.24;
       if(Math.random()<joinChance){
         const u=new Set(t.players.map(p=>p.name));
         const av=ALL_PLAYERS.filter(p=>!u.has(p.name));
@@ -2383,7 +2551,6 @@ function lobbyTick(){
           t.urgencyTimer=urgBase;
         }
       }
-      // Alguien se va de una mesa abierta (natural)
       if(Math.random()<0.05&&t.players.length>1){
         t.players.splice(rnd(0,t.players.length-1),1);
         t.pot=t.buyIn*t.players.length;
@@ -2397,12 +2564,51 @@ function lobbyTick(){
       }
     }
   });
+
+  // En hora pico: aparecen nuevas mesas espontáneamente (alta demanda)
+  if(isPeak && TABLES.length < 12 && Math.random() < 0.18){
+    _spawnNewTable();
+  }
+  // En hora baja: mesas vacías se cierran
+  if(!isPeak && TABLES.length > 4 && Math.random() < 0.08){
+    const empties = TABLES.filter(t=>t.status==='open'&&t.players.length<=1);
+    if(empties.length > 0){
+      const toRemove = empties[Math.floor(Math.random()*empties.length)];
+      TABLES = TABLES.filter(t=>t!==toRemove);
+    }
+  }
+
   renderLobby();
+}
+
+// Spawnear nueva mesa en horario pico
+function _spawnNewTable(){
+  const usedNames = new Set(TABLES.map(t=>t.name));
+  const freeName = TABLE_NAMES.find(n=>!usedNames.has(n)) || ('Mesa '+(TABLES.length+1));
+  const cats = ['popular','popular','mid','mid','vip'];
+  const catKey = cats[Math.floor(Math.random()*cats.length)];
+  const buyIns = {popular:[500,700,1000],mid:[750,1000,1500],vip:[2000,3000,5000]};
+  const bi = buyIns[catKey][rnd(0,2)];
+  const mx = catKey==='popular'?rnd(6,10):catKey==='mid'?rnd(4,7):rnd(2,4);
+  const occ = rnd(1,Math.max(1,mx-2));
+  const av = ALL_PLAYERS.filter(p=>!TABLES.some(t=>t.players.some(tp=>tp.name===p.name)));
+  const pl = av.sort(()=>Math.random()-.5).slice(0,occ);
+  const newId = TABLES.reduce((mx,t)=>Math.max(mx,t.id),0)+1;
+  TABLES.push({
+    id:newId, dbId:null, name:freeName,
+    maxSeats:mx, buyIn:bi, status:'open', players:pl,
+    pot:bi*occ, hands:0,
+    urgencyTimer:null, potCat:catKey, demandLevel:1.0
+  });
 }
 
 function renderLobby(){
   const list=document.getElementById('tables-list');list.innerHTML='';
-  document.getElementById('lobby-ct').textContent=TABLES.length+' activas';
+  const { isPeak, isQuiet, demand, hour } = getLobbyDemand();
+
+  // Actualizar contador con indicador de demanda
+  const demandLabel = isPeak ? '🔴 PICO' : isQuiet ? '🔵 Baja demanda' : '🟡 Normal';
+  document.getElementById('lobby-ct').textContent=`${TABLES.length} activas · ${demandLabel}`;
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   const _gb2=document.getElementById('gtb-bal');if(_gb2)_gb2.textContent='$'+(G.yourBal||playerBal).toLocaleString('es-AR');
 
@@ -3057,7 +3263,7 @@ function runCPUs(idxs,pos,done){
     const trapMsgs=['Rango cerrado, pozo tentador...','Poco margen pero el pozo llama.','Difícil decisión...'];
     preComment = trapMsgs[Math.floor(Math.random()*trapMsgs.length)];
   } else {
-    const chatKey=mySpread>=5?'big':mySpread<=1?'small':'think';
+    const chatKey=mySpread>=5?'thinkBig':mySpread<=1?'thinkSmall':'think';
     preComment = rc(p, chatKey==='think'?'think':chatKey);
   }
 
@@ -3102,7 +3308,7 @@ function runCPUs(idxs,pos,done){
     botMaybeProactiveReload(p,i);
     p.bet=bet; p.bal-=bet;
     updHUD(); updPot();
-    setTimeout(()=>{showBubble(i,rc(p,'bet'),1800);addChatFeed(p,rc(p,'bet'));},100);
+    setTimeout(()=>{const bm=rcSmart(p,'bet');showBubble(i,bm,1800);addChatFeed(p,bm);},100);
 
     // Carta del bot — si es ganador forzado, asegurar carta ganadora
     let c3;
@@ -3184,29 +3390,34 @@ function runCPUs(idxs,pos,done){
     const reactKey=res==='win'?'win':'lose';
     const emoji=p.reacts?p.reacts[reactKey]:'';
 
+    // Trackear rachas del bot para reacciones más naturales
+    if(res==='win'){p._winStreak=(p._winStreak||0)+1;p._consecutiveLosses=0;}
+    else{p._consecutiveLosses=(p._consecutiveLosses||0)+1;p._winStreak=0;}
+
     // Calcular comentario contextual
     let reaction;
     if(res==='win'){
       if(isForcedWinner||G.pot<=MIN_BET*3){
-        // Va a ganar el pozo o lo acaba de limpiar
         const sweepMsgs=['¡Eso era mío!','¡El pozo es mío!','¡Limpio!','¡Sabía que iba!'];
         reaction = sweepMsgs[Math.floor(Math.random()*sweepMsgs.length)];
       } else if(bet>=1000 && Math.random()<0.5){
-        const bigWinMsgs=['¡Eso sí que duele al pozo!','¡Buen billete!','¡Sacando lo mío!'];
+        const bigWinMsgs=['¡Eso sí que duele al pozo!','¡Buen billete!','¡Sacando lo mío!','¡Ahí está la plata!'];
         reaction = bigWinMsgs[Math.floor(Math.random()*bigWinMsgs.length)];
       } else if(G.pot>=15000 && Math.random()<0.45){
-        const bigPotWinMsgs=['El pozo sigue gordo...','Sigo en la pelea.','Hay más para sacar.'];
+        const bigPotWinMsgs=['El pozo sigue gordo...','Sigo en la pelea.','Hay más para sacar.','¡Y sigue!'];
         reaction = bigPotWinMsgs[Math.floor(Math.random()*bigPotWinMsgs.length)];
       } else {
-        reaction = rc(p,'win');
+        reaction = rcSmart(p,'win');
       }
     } else {
-      // Pérdida
       if(bet>=500 && Math.random()<0.4){
-        const bigLossMsgs=['Me costó esa...','Ahí fue el dinero.','Eso duele.','Mala suerte.'];
+        const bigLossMsgs=['Me costó esa...','Ahí fue el dinero.','Eso duele.','Mala suerte.','¡Qué carta!'];
         reaction = bigLossMsgs[Math.floor(Math.random()*bigLossMsgs.length)];
+      } else if((p._consecutiveLosses||0)>=3 && Math.random()<0.6){
+        const streakLossMsgs=['Hoy no es mi día...','¿Qué le pasa a esta mesa?','La racha tiene que cambiar.','Voy a recargar si sigo así.'];
+        reaction = streakLossMsgs[Math.floor(Math.random()*streakLossMsgs.length)];
       } else {
-        reaction = rc(p,'lose');
+        reaction = rcSmart(p,'lose');
       }
     }
 
