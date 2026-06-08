@@ -6,8 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#050a02">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050a02'/%3E%3Ctext x='32' y='43' font-size='36' text-anchor='middle'%3E%E2%99%A6%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#020810">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23003DA5'/%3E%3Ctext x='32' y='43' font-size='36' text-anchor='middle'%3E%E2%9A%BD%3C/text%3E%3C/svg%3E">
 <title>El Intermedio</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Inter:wght@300;400;500;600;700&display=swap');
@@ -16,7 +16,11 @@
   --gold:#c9a84c;--gold2:#e8c96a;--gold3:#f5e8b8;--golddim:rgba(201,168,76,.25);
   --felt:#0d4a1e;--felt2:#0a3a17;
   --green:#27ae60;--red:#c0392b;--blue:#2471a3;
-  --bg:#050a02;--bg2:#0a1405;
+  --bg:#030b12;--bg2:#050f1a;
+  /* Mundial 2026 palette */
+  --wc-blue:#003DA5;--wc-red:#C8102E;--wc-gold:#FFD700;
+  --wc-blue2:#0052CC;--wc-red2:#E8273E;
+  --wc-accent:#00B4D8;--wc-dark:#020810;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bot:env(safe-area-inset-bottom,0px);
   --card-w:82px;--card-h:122px;
@@ -26,7 +30,7 @@ html{height:100%;background:var(--bg)}
 body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hidden;position:fixed;width:100%}
 #app{
   width:100%;height:100%;max-width:480px;margin:0 auto;
-  background:radial-gradient(ellipse at 50% 0%,#0d1a08 0%,#040a03 55%,#000 100%);
+  background:radial-gradient(ellipse at 50% 0%,#061428 0%,#020810 55%,#000 100%);
   display:flex;flex-direction:column;position:relative;overflow:hidden;
 }
 
@@ -50,6 +54,30 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .sb-bal-ico{font-size:10px}
 .sb-bal-amt{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--gold2)}
 
+/* ══ WORLD CUP BANNER ═══════════════════════════════════════════ */
+#wc-banner{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:5px 16px;
+  background:linear-gradient(90deg,var(--wc-blue) 0%,#001a4a 30%,#1a0010 70%,var(--wc-red) 100%);
+  border-bottom:1.5px solid rgba(255,215,0,.3);
+  position:relative;overflow:hidden;flex-shrink:0;z-index:60;
+}
+#wc-banner::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,215,0,.04) 60px,rgba(255,215,0,.04) 61px);
+}
+#wc-banner::after{
+  content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+  animation:wcshine 3.5s infinite;
+}
+@keyframes wcshine{to{left:140%}}
+.wc-flag{font-size:12px;animation:wcspin .8s ease-in-out infinite alternate}
+@keyframes wcspin{from{transform:scale(1) rotate(-3deg)}to{transform:scale(1.1) rotate(3deg)}}
+.wc-text{font-family:'Cinzel',serif;font-size:9px;color:#FFD700;letter-spacing:2px;font-weight:700;text-shadow:0 0 12px rgba(255,215,0,.5);position:relative;z-index:1}
+.wc-badge{background:rgba(255,215,0,.2);border:1px solid rgba(255,215,0,.5);border-radius:20px;padding:2px 8px;font-size:8px;color:#FFD700;font-family:'Cinzel',serif;position:relative;z-index:1;animation:wcbadgepulse 2s infinite}
+@keyframes wcbadgepulse{0%,100%{border-color:rgba(255,215,0,.5)}50%{border-color:rgba(255,215,0,1);box-shadow:0 0 8px rgba(255,215,0,.4)}}
+
 /* ══ LOBBY ════════════════════════════════════════════════════ */
 #lobby-screen{overflow-y:auto;padding-bottom:calc(var(--safe-bot) + 16px)}
 #lobby-screen::-webkit-scrollbar{display:none}
@@ -66,12 +94,12 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
 #tables-list{display:flex;flex-direction:column;gap:12px;padding:0 12px;position:relative;z-index:5}
 
-/* ══ TARJETA DE MESA — PREMIUM REDESIGN ══ */
+/* ══ TARJETA DE MESA — WORLD CUP PREMIUM ══ */
 .tcard{
   position:relative;overflow:hidden;border-radius:22px;
-  background:linear-gradient(160deg,rgba(14,26,11,.98) 0%,rgba(7,14,5,1) 100%);
-  border:1px solid rgba(201,168,76,.12);
-  box-shadow:0 8px 32px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04);
+  background:linear-gradient(160deg,rgba(6,20,40,.98) 0%,rgba(2,8,20,1) 100%);
+  border:1px solid rgba(0,61,165,.2);
+  box-shadow:0 8px 32px rgba(0,0,0,.6),inset 0 1px 0 rgba(0,180,216,.06);
   transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s ease;
   -webkit-transform:translateZ(0);
 }
@@ -80,13 +108,13 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 /* Shimmer top line */
 .tcard::after{
   content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.28),transparent);
+  background:linear-gradient(90deg,transparent,rgba(0,180,216,.35),transparent);
 }
 /* Ambient glow */
 .tcard::before{
   content:'';position:absolute;inset:0;pointer-events:none;opacity:0;
   transition:opacity .35s;border-radius:22px;
-  background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.06),transparent 65%);
+  background:radial-gradient(ellipse at 50% 0%,rgba(0,180,216,.08),transparent 65%);
 }
 .tcard:active::before{opacity:1}
 
@@ -154,13 +182,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   margin-left:-8px;box-shadow:0 2px 8px rgba(0,0,0,.5);
 }
 .tc-av:first-child{margin-left:0}
-.tc-seats-pill{
-  font-size:8.5px;font-family:'Cinzel',serif;letter-spacing:.5px;
-  padding:3px 9px;border-radius:20px;
-  background:rgba(46,204,113,.1);color:rgba(46,204,113,.7);
-  border:1px solid rgba(46,204,113,.2);
-}
-.tc-seats-pill.full{background:rgba(200,60,60,.1);color:rgba(220,100,100,.7);border-color:rgba(200,60,60,.2)}
+.tc-seats-pill-orig{display:none}
 
 /* ── DETALLES SIEMPRE VISIBLES ── */
 .tc-details{
@@ -217,8 +239,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 @keyframes bounce{from{transform:scale(1) translateY(0)}to{transform:scale(1.15) translateY(-8px)}}
 .modal-sheet{
   width:100%;max-width:480px;
-  background:linear-gradient(180deg,#0e1a09,#060c03);
-  border:1.5px solid rgba(201,168,76,.25);border-radius:22px 22px 0 0;
+  background:linear-gradient(180deg,#071428,#030a18);
+  border:1.5px solid rgba(0,61,165,.4);border-radius:22px 22px 0 0;
   padding:0 20px calc(var(--safe-bot) + 24px);
   animation:slideup .3s cubic-bezier(.4,0,.2,1);
 }
@@ -403,10 +425,11 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .inst-txt b { color: var(--gold3); }
 .inst-txt p { font-size: 13px; line-height: 1.5; margin: 4px 0 0; opacity: 0.8; }
 .inst-close {
-  width: 100%; padding: 14px; background: var(--gold-grad);
-  border: none; border-radius: 12px; color: #fff;
+  width: 100%; padding: 14px; background: linear-gradient(135deg,#003DA5,#C8102E);
+  border: none; border-radius: 12px; color: #FFD700;
   font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer;
-  margin-top: 10px; box-shadow: 0 4px 15px rgba(184,134,11,0.3);
+  margin-top: 10px; box-shadow: 0 4px 15px rgba(0,61,165,.4);
+  letter-spacing:.5px;font-size:13px;
 }
 @keyframes slideInUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -417,13 +440,20 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 /* ══ TAPETE ══════════════════════════════════════════════════ */
 #felt-area{
   flex:1;position:relative;margin:0 10px 4px;
-  background:radial-gradient(ellipse at 50% 40%,#1b6e32 0%,#0e4a1e 50%,#082e12 100%);
-  border-radius:20px;border:3px solid #7a5c0f;
-  box-shadow:0 4px 30px rgba(0,0,0,.6),inset 0 0 0 1px rgba(201,168,76,.15);
+  background:radial-gradient(ellipse at 50% 40%,#1a7a35 0%,#0d5020 50%,#062d12 100%);
+  border-radius:20px;border:3px solid #5c8c1a;
+  box-shadow:0 4px 30px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,215,0,.12);
   display:flex;flex-direction:column;overflow:hidden;
   min-height:0;
 }
-.felt-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:8px 6px 4px;position:relative}
+/* Césped del tapete — líneas del campo */
+#felt-area::before{
+  content:'';position:absolute;inset:0;border-radius:18px;pointer-events:none;z-index:0;
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(0,0,0,.04) 18px,rgba(0,0,0,.04) 19px),
+    radial-gradient(ellipse at 50% 50%,transparent 35%,rgba(0,0,0,.06) 35%,rgba(0,0,0,.06) 36%,transparent 36%);
+}
+.felt-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:8px 6px 4px;position:relative;z-index:1}
 
 /* POT BAR */
 #pot-bar{
@@ -576,10 +606,10 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .abtn:active{transform:scale(.95)}
 .abtn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .12s}
 .abtn:active::after{background:rgba(255,255,255,.08)}
-.abtn-bet{background:linear-gradient(135deg,#2ecc71,#1a6b35);color:#fff;box-shadow:0 4px 0 #0d3018,0 6px 16px rgba(46,204,113,.3)}
+.abtn-bet{background:linear-gradient(135deg,#003DA5,#0052CC);color:#FFD700;box-shadow:0 4px 0 #001a4a,0 6px 16px rgba(0,61,165,.45)}
 .abtn-clr{background:rgba(255,255,255,.08);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1)}
 /* Paso button */
-.abtn-paso{background:linear-gradient(135deg,rgba(192,57,43,.7),rgba(100,20,10,.9));color:#ffc0b0;border:1px solid rgba(192,57,43,.4);box-shadow:0 3px 0 rgba(80,10,5,.6)}
+.abtn-paso{background:linear-gradient(135deg,rgba(200,16,46,.7),rgba(100,5,20,.9));color:#ffc0b0;border:1px solid rgba(200,16,46,.4);box-shadow:0 3px 0 rgba(80,5,15,.6)}
 /* Countdown */
 .cd-wrap{margin-top:7px}
 .cd-label{font-size:7px;color:rgba(201,168,76,.4);text-align:center;font-family:'Cinzel',serif;letter-spacing:1.5px;margin-bottom:3px}
@@ -600,7 +630,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   transition:transform .1s;
 }
 .idle-btn:active{transform:scale(.95)}
-.ibtn-deal{background:linear-gradient(135deg,#d4a017,#8b6914);color:#1a0800;box-shadow:0 4px 0 #4a360a}
+.ibtn-deal{background:linear-gradient(135deg,#003DA5,#C8102E);color:#FFD700;box-shadow:0 4px 0 #001428;letter-spacing:.5px}
 .ibtn-leave{background:rgba(255,255,255,.07);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1)}
 
 /* ══ CHAT FEED ═══════════════════════════════════════════════ */
@@ -744,8 +774,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
 /* ══ CTA BANNER ══════════════════════════════════════════════ */
 #cta-banner{
-  width:100%;background:linear-gradient(135deg,#1a5c2e 0%,#0d3a1a 40%,#1a1a00 100%);
-  border-bottom:2px solid rgba(201,168,76,.4);
+  width:100%;background:linear-gradient(135deg,#003DA5 0%,#001a4a 40%,#3d0010 100%);
+  border-bottom:2px solid rgba(255,215,0,.5);
   padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
   position:relative;overflow:hidden;flex-shrink:0;z-index:10;
   animation:bannerslide .5s cubic-bezier(.4,0,.2,1);
@@ -753,28 +783,28 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 @keyframes bannerslide{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}
 #cta-banner::before{
   content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(201,168,76,.03) 40px,rgba(201,168,76,.03) 41px);
+  background:repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,215,0,.04) 40px,rgba(255,215,0,.04) 41px);
 }
 #cta-banner::after{
   content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
   animation:banshine 3s infinite;
 }
 @keyframes banshine{to{left:130%}}
 .cta-left{flex:1;position:relative;z-index:1}
 .cta-fire{font-size:18px;animation:fireani .6s infinite alternate}
 @keyframes fireani{from{transform:scale(1)}to{transform:scale(1.2) rotate(5deg)}}
-.cta-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:#f5e060;letter-spacing:1px;line-height:1.3;text-shadow:0 0 14px rgba(245,200,66,.5)}
-.cta-sub{font-size:9px;color:rgba(255,255,255,.55);font-family:'Cinzel',serif;letter-spacing:.5px;margin-top:2px}
+.cta-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:#FFD700;letter-spacing:1px;line-height:1.3;text-shadow:0 0 14px rgba(255,215,0,.6)}
+.cta-sub{font-size:9px;color:rgba(255,255,255,.6);font-family:'Cinzel',serif;letter-spacing:.5px;margin-top:2px}
 .cta-btn{
-  background:linear-gradient(135deg,#f5c842,#b8860b);color:#0a1205;
+  background:linear-gradient(135deg,#FFD700,#b8860b);color:#000;
   font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.5px;
   border:none;border-radius:20px;padding:9px 15px;cursor:pointer;
   white-space:nowrap;position:relative;z-index:1;
-  box-shadow:0 3px 12px rgba(245,200,66,.4);
+  box-shadow:0 3px 12px rgba(255,215,0,.5);
   animation:ctapulse 2s infinite;
 }
-@keyframes ctapulse{0%,100%{box-shadow:0 3px 12px rgba(245,200,66,.4)}50%{box-shadow:0 3px 22px rgba(245,200,66,.75),0 0 0 4px rgba(245,200,66,.15)}}
+@keyframes ctapulse{0%,100%{box-shadow:0 3px 12px rgba(255,215,0,.5)}50%{box-shadow:0 3px 22px rgba(255,215,0,.9),0 0 0 4px rgba(255,215,0,.15)}}
 .cta-btn:active{transform:scale(.95)}
 
 /* ══ RESEÑAS CARRUSEL ══════════════════════════════════════════ */
@@ -793,20 +823,20 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .reviews-track:hover{animation-play-state:paused}
 @keyframes reviewscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .review-card{
-  background:linear-gradient(145deg,rgba(15,25,10,.95),rgba(5,10,3,1));
-  border:1px solid rgba(201,168,76,.18);border-radius:14px;
+  background:linear-gradient(145deg,rgba(6,14,36,.95),rgba(2,8,20,1));
+  border:1px solid rgba(0,61,165,.22);border-radius:14px;
   padding:10px 14px;min-width:200px;max-width:200px;
   flex-shrink:0;position:relative;overflow:hidden;
 }
 .review-card::before{
   content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);
+  background:linear-gradient(90deg,transparent,rgba(0,180,216,.4),transparent);
 }
-.review-stars{font-size:9px;color:#f5c842;margin-bottom:4px;letter-spacing:1px}
+.review-stars{font-size:9px;color:#FFD700;margin-bottom:4px;letter-spacing:1px}
 .review-text{font-size:10px;color:rgba(255,255,255,.7);line-height:1.5;margin-bottom:6px;font-style:italic}
 .review-author{display:flex;align-items:center;gap:5px}
 .review-avatar{font-size:13px}
-.review-name{font-family:'Cinzel',serif;font-size:8px;color:rgba(201,168,76,.6);letter-spacing:.5px}
+.review-name{font-family:'Cinzel',serif;font-size:8px;color:rgba(0,180,216,.7);letter-spacing:.5px}
 .review-amount{font-size:9px;color:#4eda7a;font-weight:700;margin-left:auto}
 
 /* ══ MINI GAME INTERACTIVE ══════════════════════════════════════ */
@@ -907,7 +937,62 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 #auth-screen div::-webkit-scrollbar{display:none}
 #auth-screen div{scrollbar-width:none}
 
-/* ══ WHATSAPP BUTTON ════════════════════════════════════════════ */
+/* ══ WORLD CUP: RIPPLE & INTERACTIONS ══════════════════════════ */
+.ripple{
+  position:absolute;border-radius:50%;
+  background:rgba(255,215,0,.3);
+  transform:scale(0);animation:rippleout .55s linear;pointer-events:none;
+}
+@keyframes rippleout{to{transform:scale(4);opacity:0}}
+
+/* Chip hover enhancement */
+.chip{transition:transform .1s,box-shadow .15s,filter .1s}
+.chip:hover{filter:brightness(1.15)}
+
+/* Pct btn World Cup style */
+.pct-btn{
+  flex:1;padding:10px 5px;border-radius:10px;background:rgba(0,61,165,0.15);
+  border:1px solid rgba(0,61,165,0.35);color:#89b8ff;
+  font-family:'Cinzel',serif;font-size:10px;font-weight:700;cursor:pointer;
+  text-align:center;transition:all 0.1s;
+}
+.pct-btn:active{background:rgba(0,61,165,0.35);transform:scale(0.96)}
+
+/* Improved end card with World Cup theme */
+.end-card{
+  width:100%;max-width:340px;
+  background:radial-gradient(ellipse at 50% 20%,#061428,#020810);
+  border:2px solid var(--gold);border-radius:22px;
+  padding:30px 24px;text-align:center;position:relative;overflow:hidden;
+}
+
+/* tc-btn join - World Cup blue */
+.tcb-join{
+  background:linear-gradient(135deg,#003DA5 0%,#0052CC 100%);color:#FFD700;
+  box-shadow:0 4px 0 #001428,0 6px 18px rgba(0,61,165,.35);
+}
+
+/* World Cup score ticker */
+#wc-ticker{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  padding:4px 16px;background:rgba(0,0,0,.4);border-bottom:1px solid rgba(255,215,0,.1);
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5px;overflow:hidden;
+  position:relative;
+}
+.wc-score-item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.7);white-space:nowrap;flex-shrink:0}
+.wc-score-live{color:#FFD700;font-weight:700;animation:scorepulse 1.5s infinite}
+@keyframes scorepulse{0%,100%{opacity:1}50%{opacity:.5}}
+.wc-ticker-track{display:flex;gap:24px;animation:tickermove 20s linear infinite;width:max-content}
+@keyframes tickermove{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+
+/* tc seats pill world cup */
+.tc-seats-pill{
+  font-size:8.5px;font-family:'Cinzel',serif;letter-spacing:.5px;
+  padding:3px 9px;border-radius:20px;
+  background:rgba(0,61,165,.15);color:rgba(100,180,255,.8);
+  border:1px solid rgba(0,61,165,.3);
+}
+.tc-seats-pill.full{background:rgba(200,16,46,.1);color:rgba(220,100,100,.7);border-color:rgba(200,16,46,.2)}
 .wa-support-btn{
   display:flex;align-items:center;justify-content:center;gap:8px;
   width:100%;padding:13px;border-radius:12px;
@@ -935,10 +1020,18 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 <canvas id="bg-canvas"></canvas>
 <div id="prt"></div>
 
+<!-- ══ WORLD CUP BANNER ══ -->
+<div id="wc-banner">
+  <span class="wc-flag">🏆</span>
+  <span class="wc-text">MUNDIAL 2026</span>
+  <div class="wc-badge">⚽ EN VIVO</div>
+  <span class="wc-flag">🥇</span>
+</div>
+
 <!-- ══ LOBBY SCREEN ══ -->
 <!-- ══ AUTH SCREEN ══ -->
 <div class="screen" id="auth-screen">
-  <div style="min-height:100dvh;display:flex;flex-direction:column;background:linear-gradient(180deg,#0a0f05,#060c03);overflow-y:auto;scrollbar-width:none">
+  <div style="min-height:100dvh;display:flex;flex-direction:column;background:linear-gradient(180deg,#030b18,#020810);overflow-y:auto;scrollbar-width:none">
 
     <!-- ═ BANNER CTA ═ -->
     <div id="cta-banner">
@@ -955,13 +1048,13 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
     <!-- ═ LOGO ═ -->
     <div style="text-align:center;padding:14px 24px 8px">
-      <div style="font-family:'Cinzel Decorative',serif;font-size:24px;color:#f5c842;letter-spacing:2px;text-shadow:0 0 30px rgba(245,200,66,.4)">✧ EL INTERMEDIO</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px;letter-spacing:3px">CLUB DE CARTAS</div>
+      <div style="font-family:'Cinzel Decorative',serif;font-size:24px;letter-spacing:2px;text-shadow:0 0 30px rgba(255,215,0,.4);background:linear-gradient(135deg,#FFD700,#003DA5,#C8102E,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">⚽ EL INTERMEDIO</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:4px;letter-spacing:3px">CLUB DE CARTAS · MUNDIAL 2026</div>
     </div>
 
     <!-- ═ CARD CONTAINER ═ -->
     <div style="padding:0 20px 24px;flex:1">
-      <div style="width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(201,168,76,.2);border-radius:20px;padding:24px 20px;backdrop-filter:blur(10px)">
+      <div style="width:100%;background:rgba(0,20,50,.35);border:1.5px solid rgba(0,61,165,.25);border-radius:20px;padding:24px 20px;backdrop-filter:blur(10px)">
 
         <!-- Tabs: REGISTRO primero -->
         <div style="display:flex;background:rgba(0,0,0,.3);border-radius:12px;padding:3px;margin-bottom:24px">
@@ -1289,10 +1382,26 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
 <div class="screen hidden" id="lobby-screen">
   <div id="status-bar">
-    <div class="sb-logo" onclick="openProfile()">✧ EL INTERMEDIO</div>
+    <div class="sb-logo" onclick="openProfile()">⚽ EL INTERMEDIO</div>
     <div class="sb-right">
       <div class="sb-wallet-btn" onclick="openWallet()">💳 Recargar / Retirar</div>
       <div class="sb-bal" onclick="openWallet()"><span class="sb-bal-ico">💰</span><span class="sb-bal-amt" id="g-bal">$0</span></div>
+    </div>
+  </div>
+  <!-- World Cup Score Ticker -->
+  <div id="wc-ticker">
+    <div class="wc-ticker-track">
+      <span class="wc-score-item">🇦🇷 ARG <span class="wc-score-live">3</span> - <span class="wc-score-live">1</span> ESP 🇪🇸</span>
+      <span class="wc-score-item"> · </span>
+      <span class="wc-score-item">🇧🇷 BRA <span class="wc-score-live">2</span> - <span class="wc-score-live">2</span> FRA 🇫🇷</span>
+      <span class="wc-score-item"> · </span>
+      <span class="wc-score-item">🇺🇾 URU <span class="wc-score-live">1</span> - <span class="wc-score-live">0</span> POR 🇵🇹</span>
+      <span class="wc-score-item"> · </span>
+      <span class="wc-score-item">🇩🇪 ALE <span class="wc-score-live">2</span> - <span class="wc-score-live">3</span> ITA 🇮🇹</span>
+      <span class="wc-score-item"> · </span>
+      <span class="wc-score-item">🇦🇷 ARG <span class="wc-score-live">3</span> - <span class="wc-score-live">1</span> ESP 🇪🇸</span>
+      <span class="wc-score-item"> · </span>
+      <span class="wc-score-item">🇧🇷 BRA <span class="wc-score-live">2</span> - <span class="wc-score-live">2</span> FRA 🇫🇷</span>
     </div>
   </div>
   <div class="lobby-hero">
@@ -2197,16 +2306,17 @@ function botPressureChat(){
   if(!c)return;
   const ctx=c.getContext('2d');
   let particles=[];
+  const colors=['rgba(0,61,165,','rgba(255,215,0,','rgba(0,180,216,','rgba(200,16,46,'];
   function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
   resize();window.addEventListener('resize',resize);
-  for(let i=0;i<18;i++)particles.push({x:Math.random()*500,y:Math.random()*800,r:1+Math.random()*2,vy:-.3-Math.random()*.5,a:0,ta:Math.random()*.4,phase:Math.random()*Math.PI*2});
+  for(let i=0;i<22;i++)particles.push({x:Math.random()*500,y:Math.random()*800,r:1+Math.random()*2,vy:-.25-Math.random()*.45,a:0,ta:Math.random()*.35,phase:Math.random()*Math.PI*2,col:colors[Math.floor(Math.random()*colors.length)]});
   function tick(){
     ctx.clearRect(0,0,c.width,c.height);
     particles.forEach(p=>{
-      p.y+=p.vy;p.a+=(p.ta-p.a)*.05;p.phase+=.02;
-      if(p.y<-20){p.y=c.height+20;p.x=Math.random()*c.width;p.ta=Math.random()*.4;}
+      p.y+=p.vy;p.a+=(p.ta-p.a)*.05;p.phase+=.018;
+      if(p.y<-20){p.y=c.height+20;p.x=Math.random()*c.width;p.ta=Math.random()*.35;}
       ctx.beginPath();ctx.arc(p.x+Math.sin(p.phase)*15,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(201,168,76,${p.a})`;ctx.fill();
+      ctx.fillStyle=p.col+p.a+')';ctx.fill();
     });
     requestAnimationFrame(tick);
   }
@@ -3236,7 +3346,11 @@ function addBet(n){
   const m=Math.min(G.yourBal,G.pot);
   G.bet=Math.min(G.bet+n,m);
   if(G.bet>0&&G.bet<MIN_BET)G.bet=Math.min(MIN_BET,m);
-  document.getElementById('bdv').textContent='$'+G.bet.toLocaleString('es-AR');
+  const bdv=document.getElementById('bdv');
+  bdv.textContent='$'+G.bet.toLocaleString('es-AR');
+  bdv.style.transform='scale(1.15)';
+  setTimeout(()=>bdv.style.transform='scale(1)',150);
+  bdv.style.transition='transform .15s cubic-bezier(.34,1.56,.64,1)';
   resetCD();
 }
 function goAllIn(){if(G.phase!=='your-turn')return;clearTimeout(G.autoRevealTimer);G.bet=Math.min(G.yourBal,G.pot);document.getElementById('bdv').textContent='$'+G.bet.toLocaleString('es-AR');resetCD();}
@@ -3881,14 +3995,31 @@ function spawnParticles(n){
 }
 function spawnCoins(){
   const app=document.getElementById('app');
-  const coins=['💰','🪙','✨','💎','⭐'];
-  for(let i=0;i<8;i++){
+  const coins=['⚽','🏆','🥇','💰','🌟','⭐','🪙','✨'];
+  for(let i=0;i<10;i++){
     const c=document.createElement('div');c.className='coin-f';
     c.textContent=coins[Math.floor(Math.random()*coins.length)];
-    c.style.cssText=`left:${20+Math.random()*60}%;top:${30+Math.random()*35}%;animation-delay:${Math.random()*.35}s`;
-    app.appendChild(c);setTimeout(()=>c.remove(),1200);
+    c.style.cssText=`left:${15+Math.random()*70}%;top:${25+Math.random()*40}%;animation-delay:${Math.random()*.4}s;font-size:${14+Math.random()*10}px`;
+    app.appendChild(c);setTimeout(()=>c.remove(),1400);
   }
 }
+
+// ══ RIPPLE EFFECT ════════════════════════════════════════════════
+function addRipple(el,e){
+  const r=document.createElement('span');
+  r.className='ripple';
+  const rect=el.getBoundingClientRect();
+  const size=Math.max(rect.width,rect.height);
+  const x=(e.clientX||rect.left+rect.width/2)-rect.left-size/2;
+  const y=(e.clientY||rect.top+rect.height/2)-rect.top-size/2;
+  r.style.cssText=`width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+  el.style.position='relative';el.style.overflow='hidden';
+  el.appendChild(r);setTimeout(()=>r.remove(),600);
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('.tc-btn,.abtn,.mbt,.pct-btn,.ebtn,.idle-btn');
+  if(t)addRipple(t,e);
+});
 
 // ══ INIT ═════════════════════════════════════════════════════════
 // Vibración en chips (si el navegador soporta)
