@@ -1705,15 +1705,13 @@ function createSupabaseRestClient(url,key){
   return{
     rpc:(name,args)=>request('/rest/v1/rpc/'+name,{method:'POST',body:JSON.stringify(args||{})}),
     from:(table)=>({
-      select:(cols)=>({
+      select:()=>({
         eq:(col,val)=>({
-          maybeSingle:()=>request('/rest/v1/'+table+'?select='+(cols||'*')+'&'+col+'=eq.'+encodeURIComponent(val),{headers:{'Accept':'application/vnd.pgrst.object+json'}}),
-          single:()=>request('/rest/v1/'+table+'?select='+(cols||'*')+'&'+col+'=eq.'+encodeURIComponent(val),{headers:{'Accept':'application/vnd.pgrst.object+json'}}),
-          then:(resolve,reject)=>request('/rest/v1/'+table+'?select='+(cols||'*')+'&'+col+'=eq.'+encodeURIComponent(val)).then(resolve,reject)
+          maybeSingle:()=>request('/rest/v1/'+table+'?select=*&'+encodeURIComponent(col)+'=eq.'+encodeURIComponent(val),{headers:{'Accept':'application/vnd.pgrst.object+json'}})
         })
       }),
       update:(payload)=>({
-        eq:(col,val)=>request('/rest/v1/'+table+'?'+col+'=eq.'+encodeURIComponent(val),{method:'PATCH',body:JSON.stringify(payload)})
+        eq:(col,val)=>request('/rest/v1/'+table+'?'+encodeURIComponent(col)+'=eq.'+encodeURIComponent(val),{method:'PATCH',body:JSON.stringify(payload)})
       })
     }),
     functions:{
@@ -1776,20 +1774,9 @@ function loadProfile(){
 async function loginWithCredentials(user,pass){
   const all=getAllProfiles();
   const u=user.trim().toLowerCase();
-  // 1. Intentar login en Supabase primero (fuente de verdad)
-  const fromSupabase = await loginWithSupabase(u, pass.trim());
-  if(fromSupabase){
-    PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},fromSupabase);
-    playerBal=PROFILE.bal??0;
-    SESSION=PROFILE.username;
-    saveProfile();
-    fetchMovements();
-    return true;
-  }
-  // 2. Fallback local (solo para usuarios que nunca llegaron a Supabase)
-  const fromLocal = Object.values(all).find(p=>p.username===u&&p.password===pass.trim());
-  if(fromLocal){
-    PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},fromLocal);
+  const found=await loginWithSupabase(u,pass.trim()) || Object.values(all).find(p=>p.username===u&&p.password===pass.trim());
+  if(found){
+    PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},found);
     playerBal=PROFILE.bal??0;
     SESSION=PROFILE.username;
     saveProfile();
@@ -1837,68 +1824,27 @@ function mapDbUserToProfile(row,password){
 async function loginWithSupabase(username,password){
   if(!supabaseClient)return null;
   try{
+    // Enviamos todos los parámetros para evitar errores de coincidencia de RPC (400 Bad Request)
     const {data,error}=await supabaseClient.rpc('login',{
       p_username: username,
       p_password: password,
+      p_ip: null,
       p_ua: navigator.userAgent
     });
-    // PostgREST devuelve array para funciones TABLE
+    // PostgREST devuelve un array para funciones que retornan TABLE
     const auth = (data && Array.isArray(data)) ? data[0] : data;
-    // Las columnas vienen SIN prefijo r_: ok, usuario_id, token, saldo, alias, error
-    console.debug('[login] data:', data, '| error:', error, '| auth:', auth);
-    if(error || !auth || !auth.ok) return null;
-
-    // Construir profile directamente desde la respuesta del login
-    // (evita llamar a obtener_perfil_usuario que puede no existir)
-    const profile={
-      userId: auth.usuario_id,
-      name: '',
-      alias: auth.alias || username,
-      cbu: '',
-      phone: '',
-      provincia: '',
-      localidad: '',
-      avatar: '🎭',
-      avatarType: 'emoji',
-      avatarInitials: '',
-      avatarInitialsColor: 0,
-      avatarPhoto: '',
-      username: username,
-      password: password,
-      totalDeposited: 0,
-      totalWithdrawn: 0,
-      totalHands: 0,
-      bal: Number(auth.saldo || 0),
-      created: ''
-    };
-    profile.sessionToken = auth.token;
-
-    // Intentar enriquecer con datos completos del usuario
-    try{
-      const {data:rows}=await supabaseClient
-        .from('usuarios')
-        .select('*')
-        .eq('id', auth.usuario_id)
-        .single();
-      if(rows){
-        profile.name = rows.nombre || '';
-        profile.cbu = rows.cbu || '';
-        profile.phone = rows.telefono || '';
-        profile.provincia = rows.provincia || '';
-        profile.localidad = rows.localidad || '';
-        profile.avatar = rows.avatar_emoji || '🎭';
-        profile.avatarType = rows.avatar_type || 'emoji';
-        profile.avatarInitials = rows.avatar_iniciales || '';
-        profile.avatarInitialsColor = rows.avatar_color_idx || 0;
-        profile.avatarPhoto = rows.avatar_photo_url || '';
-        profile.totalDeposited = Number(rows.total_depositado || 0);
-        profile.totalWithdrawn = Number(rows.total_retirado || 0);
-        profile.totalHands = Number(rows.total_manos || 0);
-        profile.bal = Number(rows.saldo || profile.bal);
-        profile.created = rows.creado_en ? new Date(rows.creado_en).toLocaleDateString('es-AR') : '';
-      }
-    }catch(e2){ /* no crítico, usamos datos base del login */ }
-
+    if(error || !auth || !auth.r_ok) return null;
+    
+    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:auth.r_usuario_id});
+    const userData = (userRows && Array.isArray(userRows)) ? userRows[0] : userRows;
+    if(profileError || !userData) return null;
+    
+    const profile=mapDbUserToProfile(userData,password);
+    if(profile){
+      profile.sessionToken=auth.r_token;
+      profile.bal=Number(auth.r_saldo||profile.bal||0);
+      profile.alias=auth.r_alias || profile.alias;
+    }
     return profile;
   }catch(e){
     console.error('Login error:', e);
@@ -1921,9 +1867,8 @@ async function registerWithSupabase(profile,plainPassword){
       p_saldo_ini:profile.bal??0
     });
     const res = (data && Array.isArray(data)) ? data[0] : data;
-    // Las columnas de registrar_usuario son: usuario_id, username, alias, error (SIN prefijo r_)
-    if(error||!res||res.error)throw new Error((res&&res.error)||(error&&error.message)||'Error al registrar');
-    return res.usuario_id;
+    if(error||!res||res.r_error)throw new Error((res&&res.r_error)||error.message);
+    return res.r_usuario_id;
   }catch(e){
     console.warn('Supabase registro fallback local:',e.message);
     return null;
@@ -1957,14 +1902,9 @@ async function saveProfileToSupabase(){
 async function syncProfileFromSupabase(){
   if(!supabaseClient||!PROFILE.userId)return false;
   try{
-    // Consulta directa a la tabla usuarios (obtener_perfil_usuario no existe como función)
-    const {data,error}=await supabaseClient
-      .from('usuarios')
-      .select('*')
-      .eq('id',PROFILE.userId)
-      .single();
-    if(error||!data)return false;
-    PROFILE=Object.assign(PROFILE,mapDbUserToProfile(data,PROFILE.password));
+    const {data,error}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:PROFILE.userId});
+    if(error||!data||!data[0])return false;
+    PROFILE=Object.assign(PROFILE,mapDbUserToProfile(data[0],PROFILE.password));
     playerBal=PROFILE.bal;
     const all=getAllProfiles();all[PROFILE.username]=PROFILE;saveAllProfiles(all);
     const balEl=document.getElementById('g-bal');if(balEl)balEl.textContent='$'+playerBal.toLocaleString('es-AR');
@@ -4586,16 +4526,11 @@ async function doLogin(){
   const user=document.getElementById('login-user').value;
   const pass=document.getElementById('login-pass').value;
   const err=document.getElementById('auth-login-err');
-  const btn=document.querySelector('#auth-login button[onclick="doLogin()"]');
   if(!user||!pass){err.style.display='block';err.textContent='Completá usuario y contraseña';return;}
-  err.style.display='none';
-  if(btn){btn.disabled=true;btn.textContent='Ingresando...';}
   if(await loginWithCredentials(user,pass)){
-    if(btn){btn.disabled=false;btn.textContent='INGRESAR →';}
     err.style.display='none';
     enterLobby();
   } else {
-    if(btn){btn.disabled=false;btn.textContent='INGRESAR →';}
     err.style.display='block';
     err.textContent='Usuario o contraseña incorrectos';
     document.getElementById('login-pass').value='';
@@ -4609,7 +4544,7 @@ async function doRegister(){
   const phone=document.getElementById('reg-phone').value.trim();
   const provincia=document.getElementById('reg-provincia').value.trim();
   const localidad=document.getElementById('reg-localidad').value.trim();
-  const saldo=2000; // saldo_inicial según house_config
+  const saldo=0;
   const err=document.getElementById('auth-reg-err');
 
   if(!name){err.style.display='block';err.textContent='Ingresá tu nombre completo';return;}
