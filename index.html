@@ -1064,7 +1064,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
           </div>
           <div style="margin-bottom:14px">
             <div style="font-size:11px;color:rgba(255,255,255,.45);margin-bottom:5px;letter-spacing:.5px">USUARIO</div>
-            <input id="login-user" type="text" placeholder="Tu usuario" autocomplete="username"
+            <input id="login-user" type="text" placeholder="Usuario o Alias" autocomplete="username"
               style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:15px;padding:13px 14px;outline:none;transition:border-color .2s"
               onfocus="this.style.borderColor='rgba(201,168,76,.5)'" onblur="this.style.borderColor='rgba(255,255,255,.12)'"
               onkeydown="if(event.key==='Enter')document.getElementById('login-pass').focus()">
@@ -1774,7 +1774,9 @@ function loadProfile(){
 async function loginWithCredentials(user,pass){
   const all=getAllProfiles();
   const u=user.trim().toLowerCase();
-  const found=await loginWithSupabase(u,pass.trim()) || Object.values(all).find(p=>p.username===u&&p.password===pass.trim());
+  // Intentar login con Supabase (ahora acepta username o alias)
+  const found=await loginWithSupabase(u,pass.trim()) || 
+              Object.values(all).find(p=>(p.username.toLowerCase()===u || (p.alias && p.alias.toLowerCase()===u)) && p.password===pass.trim());
   if(found){
     PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},found);
     playerBal=PROFILE.bal??0;
@@ -1824,26 +1826,26 @@ function mapDbUserToProfile(row,password){
 async function loginWithSupabase(username,password){
   if(!supabaseClient)return null;
   try{
-    // Enviamos todos los parámetros para evitar errores de coincidencia de RPC (400 Bad Request)
+    // Enviamos parámetros como TEXT para máxima compatibilidad con PostgREST
     const {data,error}=await supabaseClient.rpc('login',{
-      p_username: username,
-      p_password: password,
-      p_ip: null,
-      p_ua: navigator.userAgent
+      p_username: String(username),
+      p_password: String(password),
+      p_ip: '', 
+      p_ua: navigator.userAgent || ''
     });
     // PostgREST devuelve un array para funciones que retornan TABLE
     const auth = (data && Array.isArray(data)) ? data[0] : data;
-    if(error || !auth || !auth.r_ok) return null;
+    if(error || !auth || !auth.ok) return null;
     
-    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:auth.r_usuario_id});
+    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:auth.usuario_id});
     const userData = (userRows && Array.isArray(userRows)) ? userRows[0] : userRows;
     if(profileError || !userData) return null;
     
     const profile=mapDbUserToProfile(userData,password);
     if(profile){
-      profile.sessionToken=auth.r_token;
-      profile.bal=Number(auth.r_saldo||profile.bal||0);
-      profile.alias=auth.r_alias || profile.alias;
+      profile.sessionToken=auth.token;
+      profile.bal=Number(auth.saldo||profile.bal||0);
+      profile.alias=auth.alias || profile.alias;
     }
     return profile;
   }catch(e){
@@ -1867,8 +1869,8 @@ async function registerWithSupabase(profile,plainPassword){
       p_saldo_ini:profile.bal??0
     });
     const res = (data && Array.isArray(data)) ? data[0] : data;
-    if(error||!res||res.r_error)throw new Error((res&&res.r_error)||error.message);
-    return res.r_usuario_id;
+    if(error||!res||res.error)throw new Error((res&&res.error)||error.message);
+    return res.usuario_id;
   }catch(e){
     console.warn('Supabase registro fallback local:',e.message);
     return null;
