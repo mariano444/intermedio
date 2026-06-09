@@ -1706,9 +1706,12 @@ function createSupabaseRestClient(url,key){
     rpc:(name,args)=>request('/rest/v1/rpc/'+name,{method:'POST',body:JSON.stringify(args||{})}),
     from:(table)=>({
       select:()=>({
-        eq:(col,val)=>({
-          maybeSingle:()=>request('/rest/v1/'+table+'?select=*&'+encodeURIComponent(col)+'=eq.'+encodeURIComponent(val),{headers:{'Accept':'application/vnd.pgrst.object+json'}})
-        })
+        eq:(col,val)=>{
+          const path='/rest/v1/'+table+'?select=*&'+encodeURIComponent(col)+'=eq.'+encodeURIComponent(val);
+          const query=request(path);
+          query.maybeSingle=()=>request(path,{headers:{'Accept':'application/vnd.pgrst.object+json'}});
+          return query;
+        }
       }),
       update:(payload)=>({
         eq:(col,val)=>request('/rest/v1/'+table+'?'+encodeURIComponent(col)+'=eq.'+encodeURIComponent(val),{method:'PATCH',body:JSON.stringify(payload)})
@@ -1833,17 +1836,19 @@ async function loginWithSupabase(username,password){
     });
     // PostgREST devuelve un array para funciones que retornan TABLE
     const auth = (data && Array.isArray(data)) ? data[0] : data;
-    if(error || !auth || !auth.r_ok) return null;
+    const ok = auth && (auth.r_ok ?? auth.ok);
+    const usuarioId = auth && (auth.r_usuario_id || auth.usuario_id);
+    if(error || !ok || !usuarioId) return null;
     
-    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:auth.r_usuario_id});
+    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:usuarioId});
     const userData = (userRows && Array.isArray(userRows)) ? userRows[0] : userRows;
     if(profileError || !userData) return null;
     
     const profile=mapDbUserToProfile(userData,password);
     if(profile){
-      profile.sessionToken=auth.r_token;
-      profile.bal=Number(auth.r_saldo||profile.bal||0);
-      profile.alias=auth.r_alias || profile.alias;
+      profile.sessionToken=auth.r_token || auth.token || '';
+      profile.bal=Number((auth.r_saldo ?? auth.saldo) ?? profile.bal ?? 0);
+      profile.alias=auth.r_alias || auth.alias || profile.alias;
     }
     return profile;
   }catch(e){
@@ -1867,11 +1872,13 @@ async function registerWithSupabase(profile,plainPassword){
       p_saldo_ini:profile.bal??0
     });
     const res = (data && Array.isArray(data)) ? data[0] : data;
-    if(error||!res||res.r_error)throw new Error((res&&res.r_error)||error.message);
-    return res.r_usuario_id;
+    const registerError = res && (res.r_error || res.error);
+    const usuarioId = res && (res.r_usuario_id || res.usuario_id);
+    if(error || !res || registerError || !usuarioId) throw new Error(registerError || (error && error.message) || 'No se pudo crear el usuario');
+    return usuarioId;
   }catch(e){
-    console.warn('Supabase registro fallback local:',e.message);
-    return null;
+    console.error('Supabase registro error:',e);
+    throw e;
   }
 }
 
@@ -4562,16 +4569,27 @@ async function doRegister(){
     const c2=genCredentials(baseForCreds);creds.username=c2.username;creds.password=c2.password;attempts++;
   }
 
+  const dbAlias = alias || creds.username;
   PROFILE={
-    name, alias, cbu, phone, provincia, localidad, avatar:'🎭',
+    name, alias:dbAlias, cbu, phone, provincia, localidad, avatar:'🎭',
     username:creds.username, password:creds.password,
     totalDeposited:0, totalWithdrawn:0, totalHands:0,
     bal:saldo, created:new Date().toLocaleDateString('es-AR')
   };
   playerBal=saldo;
   SESSION=creds.username;
-  PROFILE.userId=await registerWithSupabase(PROFILE,creds.password);
-  saveProfile();
+  err.style.display='none';
+  try{
+    PROFILE.userId=await registerWithSupabase(PROFILE,creds.password);
+    saveProfile();
+  }catch(e){
+    SESSION=null;
+    PROFILE={name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''};
+    playerBal=0;
+    err.style.display='block';
+    err.textContent=e.message||'No se pudo completar el registro. Probá nuevamente.';
+    return;
+  }
 
   // Mostrar credenciales generadas
   showCredentialsModal(creds.username, creds.password, ()=>{enterLobby();setTimeout(()=>promptInitialReload(),450);});
