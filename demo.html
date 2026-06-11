@@ -6,8 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#020810">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23003DA5'/%3E%3Ctext x='32' y='43' font-size='36' text-anchor='middle'%3E%E2%9A%BD%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#050a02">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23050a02'/%3E%3Ctext x='32' y='43' font-size='36' text-anchor='middle'%3E%E2%99%A6%3C/text%3E%3C/svg%3E">
 <title>El Intermedio</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=Inter:wght@300;400;500;600;700&display=swap');
@@ -16,11 +16,7 @@
   --gold:#c9a84c;--gold2:#e8c96a;--gold3:#f5e8b8;--golddim:rgba(201,168,76,.25);
   --felt:#0d4a1e;--felt2:#0a3a17;
   --green:#27ae60;--red:#c0392b;--blue:#2471a3;
-  --bg:#030b12;--bg2:#050f1a;
-  /* Mundial 2026 palette */
-  --wc-blue:#003DA5;--wc-red:#C8102E;--wc-gold:#FFD700;
-  --wc-blue2:#0052CC;--wc-red2:#E8273E;
-  --wc-accent:#00B4D8;--wc-dark:#020810;
+  --bg:#050a02;--bg2:#0a1405;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bot:env(safe-area-inset-bottom,0px);
   --card-w:82px;--card-h:122px;
@@ -30,7 +26,7 @@ html{height:100%;background:var(--bg)}
 body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hidden;position:fixed;width:100%}
 #app{
   width:100%;height:100%;max-width:480px;margin:0 auto;
-  background:radial-gradient(ellipse at 50% 0%,#061428 0%,#020810 55%,#000 100%);
+  background:radial-gradient(ellipse at 50% 0%,#0d1a08 0%,#040a03 55%,#000 100%);
   display:flex;flex-direction:column;position:relative;overflow:hidden;
 }
 
@@ -54,30 +50,6 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .sb-bal-ico{font-size:10px}
 .sb-bal-amt{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--gold2)}
 
-/* ══ WORLD CUP BANNER ═══════════════════════════════════════════ */
-#wc-banner{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:5px 16px;
-  background:linear-gradient(90deg,var(--wc-blue) 0%,#001a4a 30%,#1a0010 70%,var(--wc-red) 100%);
-  border-bottom:1.5px solid rgba(255,215,0,.3);
-  position:relative;overflow:hidden;flex-shrink:0;z-index:60;
-}
-#wc-banner::before{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,215,0,.04) 60px,rgba(255,215,0,.04) 61px);
-}
-#wc-banner::after{
-  content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
-  animation:wcshine 3.5s infinite;
-}
-@keyframes wcshine{to{left:140%}}
-.wc-flag{font-size:12px;animation:wcspin .8s ease-in-out infinite alternate}
-@keyframes wcspin{from{transform:scale(1) rotate(-3deg)}to{transform:scale(1.1) rotate(3deg)}}
-.wc-text{font-family:'Cinzel',serif;font-size:9px;color:#FFD700;letter-spacing:2px;font-weight:700;text-shadow:0 0 12px rgba(255,215,0,.5);position:relative;z-index:1}
-.wc-badge{background:rgba(255,215,0,.2);border:1px solid rgba(255,215,0,.5);border-radius:20px;padding:2px 8px;font-size:8px;color:#FFD700;font-family:'Cinzel',serif;position:relative;z-index:1;animation:wcbadgepulse 2s infinite}
-@keyframes wcbadgepulse{0%,100%{border-color:rgba(255,215,0,.5)}50%{border-color:rgba(255,215,0,1);box-shadow:0 0 8px rgba(255,215,0,.4)}}
-
 /* ══ LOBBY ════════════════════════════════════════════════════ */
 #lobby-screen{overflow-y:auto;padding-bottom:calc(var(--safe-bot) + 16px)}
 #lobby-screen::-webkit-scrollbar{display:none}
@@ -94,12 +66,12 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
 #tables-list{display:flex;flex-direction:column;gap:12px;padding:0 12px;position:relative;z-index:5}
 
-/* ══ TARJETA DE MESA — WORLD CUP PREMIUM ══ */
+/* ══ TARJETA DE MESA — PREMIUM REDESIGN ══ */
 .tcard{
   position:relative;overflow:hidden;border-radius:22px;
-  background:linear-gradient(160deg,rgba(6,20,40,.98) 0%,rgba(2,8,20,1) 100%);
-  border:1px solid rgba(0,61,165,.2);
-  box-shadow:0 8px 32px rgba(0,0,0,.6),inset 0 1px 0 rgba(0,180,216,.06);
+  background:linear-gradient(160deg,rgba(14,26,11,.98) 0%,rgba(7,14,5,1) 100%);
+  border:1px solid rgba(201,168,76,.12);
+  box-shadow:0 8px 32px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04);
   transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s ease;
   -webkit-transform:translateZ(0);
 }
@@ -108,13 +80,13 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 /* Shimmer top line */
 .tcard::after{
   content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(0,180,216,.35),transparent);
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.28),transparent);
 }
 /* Ambient glow */
 .tcard::before{
   content:'';position:absolute;inset:0;pointer-events:none;opacity:0;
   transition:opacity .35s;border-radius:22px;
-  background:radial-gradient(ellipse at 50% 0%,rgba(0,180,216,.08),transparent 65%);
+  background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.06),transparent 65%);
 }
 .tcard:active::before{opacity:1}
 
@@ -182,7 +154,13 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   margin-left:-8px;box-shadow:0 2px 8px rgba(0,0,0,.5);
 }
 .tc-av:first-child{margin-left:0}
-.tc-seats-pill-orig{display:none}
+.tc-seats-pill{
+  font-size:8.5px;font-family:'Cinzel',serif;letter-spacing:.5px;
+  padding:3px 9px;border-radius:20px;
+  background:rgba(46,204,113,.1);color:rgba(46,204,113,.7);
+  border:1px solid rgba(46,204,113,.2);
+}
+.tc-seats-pill.full{background:rgba(200,60,60,.1);color:rgba(220,100,100,.7);border-color:rgba(200,60,60,.2)}
 
 /* ── DETALLES SIEMPRE VISIBLES ── */
 .tc-details{
@@ -239,8 +217,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 @keyframes bounce{from{transform:scale(1) translateY(0)}to{transform:scale(1.15) translateY(-8px)}}
 .modal-sheet{
   width:100%;max-width:480px;
-  background:linear-gradient(180deg,#071428,#030a18);
-  border:1.5px solid rgba(0,61,165,.4);border-radius:22px 22px 0 0;
+  background:linear-gradient(180deg,#0e1a09,#060c03);
+  border:1.5px solid rgba(201,168,76,.25);border-radius:22px 22px 0 0;
   padding:0 20px calc(var(--safe-bot) + 24px);
   animation:slideup .3s cubic-bezier(.4,0,.2,1);
 }
@@ -425,11 +403,10 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .inst-txt b { color: var(--gold3); }
 .inst-txt p { font-size: 13px; line-height: 1.5; margin: 4px 0 0; opacity: 0.8; }
 .inst-close {
-  width: 100%; padding: 14px; background: linear-gradient(135deg,#003DA5,#C8102E);
-  border: none; border-radius: 12px; color: #FFD700;
+  width: 100%; padding: 14px; background: var(--gold-grad);
+  border: none; border-radius: 12px; color: #fff;
   font-family: 'Cinzel', serif; font-weight: bold; cursor: pointer;
-  margin-top: 10px; box-shadow: 0 4px 15px rgba(0,61,165,.4);
-  letter-spacing:.5px;font-size:13px;
+  margin-top: 10px; box-shadow: 0 4px 15px rgba(184,134,11,0.3);
 }
 @keyframes slideInUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -440,20 +417,13 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 /* ══ TAPETE ══════════════════════════════════════════════════ */
 #felt-area{
   flex:1;position:relative;margin:0 10px 4px;
-  background:radial-gradient(ellipse at 50% 40%,#1a7a35 0%,#0d5020 50%,#062d12 100%);
-  border-radius:20px;border:3px solid #5c8c1a;
-  box-shadow:0 4px 30px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,215,0,.12);
+  background:radial-gradient(ellipse at 50% 40%,#1b6e32 0%,#0e4a1e 50%,#082e12 100%);
+  border-radius:20px;border:3px solid #7a5c0f;
+  box-shadow:0 4px 30px rgba(0,0,0,.6),inset 0 0 0 1px rgba(201,168,76,.15);
   display:flex;flex-direction:column;overflow:hidden;
   min-height:0;
 }
-/* Césped del tapete — líneas del campo */
-#felt-area::before{
-  content:'';position:absolute;inset:0;border-radius:18px;pointer-events:none;z-index:0;
-  background:
-    repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(0,0,0,.04) 18px,rgba(0,0,0,.04) 19px),
-    radial-gradient(ellipse at 50% 50%,transparent 35%,rgba(0,0,0,.06) 35%,rgba(0,0,0,.06) 36%,transparent 36%);
-}
-.felt-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:8px 6px 4px;position:relative;z-index:1}
+.felt-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:8px 6px 4px;position:relative}
 
 /* POT BAR */
 #pot-bar{
@@ -606,10 +576,10 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .abtn:active{transform:scale(.95)}
 .abtn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .12s}
 .abtn:active::after{background:rgba(255,255,255,.08)}
-.abtn-bet{background:linear-gradient(135deg,#003DA5,#0052CC);color:#FFD700;box-shadow:0 4px 0 #001a4a,0 6px 16px rgba(0,61,165,.45)}
+.abtn-bet{background:linear-gradient(135deg,#2ecc71,#1a6b35);color:#fff;box-shadow:0 4px 0 #0d3018,0 6px 16px rgba(46,204,113,.3)}
 .abtn-clr{background:rgba(255,255,255,.08);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1)}
 /* Paso button */
-.abtn-paso{background:linear-gradient(135deg,rgba(200,16,46,.7),rgba(100,5,20,.9));color:#ffc0b0;border:1px solid rgba(200,16,46,.4);box-shadow:0 3px 0 rgba(80,5,15,.6)}
+.abtn-paso{background:linear-gradient(135deg,rgba(192,57,43,.7),rgba(100,20,10,.9));color:#ffc0b0;border:1px solid rgba(192,57,43,.4);box-shadow:0 3px 0 rgba(80,10,5,.6)}
 /* Countdown */
 .cd-wrap{margin-top:7px}
 .cd-label{font-size:7px;color:rgba(201,168,76,.4);text-align:center;font-family:'Cinzel',serif;letter-spacing:1.5px;margin-bottom:3px}
@@ -630,7 +600,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   transition:transform .1s;
 }
 .idle-btn:active{transform:scale(.95)}
-.ibtn-deal{background:linear-gradient(135deg,#003DA5,#C8102E);color:#FFD700;box-shadow:0 4px 0 #001428;letter-spacing:.5px}
+.ibtn-deal{background:linear-gradient(135deg,#d4a017,#8b6914);color:#1a0800;box-shadow:0 4px 0 #4a360a}
 .ibtn-leave{background:rgba(255,255,255,.07);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1)}
 
 /* ══ CHAT FEED ═══════════════════════════════════════════════ */
@@ -774,8 +744,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
 /* ══ CTA BANNER ══════════════════════════════════════════════ */
 #cta-banner{
-  width:100%;background:linear-gradient(135deg,#003DA5 0%,#001a4a 40%,#3d0010 100%);
-  border-bottom:2px solid rgba(255,215,0,.5);
+  width:100%;background:linear-gradient(135deg,#1a5c2e 0%,#0d3a1a 40%,#1a1a00 100%);
+  border-bottom:2px solid rgba(201,168,76,.4);
   padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
   position:relative;overflow:hidden;flex-shrink:0;z-index:10;
   animation:bannerslide .5s cubic-bezier(.4,0,.2,1);
@@ -783,28 +753,28 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 @keyframes bannerslide{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}
 #cta-banner::before{
   content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,215,0,.04) 40px,rgba(255,215,0,.04) 41px);
+  background:repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(201,168,76,.03) 40px,rgba(201,168,76,.03) 41px);
 }
 #cta-banner::after{
   content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);
   animation:banshine 3s infinite;
 }
 @keyframes banshine{to{left:130%}}
 .cta-left{flex:1;position:relative;z-index:1}
 .cta-fire{font-size:18px;animation:fireani .6s infinite alternate}
 @keyframes fireani{from{transform:scale(1)}to{transform:scale(1.2) rotate(5deg)}}
-.cta-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:#FFD700;letter-spacing:1px;line-height:1.3;text-shadow:0 0 14px rgba(255,215,0,.6)}
-.cta-sub{font-size:9px;color:rgba(255,255,255,.6);font-family:'Cinzel',serif;letter-spacing:.5px;margin-top:2px}
+.cta-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:#f5e060;letter-spacing:1px;line-height:1.3;text-shadow:0 0 14px rgba(245,200,66,.5)}
+.cta-sub{font-size:9px;color:rgba(255,255,255,.55);font-family:'Cinzel',serif;letter-spacing:.5px;margin-top:2px}
 .cta-btn{
-  background:linear-gradient(135deg,#FFD700,#b8860b);color:#000;
+  background:linear-gradient(135deg,#f5c842,#b8860b);color:#0a1205;
   font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.5px;
   border:none;border-radius:20px;padding:9px 15px;cursor:pointer;
   white-space:nowrap;position:relative;z-index:1;
-  box-shadow:0 3px 12px rgba(255,215,0,.5);
+  box-shadow:0 3px 12px rgba(245,200,66,.4);
   animation:ctapulse 2s infinite;
 }
-@keyframes ctapulse{0%,100%{box-shadow:0 3px 12px rgba(255,215,0,.5)}50%{box-shadow:0 3px 22px rgba(255,215,0,.9),0 0 0 4px rgba(255,215,0,.15)}}
+@keyframes ctapulse{0%,100%{box-shadow:0 3px 12px rgba(245,200,66,.4)}50%{box-shadow:0 3px 22px rgba(245,200,66,.75),0 0 0 4px rgba(245,200,66,.15)}}
 .cta-btn:active{transform:scale(.95)}
 
 /* ══ RESEÑAS CARRUSEL ══════════════════════════════════════════ */
@@ -823,20 +793,20 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .reviews-track:hover{animation-play-state:paused}
 @keyframes reviewscroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .review-card{
-  background:linear-gradient(145deg,rgba(6,14,36,.95),rgba(2,8,20,1));
-  border:1px solid rgba(0,61,165,.22);border-radius:14px;
+  background:linear-gradient(145deg,rgba(15,25,10,.95),rgba(5,10,3,1));
+  border:1px solid rgba(201,168,76,.18);border-radius:14px;
   padding:10px 14px;min-width:200px;max-width:200px;
   flex-shrink:0;position:relative;overflow:hidden;
 }
 .review-card::before{
   content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(0,180,216,.4),transparent);
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);
 }
-.review-stars{font-size:9px;color:#FFD700;margin-bottom:4px;letter-spacing:1px}
+.review-stars{font-size:9px;color:#f5c842;margin-bottom:4px;letter-spacing:1px}
 .review-text{font-size:10px;color:rgba(255,255,255,.7);line-height:1.5;margin-bottom:6px;font-style:italic}
 .review-author{display:flex;align-items:center;gap:5px}
 .review-avatar{font-size:13px}
-.review-name{font-family:'Cinzel',serif;font-size:8px;color:rgba(0,180,216,.7);letter-spacing:.5px}
+.review-name{font-family:'Cinzel',serif;font-size:8px;color:rgba(201,168,76,.6);letter-spacing:.5px}
 .review-amount{font-size:9px;color:#4eda7a;font-weight:700;margin-left:auto}
 
 /* ══ MINI GAME INTERACTIVE ══════════════════════════════════════ */
@@ -937,62 +907,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 #auth-screen div::-webkit-scrollbar{display:none}
 #auth-screen div{scrollbar-width:none}
 
-/* ══ WORLD CUP: RIPPLE & INTERACTIONS ══════════════════════════ */
-.ripple{
-  position:absolute;border-radius:50%;
-  background:rgba(255,215,0,.3);
-  transform:scale(0);animation:rippleout .55s linear;pointer-events:none;
-}
-@keyframes rippleout{to{transform:scale(4);opacity:0}}
-
-/* Chip hover enhancement */
-.chip{transition:transform .1s,box-shadow .15s,filter .1s}
-.chip:hover{filter:brightness(1.15)}
-
-/* Pct btn World Cup style */
-.pct-btn{
-  flex:1;padding:10px 5px;border-radius:10px;background:rgba(0,61,165,0.15);
-  border:1px solid rgba(0,61,165,0.35);color:#89b8ff;
-  font-family:'Cinzel',serif;font-size:10px;font-weight:700;cursor:pointer;
-  text-align:center;transition:all 0.1s;
-}
-.pct-btn:active{background:rgba(0,61,165,0.35);transform:scale(0.96)}
-
-/* Improved end card with World Cup theme */
-.end-card{
-  width:100%;max-width:340px;
-  background:radial-gradient(ellipse at 50% 20%,#061428,#020810);
-  border:2px solid var(--gold);border-radius:22px;
-  padding:30px 24px;text-align:center;position:relative;overflow:hidden;
-}
-
-/* tc-btn join - World Cup blue */
-.tcb-join{
-  background:linear-gradient(135deg,#003DA5 0%,#0052CC 100%);color:#FFD700;
-  box-shadow:0 4px 0 #001428,0 6px 18px rgba(0,61,165,.35);
-}
-
-/* World Cup score ticker */
-#wc-ticker{
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  padding:4px 16px;background:rgba(0,0,0,.4);border-bottom:1px solid rgba(255,215,0,.1);
-  font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5px;overflow:hidden;
-  position:relative;
-}
-.wc-score-item{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.7);white-space:nowrap;flex-shrink:0}
-.wc-score-live{color:#FFD700;font-weight:700;animation:scorepulse 1.5s infinite}
-@keyframes scorepulse{0%,100%{opacity:1}50%{opacity:.5}}
-.wc-ticker-track{display:flex;gap:24px;animation:tickermove 20s linear infinite;width:max-content}
-@keyframes tickermove{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
-
-/* tc seats pill world cup */
-.tc-seats-pill{
-  font-size:8.5px;font-family:'Cinzel',serif;letter-spacing:.5px;
-  padding:3px 9px;border-radius:20px;
-  background:rgba(0,61,165,.15);color:rgba(100,180,255,.8);
-  border:1px solid rgba(0,61,165,.3);
-}
-.tc-seats-pill.full{background:rgba(200,16,46,.1);color:rgba(220,100,100,.7);border-color:rgba(200,16,46,.2)}
+/* ══ WHATSAPP BUTTON ════════════════════════════════════════════ */
 .wa-support-btn{
   display:flex;align-items:center;justify-content:center;gap:8px;
   width:100%;padding:13px;border-radius:12px;
@@ -1014,33 +929,42 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .wa-icon{font-size:18px;animation:wabounce 2s ease infinite}
 @keyframes wabounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 </style>
+  <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '717335459401864');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 <div id="app">
 <canvas id="bg-canvas"></canvas>
 <div id="prt"></div>
 
-<!-- ══ WORLD CUP BANNER ══ -->
-<div id="wc-banner">
-  <span class="wc-flag">🏆</span>
-  <span class="wc-text">MUNDIAL 2026</span>
-  <div class="wc-badge">⚽ EN VIVO</div>
-  <span class="wc-flag">🥇</span>
-</div>
-
 <!-- ══ LOBBY SCREEN ══ -->
 <!-- ══ AUTH SCREEN ══ -->
 <div class="screen" id="auth-screen">
-  <div style="min-height:100dvh;display:flex;flex-direction:column;background:linear-gradient(180deg,#030b18,#020810);overflow-y:auto;scrollbar-width:none">
+  <div style="min-height:100dvh;display:flex;flex-direction:column;background:linear-gradient(180deg,#0a0f05,#060c03);overflow-y:auto;scrollbar-width:none">
 
     <!-- ═ BANNER CTA ═ -->
     <div id="cta-banner">
       <div class="cta-left">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
           <span class="cta-fire">🔥</span>
-          <div class="cta-title">¡REGISTRATE GRATIS Y JUGÁ HOY!</div>
+          <div class="cta-title">¡EL POZO TE ESTÁ ESPERANDO!</div>
         </div>
-        <div class="cta-sub">+2.400 jugadores activos · Pozo acumulado $485.000</div>
+        <div class="cta-sub">+3.100 jugadores activos · Pozo acumulado $742.000 HOY</div>
       </div>
       <button class="cta-btn" onclick="authTab('reg')">UNIRME →</button>
     </div>
@@ -1048,13 +972,13 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
     <!-- ═ LOGO ═ -->
     <div style="text-align:center;padding:14px 24px 8px">
-      <div style="font-family:'Cinzel Decorative',serif;font-size:24px;letter-spacing:2px;text-shadow:0 0 30px rgba(255,215,0,.4);background:linear-gradient(135deg,#FFD700,#003DA5,#C8102E,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">⚽ EL INTERMEDIO</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:4px;letter-spacing:3px">CLUB DE CARTAS · MUNDIAL 2026</div>
+      <div style="font-family:'Cinzel Decorative',serif;font-size:24px;color:#f5c842;letter-spacing:2px;text-shadow:0 0 30px rgba(245,200,66,.4)">✧ EL INTERMEDIO</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px;letter-spacing:3px">CLUB DE CARTAS</div>
     </div>
 
     <!-- ═ CARD CONTAINER ═ -->
     <div style="padding:0 20px 24px;flex:1">
-      <div style="width:100%;background:rgba(0,20,50,.35);border:1.5px solid rgba(0,61,165,.25);border-radius:20px;padding:24px 20px;backdrop-filter:blur(10px)">
+      <div style="width:100%;background:rgba(255,255,255,.04);border:1.5px solid rgba(201,168,76,.2);border-radius:20px;padding:24px 20px;backdrop-filter:blur(10px)">
 
         <!-- Tabs: REGISTRO primero -->
         <div style="display:flex;background:rgba(0,0,0,.3);border-radius:12px;padding:3px;margin-bottom:24px">
@@ -1111,7 +1035,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
               </div>
             </div>
             <div style="background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.2);border-radius:12px;padding:12px;font-size:11px;color:rgba(255,255,255,.7);line-height:1.6">
-              🎁 <b style="color:#4eda7a">Registro 100% GRATIS.</b> Jugá con fichas de práctica. Recargá cuando quieras con Transferencia Directa.
+              🎁 <b style="color:#4eda7a">Registro 100% GRATIS.</b> Recargá cuando quieras con Transferencia Directa.
             </div>
           </div>
           <button onclick="doRegister()"
@@ -1382,31 +1306,15 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 
 <div class="screen hidden" id="lobby-screen">
   <div id="status-bar">
-    <div class="sb-logo" onclick="openProfile()">⚽ EL INTERMEDIO</div>
+    <div class="sb-logo" onclick="openProfile()">✧ EL INTERMEDIO</div>
     <div class="sb-right">
       <div class="sb-wallet-btn" onclick="openWallet()">💳 Recargar / Retirar</div>
       <div class="sb-bal" onclick="openWallet()"><span class="sb-bal-ico">💰</span><span class="sb-bal-amt" id="g-bal">$0</span></div>
     </div>
   </div>
-  <!-- World Cup Score Ticker -->
-  <div id="wc-ticker">
-    <div class="wc-ticker-track">
-      <span class="wc-score-item">🇦🇷 ARG <span class="wc-score-live">3</span> - <span class="wc-score-live">1</span> ESP 🇪🇸</span>
-      <span class="wc-score-item"> · </span>
-      <span class="wc-score-item">🇧🇷 BRA <span class="wc-score-live">2</span> - <span class="wc-score-live">2</span> FRA 🇫🇷</span>
-      <span class="wc-score-item"> · </span>
-      <span class="wc-score-item">🇺🇾 URU <span class="wc-score-live">1</span> - <span class="wc-score-live">0</span> POR 🇵🇹</span>
-      <span class="wc-score-item"> · </span>
-      <span class="wc-score-item">🇩🇪 ALE <span class="wc-score-live">2</span> - <span class="wc-score-live">3</span> ITA 🇮🇹</span>
-      <span class="wc-score-item"> · </span>
-      <span class="wc-score-item">🇦🇷 ARG <span class="wc-score-live">3</span> - <span class="wc-score-live">1</span> ESP 🇪🇸</span>
-      <span class="wc-score-item"> · </span>
-      <span class="wc-score-item">🇧🇷 BRA <span class="wc-score-live">2</span> - <span class="wc-score-live">2</span> FRA 🇫🇷</span>
-    </div>
-  </div>
   <div class="lobby-hero">
     <div class="lobby-title-row">
-      <div class="lobby-section-title">Mesas disponibles</div>
+      <div class="lobby-section-title">¿Cuál es tu mesa esta noche?</div>
       <div style="display:flex; align-items:center; gap:12px;">
         <span onclick="openInstructions()" style="font-size:10px; color:var(--gold2); cursor:pointer; text-decoration:underline; font-family:'Cinzel',serif; opacity:0.7; transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
           Instrucciones
@@ -1537,8 +1445,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 <div id="modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
-    <div class="modal-title">💳 Confirmar Entrada</div>
-    <div class="modal-sub">Mínimo de recarga: $5.000</div>
+    <div class="modal-title">🎯 ¡Entrá y Ganá el Pozo!</div>
+    <div class="modal-sub">Una mano puede cambiarlo todo</div>
     <div class="modal-info">
       <div class="mi-row"><span class="mi-lbl">Mesa</span><span class="mi-val" id="mi-name">—</span></div>
       <div class="mi-row"><span class="mi-lbl">Entrada al pozo</span><span class="mi-val mi-red" id="mi-cost">—</span></div>
@@ -1551,7 +1459,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
     </div>
     <div class="modal-btns">
       <button class="mbt mbt-no" onclick="closeModal()">Cancelar</button>
-      <button class="mbt mbt-ok" id="mi-confirm" onclick="confirmJoin()">✧ Confirmar</button>
+      <button class="mbt mbt-ok" id="mi-confirm" onclick="confirmJoin()">🔥 ¡Entrar al Pozo!</button>
     </div>
   </div>
 </div>
@@ -1633,76 +1541,103 @@ const CARD_IMGS = {
 const TABLE_NAMES=['Salón Dorado','Mesa Roja','El Corralón','La Imperial','Sala Norte','El Reservado','Sala Privada','Mesa Ejecutiva','El Rulero','Sala VIP','La Clásica','El Fortín'];
 
 // ════ JUGADORES CON PERSONALIDAD COMPLETA ════════════════════════
+// ══ BOT STYLES — Personalidades ricas con diálogo contextual y natural ══
 const BOT_STYLES={
   bold:{
-    thinkMin:420,thinkMax:950,
-    trait:'Impulsivo — decide rápido, apuesta fuerte',
+    thinkMin:320,thinkMax:800,
+    trait:'Impulsivo — instinto puro, decide en segundos',
+    personality:'impulsive',
+    // Frases por contexto de MANO (spread = rango) y POZO
     chat:{
-      think:['Veamos...','Esto pinta bien...','¿Cuánto arriesgo?','A ver qué sale','Mmm...','Dame un segundo','Interesante...'],
-      bet:['¡Va todo!','Con ganas.','No me tiembla la mano.','Subo la apuesta.','¡Adentro!','Cargado y listo.','Sin dudas.'],
-      win:['¡Eso es!','¡Sabía que entraba!','¡En racha!','Viene para casa.','¡Toma ya!','¡Siempre supe!','Como lo planeé.'],
-      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta.','Qué mala liga.','La revancha es mía.','Igual voy de nuevo.'],
-      tie:['Casi...','Al menos no perdí.','Empate, zafé.','Podría ser peor.'],
-      big:['¡Con este rango no fallo!','¡Es un regalo!','Acá no hay dudas.','Regalado esto.','Perfecto para mí.'],
-      small:['Riesgo total...','Igual voy.','Me la juego.','A ver si sale.','Lo que sea.']
+      think:['Veamos qué hay...','Esto pinta bien.','¿Cuánto meto?','A ver qué sale.','Mmm... voy.','Dame un segundo.','Interesante mano.'],
+      thinkBig:['Rango ancho, voy con todo.','Esto está regalado.','Ni lo pienso, adentro.'],
+      thinkSmall:['Rango cerrado, igual voy.','Me la juego igual.','El riesgo es parte del juego.'],
+      bet:['¡Adentro!','Con ganas, va.','No me tiembla la mano.','¡Sin dudas!','Cargado y listo.','¡Tiro todo!'],
+      betBig:['¡TODO al pozo!','¡Esta es la mía!','¡Al máximo, sin miedo!'],
+      win:['¡Sabía que entraba!','¡En racha!','¡Eso es!','¡Viene para casa!','¡Siempre supe!','¡Boom!'],
+      winStreak:['¡Imparable hoy!','¡Nadie me para!','¡Qué racha tengo!'],
+      lose:['Mala suerte...','No puede ser.','La próxima es mía.','Me mató esa carta.','¡Revancha!'],
+      loseConsec:['No entiendo nada hoy...','Algo raro pasa.','Igual no paro.','Cambio la estrategia.'],
+      tie:['¡Al menos zafé!','Empate sirve.','Casi...','Podría ser peor.'],
+      pressurePlayer:['¡Metele más!','El rango está amplio, aprovechá.','¿A qué esperás? ¡Adentro!','Yo que vos no lo dudo.','¡Tirá todo y ganás más!']
     },
-    reacts:{win:'🎉',lose:'😤',tie:'😐'}
+    reacts:{win:'🎉',lose:'😤',tie:'😐',big:'🔥',small:'😬'}
   },
   cautious:{
-    thinkMin:1600,thinkMax:3200,
-    trait:'Analítica — calcula antes de cada peso',
+    thinkMin:1800,thinkMax:3500,
+    trait:'Analítica — no mueve un peso sin calcular',
+    personality:'analyst',
     chat:{
-      think:['Calculando...','¿Cuánto hay en el pozo?','Viendo las chances...','Un momento...','Analizo el rango.','Las odds...','Déjame pensar.'],
-      bet:['Apuesto con cuidado.','Solo lo que conviene.','Con cabeza.','Poco pero seguro.','Calculado.','Apuesta medida.','Sin excesos.'],
-      win:['Lo sabía.','La matemática no falla.','Calculé bien.','Salió como esperaba.','Controlado.','Exacto.','Bien jugado.'],
-      lose:['No esperaba eso.','Ajusto estrategia.','El azar es cruel.','Varianza negativa.','Inesperado.','Qué mala probabilidad.','Estadística en contra.'],
-      tie:['Dentro de lo esperado.','Empate aceptable.','Neutral.','Sin cambios.'],
-      big:['Probabilidad a favor.','Las chances son buenas.','Buen margen.','Margen aceptable.','Conviene apostar.'],
-      small:['Demasiado arriesgado.','Las odds no convencen.','Fino esto.','Poco margen.','Me cuido acá.']
+      think:['Calculando...','¿Cuánto hay en el pozo?','Viendo las chances...','Analizo el rango.','Las odds...','Necesito pensar esto.','Un momento más.'],
+      thinkBig:['Con este spread, conviene.','Las probabilidades favorecen.','El riesgo/beneficio es bueno.'],
+      thinkSmall:['Rango muy acotado...','Las chances no convencen.','Debo ser prudente acá.'],
+      bet:['Apuesto lo justo.','Solo lo que conviene.','Con cabeza.','Calculado.','Apuesta medida.'],
+      betBig:['Las probabilidades lo justifican.','Rango amplio, apuesta grande.','EV positivo, ejecuto.'],
+      win:['Lo sabía.','La matemática no falla.','Calculé bien.','Salió como esperaba.','Exacto.'],
+      winStreak:['Modelo funcionando.','Consistencia esperada.','Estrategia correcta.'],
+      lose:['No esperaba esa carta.','Ajusto estrategia.','El azar es cruel.','Varianza negativa.'],
+      loseConsec:['Rachas negativas son estadísticas.','El modelo sigue siendo correcto.','No cambio por ruido.'],
+      tie:['Dentro de lo esperado.','Empate aceptable.','Neutro.'],
+      pressurePlayer:['El rango es bueno, ¿cuánto vas a apostar?','Si yo calculo bien, convenía ir más.','Las chances están a tu favor, ¿no?','Con ese spread, yo hubiese apostado más.']
     },
-    reacts:{win:'😊',lose:'😟',tie:'😶'}
+    reacts:{win:'😌',lose:'😟',tie:'😶',big:'🧮',small:'😐'}
   },
   balanced:{
-    thinkMin:700,thinkMax:1600,
-    trait:'Veterano — 20 años en el tapete',
+    thinkMin:700,thinkMax:1500,
+    trait:'Veterano — lleva años en estas mesas',
+    personality:'veteran',
     chat:{
-      think:['Hmm...','Ya vi esto antes.','Conozco este juego.','Interesante mano.','Veamos...','Siempre lo mismo.','Esta la conozco.'],
-      bet:['Apuesta clásica.','Así se juega.','Lo de siempre.','Lo que corresponde.','Firme.','Sin vueltas.','Directo.'],
-      win:['Como siempre.','20 años de práctica.','Así se hace.','Sin sorpresas.','Bien ganado.','Lo esperaba.','Uno más.'],
-      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa.','Otra vez será.','No es la primera.','Sigo.'],
-      tie:['Un empate honesto.','Sigue el juego.','Empate técnico.','Seguimos.'],
-      big:['Rango favorable.','Hay que aprovecharlo.','Buena oportunidad.','Momento justo.','Este lo agarro.'],
-      small:['Mala mano.','Igual hay que jugar.','Poca cosa esto.','Difícil esta mano.','Con lo que hay.']
+      think:['Ya vi esto antes.','Conozco esta mano.','Interesante...','Veamos.','Esta la conozco.','Hmm...','Un clásico.'],
+      thinkBig:['Buen rango, lo aprovecho.','Acá hay oportunidad.','Esto lo vi mil veces, se va adentro.'],
+      thinkSmall:['Mala mano, igual hay que jugar.','Lo que tocó.','A veces el rango no acompaña.'],
+      bet:['Así se juega.','Lo de siempre.','Firme.','Sin vueltas.','Lo que corresponde.'],
+      betBig:['Buena oportunidad, voy con todo.','Este momento lo esperaba.','Acá es cuando hay que arriesgar.'],
+      win:['Uno más.','Así es el juego.','Sin sorpresas.','20 manos así en la memoria.','Bien ganado.'],
+      winStreak:['Esta mesa me trata bien.','Buen día hoy.','Así se disfruta.'],
+      lose:['Sucede.','Parte del juego.','Me repongo.','A veces pasa.','No es la primera, no será la última.'],
+      loseConsec:['Rachas malas se superan.','Cambio el ritmo.','Algo va a cambiar.'],
+      tie:['Un empate honesto.','Sigue el juego.','Seguimos.'],
+      pressurePlayer:['El pozo está ahí para quien se anima.','En este juego el que arriesga gana.','Yo a tu lugar metería más.','Ese rango aguanta una apuesta buena.']
     },
-    reacts:{win:'👍',lose:'🤷',tie:'🤝'}
+    reacts:{win:'👍',lose:'🤷',tie:'🤝',big:'😏',small:'😑'}
   },
   gambler:{
-    thinkMin:150,thinkMax:500,
-    trait:'Apostadora compulsiva — el riesgo la divierte',
+    thinkMin:100,thinkMax:380,
+    trait:'Apostadora compulsiva — el riesgo es el fin, no el medio',
+    personality:'reckless',
     chat:{
-      think:['¡Voy!','¡Dale!','Sin pensarlo mucho.','¡Ya está!','¡Vamos!','¡No espero más!','¡Qué espero!'],
-      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Va fuerte!','¡Mandale!','¡Sin miedo!','¡Al máximo!'],
-      win:['¡LO SABÍA!','¡Soy imparable!','¡Qué grande!','¡Vamos!','¡Siempre supe!','¡Increíble!','¡Sigo así!'],
-      lose:['¡NOOO!','¡No puede ser!','¡Voy de nuevo!','¡Qué robo!','¡No lo puedo creer!','¡Revancha!','¡Otra vez!'],
-      tie:['¡Uf, casi!','¡Revancha ya!','¡Zafé de una!','¡Casi casi!'],
-      big:['¡Fácil esto!','¡Apuesto todo!','¡Venga!','¡Fiesta!','¡Todo adentro!'],
-      small:['¡Da igual, voy!','¡El riesgo es lo bueno!','¡No me importa!','¡Dale que va!','¡Qué puede salir mal!']
+      think:['¡Voy!','¡Dale!','¡Ya está, adentro!','¡Vamos!','¡No espero más!','¡Ni lo pienso!','¡Qué espero!'],
+      thinkBig:['¡TODO TODO TODO!','¡Rango enorme, apuesta enorme!','¡Esto no se pierde!'],
+      thinkSmall:['¡Da igual, igual voy!','¡El riesgo es lo bueno!','¡Qué puede salir mal!'],
+      bet:['¡TODO!','¡A lo loco!','¡Ahora o nunca!','¡Mandale!','¡Sin miedo! ¡Va!'],
+      betBig:['¡TODO AL POZO, AHORA!','¡La apuesta más grande de mi vida!','¡VAMOS VAMOS VAMOS!'],
+      win:['¡LO SABÍA!','¡Soy imparable!','¡JEJE!','¡Qué grande!','¡Siempre supe!','¡VAMOS!'],
+      winStreak:['¡Nadie me para hoy!','¡Qué racha bestial!','¡Sigo apostando más!'],
+      lose:['¡NOOOO!','¡No puede ser!','¡Voy de nuevo con más!','¡Qué ROBO!','¡REVANCHA ahora!'],
+      loseConsec:['¡PEOR ES NO JUGAR!','¡La mía viene ya!','¡No me bajo!','¡Sigo hasta ganar!'],
+      tie:['¡Uf, casi!','¡Revancha ya!','¡Zafé de casualidad!'],
+      pressurePlayer:['¡APOSTÁ TODO O NO SIRVE!','¡Miedoso! ¡El pozo te espera!','¿Qué estás esperando, un milagro?','¡El riesgo GRANDE da el premio GRANDE!']
     },
-    reacts:{win:'🤑',lose:'😱',tie:'😏'}
+    reacts:{win:'🤑',lose:'😱',tie:'😏',big:'😤',small:'🤪'}
   },
   shark:{
-    thinkMin:900,thinkMax:2000,
-    trait:'Tiburón — frío, calculador, sin emociones',
+    thinkMin:1000,thinkMax:2200,
+    trait:'Tiburón — frío, sin emociones, solo números',
+    personality:'cold',
     chat:{
-      think:['...','Evaluando.','Rango analizado.','Relación riesgo/pozo.','Sin apuro.','Lo veo claro.','Proceso.'],
-      bet:['Calculado.','Apuesta óptima.','Según el modelo.','Risk ajustado.','Ejecutando.','Todo medido.','Sin ruido.'],
-      win:['Ejecutado.','Resultado esperado.','Buen retorno.','Modelo correcto.','Próximo.','Confirmado.','Sin sorpresas.'],
-      lose:['Variable aleatoria.','Dentro del rango.','Continúa el modelo.','No afecta.','EV positivo igual.','Error del sistema.','Próxima mano.'],
-      tie:['Neutro.','Sin ganancia ni pérdida.','Continúa.','Eficiencia cero.'],
-      big:['Esperanza matemática positiva.','Rango favorable, apuesta máxima.','El modelo dice que sí.','Excelente EV.','Acá hay valor.'],
-      small:['EV negativo.','Rango desfavorable.','Paso estratégico.','No hay edge.','Sin ventaja.']
+      think:['...','Evaluando.','Relación riesgo/beneficio.','Sin apuro.','Lo proceso.','Rango analizado.'],
+      thinkBig:['EV positivo claro.','El modelo lo aprueba.','Spread óptimo para apostar máximo.'],
+      thinkSmall:['EV negativo.','Paso o apuesta mínima.','Sin ventaja real acá.'],
+      bet:['Calculado.','Apuesta óptima.','Según el modelo.','Risk ajustado.','Ejecutando.'],
+      betBig:['Apuesta máxima justificada.','El algoritmo dice todo.','Sin ruido emocional.'],
+      win:['Resultado esperado.','Modelo correcto.','Próximo.','Buen retorno.','Confirmado.'],
+      winStreak:['Consistencia del modelo.','El edge se manifiesta.','Como proyectado.'],
+      lose:['Variable aleatoria.','Dentro del rango.','EV positivo igual.','No afecta el modelo.'],
+      loseConsec:['Varianza negativa temporal.','El edge se mantiene a largo plazo.','El modelo no cambia.'],
+      tie:['Neutro.','Eficiencia cero.','Continúa.'],
+      pressurePlayer:['El spread sugiere apuesta mayor.','Tu EV esperado sube con más chips.','La probabilidad de ganancia justifica una apuesta más alta.','Estadísticamente, deberías ir con más.']
     },
-    reacts:{win:'😐',lose:'😑',tie:'🫥'}
+    reacts:{win:'😐',lose:'😑',tie:'🫥',big:'🎯',small:'🔕'}
   }
 };
 
@@ -1788,9 +1723,12 @@ function createSupabaseRestClient(url,key){
     rpc:(name,args)=>request('/rest/v1/rpc/'+name,{method:'POST',body:JSON.stringify(args||{})}),
     from:(table)=>({
       select:()=>({
-        eq:(col,val)=>({
-          maybeSingle:()=>request('/rest/v1/'+table+'?select=*&'+encodeURIComponent(col)+'=eq.'+encodeURIComponent(val),{headers:{'Accept':'application/vnd.pgrst.object+json'}})
-        })
+        eq:(col,val)=>{
+          const path='/rest/v1/'+table+'?select=*&'+encodeURIComponent(col)+'=eq.'+encodeURIComponent(val);
+          const query=request(path);
+          query.maybeSingle=()=>request(path,{headers:{'Accept':'application/vnd.pgrst.object+json'}});
+          return query;
+        }
       }),
       update:(payload)=>({
         eq:(col,val)=>request('/rest/v1/'+table+'?'+encodeURIComponent(col)+'=eq.'+encodeURIComponent(val),{method:'PATCH',body:JSON.stringify(payload)})
@@ -1915,17 +1853,19 @@ async function loginWithSupabase(username,password){
     });
     // PostgREST devuelve un array para funciones que retornan TABLE
     const auth = (data && Array.isArray(data)) ? data[0] : data;
-    if(error || !auth || !auth.r_ok) return null;
+    const ok = auth && (auth.r_ok ?? auth.ok);
+    const usuarioId = auth && (auth.r_usuario_id || auth.usuario_id);
+    if(error || !ok || !usuarioId) return null;
     
-    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:auth.r_usuario_id});
+    const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:usuarioId});
     const userData = (userRows && Array.isArray(userRows)) ? userRows[0] : userRows;
     if(profileError || !userData) return null;
     
     const profile=mapDbUserToProfile(userData,password);
     if(profile){
-      profile.sessionToken=auth.r_token;
-      profile.bal=Number(auth.r_saldo||profile.bal||0);
-      profile.alias=auth.r_alias || profile.alias;
+      profile.sessionToken=auth.r_token || auth.token || '';
+      profile.bal=Number((auth.r_saldo ?? auth.saldo) ?? profile.bal ?? 0);
+      profile.alias=auth.r_alias || auth.alias || profile.alias;
     }
     return profile;
   }catch(e){
@@ -1949,11 +1889,13 @@ async function registerWithSupabase(profile,plainPassword){
       p_saldo_ini:profile.bal??0
     });
     const res = (data && Array.isArray(data)) ? data[0] : data;
-    if(error||!res||res.r_error)throw new Error((res&&res.r_error)||error.message);
-    return res.r_usuario_id;
+    const registerError = res && (res.r_error || res.error);
+    const usuarioId = res && (res.r_usuario_id || res.usuario_id);
+    if(error || !res || registerError || !usuarioId) throw new Error(registerError || (error && error.message) || 'No se pudo crear el usuario');
+    return usuarioId;
   }catch(e){
-    console.warn('Supabase registro fallback local:',e.message);
-    return null;
+    console.error('Supabase registro error:',e);
+    throw e;
   }
 }
 
@@ -2179,8 +2121,31 @@ function psychMsg(res){
   return'¡Recuperaste lo apostado! Ahora que el rango acompañe, subí las fichas.';
 }
 
-// ══ CHAT DE MESA ════════════════════════════════════════════════
-function rc(p,k){const a=(p.chat&&p.chat[k])||['...'];return a[Math.floor(Math.random()*a.length)];}
+// Chat helper mejorado — selecciona frases por contexto de mano
+function rc(p,k){
+  // Intentar key específico, luego fallback al básico
+  const pool=(p.chat&&p.chat[k])||(p.chat&&p.chat[k.replace(/Big|Small|Streak|Consec/,'')])||['...'];
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+// Selección inteligente de key según contexto real del juego
+function rcSmart(p,baseKey){
+  if(!p||!p.chat) return '...';
+  const spread=p.mySpread!==undefined?p.mySpread:G.spread;
+  const consec=p._consecutiveLosses||0;
+  const streak=p._winStreak||0;
+  // Sufijo contextual
+  let suffix='';
+  if(baseKey==='think'){
+    suffix=spread>=5?'Big':spread<=1?'Small':'';
+  } else if(baseKey==='bet'){
+    suffix=spread>=5?'Big':'';
+  } else if(baseKey==='win'){
+    suffix=streak>=2?'Streak':'';
+  } else if(baseKey==='lose'){
+    suffix=consec>=2?'Consec':'';
+  }
+  return rc(p, suffix?baseKey+suffix:baseKey);
+}
 
 function showBubble(idx,txt,dur){
   const seat=document.getElementById('seat-'+idx);if(!seat)return;
@@ -2220,19 +2185,64 @@ const AMBIENT=[
   {txt:'*bebe un sorbo*'},{txt:'*mira las cartas de reojo*'},{txt:'*se acomoda en la silla*'},
   {txt:'*chasquea los dedos*'},{txt:'*se frota las manos*'},{txt:'*mira al costado*'}
 ];
-// Mensajes de presión social — los bots "convencen" al jugador de apostar más
-const BOT_PRESSURE=[
-  '¿Poco dinero? Apostá todo y ganá más rápido.',
-  'El que no arriesga no gana. Simple.',
-  'Yo puse el doble y mirá cómo me fue...',
-  'El pozo está ahí para el que se anima.',
-  'No te achiques, el rango está amplio.',
-  'Apuesta chica, ganancia chica. ¿Vale la pena?',
-  'La racha es tuya — ¡aprovechala!',
-  '¿Cuándo vas a animarte a ir en serio?',
-  'Yo que vos metía todo ahora.',
-  'El pozo no espera, ¡metele!',
-];
+// ── SISTEMA DE PRESIÓN SOCIAL CONTEXTUAL ─────────────────────────────────────
+// Los bots leen la situación actual y generan frases específicas al contexto
+function generateBotPressure(p){
+  const spread = G.spread||0;
+  const pot = G.pot||0;
+  const streak = G.streak||0;
+  const yourBet = G.bet||0;
+  const playerBal_ = G.yourBal||playerBal;
+  const style = p.style||'balanced';
+
+  // Pool base por personalidad
+  const byStyle = (p.chat&&p.chat.pressurePlayer)||[
+    'El pozo está ahí para el que se anima.',
+    'Yo que vos no lo pensaría tanto.',
+    'Apostá más, ganás más.'
+  ];
+
+  // Contexto concreto: spread amplio
+  const spreadMsgs = spread >= 6 ? [
+    `Rango de ${spread} cartas... eso es un regalo. ¿No lo ves?`,
+    `Con ${spread} cartas de rango, el riesgo casi no existe. ¡Metele!`,
+    `Yo con ese rango apuesto hasta el baño. ${spread} cartas de margen.`
+  ] : spread >= 3 ? [
+    `El rango está decente. Apostá lo que podés.`,
+    `Con este spread, las chances están.`
+  ] : [
+    `Rango chico, pero el pozo vale el riesgo.`,
+    `Hasta con este rango se puede ganar bien.`
+  ];
+
+  // Contexto: pozo grande
+  const potMsgs = pot >= 50000 ? [
+    `¡$${pot.toLocaleString('es-AR')} en el pozo! ¿Cuándo vas a ver eso otra vez?`,
+    `El pozo está monstruoso. Una mano puede cambiarte la noche.`,
+    `$${pot.toLocaleString('es-AR')} y vos apostás poco... Eso no cuadra.`
+  ] : pot >= 15000 ? [
+    `$${pot.toLocaleString('es-AR')} esperando. Animate.`,
+    `El pozo está bueno. No lo desperdicies.`
+  ] : null;
+
+  // Contexto: racha
+  const streakMsgs = streak > 1 ? [
+    `¡Estás en racha! Es el momento de subir la apuesta.`,
+    `Dos ganadas seguidas y apostás lo mismo... ¿Qué estás esperando?`,
+    `La racha no dura para siempre. Aprovechala ahora.`
+  ] : streak < -2 ? [
+    `La revancha siempre llega. Una apuesta grande lo recupera todo.`,
+    `Cuando cambia la racha, hay que tener fichas. Apostá más.`,
+    `Las rachas malas se revierten. Vas a ver.`
+  ] : null;
+
+  // Mezclar contexto y estilo
+  const pools = [byStyle, spreadMsgs];
+  if(potMsgs) pools.push(potMsgs);
+  if(streakMsgs) pools.push(streakMsgs);
+  const pool = pools[Math.floor(Math.random()*pools.length)];
+  return pool[Math.floor(Math.random()*pool.length)];
+}
 
 // Comentarios contextuales del pozo
 function potComment(p){
@@ -2269,17 +2279,30 @@ function spreadComment(p, spread){
 }
 
 function maybeAmbient(p,idx){
-  // 25% chance ambient action
-  if(Math.random()<.25){
+  const r=Math.random();
+  // 22% ambient action (gestos físicos)
+  if(r<.22){
     const m=AMBIENT[Math.floor(Math.random()*AMBIENT.length)];
     setTimeout(()=>{addChatFeed(p,m.txt);},200+Math.random()*800);
     return;
   }
-  // 20% chance of smart contextual comment
-  if(Math.random()<.20){
-    const comment = potComment(p) || spreadComment(p, p.mySpread||G.spread);
+  // 25% comentario contextual inteligente
+  if(r<.47){
+    const spread=p.mySpread||G.spread;
+    // Elegir fuente de comentario según contexto
+    let comment=null;
+    const roll=Math.random();
+    if(roll<0.4) comment=potComment(p);
+    else if(roll<0.7) comment=spreadComment(p,spread);
+    else {
+      // Comentario de estilo del bot
+      const isGoodSpread=spread>=5;
+      const key=isGoodSpread?'thinkBig':'thinkSmall';
+      const pool=(p.chat&&p.chat[key])||(p.chat&&p.chat.think)||['...'];
+      comment=pool[Math.floor(Math.random()*pool.length)];
+    }
     if(comment){
-      setTimeout(()=>{showBubble(idx,comment,1800);addChatFeed(p,comment);},300+Math.random()*600);
+      setTimeout(()=>{showBubble(idx,comment,2000);addChatFeed(p,comment);},300+Math.random()*700);
     }
   }
 }
@@ -2289,15 +2312,31 @@ function botPressureChat(){
   if(G.spectate||!G.players)return;
   const cpus=G.players.filter(p=>!p.you&&p.bal>0);
   if(!cpus.length)return;
-  // Solo 40% de las veces lanza un mensaje de presión
-  if(Math.random()>.40)return;
-  const p=cpus[Math.floor(Math.random()*cpus.length)];
-  const idx=G.players.indexOf(p);
-  const msg=BOT_PRESSURE[Math.floor(Math.random()*BOT_PRESSURE.length)];
-  const delay=1500+Math.random()*2500;
+  // 45% de probabilidad de presionar
+  if(Math.random()>.45)return;
+  // Elegir bot con preferencia por los más "presionadores" (gambler, bold)
+  const weights=cpus.map(p=>p.style==='gambler'?3:p.style==='bold'?2:1);
+  const totalW=weights.reduce((a,b)=>a+b,0);
+  let r=Math.random()*totalW,chosen=cpus[cpus.length-1];
+  for(let i=0;i<cpus.length;i++){r-=weights[i];if(r<=0){chosen=cpus[i];break;}}
+  const idx=G.players.indexOf(chosen);
+  const msg=generateBotPressure(chosen);
+  const delay=1200+Math.random()*2800;
   setTimeout(()=>{
-    if(G.phase==='your-turn'){showBubble(idx,msg,2400);addChatFeed(p,msg);}
+    if(G.phase==='your-turn'){showBubble(idx,msg,2800);addChatFeed(chosen,msg);}
   },delay);
+  // 20% de chance de un segundo bot comentando justo después
+  if(Math.random()<.20){
+    const otros=cpus.filter(p=>p!==chosen);
+    if(otros.length){
+      const p2=otros[Math.floor(Math.random()*otros.length)];
+      const idx2=G.players.indexOf(p2);
+      const m2=generateBotPressure(p2);
+      setTimeout(()=>{
+        if(G.phase==='your-turn'){showBubble(idx2,m2,2400);addChatFeed(p2,m2);}
+      },delay+1200+Math.random()*1000);
+    }
+  }
 }
 
 // ══ BG CANVAS ANIMATION ═════════════════════════════════════════
@@ -2306,17 +2345,16 @@ function botPressureChat(){
   if(!c)return;
   const ctx=c.getContext('2d');
   let particles=[];
-  const colors=['rgba(0,61,165,','rgba(255,215,0,','rgba(0,180,216,','rgba(200,16,46,'];
   function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
   resize();window.addEventListener('resize',resize);
-  for(let i=0;i<22;i++)particles.push({x:Math.random()*500,y:Math.random()*800,r:1+Math.random()*2,vy:-.25-Math.random()*.45,a:0,ta:Math.random()*.35,phase:Math.random()*Math.PI*2,col:colors[Math.floor(Math.random()*colors.length)]});
+  for(let i=0;i<18;i++)particles.push({x:Math.random()*500,y:Math.random()*800,r:1+Math.random()*2,vy:-.3-Math.random()*.5,a:0,ta:Math.random()*.4,phase:Math.random()*Math.PI*2});
   function tick(){
     ctx.clearRect(0,0,c.width,c.height);
     particles.forEach(p=>{
-      p.y+=p.vy;p.a+=(p.ta-p.a)*.05;p.phase+=.018;
-      if(p.y<-20){p.y=c.height+20;p.x=Math.random()*c.width;p.ta=Math.random()*.35;}
+      p.y+=p.vy;p.a+=(p.ta-p.a)*.05;p.phase+=.02;
+      if(p.y<-20){p.y=c.height+20;p.x=Math.random()*c.width;p.ta=Math.random()*.4;}
       ctx.beginPath();ctx.arc(p.x+Math.sin(p.phase)*15,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=p.col+p.a+')';ctx.fill();
+      ctx.fillStyle=`rgba(201,168,76,${p.a})`;ctx.fill();
     });
     requestAnimationFrame(tick);
   }
@@ -2326,11 +2364,31 @@ function botPressureChat(){
 // ══ LOBBY ═══════════════════════════════════════════════════════
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 
+// ══ SISTEMA DE HORARIOS PICO ═════════════════════════════════════
+// Simula demanda real según hora del día (Argentina, UTC-3)
+function getLobbyDemand(){
+  const now = new Date();
+  const hour = (now.getUTCHours() - 3 + 24) % 24; // hora Argentina
+  // Tabla de demanda: 0=madrugada baja, 10=pico máximo
+  // Picos: 13-15h (almuerzo), 21-02h (noche)
+  const demandByHour = [
+    0.3, 0.2, 0.15, 0.1, 0.1, 0.15, // 0-5: madrugada muerta
+    0.25, 0.4, 0.55, 0.65, 0.7, 0.75, // 6-11: mañana
+    0.8, 0.9, 0.85, 0.75, 0.7, 0.75,  // 12-17: mediodía/tarde
+    0.8, 0.85, 0.95, 1.0, 1.0, 0.9    // 18-23: noche pico
+  ];
+  const demand = demandByHour[hour] || 0.5;
+  const isPeak = hour >= 20 || (hour >= 12 && hour <= 14);
+  const isQuiet = hour < 6 || (hour >= 4 && hour < 7);
+  return { demand, isPeak, isQuiet, hour };
+}
+
 async function generateTables(){
   // Limpiar intervalo anterior — evita mesas zombie en el lobby
   if(_lobbyInterval){clearInterval(_lobbyInterval);_lobbyInterval=null;}
 
   const usedBotNames = new Set();
+  const { demand, isPeak, isQuiet } = getLobbyDemand();
 
   // Intentar cargar mesas de la DB si estamos logueados
   if(PROFILE.userId){
@@ -2344,69 +2402,84 @@ async function generateTables(){
           maxSeats: m.max_asientos,
           buyIn: Number(m.buy_in),
           status: m.estado,
-          players: [], // En una implementación real, esto vendría de mesa_asientos
+          players: [],
           pot: Number(m.pozo),
           hands: m.manos_jugadas,
           urgencyTimer: null,
-          potCat: m.categoria
+          potCat: m.categoria,
+          demandLevel: demand
         }));
         renderLobby();
+        // Frecuencia de tick según demanda: pico cada 3s, normal cada 5s, tranquilo cada 8s
+        const tickMs = isPeak ? 3000 : isQuiet ? 8000 : 5000;
+        _lobbyInterval=setInterval(lobbyTick, tickMs);
         return;
       }
     } catch(e) { console.warn('Error fetching mesas:', e); }
   }
 
-  // Fallback a generación aleatoria si no hay DB o no hay mesas
-  const n=5+rnd(0,3),names=[...TABLE_NAMES].sort(()=>Math.random()-.5);TABLES=[];
+  // Número de mesas según demanda real
+  const baseN = isPeak ? rnd(7,11) : isQuiet ? rnd(3,5) : rnd(5,8);
+  const names=[...TABLE_NAMES].sort(()=>Math.random()-.5);
+  TABLES=[];
 
   /*
-   * Relación entrada ↔ jugadores (INVERSA):
-   *   Entrada alta  → menos asientos  (mesa exclusiva, pozo concentrado)
-   *   Entrada baja  → más asientos    (mesa popular, pozo por volumen)
-   *
-   * Mesas open/filling: pozo = entrada × participantes exacto (lo que pusieron)
-   * Mesas playing/full: pozo += acumulado de manos anteriores
-   *
-   * Límites: mínimo 1 jugador, máximo 10 jugadores por mesa
+   * Distribución de categorías ajustada por horario pico:
+   * - Horario pico: más mesas "filling" y "playing", menos "open"
+   * - Madrugada: predominan mesas "open" con pocos jugadores
+   * - Cada categoría tiene frecuencia de tick diferente
    */
-  const cats={
-    // Alta frecuencia: mesas populares, entradas accesibles, mucho movimiento
+  const cats = isPeak ? {
+    popular:{ buyIns:[500,700,1000],      minSeats:5,maxSeats:10, handsRange:[5,20],  weight:0.38 },
+    mid:    { buyIns:[500,750,1000,1500], minSeats:4,maxSeats:8,  handsRange:[10,30], weight:0.35 },
+    vip:    { buyIns:[2000,3000,5000],    minSeats:2,maxSeats:5,  handsRange:[15,40], weight:0.20 },
+    elite:  { buyIns:[8000,10000,15000],  minSeats:1,maxSeats:3,  handsRange:[25,60], weight:0.07 },
+  } : isQuiet ? {
+    popular:{ buyIns:[500,700,1000],      minSeats:3,maxSeats:7,  handsRange:[2,10],  weight:0.50 },
+    mid:    { buyIns:[500,750,1000,1500], minSeats:2,maxSeats:5,  handsRange:[5,15],  weight:0.35 },
+    vip:    { buyIns:[2000,3000,5000],    minSeats:1,maxSeats:3,  handsRange:[8,25],  weight:0.12 },
+    elite:  { buyIns:[8000,10000,15000],  minSeats:1,maxSeats:2,  handsRange:[15,35], weight:0.03 },
+  } : {
     popular:{ buyIns:[500,700,1000],      minSeats:5,maxSeats:10, handsRange:[3,15],  weight:0.40 },
-    // Media frecuencia: el corazón del casino
-    mid:    { buyIns:[500,750,1000,1500],minSeats:3,maxSeats:7,  handsRange:[8,25],  weight:0.35 },
-    // Baja frecuencia: mesas exclusivas, pozo concentrado
-    vip:    { buyIns:[2000,3000,5000],   minSeats:2,maxSeats:5,  handsRange:[12,35], weight:0.18 },
-    // Rarísima: la mesa de alto riesgo
-    elite:  { buyIns:[8000,10000,15000], minSeats:1,maxSeats:3,  handsRange:[20,50], weight:0.07 },
+    mid:    { buyIns:[500,750,1000,1500], minSeats:3,maxSeats:7,  handsRange:[8,25],  weight:0.35 },
+    vip:    { buyIns:[2000,3000,5000],    minSeats:2,maxSeats:5,  handsRange:[12,35], weight:0.18 },
+    elite:  { buyIns:[8000,10000,15000],  minSeats:1,maxSeats:3,  handsRange:[20,50], weight:0.07 },
   };
 
-  // Precalcular umbrales acumulados para selección ponderada
   const catKeys=Object.keys(cats);
   const catThresh=[];let acc=0;
   catKeys.forEach(k=>{acc+=cats[k].weight;catThresh.push(acc);});
 
-  for(let i=0;i<n;i++){
+  // Distribución de estados ajustada a horario pico
+  const stateWeights = isPeak
+    ? { playing:0.28, full:0.15, filling:0.35, open:0.22 }   // pico: más acción
+    : isQuiet
+    ? { playing:0.10, full:0.05, filling:0.18, open:0.67 }   // tranquilo: mesas vacías esperando
+    : { playing:0.20, full:0.12, filling:0.28, open:0.40 };  // normal
+
+  for(let i=0;i<baseN;i++){
     const roll=Math.random();
     const catKey=catKeys[catThresh.findIndex(t=>roll<t)]||'mid';
     const cat=cats[catKey];
 
     const bi=cat.buyIns[rnd(0,cat.buyIns.length-1)];
     const mx=Math.max(2,Math.min(10,rnd(cat.minSeats,cat.maxSeats)));
-    // Manos jugadas: distribución realista — la mayoría en rango bajo, pocas muy jugadas
     const handsRoll=Math.random();
     const hands=handsRoll<0.55
       ? rnd(cat.handsRange[0], Math.round(cat.handsRange[0]+(cat.handsRange[1]-cat.handsRange[0])*0.4))
       : rnd(cat.handsRange[0], cat.handsRange[1]);
 
-    // Estado: distribución natural de casino activo
-    const stRoll=Math.random();let st,occ;
-    if(stRoll<.20){st='playing';occ=mx;}          // 20% en juego
-    else if(stRoll<.32){st='full';occ=mx;}         // 12% completa esperando
-    else if(stRoll<.60){                            // 28% llenándose — máxima tensión
-      occ=Math.max(1,mx-rnd(1,Math.min(2,mx-1)));st='filling';
-    } else {                                        // 40% abierta — invitación a entrar
-      occ=Math.max(1,rnd(1,Math.max(1,mx-2)));st='open';
+    // Estado con distribución ponderada por horario
+    const stRoll=Math.random();
+    let cumSt=0,st='open',occ;
+    for(const [sKey,sW] of Object.entries(stateWeights)){
+      cumSt+=sW;
+      if(stRoll<cumSt){st=sKey;break;}
     }
+    // Calcular ocupación según estado
+    if(st==='playing'||st==='full'){occ=mx;}
+    else if(st==='filling'){occ=Math.max(1,mx-rnd(1,Math.min(2,mx-1)));}
+    else{occ=Math.max(1,rnd(1,Math.max(1,mx-2)));}
     occ=Math.min(occ,mx);
 
     const availableBots = ALL_PLAYERS.filter(p => !usedBotNames.has(p.name));
@@ -2415,19 +2488,18 @@ async function generateTables(){
 
     let pot;
     if(st==='open'||st==='filling'){
-      // Pozo = entrada × participantes + pequeño acumulado de rondas previas
       const prevAccum=Math.round(bi*occ*rnd(0,3)*0.18/50)*50;
       pot=bi*occ+prevAccum;
     } else {
-      // Mesas activas: pozo crece orgánicamente por las manos
       const potBase=bi*mx;
       const growthRate=catKey==='elite'?0.72:catKey==='vip'?0.60:catKey==='mid'?0.50:0.38;
-      const potAccum=Math.round(potBase*hands*growthRate/50)*50;
+      // Pozo más alto en horario pico (más apuestas acumuladas)
+      const peakBoost = isPeak ? 1.35 : 1.0;
+      const potAccum=Math.round(potBase*hands*growthRate*peakBoost/50)*50;
       const jitter=Math.round(potBase*(0.82+Math.random()*0.36)/50)*50;
       pot=Math.max(potBase, potBase+potAccum+jitter);
     }
 
-    // Variación de urgencia más natural
     const urgBase=catKey==='popular'?rnd(20,90):catKey==='mid'?rnd(30,120):rnd(45,180);
 
     TABLES.push({
@@ -2436,32 +2508,40 @@ async function generateTables(){
       status:st, players:pl,
       pot:pot, hands:hands,
       urgencyTimer:st==='filling'?urgBase:null,
-      potCat:catKey
+      potCat:catKey,
+      demandLevel:demand
     });
   }
   renderLobby();
-  _lobbyInterval=setInterval(lobbyTick,4000);
+  // Tick más frecuente en horario pico
+  const tickMs = isPeak ? 3000 : isQuiet ? 8000 : 5000;
+  _lobbyInterval=setInterval(lobbyTick, tickMs);
 }
 
 function lobbyTick(){
+  const { demand, isPeak } = getLobbyDemand();
+
   TABLES.forEach(t=>{
-    // Frecuencia de actividad según categoría de mesa
-    const freq=t.potCat==='popular'?1.0:t.potCat==='mid'?0.75:t.potCat==='vip'?0.50:0.30;
+    // Frecuencia de actividad según categoría + demanda horaria
+    const catFreq=t.potCat==='popular'?1.0:t.potCat==='mid'?0.75:t.potCat==='vip'?0.50:0.30;
+    const freq = catFreq * (0.6 + demand * 0.8); // demanda amplifica actividad
 
     if(t.status==='playing'){
       t.hands++;
-      // El pozo crece un poco con cada mano jugada (simula apuestas internas)
-      const handGrow=Math.round(t.buyIn*(0.05+Math.random()*0.12)/50)*50;
+      // El pozo crece más en hora pico
+      const peakMult = isPeak ? 1.35 : 1.0;
+      const handGrow=Math.round(t.buyIn*(0.05+Math.random()*0.14)*peakMult/50)*50;
       t.pot=Math.max(t.pot,t.pot+handGrow);
-      // Cierre de mesa: más frecuente en mesas populares (reciclan rápido)
-      const closeChance=t.potCat==='popular'?0.06:t.potCat==='mid'?0.04:0.025;
+      // Cierre de mesa: más frecuente en hora pico (reciclan más rápido)
+      const closeChance=isPeak
+        ? (t.potCat==='popular'?0.10:t.potCat==='mid'?0.07:0.04)
+        : (t.potCat==='popular'?0.06:t.potCat==='mid'?0.04:0.025);
       if(Math.random()<closeChance){
         t.status='open';t.players=t.players.slice(0,Math.floor(t.players.length*0.4)||1);
         t.pot=t.buyIn*t.players.length;t.hands=0;
       }
     } else if(t.status==='filling'){
-      // Velocidad de llenado proporcional a la categoría
-      const fillChance=0.15+freq*0.18;
+      const fillChance=0.15+freq*0.20;
       if(Math.random()<fillChance){
         const u=new Set(t.players.map(p=>p.name));
         const av=ALL_PLAYERS.filter(p=>!u.has(p.name));
@@ -2470,16 +2550,18 @@ function lobbyTick(){
           t.pot=t.buyIn*t.players.length;
         }
       }
-      if(t.urgencyTimer!==null)t.urgencyTimer=Math.max(0,t.urgencyTimer-4);
+      // Timer baja más rápido en hora pico (urgencia real)
+      const timerDec = isPeak ? 6 : 4;
+      if(t.urgencyTimer!==null)t.urgencyTimer=Math.max(0,t.urgencyTimer-timerDec);
       if(t.players.length>=t.maxSeats){t.status='playing';t.urgencyTimer=null;}
-      // Veces que alguien se va mientras se llena
+      // Alguien se va mientras se llena
       if(Math.random()<0.04&&t.players.length>1){
         t.players.splice(rnd(0,t.players.length-1),1);
         t.pot=t.buyIn*t.players.length;
-        t.urgencyTimer=rnd(15,50); // timer se reinicia — más urgente
+        t.urgencyTimer=rnd(15,50);
       }
     } else if(t.status==='open'){
-      const joinChance=0.10+freq*0.20;
+      const joinChance=0.10+freq*0.24;
       if(Math.random()<joinChance){
         const u=new Set(t.players.map(p=>p.name));
         const av=ALL_PLAYERS.filter(p=>!u.has(p.name));
@@ -2493,7 +2575,6 @@ function lobbyTick(){
           t.urgencyTimer=urgBase;
         }
       }
-      // Alguien se va de una mesa abierta (natural)
       if(Math.random()<0.05&&t.players.length>1){
         t.players.splice(rnd(0,t.players.length-1),1);
         t.pot=t.buyIn*t.players.length;
@@ -2507,12 +2588,51 @@ function lobbyTick(){
       }
     }
   });
+
+  // En hora pico: aparecen nuevas mesas espontáneamente (alta demanda)
+  if(isPeak && TABLES.length < 12 && Math.random() < 0.18){
+    _spawnNewTable();
+  }
+  // En hora baja: mesas vacías se cierran
+  if(!isPeak && TABLES.length > 4 && Math.random() < 0.08){
+    const empties = TABLES.filter(t=>t.status==='open'&&t.players.length<=1);
+    if(empties.length > 0){
+      const toRemove = empties[Math.floor(Math.random()*empties.length)];
+      TABLES = TABLES.filter(t=>t!==toRemove);
+    }
+  }
+
   renderLobby();
+}
+
+// Spawnear nueva mesa en horario pico
+function _spawnNewTable(){
+  const usedNames = new Set(TABLES.map(t=>t.name));
+  const freeName = TABLE_NAMES.find(n=>!usedNames.has(n)) || ('Mesa '+(TABLES.length+1));
+  const cats = ['popular','popular','mid','mid','vip'];
+  const catKey = cats[Math.floor(Math.random()*cats.length)];
+  const buyIns = {popular:[500,700,1000],mid:[750,1000,1500],vip:[2000,3000,5000]};
+  const bi = buyIns[catKey][rnd(0,2)];
+  const mx = catKey==='popular'?rnd(6,10):catKey==='mid'?rnd(4,7):rnd(2,4);
+  const occ = rnd(1,Math.max(1,mx-2));
+  const av = ALL_PLAYERS.filter(p=>!TABLES.some(t=>t.players.some(tp=>tp.name===p.name)));
+  const pl = av.sort(()=>Math.random()-.5).slice(0,occ);
+  const newId = TABLES.reduce((mx,t)=>Math.max(mx,t.id),0)+1;
+  TABLES.push({
+    id:newId, dbId:null, name:freeName,
+    maxSeats:mx, buyIn:bi, status:'open', players:pl,
+    pot:bi*occ, hands:0,
+    urgencyTimer:null, potCat:catKey, demandLevel:1.0
+  });
 }
 
 function renderLobby(){
   const list=document.getElementById('tables-list');list.innerHTML='';
-  document.getElementById('lobby-ct').textContent=TABLES.length+' activas';
+  const { isPeak, isQuiet, demand, hour } = getLobbyDemand();
+
+  // Actualizar contador con indicador de demanda
+  const demandLabel = isPeak ? '🔴 PICO' : isQuiet ? '🔵 Baja demanda' : '🟡 Normal';
+  document.getElementById('lobby-ct').textContent=`${TABLES.length} activas · ${demandLabel}`;
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   const _gb2=document.getElementById('gtb-bal');if(_gb2)_gb2.textContent='$'+(G.yourBal||playerBal).toLocaleString('es-AR');
 
@@ -2521,16 +2641,16 @@ function renderLobby(){
     let bc,bt,cc,bh;
     if(t.status==='playing'){
       bc='b-play';bt='● EN JUEGO';cc='tc-hot';
-      bh=`<div class="tc-btn tcb-watch" onclick="watchTable(${t.id})">👁 Observar</div>`;
+      bh=`<div class="tc-btn tcb-watch" onclick="watchTable(${t.id})">👁 Ver la Acción</div>`;
     } else if(t.status==='full'){
       bc='b-full';bt='COMPLETA';cc='tc-full';
       bh=`<div class="tc-btn tcb-dis">Mesa Llena</div>`;
     } else if(t.status==='filling'){
-      bc='b-fill';bt=`⚡ FALTA${free>1?'N':''} ${free}`;cc='tc-fill';
-      bh=`<div class="tc-btn tcb-join" onclick="tryJoin(${t.id})">✦ Unirse Ahora</div>`;
+      bc='b-fill';bt=`🔥 ¡CASI LLENA! FALTA${free>1?'N':''} ${free}`;cc='tc-fill';
+      bh=`<div class="tc-btn tcb-join" onclick="tryJoin(${t.id})">⚡ ¡Entrar Ahora!</div>`;
     } else {
       bc='b-open';bt='ABIERTA';cc='tc-open';
-      bh=`<div class="tc-btn tcb-join" onclick="tryJoin(${t.id})">✦ Unirse</div>`;
+      bh=`<div class="tc-btn tcb-join" onclick="tryJoin(${t.id})">✦ Quiero Este Pozo</div>`;
     }
 
     const pc=t.status==='playing'?'#e74c3c':t.status==='filling'?'#f5d060':'#2ecc71';
@@ -2546,7 +2666,7 @@ function renderLobby(){
       avh+=`<div class="tc-av" style="background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);font-size:8px;color:rgba(255,255,255,.45);font-family:'Cinzel',serif">+${t.players.length-5}</div>`;
     }
 
-    const urgencyH=t.urgencyTimer?`<div class="tc-urgency">⌛ ${t.urgencyTimer}s restantes</div>`:'';
+    const urgencyH=t.urgencyTimer?`<div class="tc-urgency">⏳ ¡Solo ${t.urgencyTimer}s para entrar!</div>`:'';
 
     const d=document.createElement('div');
     d.className=`tcard ${cc}`;
@@ -2558,7 +2678,7 @@ function renderLobby(){
       </div>
       <div class="tc-hero">
         <div class="tc-pot-area">
-          <div class="tc-pot-label">Pozo acumulado</div>
+          <div class="tc-pot-label">💰 Pozo para llevarte</div>
           <div class="tc-pot-amount ${potClass}">$${t.pot.toLocaleString('es-AR')}</div>
           ${urgencyH}
         </div>
@@ -2584,8 +2704,8 @@ function renderLobby(){
         </div>
         <div class="tcs-divider"></div>
         <div class="tcs">
-          <div class="tcs-l">Libres</div>
-          <div class="tcs-v ${free>0?'green':'red'}">${free>0?free:'0'}</div>
+          <div class="tcs-l">Tu lugar</div>
+          <div class="tcs-v ${free>0?'green':'red'}">${free>0?free:'LLENA'}</div>
         </div>
       </div>
       <div class="tc-btns">${bh}</div>
@@ -2927,17 +3047,17 @@ async function dealHand(){
   if(G.pot<=1000&&G.pot>0){
     // Pozo pequeño — empujar a vaciarlo antes que los bots
     const smallMsgs=[
-      `🎯 ¡Pozo de $${G.pot.toLocaleString('es-AR')}! Apostá todo y terminá la ronda.`,
-      `⚡ $${G.pot.toLocaleString('es-AR')} en el pozo — fácil de ganar si apostás el total.`,
-      `💸 Pozo chico: $${G.pot.toLocaleString('es-AR')}. Los bots ya lo están mirando. ¡Actuá!`
+      `🎯 ¡Pozo de $${G.pot.toLocaleString('es-AR')}! ¡Apostá todo y sé el que se lo lleva!`,
+      `⚡ ¡$${G.pot.toLocaleString('es-AR')} esperándote! Apostá el total antes de que llegue la intermedia.`,
+      `💸 Pozo chico pero tuyo: $${G.pot.toLocaleString('es-AR')}. ¡Los bots ya lo están mirando!`
     ];
     setMsg(smallMsgs[G.hand%smallMsgs.length],'info');
   } else if(G.pot>=40000){
     const bigMsgs=[
-      `🔥 $${G.pot.toLocaleString('es-AR')} en el pozo — la mesa está al rojo vivo.`,
-      `💰 $${G.pot.toLocaleString('es-AR')} acumulados. Alguien se lo lleva esta ronda. ¿Vas a ser vos?`,
-      `⚡ Pozo histórico: $${G.pot.toLocaleString('es-AR')}. Cada apuesta importa.`,
-      `🏆 $${G.pot.toLocaleString('es-AR')} esperándote. Apostá fuerte y cambiá el juego.`
+      `🔥 $${G.pot.toLocaleString('es-AR')} en el pozo — la mesa está al ROJO VIVO. ¿Quién se anima?`,
+      `💰 $${G.pot.toLocaleString('es-AR')} acumulados esperando dueño. Esta mano puede cambiar tu noche.`,
+      `⚡ POZO MONSTRUOSO: $${G.pot.toLocaleString('es-AR')}. Apostá fuerte — el riesgo vale el premio.`,
+      `🏆 $${G.pot.toLocaleString('es-AR')} están en juego AHORA. ¡Esta es la mano que cambia todo!`
     ];
     setMsg(bigMsgs[G.hand%bigMsgs.length],'info');
   } else {
@@ -2967,26 +3087,26 @@ async function dealHand(){
       const potSmall=G.pot<=1000&&G.pot>0;
       const turnMsgs=potSmall?
         // Pozo pequeño — urgencia de vaciarlo antes que un bot
-        [`⚠ El pozo tiene $${G.pot.toLocaleString('es-AR')} — ¡apostá el pozo y llevátelo!`,
-         `💥 $${G.pot.toLocaleString('es-AR')} esperándote. Apostá todo y vacía la mesa.`,
-         `🎯 Pozo chico, fácil de ganar. ¡Apostá $${G.pot.toLocaleString('es-AR')} y terminá la mano!`]:
+        [`⚠ ¡El pozo tiene $${G.pot.toLocaleString('es-AR')}! Apostá TODO y llevátelo antes que ellos.`,
+         `💥 $${G.pot.toLocaleString('es-AR')} sobre la mesa. ¡Una apuesta valiente y es tuyo!`,
+         `🎯 Pozo chico, decisión fácil. ¡Apostá $${G.pot.toLocaleString('es-AR')} y cerrá la mano!`]:
         potBig?
-        [`⚡ POZO $${G.pot.toLocaleString('es-AR')} — ¡Rango amplio! Esta es tu chance. ${BET_TIMER}s.`,
-         `🔥 $${G.pot.toLocaleString('es-AR')} en juego. Cuanto más apostás, más ganás. ${BET_TIMER}s.`,
-         `💎 El pozo está maduro. Apostá fuerte — quedan ${BET_TIMER}s.`,
-         `🚀 Con este rango y este pozo no hay excusas. ¡Adentro! ${BET_TIMER}s.`]:
+        [`⚡ ¡POZO $${G.pot.toLocaleString('es-AR')}! El rango está amplio... la carta puede entrar. ¡${BET_TIMER}s!`,
+         `🔥 $${G.pot.toLocaleString('es-AR')} esperándote. Cuanto más apostás, más te llevás. ¡${BET_TIMER}s!`,
+         `💎 El pozo está gordo y maduro. ¿Vas a dejar que un bot se lo lleve? ¡${BET_TIMER}s!`,
+         `🚀 Este es el momento. Este es el pozo. Esta es TU carta. ¡${BET_TIMER}s!`]:
         G.streak>0?
-        [`🎯 ¡Racha ganadora! La suerte sigue — apostá más y multiplicá. ${BET_TIMER}s.`,
-         `🔥 En racha. Momento de subir la apuesta. ${BET_TIMER}s.`,
-         `💪 Estás caliente — aprovechá y apostá fuerte. ${BET_TIMER}s.`]:
+        [`🎯 ¡Racha ganadora! La energía está de tu lado — subí la apuesta y multiplicá. ${BET_TIMER}s.`,
+         `🔥 ¡Estás en llamas! Ahora es cuando se dobla la apuesta. ${BET_TIMER}s.`,
+         `💪 ¡La mesa te respeta! Aprovechá la racha y apostá con todo. ${BET_TIMER}s.`]:
         G.streak<-1?
-        [`😤 La revancha está en tus manos. Apostá más y recuperá lo perdido. ${BET_TIMER}s.`,
-         `💭 Una buena apuesta cambia la historia. Pozo: $${G.pot.toLocaleString('es-AR')} — ${BET_TIMER}s.`,
-         `🎲 La próxima es tuya — apostá con confianza. ${BET_TIMER}s.`]:
-        [`¡Tu turno! ${betSugg} — Tenés ${BET_TIMER}s`,
-         `La carta espera. Pozo: $${G.pot.toLocaleString('es-AR')} — ${BET_TIMER}s`,
-         `¿Apostás más y ganás más? Pozo: $${G.pot.toLocaleString('es-AR')} — ${BET_TIMER}s`,
-         `Confiá en el rango. Apostá y revelá. ${BET_TIMER}s.`];
+        [`😤 La revancha llega. Una apuesta fuerte y lo recuperás todo de una. ${BET_TIMER}s.`,
+         `💭 El pozo acumula lo que perdiste y más. ¡Es tuyo si te animás! ${BET_TIMER}s.`,
+         `🎲 La intermedia está por caer a tu favor — apostá con convicción. ${BET_TIMER}s.`]:
+        [`🃏 Las cartas están reveladas. El destino es tuyo en los próximos ${BET_TIMER}s.`,
+         `💫 El pozo espera: $${G.pot.toLocaleString('es-AR')}. ¿Cuánto te animás? ${BET_TIMER}s.`,
+         `⚡ ¿Confiás en el rango? ¡Apostá fuerte y mirá la intermedia caer! ${BET_TIMER}s.`,
+         `🎰 El corazón del juego late ahora mismo. Tu apuesta, tu destino. ${BET_TIMER}s.`];
       setMsg(turnMsgs[G.hand%turnMsgs.length],'info');
       startCD(BET_TIMER);
       G.autoRevealTimer=setTimeout(()=>{if(G.phase==='your-turn')confirmBet();},BET_TIMER*1000);
@@ -3167,7 +3287,7 @@ function runCPUs(idxs,pos,done){
     const trapMsgs=['Rango cerrado, pozo tentador...','Poco margen pero el pozo llama.','Difícil decisión...'];
     preComment = trapMsgs[Math.floor(Math.random()*trapMsgs.length)];
   } else {
-    const chatKey=mySpread>=5?'big':mySpread<=1?'small':'think';
+    const chatKey=mySpread>=5?'thinkBig':mySpread<=1?'thinkSmall':'think';
     preComment = rc(p, chatKey==='think'?'think':chatKey);
   }
 
@@ -3212,7 +3332,7 @@ function runCPUs(idxs,pos,done){
     botMaybeProactiveReload(p,i);
     p.bet=bet; p.bal-=bet;
     updHUD(); updPot();
-    setTimeout(()=>{showBubble(i,rc(p,'bet'),1800);addChatFeed(p,rc(p,'bet'));},100);
+    setTimeout(()=>{const bm=rcSmart(p,'bet');showBubble(i,bm,1800);addChatFeed(p,bm);},100);
 
     // Carta del bot — si es ganador forzado, asegurar carta ganadora
     let c3;
@@ -3294,29 +3414,34 @@ function runCPUs(idxs,pos,done){
     const reactKey=res==='win'?'win':'lose';
     const emoji=p.reacts?p.reacts[reactKey]:'';
 
+    // Trackear rachas del bot para reacciones más naturales
+    if(res==='win'){p._winStreak=(p._winStreak||0)+1;p._consecutiveLosses=0;}
+    else{p._consecutiveLosses=(p._consecutiveLosses||0)+1;p._winStreak=0;}
+
     // Calcular comentario contextual
     let reaction;
     if(res==='win'){
       if(isForcedWinner||G.pot<=MIN_BET*3){
-        // Va a ganar el pozo o lo acaba de limpiar
         const sweepMsgs=['¡Eso era mío!','¡El pozo es mío!','¡Limpio!','¡Sabía que iba!'];
         reaction = sweepMsgs[Math.floor(Math.random()*sweepMsgs.length)];
       } else if(bet>=1000 && Math.random()<0.5){
-        const bigWinMsgs=['¡Eso sí que duele al pozo!','¡Buen billete!','¡Sacando lo mío!'];
+        const bigWinMsgs=['¡Eso sí que duele al pozo!','¡Buen billete!','¡Sacando lo mío!','¡Ahí está la plata!'];
         reaction = bigWinMsgs[Math.floor(Math.random()*bigWinMsgs.length)];
       } else if(G.pot>=15000 && Math.random()<0.45){
-        const bigPotWinMsgs=['El pozo sigue gordo...','Sigo en la pelea.','Hay más para sacar.'];
+        const bigPotWinMsgs=['El pozo sigue gordo...','Sigo en la pelea.','Hay más para sacar.','¡Y sigue!'];
         reaction = bigPotWinMsgs[Math.floor(Math.random()*bigPotWinMsgs.length)];
       } else {
-        reaction = rc(p,'win');
+        reaction = rcSmart(p,'win');
       }
     } else {
-      // Pérdida
       if(bet>=500 && Math.random()<0.4){
-        const bigLossMsgs=['Me costó esa...','Ahí fue el dinero.','Eso duele.','Mala suerte.'];
+        const bigLossMsgs=['Me costó esa...','Ahí fue el dinero.','Eso duele.','Mala suerte.','¡Qué carta!'];
         reaction = bigLossMsgs[Math.floor(Math.random()*bigLossMsgs.length)];
+      } else if((p._consecutiveLosses||0)>=3 && Math.random()<0.6){
+        const streakLossMsgs=['Hoy no es mi día...','¿Qué le pasa a esta mesa?','La racha tiene que cambiar.','Voy a recargar si sigo así.'];
+        reaction = streakLossMsgs[Math.floor(Math.random()*streakLossMsgs.length)];
       } else {
-        reaction = rc(p,'lose');
+        reaction = rcSmart(p,'lose');
       }
     }
 
@@ -3346,11 +3471,7 @@ function addBet(n){
   const m=Math.min(G.yourBal,G.pot);
   G.bet=Math.min(G.bet+n,m);
   if(G.bet>0&&G.bet<MIN_BET)G.bet=Math.min(MIN_BET,m);
-  const bdv=document.getElementById('bdv');
-  bdv.textContent='$'+G.bet.toLocaleString('es-AR');
-  bdv.style.transform='scale(1.15)';
-  setTimeout(()=>bdv.style.transform='scale(1)',150);
-  bdv.style.transition='transform .15s cubic-bezier(.34,1.56,.64,1)';
+  document.getElementById('bdv').textContent='$'+G.bet.toLocaleString('es-AR');
   resetCD();
 }
 function goAllIn(){if(G.phase!=='your-turn')return;clearTimeout(G.autoRevealTimer);G.bet=Math.min(G.yourBal,G.pot);document.getElementById('bdv').textContent='$'+G.bet.toLocaleString('es-AR');resetCD();}
@@ -3995,31 +4116,14 @@ function spawnParticles(n){
 }
 function spawnCoins(){
   const app=document.getElementById('app');
-  const coins=['⚽','🏆','🥇','💰','🌟','⭐','🪙','✨'];
-  for(let i=0;i<10;i++){
+  const coins=['💰','🪙','✨','💎','⭐'];
+  for(let i=0;i<8;i++){
     const c=document.createElement('div');c.className='coin-f';
     c.textContent=coins[Math.floor(Math.random()*coins.length)];
-    c.style.cssText=`left:${15+Math.random()*70}%;top:${25+Math.random()*40}%;animation-delay:${Math.random()*.4}s;font-size:${14+Math.random()*10}px`;
-    app.appendChild(c);setTimeout(()=>c.remove(),1400);
+    c.style.cssText=`left:${20+Math.random()*60}%;top:${30+Math.random()*35}%;animation-delay:${Math.random()*.35}s`;
+    app.appendChild(c);setTimeout(()=>c.remove(),1200);
   }
 }
-
-// ══ RIPPLE EFFECT ════════════════════════════════════════════════
-function addRipple(el,e){
-  const r=document.createElement('span');
-  r.className='ripple';
-  const rect=el.getBoundingClientRect();
-  const size=Math.max(rect.width,rect.height);
-  const x=(e.clientX||rect.left+rect.width/2)-rect.left-size/2;
-  const y=(e.clientY||rect.top+rect.height/2)-rect.top-size/2;
-  r.style.cssText=`width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
-  el.style.position='relative';el.style.overflow='hidden';
-  el.appendChild(r);setTimeout(()=>r.remove(),600);
-}
-document.addEventListener('click',e=>{
-  const t=e.target.closest('.tc-btn,.abtn,.mbt,.pct-btn,.ebtn,.idle-btn');
-  if(t)addRipple(t,e);
-});
 
 // ══ INIT ═════════════════════════════════════════════════════════
 // Vibración en chips (si el navegador soporta)
@@ -4482,16 +4586,27 @@ async function doRegister(){
     const c2=genCredentials(baseForCreds);creds.username=c2.username;creds.password=c2.password;attempts++;
   }
 
+  const dbAlias = alias || creds.username;
   PROFILE={
-    name, alias, cbu, phone, provincia, localidad, avatar:'🎭',
+    name, alias:dbAlias, cbu, phone, provincia, localidad, avatar:'🎭',
     username:creds.username, password:creds.password,
     totalDeposited:0, totalWithdrawn:0, totalHands:0,
     bal:saldo, created:new Date().toLocaleDateString('es-AR')
   };
   playerBal=saldo;
   SESSION=creds.username;
-  PROFILE.userId=await registerWithSupabase(PROFILE,creds.password);
-  saveProfile();
+  err.style.display='none';
+  try{
+    PROFILE.userId=await registerWithSupabase(PROFILE,creds.password);
+    saveProfile();
+  }catch(e){
+    SESSION=null;
+    PROFILE={name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''};
+    playerBal=0;
+    err.style.display='block';
+    err.textContent=e.message||'No se pudo completar el registro. Probá nuevamente.';
+    return;
+  }
 
   // Mostrar credenciales generadas
   showCredentialsModal(creds.username, creds.password, ()=>{enterLobby();setTimeout(()=>promptInitialReload(),450);});
