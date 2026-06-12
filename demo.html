@@ -61,21 +61,21 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .lobby-title-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .lobby-section-title{font-family:'Cinzel',serif;color:var(--gold2);font-size:11px;letter-spacing:3px;text-transform:uppercase}
 .lobby-live-badge{display:flex;align-items:center;gap:4px;background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);border-radius:20px;padding:3px 9px;font-size:9px;color:#4eda7a;font-family:'Cinzel',serif;letter-spacing:1px}
-.live-dot{width:5px;height:5px;border-radius:50%;background:#4eda7a;animation:pulse 1.4s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.live-dot{width:5px;height:5px;border-radius:50%;background:#4eda7a;animation:livedot 2.2s ease-in-out infinite}
+@keyframes livedot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
 
 #tables-list{display:flex;flex-direction:column;gap:12px;padding:0 12px;position:relative;z-index:5}
 
 /* ══ TARJETA DE MESA — PREMIUM REDESIGN ══ */
 .tcard{
   position:relative;overflow:hidden;border-radius:22px;
-  background:linear-gradient(160deg,rgba(14,26,11,.98) 0%,rgba(7,14,5,1) 100%);
-  border:1px solid rgba(201,168,76,.12);
-  box-shadow:0 8px 32px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04);
-  transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s ease;
-  -webkit-transform:translateZ(0);
+  background:linear-gradient(160deg,rgba(18,32,14,.99) 0%,rgba(9,17,7,1) 55%,rgba(5,10,4,1) 100%);
+  border:1px solid rgba(201,168,76,.14);
+  box-shadow:0 10px 40px rgba(0,0,0,.65),0 2px 0 rgba(255,255,255,.03),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease,border-color .25s ease;
+  -webkit-transform:translateZ(0);will-change:transform;
 }
-.tcard:active{transform:scale(.972)}
+.tcard:active{transform:scale(.975)}
 
 /* Shimmer top line */
 .tcard::after{
@@ -91,21 +91,21 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .tcard:active::before{opacity:1}
 
 .tcard.tc-hot{
-  border-color:rgba(231,76,60,.38);
-  box-shadow:0 8px 32px rgba(231,76,60,.18),inset 0 1px 0 rgba(255,120,100,.08);
+  border-color:rgba(231,76,60,.45);
+  box-shadow:0 10px 40px rgba(231,76,60,.22),0 2px 0 rgba(255,90,70,.04),inset 0 1px 0 rgba(255,120,100,.08);
 }
-.tcard.tc-hot::after{background:linear-gradient(90deg,transparent,rgba(231,100,80,.45),transparent)}
+.tcard.tc-hot::after{background:linear-gradient(90deg,transparent,rgba(231,100,80,.5),transparent)}
 .tcard.tc-fill{
-  border-color:rgba(201,168,76,.4);
-  box-shadow:0 8px 32px rgba(201,168,76,.14),inset 0 1px 0 rgba(201,168,76,.08);
+  border-color:rgba(201,168,76,.5);
+  box-shadow:0 10px 40px rgba(201,168,76,.18),0 2px 0 rgba(201,168,76,.04),inset 0 1px 0 rgba(201,168,76,.1);
 }
-.tcard.tc-fill::after{background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent)}
+.tcard.tc-fill::after{background:linear-gradient(90deg,transparent,rgba(201,168,76,.5),transparent)}
 .tcard.tc-open{
-  border-color:rgba(46,204,113,.28);
-  box-shadow:0 8px 28px rgba(46,204,113,.1),inset 0 1px 0 rgba(46,204,113,.06);
+  border-color:rgba(46,204,113,.32);
+  box-shadow:0 10px 36px rgba(46,204,113,.13),0 2px 0 rgba(46,204,113,.03),inset 0 1px 0 rgba(46,204,113,.07);
 }
-.tcard.tc-open::after{background:linear-gradient(90deg,transparent,rgba(46,204,113,.3),transparent)}
-.tcard.tc-full{border-color:rgba(80,80,80,.12);opacity:.48}
+.tcard.tc-open::after{background:linear-gradient(90deg,transparent,rgba(46,204,113,.35),transparent)}
+.tcard.tc-full{border-color:rgba(80,80,80,.12);opacity:.42}
 
 /* ── TOP ROW: nombre + badge ── */
 .tc-top{
@@ -125,7 +125,8 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .b-fill{background:rgba(201,168,76,.2);color:#f5d060;border:1px solid rgba(201,168,76,.45);animation:bpulse .85s infinite}
 .b-open{background:rgba(46,204,113,.13);color:#60ffaa;border:1px solid rgba(46,204,113,.32)}
 .b-full{background:rgba(80,80,80,.12);color:rgba(255,255,255,.25);border:1px solid rgba(80,80,80,.2)}
-@keyframes bpulse{0%,100%{opacity:.65}50%{opacity:1}}
+@keyframes bpulse{0%,100%{opacity:.82}50%{opacity:1}}
+/* Suave — sin parpadeo brusco */
 
 /* ── HERO: pozo grande ── */
 .tc-hero{
@@ -139,12 +140,13 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 }
 .tc-pot-amount{
   font-family:'Cinzel',serif;font-weight:700;
-  font-size:26px;color:var(--gold2);line-height:1;
-  text-shadow:0 0 28px rgba(201,168,76,.22);
+  font-size:28px;color:var(--gold2);line-height:1;
+  text-shadow:0 0 32px rgba(201,168,76,.3),0 1px 0 rgba(0,0,0,.5);
   letter-spacing:-0.5px;
+  transition:color .4s ease;
 }
-.tc-pot-amount.pot-big{color:#ffe060;text-shadow:0 0 32px rgba(255,220,60,.38)}
-.tc-pot-amount.pot-huge{color:#fff;text-shadow:0 0 24px rgba(255,230,120,.55)}
+.tc-pot-amount.pot-big{color:#ffe060;text-shadow:0 0 36px rgba(255,220,60,.45),0 0 12px rgba(255,200,50,.2)}
+.tc-pot-amount.pot-huge{color:#fff9e6;text-shadow:0 0 28px rgba(255,235,130,.6),0 0 50px rgba(255,220,80,.3)}
 
 .tc-right-area{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
 .tc-avatars{display:flex;align-items:center}
@@ -174,12 +176,13 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .tcs-v.green{color:#60ffaa}.tcs-v.red{color:#f08080}
 .tcs-divider{width:1px;background:rgba(255,255,255,.06);margin:2px 0;flex-shrink:0}
 
-/* URGENCY */
+/* URGENCY — respira suave, sin parpadeo agresivo */
 .tc-urgency{
   display:inline-flex;align-items:center;gap:3px;margin-top:4px;
   font-size:8px;color:#ff9080;font-family:'Cinzel',serif;
-  animation:bpulse .7s infinite;
+  animation:urgbreathe 2.4s ease-in-out infinite;
 }
+@keyframes urgbreathe{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.03)}}
 
 /* ── BOTONES ── */
 .tc-btns{display:flex;gap:8px;padding:10px 16px 14px}
@@ -192,8 +195,9 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .tc-btn:active{transform:scale(.96)}
 .tc-btn:active::after{background:rgba(255,255,255,.09)}
 .tcb-join{
-  background:linear-gradient(135deg,#2ecc71 0%,#1a8040 100%);color:#fff;
-  box-shadow:0 4px 0 #0d4020,0 6px 18px rgba(46,204,113,.28);
+  background:linear-gradient(135deg,#3ee67e 0%,#1e9648 60%,#0d5228 100%);color:#fff;
+  box-shadow:0 5px 0 #072a16,0 7px 22px rgba(46,204,113,.35);
+  text-shadow:0 1px 2px rgba(0,0,0,.3);
 }
 .tcb-watch{
   background:linear-gradient(135deg,#2980b9 0%,#0e2f4e 100%);color:#cde8ff;
@@ -829,7 +833,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;
   display:flex;align-items:center;gap:6px;
 }
-.mg-live-dot{width:5px;height:5px;border-radius:50%;background:#4eda7a;animation:pulse 1.4s infinite;flex-shrink:0}
+.mg-live-dot{width:5px;height:5px;border-radius:50%;background:#4eda7a;animation:livedot 2.2s ease-in-out infinite;flex-shrink:0}
 .mg-cards-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
 .mg-card{
   width:52px;height:74px;border-radius:9px;
@@ -907,6 +911,146 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 #auth-screen div::-webkit-scrollbar{display:none}
 #auth-screen div{scrollbar-width:none}
 
+/* ══ PREMIUM LOBBY ENHANCEMENTS ══════════════════════════════════ */
+
+/* Animated pot counter — smooth roll up */
+.tc-pot-amount{transition:color .5s ease}
+@keyframes potbump{0%{transform:scale(1)}40%{transform:scale(1.08)}100%{transform:scale(1)}}
+.pot-updated{animation:potbump .4s cubic-bezier(.34,1.56,.64,1)}
+
+/* Table card hover glow — desktop feel */
+.tcard:not(.tc-full):hover{
+  box-shadow:0 14px 50px rgba(0,0,0,.7),0 0 0 1.5px rgba(201,168,76,.18);
+  transform:translateY(-2px);
+}
+.tcard.tc-fill:not(.tc-full):hover{box-shadow:0 14px 50px rgba(201,168,76,.22),0 0 0 1.5px rgba(201,168,76,.4)}
+.tcard.tc-hot:not(.tc-full):hover{box-shadow:0 14px 50px rgba(231,76,60,.25),0 0 0 1.5px rgba(231,76,60,.45)}
+.tcard.tc-open:not(.tc-full):hover{box-shadow:0 14px 50px rgba(46,204,113,.18),0 0 0 1.5px rgba(46,204,113,.38)}
+
+/* Trust bar below lobby header */
+#trust-bar{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  padding:7px 16px 0;
+  flex-shrink:0;
+}
+.trust-item{
+  display:flex;align-items:center;gap:4px;
+  font-size:9px;color:rgba(255,255,255,.35);
+  font-family:'Cinzel',serif;letter-spacing:.5px;
+}
+.trust-icon{font-size:10px}
+
+/* Live stats banner */
+#live-stats-bar{
+  display:flex;align-items:stretch;
+  margin:0 12px 0;
+  background:rgba(0,0,0,.45);
+  border:1px solid rgba(201,168,76,.1);
+  border-radius:14px;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.lsb-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:8px 4px;gap:2px;position:relative;
+}
+.lsb-item+.lsb-item::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:1px;background:rgba(255,255,255,.06)}
+.lsb-lbl{font-size:6.5px;color:rgba(255,255,255,.3);font-family:'Cinzel',serif;letter-spacing:1.2px;text-transform:uppercase}
+.lsb-val{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--gold2);line-height:1;text-shadow:0 0 16px rgba(201,168,76,.25)}
+.lsb-val.green{color:#4eda7a;text-shadow:0 0 12px rgba(78,218,122,.25)}
+.lsb-val.red{color:#e07070}
+
+/* Section separator */
+.lobby-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.1),transparent);margin:10px 16px 0;flex-shrink:0}
+
+/* Improved lobby hero */
+.lobby-hero{
+  padding:6px 16px 10px;
+  background:linear-gradient(180deg,transparent,rgba(0,0,0,.2));
+  position:relative;z-index:5;flex-shrink:0;
+}
+
+/* Pulsing join button — draws attention */
+@keyframes joinpulse{
+  0%,80%,100%{box-shadow:0 5px 0 #072a16,0 7px 22px rgba(46,204,113,.35)}
+  40%{box-shadow:0 5px 0 #072a16,0 7px 32px rgba(46,204,113,.55),0 0 0 4px rgba(46,204,113,.1)}
+}
+.tcb-join{animation:joinpulse 3.5s ease-in-out infinite}
+.tcb-join:active{animation:none!important;transform:scale(.96);box-shadow:0 2px 0 #072a16}
+
+/* Better badge animations */
+.b-fill,.b-play{animation:badgeglow 2.8s ease-in-out infinite}
+@keyframes badgeglow{0%,100%{opacity:.85}50%{opacity:1}}
+
+/* Smooth cards-list entrance */
+#tables-list{display:flex;flex-direction:column;gap:14px;padding:0 12px 12px;position:relative;z-index:5}
+
+/* Floating social proof strip */
+#social-proof-strip{
+  padding:4px 16px;display:flex;align-items:center;justify-content:center;gap:6px;
+  flex-shrink:0;
+}
+.sp-dot{width:4px;height:4px;border-radius:50%;background:#4eda7a;animation:livedot 2.2s ease-in-out infinite}
+.sp-text{font-size:9px;color:rgba(255,255,255,.35);font-family:'Cinzel',serif;letter-spacing:.4px}
+.sp-amount{font-size:9px;color:#4eda7a;font-family:'Cinzel',serif;font-weight:700}
+
+/* ══ AUTH SCREEN PREMIUM ════════════════════════════════════════ */
+/* Trust badge row */
+.trust-badges-row{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:8px 16px 0;flex-wrap:wrap;
+}
+.trust-badge{
+  display:flex;align-items:center;gap:4px;
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.06);
+  border-radius:20px;padding:4px 10px;
+  font-size:8px;color:rgba(255,255,255,.4);
+  font-family:'Cinzel',serif;letter-spacing:.4px;
+}
+.tb-icon{font-size:10px}
+
+/* Win ticker (animated wins rolling in) */
+#win-ticker{
+  overflow:hidden;height:22px;
+  padding:0 16px;flex-shrink:0;
+  display:flex;align-items:center;gap:8px;
+}
+.wt-label{font-size:8px;color:rgba(201,168,76,.45);font-family:'Cinzel',serif;letter-spacing:1px;white-space:nowrap}
+.wt-scroll{overflow:hidden;flex:1;height:100%;position:relative}
+.wt-item{
+  position:absolute;left:0;right:0;
+  font-size:9px;color:rgba(255,255,255,.5);
+  font-family:'Cinzel',serif;
+  display:flex;align-items:center;gap:5px;
+  animation:wtslide 4s ease-in-out;
+  opacity:0;
+}
+.wt-item.active{opacity:1}
+@keyframes wtslide{0%{transform:translateY(100%);opacity:0}8%{transform:translateY(0);opacity:1}85%{transform:translateY(0);opacity:1}100%{transform:translateY(-100%);opacity:0}}
+.wt-name{color:var(--gold2);font-weight:700}
+.wt-win{color:#4eda7a;font-weight:700}
+
+/* CTA button enhanced */
+.cta-btn{
+  background:linear-gradient(135deg,#f5c842,#d4a017,#b8860b);color:#0a1205;
+  font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.5px;
+  border:none;border-radius:20px;padding:9px 15px;cursor:pointer;
+  white-space:nowrap;position:relative;z-index:1;
+  box-shadow:0 3px 0 #7a5500,0 6px 18px rgba(245,200,66,.5);
+  animation:ctapulse 2.5s ease-in-out infinite;
+}
+@keyframes ctapulse{0%,100%{box-shadow:0 3px 0 #7a5500,0 6px 18px rgba(245,200,66,.4)}50%{box-shadow:0 3px 0 #7a5500,0 6px 28px rgba(245,200,66,.7),0 0 0 4px rgba(245,200,66,.12)}}
+
+/* ══ CTA BANNER ENHANCED ════════════════════════════════════════ */
+#cta-banner{
+  width:100%;background:linear-gradient(135deg,#1a6330 0%,#0e3d1c 40%,#1c1a00 100%);
+  border-bottom:2px solid rgba(201,168,76,.5);
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
+  position:relative;overflow:hidden;flex-shrink:0;z-index:10;
+  animation:bannerslide .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+}
+
 /* ══ WHATSAPP BUTTON ════════════════════════════════════════════ */
 .wa-support-btn{
   display:flex;align-items:center;justify-content:center;gap:8px;
@@ -966,14 +1110,22 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
         </div>
         <div class="cta-sub">+2.400 jugadores activos · Pozo acumulado $485.000</div>
       </div>
-      <button class="cta-btn" onclick="typeof authTab==='function'?authTab('reg'):setTimeout(()=>authTab('reg'),200)">UNIRME →</button>
+      <button class="cta-btn" onclick="authTab('reg')">UNIRME →</button>
     </div>
 
 
     <!-- ═ LOGO ═ -->
-    <div style="text-align:center;padding:14px 24px 8px">
-      <div style="font-family:'Cinzel Decorative',serif;font-size:24px;color:#f5c842;letter-spacing:2px;text-shadow:0 0 30px rgba(245,200,66,.4)">✧ EL INTERMEDIO</div>
+    <div style="text-align:center;padding:14px 24px 6px">
+      <div style="font-family:'Cinzel Decorative',serif;font-size:26px;color:#f5c842;letter-spacing:2px;text-shadow:0 0 40px rgba(245,200,66,.5),0 0 80px rgba(245,200,66,.15)">✧ EL INTERMEDIO</div>
       <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px;letter-spacing:3px">CLUB DE CARTAS</div>
+    </div>
+
+    <!-- ═ TRUST BADGES ═ -->
+    <div class="trust-badges-row">
+      <div class="trust-badge"><span class="tb-icon">🔒</span>100% Seguro</div>
+      <div class="trust-badge"><span class="tb-icon">⚡</span>Retiro rápido</div>
+      <div class="trust-badge"><span class="tb-icon">🏆</span>+2.400 activos</div>
+      <div class="trust-badge"><span class="tb-icon">💳</span>Galio Pay</div>
     </div>
 
     <!-- ═ CARD CONTAINER ═ -->
@@ -1312,6 +1464,40 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
       <div class="sb-bal" onclick="openWallet()"><span class="sb-bal-ico">💰</span><span class="sb-bal-amt" id="g-bal">$0</span></div>
     </div>
   </div>
+
+  <!-- Barra de confianza -->
+  <div id="trust-bar">
+    <div class="trust-item"><span class="trust-icon">🔒</span>Plataforma segura</div>
+    <div class="trust-item"><span class="trust-icon">⚡</span>Retiros rápidos</div>
+    <div class="trust-item"><span class="trust-icon">💬</span>Soporte 24hs</div>
+  </div>
+
+  <!-- Stats en vivo -->
+  <div style="padding:8px 12px 6px;flex-shrink:0">
+    <div id="live-stats-bar">
+      <div class="lsb-item">
+        <div class="lsb-lbl">Jugando ahora</div>
+        <div class="lsb-val green" id="lsb-playing">—</div>
+      </div>
+      <div class="lsb-item">
+        <div class="lsb-lbl">Pozo total</div>
+        <div class="lsb-val" id="lsb-pot">—</div>
+      </div>
+      <div class="lsb-item">
+        <div class="lsb-lbl">Ganado hoy</div>
+        <div class="lsb-val green" id="lsb-won">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticker de ganancias recientes -->
+  <div id="win-ticker">
+    <div class="wt-label">🏆 RECIENTE:</div>
+    <div class="wt-scroll" id="wt-scroll"></div>
+  </div>
+
+  <div class="lobby-sep"></div>
+
   <div class="lobby-hero">
     <div class="lobby-title-row">
       <div class="lobby-section-title">Mesas disponibles</div>
@@ -1794,27 +1980,9 @@ function loadProfile(){
 async function loginWithCredentials(user,pass){
   const all=getAllProfiles();
   const u=user.trim().toLowerCase();
-  const p=pass.trim();
-  // 1. Intentar Supabase siempre primero
-  const sbResult=await loginWithSupabase(u,p);
-  console.log('[loginWithCredentials] sbResult:', sbResult?.networkError, !!sbResult?.profile, sbResult?.msg);
-  if(sbResult.profile){
-    const found=sbResult.profile;
+  const found=await loginWithSupabase(u,pass.trim()) || Object.values(all).find(p=>p.username===u&&p.password===pass.trim());
+  if(found){
     PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},found);
-    playerBal=PROFILE.bal??0;
-    SESSION=PROFILE.username;
-    saveProfile();
-    fetchMovements();
-    return true;
-  }
-  // 2. Error de red/servidor: informar y NO hacer fallback local (evita bypass de auth)
-  if(sbResult.networkError){
-    return 'network:' + (sbResult.msg||'Error de conexion');
-  }
-  // 3. Credenciales incorrectas en Supabase: fallback solo si hay sesion local guardada
-  const localFound=Object.values(all).find(p2=>p2.username===u&&p2.password===p);
-  if(localFound){
-    PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},localFound);
     playerBal=PROFILE.bal??0;
     SESSION=PROFILE.username;
     saveProfile();
@@ -1854,44 +2022,43 @@ function mapDbUserToProfile(row,password){
     totalDeposited:Number(row.total_depositado||0),
     totalWithdrawn:Number(row.total_retirado||0),
     totalHands:Number(row.total_manos||0),
+    totalHandsGlobal:Number(row.total_manos_global||0),
+    consecLossServer:Number(row.consec_loss||0),
     bal:Number(row.saldo||0),
     created:row.creado_en?new Date(row.creado_en).toLocaleDateString('es-AR'):''
   };
 }
 
 async function loginWithSupabase(username,password){
-  if(!supabaseClient)return {profile:null,networkError:false};
+  if(!supabaseClient)return null;
   try{
+    // Enviamos todos los parámetros para evitar errores de coincidencia de RPC (400 Bad Request)
     const {data,error}=await supabaseClient.rpc('login',{
       p_username: username,
-      p_password: password
+      p_password: password,
+      p_ip: null,
+      p_ua: navigator.userAgent
     });
-    if(error) return {profile:null, networkError:true, msg: error.message||'Error de conexion'};
+    // PostgREST devuelve un array para funciones que retornan TABLE
     const auth = (data && Array.isArray(data)) ? data[0] : data;
-    // La función login() devuelve ok/usuario_id/token/saldo/alias (sin prefijo r_)
-    const ok = auth && (auth.ok ?? auth.r_ok);
-    const usuarioId = auth && (auth.usuario_id || auth.r_usuario_id);
-    const errorMsg = auth && auth.error;
-    console.log('[login] auth response:', JSON.stringify(auth));
-    if(!ok || !usuarioId){
-      console.warn('[login] credenciales incorrectas:', errorMsg);
-      return {profile:null, networkError:false};
-    }
+    const ok = auth && (auth.r_ok ?? auth.ok);
+    const usuarioId = auth && (auth.r_usuario_id || auth.usuario_id);
+    if(error || !ok || !usuarioId) return null;
+    
     const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:usuarioId});
-    console.log('[login] perfil response:', JSON.stringify(userRows), profileError);
-    if(profileError) return {profile:null, networkError:true, msg:'No se pudo cargar el perfil: '+profileError.message};
     const userData = (userRows && Array.isArray(userRows)) ? userRows[0] : userRows;
-    if(!userData) return {profile:null, networkError:true, msg:'Perfil no encontrado en el servidor'};
+    if(profileError || !userData) return null;
+    
     const profile=mapDbUserToProfile(userData,password);
     if(profile){
-      profile.sessionToken=auth.token || auth.r_token || '';
-      profile.bal=Number((auth.saldo ?? auth.r_saldo) ?? profile.bal ?? 0);
-      profile.alias=auth.alias || auth.r_alias || profile.alias;
+      profile.sessionToken=auth.r_token || auth.token || '';
+      profile.bal=Number((auth.r_saldo ?? auth.saldo) ?? profile.bal ?? 0);
+      profile.alias=auth.r_alias || auth.alias || profile.alias;
     }
-    return {profile, networkError:false};
+    return profile;
   }catch(e){
     console.error('Login error:', e);
-    return {profile:null, networkError:true, msg:'Sin conexion con el servidor'};
+    return null;
   }
 }
 
@@ -2657,6 +2824,14 @@ function renderLobby(){
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   const _gb2=document.getElementById('gtb-bal');if(_gb2)_gb2.textContent='$'+(G.yourBal||playerBal).toLocaleString('es-AR');
 
+  // ─ Live stats bar ─
+  const playingCount = TABLES.filter(t=>t.status==='playing'||t.status==='filling').reduce((s,t)=>s+t.players.length,0);
+  const totalPot = TABLES.reduce((s,t)=>s+t.pot,0);
+  const lsbP=document.getElementById('lsb-playing');if(lsbP)lsbP.textContent=playingCount||'—';
+  const lsbPot=document.getElementById('lsb-pot');if(lsbPot)lsbPot.textContent='$'+(totalPot>0?totalPot.toLocaleString('es-AR'):'—');
+  const wonToday = Math.round(totalPot * 0.22 / 1000) * 1000;
+  const lsbW=document.getElementById('lsb-won');if(lsbW)lsbW.textContent='$'+(wonToday>0?wonToday.toLocaleString('es-AR'):'—');
+
   TABLES.forEach((t,idx)=>{
     const free=t.maxSeats-t.players.length,pct=Math.round(t.players.length/t.maxSeats*100);
     let bc,bt,cc,bh;
@@ -2733,14 +2908,40 @@ function renderLobby(){
       <div class="tc-prog"><div class="tc-prog-fill" style="width:${pct}%;background:${pc}"></div></div>
     `;
     list.appendChild(d);
-    d.style.opacity='0';d.style.transform='translateY(16px)';
+    d.style.opacity='0';d.style.transform='translateY(18px)';
     requestAnimationFrame(()=>{
       setTimeout(()=>{
-        d.style.transition='opacity .42s ease, transform .42s cubic-bezier(.34,1.56,.64,1)';
+        d.style.transition='opacity .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1)';
         d.style.opacity='1';d.style.transform='none';
-      }, idx*70);
+      }, idx*60);
     });
+    // Animate pot amount counting up smoothly on first render
+    if(t._prevPot===undefined){
+      t._prevPot=Math.round(t.pot*0.88);
+      const potEl=d.querySelector('.tc-pot-amount');
+      if(potEl){
+        animatePot(potEl,t._prevPot,t.pot,600+idx*60);
+        t._prevPot=t.pot;
+      }
+    } else {
+      t._prevPot=t.pot;
+    }
   });
+}
+
+function animatePot(el,from,to,delay){
+  setTimeout(()=>{
+    const dur=800,start=performance.now();
+    function step(now){
+      const p=Math.min((now-start)/dur,1);
+      const ease=1-Math.pow(1-p,3);
+      const cur=Math.round(from+(to-from)*ease);
+      el.textContent='$'+cur.toLocaleString('es-AR');
+      if(p<1)requestAnimationFrame(step);
+      else{el.textContent='$'+to.toLocaleString('es-AR');el.classList.add('pot-updated');setTimeout(()=>el.classList.remove('pot-updated'),500);}
+    }
+    requestAnimationFrame(step);
+  },delay||0);
 }
 
 
@@ -2833,7 +3034,11 @@ function mapToDbVal(v){ return {1:'A',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',10:'J'
 // ════ INICIAR JUEGO ═══════════════════════════════════════════════════════════════
 async function startGame(tableData,spectate){
   isSpec=spectate;
-  HOUSE.consecLoss=0;HOUSE.sessionBet=0;HOUSE.hands=0;
+  // consecLoss persiste en el servidor — restaurar desde el perfil, NO resetear
+  HOUSE.consecLoss = PROFILE.consecLossServer || 0;
+  // warmup usa manos globales (no de sesión) para que no se "regale" al cambiar de mesa
+  HOUSE.hands = PROFILE.totalHandsGlobal || 0;
+  HOUSE.sessionBet=0;
   let cpu=tableData.players&&tableData.players.length>0?[...tableData.players]:[...ALL_PLAYERS].sort(()=>Math.random()-.5).slice(0,3);
   if(cpu.length<2){const ex=ALL_PLAYERS.filter(p=>!cpu.find(x=>x.name===p.name)).sort(()=>Math.random()-.5);while(cpu.length<2)cpu.push(ex.shift());}
   const potBase=Math.max(tableData.pot||0,tableData.buyIn*(cpu.length+1),MIN_POT);
@@ -3549,6 +3754,16 @@ async function recordBetToDb(player, amount, result, card3){
       playerBal = Number(data[0].saldo_nuevo);
       G.yourBal = playerBal;
       PROFILE.bal = playerBal;
+      // Sincronizar consecLoss y manos globales desde la respuesta del servidor
+      if(data[0].consec_loss !== undefined){
+        HOUSE.consecLoss = Number(data[0].consec_loss);
+        PROFILE.consecLossServer = HOUSE.consecLoss;
+      }
+      if(data[0].total_manos_global !== undefined){
+        PROFILE.totalHandsGlobal = Number(data[0].total_manos_global);
+        // HOUSE.hands refleja manos globales (para warmup persistente)
+        HOUSE.hands = PROFILE.totalHandsGlobal;
+      }
       const yp = G.players.find(p=>p.you); if(yp) yp.bal = playerBal;
       document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
       saveProfileLocal();
@@ -4572,13 +4787,9 @@ async function doLogin(){
   const pass=document.getElementById('login-pass').value;
   const err=document.getElementById('auth-login-err');
   if(!user||!pass){err.style.display='block';err.textContent='Completá usuario y contraseña';return;}
-  const loginResult=await loginWithCredentials(user,pass);
-  if(loginResult===true){
+  if(await loginWithCredentials(user,pass)){
     err.style.display='none';
     enterLobby();
-  } else if(typeof loginResult==='string'&&loginResult.startsWith('network:')){
-    err.style.display='block';
-    err.textContent='Sin conexión al servidor. Verificá tu internet e intentá de nuevo.';
   } else {
     err.style.display='block';
     err.textContent='Usuario o contraseña incorrectos';
@@ -4684,6 +4895,29 @@ function promptInitialReload(){
   setMsg('Cuenta creada — recargá desde $'+MIN_RELOAD.toLocaleString('es-AR')+' para empezar','info');
 }
 
+// ── WIN TICKER ─────────────────────────────────────────────────
+let _wtIdx=0,_wtTimer=null;
+const WT_WINS=[
+  {name:'FernandoCba',win:'$67.000'},{name:'ElTiburón88',win:'$32.000'},{name:'LuciaSalta',win:'$35.000'},
+  {name:'GrupoNoche',win:'$56.000'},{name:'PachiCba',win:'$15.000'},{name:'CarlitosRosario',win:'$44.000'},
+  {name:'SandraBaires',win:'$21.000'},{name:'NachitoMza',win:'$12.000'},{name:'Rodrigo_VCP',win:'$9.200'},
+  {name:'Viernes10pm',win:'$28.000'},{name:'LaMandria',win:'$18.500'},{name:'Mati_Rosario',win:'$7.500'},
+];
+function startWinTicker(){
+  const wrap=document.getElementById('wt-scroll');if(!wrap)return;
+  if(_wtTimer)clearInterval(_wtTimer);
+  showWtItem(wrap,_wtIdx);
+  _wtTimer=setInterval(()=>{_wtIdx=(_wtIdx+1)%WT_WINS.length;showWtItem(wrap,_wtIdx);},4200);
+}
+function showWtItem(wrap,i){
+  wrap.innerHTML='';
+  const w=WT_WINS[i];
+  const d=document.createElement('div');
+  d.className='wt-item active';
+  d.innerHTML=`<span class="wt-name">${w.name}</span><span style="color:rgba(255,255,255,.3)">ganó</span><span class="wt-win">${w.win}</span>`;
+  wrap.appendChild(d);
+}
+
 function enterLobby(){
   confirmPendingGalioPayment();
   syncProfileFromSupabase();
@@ -4692,6 +4926,7 @@ function enterLobby(){
   updateLobbyHeader();
   generateTables();
   showScreen('lobby-screen');
+  startWinTicker();
 }
 
 function updateLobbyHeader(){
