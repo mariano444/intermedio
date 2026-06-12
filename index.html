@@ -966,7 +966,7 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
         </div>
         <div class="cta-sub">+2.400 jugadores activos · Pozo acumulado $485.000</div>
       </div>
-      <button class="cta-btn" onclick="authTab('reg')">UNIRME →</button>
+      <button class="cta-btn" onclick="typeof authTab==='function'?authTab('reg'):setTimeout(()=>authTab('reg'),200)">UNIRME →</button>
     </div>
 
 
@@ -1794,9 +1794,27 @@ function loadProfile(){
 async function loginWithCredentials(user,pass){
   const all=getAllProfiles();
   const u=user.trim().toLowerCase();
-  const found=await loginWithSupabase(u,pass.trim()) || Object.values(all).find(p=>p.username===u&&p.password===pass.trim());
-  if(found){
+  const p=pass.trim();
+  // 1. Intentar Supabase siempre primero
+  const sbResult=await loginWithSupabase(u,p);
+  console.log('[loginWithCredentials] sbResult:', sbResult?.networkError, !!sbResult?.profile, sbResult?.msg);
+  if(sbResult.profile){
+    const found=sbResult.profile;
     PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},found);
+    playerBal=PROFILE.bal??0;
+    SESSION=PROFILE.username;
+    saveProfile();
+    fetchMovements();
+    return true;
+  }
+  // 2. Error de red/servidor: informar y NO hacer fallback local (evita bypass de auth)
+  if(sbResult.networkError){
+    return 'network:' + (sbResult.msg||'Error de conexion');
+  }
+  // 3. Credenciales incorrectas en Supabase: fallback solo si hay sesion local guardada
+  const localFound=Object.values(all).find(p2=>p2.username===u&&p2.password===p);
+  if(localFound){
+    PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},localFound);
     playerBal=PROFILE.bal??0;
     SESSION=PROFILE.username;
     saveProfile();
@@ -1836,43 +1854,44 @@ function mapDbUserToProfile(row,password){
     totalDeposited:Number(row.total_depositado||0),
     totalWithdrawn:Number(row.total_retirado||0),
     totalHands:Number(row.total_manos||0),
-    totalHandsGlobal:Number(row.total_manos_global||0),
-    consecLossServer:Number(row.consec_loss||0),
     bal:Number(row.saldo||0),
     created:row.creado_en?new Date(row.creado_en).toLocaleDateString('es-AR'):''
   };
 }
 
 async function loginWithSupabase(username,password){
-  if(!supabaseClient)return null;
+  if(!supabaseClient)return {profile:null,networkError:false};
   try{
-    // Enviamos todos los parámetros para evitar errores de coincidencia de RPC (400 Bad Request)
     const {data,error}=await supabaseClient.rpc('login',{
       p_username: username,
-      p_password: password,
-      p_ip: null,
-      p_ua: navigator.userAgent
+      p_password: password
     });
-    // PostgREST devuelve un array para funciones que retornan TABLE
+    if(error) return {profile:null, networkError:true, msg: error.message||'Error de conexion'};
     const auth = (data && Array.isArray(data)) ? data[0] : data;
-    const ok = auth && (auth.r_ok ?? auth.ok);
-    const usuarioId = auth && (auth.r_usuario_id || auth.usuario_id);
-    if(error || !ok || !usuarioId) return null;
-    
+    // La función login() devuelve ok/usuario_id/token/saldo/alias (sin prefijo r_)
+    const ok = auth && (auth.ok ?? auth.r_ok);
+    const usuarioId = auth && (auth.usuario_id || auth.r_usuario_id);
+    const errorMsg = auth && auth.error;
+    console.log('[login] auth response:', JSON.stringify(auth));
+    if(!ok || !usuarioId){
+      console.warn('[login] credenciales incorrectas:', errorMsg);
+      return {profile:null, networkError:false};
+    }
     const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:usuarioId});
+    console.log('[login] perfil response:', JSON.stringify(userRows), profileError);
+    if(profileError) return {profile:null, networkError:true, msg:'No se pudo cargar el perfil: '+profileError.message};
     const userData = (userRows && Array.isArray(userRows)) ? userRows[0] : userRows;
-    if(profileError || !userData) return null;
-    
+    if(!userData) return {profile:null, networkError:true, msg:'Perfil no encontrado en el servidor'};
     const profile=mapDbUserToProfile(userData,password);
     if(profile){
-      profile.sessionToken=auth.r_token || auth.token || '';
-      profile.bal=Number((auth.r_saldo ?? auth.saldo) ?? profile.bal ?? 0);
-      profile.alias=auth.r_alias || auth.alias || profile.alias;
+      profile.sessionToken=auth.token || auth.r_token || '';
+      profile.bal=Number((auth.saldo ?? auth.r_saldo) ?? profile.bal ?? 0);
+      profile.alias=auth.alias || auth.r_alias || profile.alias;
     }
-    return profile;
+    return {profile, networkError:false};
   }catch(e){
     console.error('Login error:', e);
-    return null;
+    return {profile:null, networkError:true, msg:'Sin conexion con el servidor'};
   }
 }
 
@@ -2814,11 +2833,7 @@ function mapToDbVal(v){ return {1:'A',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',10:'J'
 // ════ INICIAR JUEGO ═══════════════════════════════════════════════════════════════
 async function startGame(tableData,spectate){
   isSpec=spectate;
-  // consecLoss persiste en el servidor — restaurar desde el perfil, NO resetear
-  HOUSE.consecLoss = PROFILE.consecLossServer || 0;
-  // warmup usa manos globales (no de sesión) para que no se "regale" al cambiar de mesa
-  HOUSE.hands = PROFILE.totalHandsGlobal || 0;
-  HOUSE.sessionBet=0;
+  HOUSE.consecLoss=0;HOUSE.sessionBet=0;HOUSE.hands=0;
   let cpu=tableData.players&&tableData.players.length>0?[...tableData.players]:[...ALL_PLAYERS].sort(()=>Math.random()-.5).slice(0,3);
   if(cpu.length<2){const ex=ALL_PLAYERS.filter(p=>!cpu.find(x=>x.name===p.name)).sort(()=>Math.random()-.5);while(cpu.length<2)cpu.push(ex.shift());}
   const potBase=Math.max(tableData.pot||0,tableData.buyIn*(cpu.length+1),MIN_POT);
@@ -3534,16 +3549,6 @@ async function recordBetToDb(player, amount, result, card3){
       playerBal = Number(data[0].saldo_nuevo);
       G.yourBal = playerBal;
       PROFILE.bal = playerBal;
-      // Sincronizar consecLoss y manos globales desde la respuesta del servidor
-      if(data[0].consec_loss !== undefined){
-        HOUSE.consecLoss = Number(data[0].consec_loss);
-        PROFILE.consecLossServer = HOUSE.consecLoss;
-      }
-      if(data[0].total_manos_global !== undefined){
-        PROFILE.totalHandsGlobal = Number(data[0].total_manos_global);
-        // HOUSE.hands refleja manos globales (para warmup persistente)
-        HOUSE.hands = PROFILE.totalHandsGlobal;
-      }
       const yp = G.players.find(p=>p.you); if(yp) yp.bal = playerBal;
       document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
       saveProfileLocal();
@@ -4567,9 +4572,13 @@ async function doLogin(){
   const pass=document.getElementById('login-pass').value;
   const err=document.getElementById('auth-login-err');
   if(!user||!pass){err.style.display='block';err.textContent='Completá usuario y contraseña';return;}
-  if(await loginWithCredentials(user,pass)){
+  const loginResult=await loginWithCredentials(user,pass);
+  if(loginResult===true){
     err.style.display='none';
     enterLobby();
+  } else if(typeof loginResult==='string'&&loginResult.startsWith('network:')){
+    err.style.display='block';
+    err.textContent='Sin conexión al servidor. Verificá tu internet e intentá de nuevo.';
   } else {
     err.style.display='block';
     err.textContent='Usuario o contraseña incorrectos';
