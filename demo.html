@@ -1863,9 +1863,7 @@ async function loginWithSupabase(username,password){
   try{
     const {data,error}=await supabaseClient.rpc('login',{
       p_username: username,
-      p_password: password,
-      p_ip: null,
-      p_ua: navigator.userAgent
+      p_password: password
     });
     if(error) return {profile:null, networkError:true, msg: error.message||'Error de conexion'};
     const auth = (data && Array.isArray(data)) ? data[0] : data;
