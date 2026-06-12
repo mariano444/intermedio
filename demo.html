@@ -31,9 +31,10 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 }
 
 /* ══ SCREENS ══════════════════════════════════════════════════ */
-.screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .35s ease}
-.screen.hidden{pointer-events:none;opacity:0;transform:translateX(100%)}
-.screen.back-hidden{pointer-events:none;opacity:0;transform:translateX(-30%)}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.4,0,.2,1),opacity .35s ease;z-index:1}
+.screen.hidden{pointer-events:none;opacity:0;transform:translateX(100%);z-index:0}
+.screen.back-hidden{pointer-events:none;opacity:0;transform:translateX(-30%);z-index:0}
+#game-screen:not(.hidden):not(.back-hidden){z-index:10}
 
 /* ══ PARTICLES BG ════════════════════════════════════════════ */
 #bg-canvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5}
@@ -51,8 +52,9 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .sb-bal-amt{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--gold2)}
 
 /* ══ LOBBY ════════════════════════════════════════════════════ */
-#lobby-screen{overflow-y:auto;padding-bottom:calc(var(--safe-bot) + 16px)}
+#lobby-screen{overflow:hidden}
 #lobby-screen::-webkit-scrollbar{display:none}
+#lobby-scroll::-webkit-scrollbar{display:none}
 .lobby-hero{
   padding:8px 16px 14px;
   background:linear-gradient(180deg,transparent,rgba(0,0,0,.3));
@@ -1143,8 +1145,9 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 }
 
 /* ── Lobby screen overflow smooth ── */
-#lobby-screen{overflow-y:auto;padding-bottom:calc(var(--safe-bot)+20px);scroll-behavior:smooth}
-#lobby-screen::-webkit-scrollbar{display:none}
+#lobby-screen{overflow:hidden}
+#lobby-scroll{overflow-y:auto;padding-bottom:calc(env(safe-area-inset-bottom,0px)+20px);scroll-behavior:smooth}
+#lobby-scroll::-webkit-scrollbar{display:none}
 
 /* ── Live stats bar: glassy feel ── */
 #live-stats-bar{
@@ -1852,82 +1855,89 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
 </div>
 
 <div class="screen hidden" id="lobby-screen">
-  <div id="status-bar">
-    <div class="sb-logo" onclick="openProfile()">✧ EL INTERMEDIO</div>
-    <div class="sb-right">
-      <div class="sb-wallet-btn" onclick="openWallet()">💳 Recargar / Retirar</div>
-      <div class="sb-bal" onclick="openWallet()"><span class="sb-bal-ico">💰</span><span class="sb-bal-amt" id="g-bal">$0</span></div>
-    </div>
-  </div>
-
-  <!-- Barra de confianza -->
-  <div id="trust-bar">
-    <div class="trust-item"><span class="trust-icon">🔒</span>Plataforma segura</div>
-    <div class="trust-item"><span class="trust-icon">⚡</span>Retiros rápidos</div>
-    <div class="trust-item"><span class="trust-icon">💬</span>Soporte 24hs</div>
-  </div>
-
-  <!-- Stats en vivo -->
-  <div style="padding:8px 12px 6px;flex-shrink:0">
-    <div id="live-stats-bar">
-      <div class="lsb-item">
-        <div class="lsb-lbl">Jugando ahora</div>
-        <div class="lsb-val green" id="lsb-playing">—</div>
-      </div>
-      <div class="lsb-item">
-        <div class="lsb-lbl">Pozo en juego</div>
-        <div class="lsb-val" id="lsb-pot">—</div>
-      </div>
-      <div class="lsb-item">
-        <div class="lsb-lbl">Mesas activas</div>
-        <div class="lsb-val" id="lsb-tables">—</div>
+  <!-- Parte fija: status bar + trust + stats (no scrollea) -->
+  <div style="flex-shrink:0">
+    <div id="status-bar">
+      <div class="sb-logo" onclick="openProfile()">✧ EL INTERMEDIO</div>
+      <div class="sb-right">
+        <div class="sb-wallet-btn" onclick="openWallet()">💳 Recargar / Retirar</div>
+        <div class="sb-bal" onclick="openWallet()"><span class="sb-bal-ico">💰</span><span class="sb-bal-amt" id="g-bal">$0</span></div>
       </div>
     </div>
-  </div>
 
-  <!-- Ticker de ganancias recientes -->
-  <div id="win-ticker">
-    <div class="wt-label">🏆 RECIENTE:</div>
-    <div class="wt-scroll" id="wt-scroll"></div>
-  </div>
+    <!-- Barra de confianza -->
+    <div id="trust-bar">
+      <div class="trust-item"><span class="trust-icon">🔒</span>Plataforma segura</div>
+      <div class="trust-item"><span class="trust-icon">⚡</span>Retiros rápidos</div>
+      <div class="trust-item"><span class="trust-icon">💬</span>Soporte 24hs</div>
+    </div>
 
-  <div class="lobby-sep"></div>
-
-  <!-- ══ PROMO BONUS ══ -->
-  <div id="promo-bonus-banner" onclick="openWallet()" style="display:none">
-    <div class="promo-inner">
-      <div class="promo-badge-x2">
-        <div class="promo-x2-label">X</div>
-        <div class="promo-x2-num">2</div>
-      </div>
-      <div class="promo-text-col">
-        <div class="promo-headline">¡TE DUPLICAMOS LA RECARGA!</div>
-        <div class="promo-sub">Recargá ahora y jugá con el doble.<br>Oferta por tiempo limitado 🔥</div>
-      </div>
-      <div class="promo-cta-col">
-        <button class="promo-cta-btn">RECARGAR AHORA</button>
-        <div class="promo-countdown">
-          <span class="promo-expires-lbl">Vence en:</span>
-          <span class="promo-countdown-num" id="promo-hh">00</span>
-          <span style="color:rgba(255,160,60,.5)">:</span>
-          <span class="promo-countdown-num" id="promo-mm">00</span>
-          <span style="color:rgba(255,160,60,.5)">:</span>
-          <span class="promo-countdown-num" id="promo-ss">00</span>
+    <!-- Stats en vivo -->
+    <div style="padding:8px 12px 6px">
+      <div id="live-stats-bar">
+        <div class="lsb-item">
+          <div class="lsb-lbl">Jugando ahora</div>
+          <div class="lsb-val green" id="lsb-playing">—</div>
+        </div>
+        <div class="lsb-item">
+          <div class="lsb-lbl">Pozo en juego</div>
+          <div class="lsb-val" id="lsb-pot">—</div>
+        </div>
+        <div class="lsb-item">
+          <div class="lsb-lbl">Mesas activas</div>
+          <div class="lsb-val" id="lsb-tables">—</div>
         </div>
       </div>
     </div>
+
+    <!-- Ticker de ganancias recientes -->
+    <div id="win-ticker">
+      <div class="wt-label">🏆 RECIENTE:</div>
+      <div class="wt-scroll" id="wt-scroll"></div>
+    </div>
+
+    <div class="lobby-sep"></div>
   </div>
-    <div class="lobby-title-row">
-      <div class="lobby-section-title">Mesas disponibles</div>
-      <div style="display:flex; align-items:center; gap:12px;">
-        <span onclick="openInstructions()" style="font-size:10px; color:var(--gold2); cursor:pointer; text-decoration:underline; font-family:'Cinzel',serif; opacity:0.7; transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
-          Instrucciones
-        </span>
-        <div class="lobby-live-badge"><div class="live-dot"></div><span id="lobby-ct">0 activas</span></div>
+
+  <!-- Parte scrolleable: banner promo + lista de mesas -->
+  <div id="lobby-scroll" style="flex:1;overflow-y:auto;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 20px);scrollbar-width:none">
+    <!-- ══ PROMO BONUS ══ -->
+    <div id="promo-bonus-banner" onclick="openWallet()" style="display:none">
+      <div class="promo-inner">
+        <div class="promo-badge-x2">
+          <div class="promo-x2-label">X</div>
+          <div class="promo-x2-num">2</div>
+        </div>
+        <div class="promo-text-col">
+          <div class="promo-headline">¡TE DUPLICAMOS LA RECARGA!</div>
+          <div class="promo-sub">Recargá ahora y jugá con el doble.<br>Oferta por tiempo limitado 🔥</div>
+        </div>
+        <div class="promo-cta-col">
+          <button class="promo-cta-btn">RECARGAR AHORA</button>
+          <div class="promo-countdown">
+            <span class="promo-expires-lbl">Vence en:</span>
+            <span class="promo-countdown-num" id="promo-hh">00</span>
+            <span style="color:rgba(255,160,60,.5)">:</span>
+            <span class="promo-countdown-num" id="promo-mm">00</span>
+            <span style="color:rgba(255,160,60,.5)">:</span>
+            <span class="promo-countdown-num" id="promo-ss">00</span>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="lobby-hero" style="padding:8px 16px 14px">
+      <div class="lobby-title-row">
+        <div class="lobby-section-title">Mesas disponibles</div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span onclick="openInstructions()" style="font-size:10px;color:var(--gold2);cursor:pointer;text-decoration:underline;font-family:'Cinzel',serif;opacity:0.7;transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">Instrucciones</span>
+          <div class="lobby-live-badge"><div class="live-dot"></div><span id="lobby-ct">0 activas</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tables-list"></div>
   </div>
-  <div id="tables-list"></div>
 </div>
 
 <!-- ══ GAME SCREEN ══ -->
@@ -3526,13 +3536,16 @@ function watchTable(id){const t=TABLES.find(x=>x.id===id);if(t)startGame(t,true)
 // ══ NAVEGACIÓN DE SCREENS ════════════════════════════════════════
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>{
-    if(s.id===id){s.classList.remove('hidden','back-hidden');}
-    else if(!s.classList.contains('hidden')){s.classList.add('back-hidden');setTimeout(()=>{if(s.id!==id)s.classList.add('hidden');},350);}
+    if(s.id===id){
+      s.classList.remove('hidden','back-hidden');
+    } else if(!s.classList.contains('hidden')){
+      s.classList.add('back-hidden');
+      setTimeout(()=>{ if(!s.classList.contains('back-hidden') || s.id===id) return; s.classList.add('hidden'); },400);
+    } else {
+      s.classList.add('hidden');
+    }
   });
   if(id==='lobby-screen' && typeof window.startPromoCountdown==='function'){
-    // Mostrar el banner del lobby al entrar
-    const lb = document.getElementById('promo-bonus-banner');
-    if(lb) lb.style.display = '';
     window.startPromoCountdown();
   }
 }
@@ -5225,11 +5238,12 @@ function saveProfileData(){
   }
 
   function startPromoCountdown(){
-    // Mostrar lobby banner (solo si estamos en el lobby)
+    // Mostrar lobby banner solo si el usuario está en el lobby Y tiene saldo
     const lobbyBanner = document.getElementById('promo-bonus-banner');
     const lobbyScreen = document.getElementById('lobby-screen');
     if(lobbyBanner && lobbyScreen && !lobbyScreen.classList.contains('hidden')){
-      lobbyBanner.style.display = '';
+      // Mostrar solo si el jugador ya tiene saldo (tiene cuenta activa)
+      lobbyBanner.style.display = (typeof playerBal !== 'undefined' && playerBal >= 0) ? '' : 'none';
     }
     // Auth banner siempre visible en auth screen
     const authBanner = document.getElementById('auth-promo-banner');
