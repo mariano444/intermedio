@@ -1836,6 +1836,8 @@ function mapDbUserToProfile(row,password){
     totalDeposited:Number(row.total_depositado||0),
     totalWithdrawn:Number(row.total_retirado||0),
     totalHands:Number(row.total_manos||0),
+    totalHandsGlobal:Number(row.total_manos_global||0),
+    consecLossServer:Number(row.consec_loss||0),
     bal:Number(row.saldo||0),
     created:row.creado_en?new Date(row.creado_en).toLocaleDateString('es-AR'):''
   };
@@ -2812,7 +2814,11 @@ function mapToDbVal(v){ return {1:'A',2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',10:'J'
 // ════ INICIAR JUEGO ═══════════════════════════════════════════════════════════════
 async function startGame(tableData,spectate){
   isSpec=spectate;
-  HOUSE.consecLoss=0;HOUSE.sessionBet=0;HOUSE.hands=0;
+  // consecLoss persiste en el servidor — restaurar desde el perfil, NO resetear
+  HOUSE.consecLoss = PROFILE.consecLossServer || 0;
+  // warmup usa manos globales (no de sesión) para que no se "regale" al cambiar de mesa
+  HOUSE.hands = PROFILE.totalHandsGlobal || 0;
+  HOUSE.sessionBet=0;
   let cpu=tableData.players&&tableData.players.length>0?[...tableData.players]:[...ALL_PLAYERS].sort(()=>Math.random()-.5).slice(0,3);
   if(cpu.length<2){const ex=ALL_PLAYERS.filter(p=>!cpu.find(x=>x.name===p.name)).sort(()=>Math.random()-.5);while(cpu.length<2)cpu.push(ex.shift());}
   const potBase=Math.max(tableData.pot||0,tableData.buyIn*(cpu.length+1),MIN_POT);
@@ -3528,6 +3534,16 @@ async function recordBetToDb(player, amount, result, card3){
       playerBal = Number(data[0].saldo_nuevo);
       G.yourBal = playerBal;
       PROFILE.bal = playerBal;
+      // Sincronizar consecLoss y manos globales desde la respuesta del servidor
+      if(data[0].consec_loss !== undefined){
+        HOUSE.consecLoss = Number(data[0].consec_loss);
+        PROFILE.consecLossServer = HOUSE.consecLoss;
+      }
+      if(data[0].total_manos_global !== undefined){
+        PROFILE.totalHandsGlobal = Number(data[0].total_manos_global);
+        // HOUSE.hands refleja manos globales (para warmup persistente)
+        HOUSE.hands = PROFILE.totalHandsGlobal;
+      }
       const yp = G.players.find(p=>p.you); if(yp) yp.bal = playerBal;
       document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
       saveProfileLocal();
