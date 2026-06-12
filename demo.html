@@ -1797,6 +1797,7 @@ async function loginWithCredentials(user,pass){
   const p=pass.trim();
   // 1. Intentar Supabase siempre primero
   const sbResult=await loginWithSupabase(u,p);
+  console.log('[loginWithCredentials] sbResult:', sbResult?.networkError, !!sbResult?.profile, sbResult?.msg);
   if(sbResult.profile){
     const found=sbResult.profile;
     PROFILE=Object.assign({name:'',alias:'',cbu:'',phone:'',avatar:'🎭',username:'',password:'',totalDeposited:0,totalWithdrawn:0,totalHands:0,bal:0,created:''},found);
@@ -1867,18 +1868,25 @@ async function loginWithSupabase(username,password){
     });
     if(error) return {profile:null, networkError:true, msg: error.message||'Error de conexion'};
     const auth = (data && Array.isArray(data)) ? data[0] : data;
-    const ok = auth && (auth.r_ok ?? auth.ok);
-    const usuarioId = auth && (auth.r_usuario_id || auth.usuario_id);
-    if(!ok || !usuarioId) return {profile:null, networkError:false};
+    // La función login() devuelve ok/usuario_id/token/saldo/alias (sin prefijo r_)
+    const ok = auth && (auth.ok ?? auth.r_ok);
+    const usuarioId = auth && (auth.usuario_id || auth.r_usuario_id);
+    const errorMsg = auth && auth.error;
+    console.log('[login] auth response:', JSON.stringify(auth));
+    if(!ok || !usuarioId){
+      console.warn('[login] credenciales incorrectas:', errorMsg);
+      return {profile:null, networkError:false};
+    }
     const {data:userRows,error:profileError}=await supabaseClient.rpc('obtener_perfil_usuario',{p_usuario_id:usuarioId});
-    if(profileError) return {profile:null, networkError:true, msg:'No se pudo cargar el perfil'};
+    console.log('[login] perfil response:', JSON.stringify(userRows), profileError);
+    if(profileError) return {profile:null, networkError:true, msg:'No se pudo cargar el perfil: '+profileError.message};
     const userData = (userRows && Array.isArray(userRows)) ? userRows[0] : userRows;
     if(!userData) return {profile:null, networkError:true, msg:'Perfil no encontrado en el servidor'};
     const profile=mapDbUserToProfile(userData,password);
     if(profile){
-      profile.sessionToken=auth.r_token || auth.token || '';
-      profile.bal=Number((auth.r_saldo ?? auth.saldo) ?? profile.bal ?? 0);
-      profile.alias=auth.r_alias || auth.alias || profile.alias;
+      profile.sessionToken=auth.token || auth.r_token || '';
+      profile.bal=Number((auth.saldo ?? auth.r_saldo) ?? profile.bal ?? 0);
+      profile.alias=auth.alias || auth.r_alias || profile.alias;
     }
     return {profile, networkError:false};
   }catch(e){
