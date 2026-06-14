@@ -1062,74 +1062,103 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
   box-shadow:0 4px 20px rgba(0,0,0,.5);
 }
 
-/* ══ PROMO BONUS BANNER ══════════════════════════════════════════ */
+/* ══ PROMO BONUS BANNER — rediseño premium ══════════════════════ */
 #promo-bonus-banner{
-  margin:10px 12px 0;flex-shrink:0;position:relative;overflow:hidden;
-  border-radius:18px;
-  background:linear-gradient(135deg,#1a0a00 0%,#3d1500 30%,#5c2200 55%,#3d1500 80%,#1a0a00 100%);
-  border:1px solid rgba(255,140,0,.45);
-  box-shadow:0 0 0 1px rgba(255,80,0,.12),0 8px 32px rgba(255,80,0,.25),inset 0 1px 0 rgba(255,180,60,.15);
-  cursor:pointer;z-index:6;
-  animation:promoglow 3s ease-in-out infinite;
+  margin:10px 10px 6px;flex-shrink:0;position:relative;overflow:hidden;
+  border-radius:16px;
+  background:linear-gradient(120deg,#0d0500 0%,#2a0c00 25%,#4a1800 50%,#2a0c00 75%,#0d0500 100%);
+  border:1px solid rgba(255,140,0,.5);
+  box-shadow:0 0 0 1px rgba(255,60,0,.1),0 6px 28px rgba(255,70,0,.3),inset 0 1px 0 rgba(255,200,80,.12);
+  cursor:pointer;
+  animation:promoglow 2.5s ease-in-out infinite;
 }
 @keyframes promoglow{
-  0%,100%{box-shadow:0 0 0 1px rgba(255,80,0,.12),0 8px 32px rgba(255,80,0,.25),inset 0 1px 0 rgba(255,180,60,.15)}
-  50%{box-shadow:0 0 0 2px rgba(255,120,0,.22),0 8px 42px rgba(255,100,0,.45),0 0 60px rgba(255,60,0,.12),inset 0 1px 0 rgba(255,200,80,.25)}
+  0%,100%{box-shadow:0 0 0 1px rgba(255,60,0,.1),0 6px 28px rgba(255,70,0,.3),inset 0 1px 0 rgba(255,200,80,.12)}
+  50%{box-shadow:0 0 0 2px rgba(255,120,0,.2),0 8px 40px rgba(255,100,0,.5),0 0 50px rgba(255,50,0,.1),inset 0 1px 0 rgba(255,220,100,.22)}
 }
-/* Shimmer sweep */
 #promo-bonus-banner::before{
-  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,180,60,.12),transparent);
-  animation:promosweep 2.8s ease-in-out infinite;pointer-events:none;
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,160,40,.08) 50%,transparent 100%);
+  animation:promosweep 2.2s ease-in-out infinite;pointer-events:none;
 }
-@keyframes promosweep{0%{left:-100%}60%,100%{left:160%}}
-/* Fire emoji float */
-#promo-bonus-banner::after{
-  content:'🔥';position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  font-size:28px;opacity:.18;pointer-events:none;
-  animation:firerock .9s ease-in-out infinite alternate;
-}
-@keyframes firerock{0%{transform:translateY(-52%) rotate(-5deg)}100%{transform:translateY(-48%) rotate(5deg)}}
+@keyframes promosweep{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 
-.promo-inner{display:flex;align-items:center;gap:12px;padding:12px 14px}
+/* ── Layout interno: dos filas ── */
+.promo-inner{
+  display:flex;flex-direction:column;padding:0;position:relative;z-index:1;
+}
+/* Fila superior: badge + texto */
+.promo-row-top{
+  display:flex;align-items:center;gap:10px;padding:11px 14px 8px;
+}
+/* Fila inferior: countdown full width */
+.promo-row-bottom{
+  background:rgba(0,0,0,.35);border-top:1px solid rgba(255,120,0,.18);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:7px 14px;gap:8px;
+}
+
+/* Badge X2 */
 .promo-badge-x2{
-  flex-shrink:0;width:48px;height:48px;border-radius:14px;
-  background:linear-gradient(135deg,#ff8c00,#ff4500);
-  border:2px solid rgba(255,180,60,.6);
+  flex-shrink:0;width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(145deg,#ff9500 0%,#ff4500 60%,#cc2200 100%);
+  border:2px solid rgba(255,200,80,.5);
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  box-shadow:0 4px 14px rgba(255,80,0,.5);
+  box-shadow:0 4px 16px rgba(255,80,0,.6),inset 0 1px 0 rgba(255,255,255,.2);
   font-family:'Cinzel Decorative',serif;color:#fff;
-  text-shadow:0 1px 4px rgba(0,0,0,.5);
+  text-shadow:0 1px 4px rgba(0,0,0,.6);
+  position:relative;
 }
-.promo-x2-label{font-size:7px;letter-spacing:1px;opacity:.85;line-height:1}
-.promo-x2-num{font-size:22px;font-weight:700;line-height:1}
+.promo-badge-x2::after{
+  content:'';position:absolute;inset:0;border-radius:12px;
+  background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.2),transparent 60%);
+  pointer-events:none;
+}
+.promo-x2-label{font-size:6.5px;letter-spacing:1.5px;opacity:.85;line-height:1;text-transform:uppercase}
+.promo-x2-num{font-size:26px;font-weight:700;line-height:1}
 
+/* Texto */
 .promo-text-col{flex:1;min-width:0}
-.promo-headline{font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:#ff9f3c;letter-spacing:.5px;line-height:1.2;text-shadow:0 0 12px rgba(255,120,0,.5)}
-.promo-sub{font-size:9.5px;color:rgba(255,220,160,.75);margin-top:2px;line-height:1.35}
+.promo-headline{
+  font-family:'Cinzel',serif;font-size:12px;font-weight:700;
+  color:#ffb040;letter-spacing:.4px;line-height:1.2;
+  text-shadow:0 0 16px rgba(255,140,0,.6);
+}
+.promo-sub{font-size:9.5px;color:rgba(255,215,150,.7);margin-top:3px;line-height:1.4}
 
-.promo-cta-col{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:5px}
+/* Botón CTA */
 .promo-cta-btn{
-  background:linear-gradient(135deg,#ff8c00,#ff4500);
-  color:#fff;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:.4px;
-  border:none;border-radius:20px;padding:7px 12px;cursor:pointer;white-space:nowrap;
-  box-shadow:0 3px 0 #8b2200,0 5px 16px rgba(255,80,0,.45);
-  animation:ctabtn 2s ease-in-out infinite;
+  background:linear-gradient(135deg,#ff9500,#ff4200);
+  color:#fff;font-family:'Cinzel',serif;font-size:9.5px;font-weight:700;letter-spacing:.5px;
+  border:none;border-radius:20px;padding:8px 14px;cursor:pointer;white-space:nowrap;
+  box-shadow:0 3px 0 #8b2000,0 5px 18px rgba(255,80,0,.5);
+  flex-shrink:0;
+  animation:ctabtn 1.8s ease-in-out infinite;
 }
-@keyframes ctabtn{0%,100%{box-shadow:0 3px 0 #8b2200,0 5px 16px rgba(255,80,0,.4)}50%{box-shadow:0 3px 0 #8b2200,0 5px 22px rgba(255,80,0,.7),0 0 0 3px rgba(255,120,0,.15)}}
-.promo-cta-btn:active{transform:scale(.95);box-shadow:0 1px 0 #8b2200}
+@keyframes ctabtn{
+  0%,100%{box-shadow:0 3px 0 #8b2000,0 5px 18px rgba(255,80,0,.4)}
+  50%{box-shadow:0 3px 0 #8b2000,0 5px 26px rgba(255,80,0,.75),0 0 0 4px rgba(255,120,0,.12)}
+}
+.promo-cta-btn:active{transform:scale(.96);box-shadow:0 1px 0 #8b2000}
 
-.promo-countdown{
-  display:flex;align-items:center;gap:4px;
-  font-size:8px;color:rgba(255,200,120,.65);font-family:'Cinzel',serif;letter-spacing:.3px;
-}
+/* Countdown fila inferior */
+.promo-countdown{display:flex;align-items:center;gap:6px}
+.promo-expires-lbl{font-size:8px;color:rgba(255,180,80,.55);font-family:'Cinzel',serif;letter-spacing:.3px;white-space:nowrap}
+.promo-cd-group{display:flex;align-items:center;gap:3px}
 .promo-countdown-num{
-  background:rgba(0,0,0,.45);border:1px solid rgba(255,120,0,.3);
-  border-radius:5px;padding:1px 4px;
-  font-weight:700;color:#ffb060;font-variant-numeric:tabular-nums;
-  min-width:18px;text-align:center;
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(255,130,0,.35);
+  border-radius:6px;padding:3px 6px;
+  font-weight:700;color:#ffc060;font-variant-numeric:tabular-nums;
+  font-family:'Cinzel',serif;font-size:13px;
+  min-width:26px;text-align:center;
+  text-shadow:0 0 8px rgba(255,150,0,.5);
+  line-height:1;
 }
-.promo-expires-lbl{font-size:7.5px;color:rgba(255,180,80,.5)}
+.promo-cd-sep{font-size:14px;font-weight:700;color:rgba(255,120,0,.45);font-family:'Cinzel',serif;line-height:1}
+.promo-cd-label{font-size:6.5px;color:rgba(255,180,80,.4);font-family:'Cinzel',serif;text-align:center;letter-spacing:.5px;margin-top:1px}
+.promo-cd-unit{display:flex;flex-direction:column;align-items:center;gap:1px}
+
 
 /* ══ PREMIUM V2 — COMPREHENSIVE POLISH ══════════════════════════ */
 
@@ -1904,23 +1933,36 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
     <!-- ══ PROMO BONUS ══ -->
     <div id="promo-bonus-banner" onclick="openWallet()" style="display:none">
       <div class="promo-inner">
-        <div class="promo-badge-x2">
-          <div class="promo-x2-label">X</div>
-          <div class="promo-x2-num">2</div>
+        <!-- Fila superior: badge + texto + CTA -->
+        <div class="promo-row-top">
+          <div class="promo-badge-x2">
+            <div class="promo-x2-label">BONUS</div>
+            <div class="promo-x2-num">×2</div>
+          </div>
+          <div class="promo-text-col">
+            <div class="promo-headline">¡TE DUPLICAMOS LA RECARGA!</div>
+            <div class="promo-sub">Recargá ahora y jugá con el doble 🔥</div>
+          </div>
+          <button class="promo-cta-btn" onclick="event.stopPropagation();openWallet()">RECARGAR</button>
         </div>
-        <div class="promo-text-col">
-          <div class="promo-headline">¡TE DUPLICAMOS LA RECARGA!</div>
-          <div class="promo-sub">Recargá ahora y jugá con el doble.<br>Oferta por tiempo limitado 🔥</div>
-        </div>
-        <div class="promo-cta-col">
-          <button class="promo-cta-btn">RECARGAR AHORA</button>
+        <!-- Fila inferior: countdown prominente -->
+        <div class="promo-row-bottom">
+          <div class="promo-expires-lbl">⏳ OFERTA VENCE EN:</div>
           <div class="promo-countdown">
-            <span class="promo-expires-lbl">Vence en:</span>
-            <span class="promo-countdown-num" id="promo-hh">00</span>
-            <span style="color:rgba(255,160,60,.5)">:</span>
-            <span class="promo-countdown-num" id="promo-mm">00</span>
-            <span style="color:rgba(255,160,60,.5)">:</span>
-            <span class="promo-countdown-num" id="promo-ss">00</span>
+            <div class="promo-cd-unit">
+              <div class="promo-countdown-num" id="promo-hh">00</div>
+              <div class="promo-cd-label">HS</div>
+            </div>
+            <div class="promo-cd-sep">:</div>
+            <div class="promo-cd-unit">
+              <div class="promo-countdown-num" id="promo-mm">00</div>
+              <div class="promo-cd-label">MIN</div>
+            </div>
+            <div class="promo-cd-sep">:</div>
+            <div class="promo-cd-unit">
+              <div class="promo-countdown-num" id="promo-ss">00</div>
+              <div class="promo-cd-label">SEG</div>
+            </div>
           </div>
         </div>
       </div>
@@ -5218,19 +5260,16 @@ function saveProfileData(){
 
   function tick(){
     let expiry = getExpiry();
-    const diff = expiry - Date.now();
+    let diff = expiry - Date.now();
 
     if(diff <= 0){
-      // Expiró: borrar y generar nueva fecha
+      // Expiró: borrar y generar fecha nueva automáticamente
       try { localStorage.removeItem(STORAGE_KEY); } catch(e){}
-      expiry = getExpiry();
-      const d2 = expiry - Date.now();
-      const s2 = Math.floor(d2 / 1000);
-      updateDisplays(Math.floor(s2/3600), Math.floor((s2%3600)/60), s2%60);
-      return;
+      expiry = getExpiry(); // genera nueva fecha aleatoria 1-3 días
+      diff = expiry - Date.now();
     }
 
-    const totalSecs = Math.floor(diff / 1000);
+    const totalSecs = Math.max(0, Math.floor(diff / 1000));
     const hh = Math.floor(totalSecs / 3600);
     const mm = Math.floor((totalSecs % 3600) / 60);
     const ss = totalSecs % 60;
