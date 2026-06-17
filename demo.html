@@ -55,6 +55,33 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 #lobby-screen{overflow:hidden}
 #lobby-screen::-webkit-scrollbar{display:none}
 #lobby-scroll::-webkit-scrollbar{display:none}
+
+#game-selector{display:flex;gap:10px;padding:6px 16px 0;position:relative;z-index:5}
+.gsel-btn{
+  flex:1;display:flex;align-items:center;gap:8px;
+  background:linear-gradient(145deg,rgba(20,30,20,.55),rgba(10,18,10,.7));
+  border:1px solid rgba(245,200,66,.16);border-radius:14px;
+  padding:9px 10px;cursor:pointer;transition:all .25s ease;
+  position:relative;overflow:hidden;
+}
+.gsel-btn::after{
+  content:'';position:absolute;inset:0;border-radius:14px;
+  background:linear-gradient(135deg,rgba(245,200,66,0),rgba(245,200,66,0));
+  transition:background .25s ease;pointer-events:none;
+}
+.gsel-btn:active{transform:scale(.97)}
+.gsel-ico{font-size:20px;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.4))}
+.gsel-txt{display:flex;flex-direction:column;gap:1px;min-width:0}
+.gsel-name{font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:#d9d9d9;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gsel-sub{font-size:8.5px;color:rgba(255,255,255,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gsel-btn.active{
+  border-color:var(--gold);
+  background:linear-gradient(145deg,rgba(245,200,66,.16),rgba(120,90,10,.18));
+  box-shadow:0 2px 10px rgba(245,200,66,.18) inset, 0 2px 8px rgba(0,0,0,.3);
+}
+.gsel-btn.active .gsel-name{color:var(--gold)}
+.gsel-btn.active .gsel-sub{color:rgba(245,200,66,.6)}
+
 .lobby-hero{
   padding:8px 16px 14px;
   background:linear-gradient(180deg,transparent,rgba(0,0,0,.3));
@@ -67,6 +94,7 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 @keyframes livedot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.75)}}
 
 #tables-list{display:flex;flex-direction:column;gap:12px;padding:0 12px;position:relative;z-index:5}
+
 
 /* ══ TARJETA DE MESA — PREMIUM REDESIGN ══ */
 .tcard{
@@ -699,7 +727,102 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .ebtn-reload{background:linear-gradient(135deg,#2ecc71,#1a6b35);color:#fff;box-shadow:0 3px 0 #0d3018}
 .ebtn-leave{background:rgba(255,255,255,.07);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.12)}
 
-/* ══ PARTICLES ═══════════════════════════════════════════════ */
+/* ══ CHINCHÓN SCREEN ══════════════════════════════════════════ */
+#ch-topbar{
+  padding:calc(var(--safe-top) + 6px) 12px 6px;
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.2));
+  position:relative;z-index:50;
+}
+#ch-btn-back{
+  width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;
+  color:var(--gold2);font-size:14px;cursor:pointer;flex-shrink:0;
+}
+#ch-table-name{font-family:'Cinzel',serif;color:var(--gold2);font-size:11px;letter-spacing:1.5px;flex:1;text-align:center}
+#ch-round-badge{background:rgba(0,0,0,.5);border:1px solid var(--golddim);border-radius:20px;padding:4px 10px;font-family:'Cinzel',serif;font-size:10px;color:var(--gold);flex-shrink:0}
+.ch-wallet{background:rgba(0,0,0,.5);border:1px solid var(--golddim);border-radius:20px;padding:4px 10px;font-size:10px;color:var(--gold2);flex-shrink:0;cursor:pointer;font-family:'Cinzel',serif}
+
+#ch-spec-bar{display:none;margin:0 12px 4px;background:rgba(36,113,163,.15);border:1px solid rgba(36,113,163,.4);border-radius:10px;padding:7px 14px;text-align:center;font-family:'Cinzel',serif;position:relative;z-index:20;flex-shrink:0}
+.ch-spec-ico{font-size:10px;color:#85c1e9;letter-spacing:2px}
+.ch-spec-txt{font-size:9px;color:rgba(133,193,233,.65);margin-top:2px}
+
+#ch-opponents-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:4px 10px 6px;flex-shrink:0;position:relative;z-index:10}
+.ch-opp{
+  width:64px;flex-shrink:0;background:linear-gradient(180deg,rgba(10,20,8,.85),rgba(4,10,3,.9));
+  border:1.5px solid rgba(201,168,76,.15);border-radius:14px;padding:6px 4px;text-align:center;
+  position:relative;transition:all .25s;
+}
+.ch-opp.ch-active{border-color:var(--gold);box-shadow:0 0 18px rgba(201,168,76,.35);transform:scale(1.05)}
+.ch-opp.ch-cut{border-color:#27ae60;box-shadow:0 0 20px rgba(39,174,96,.4)}
+.ch-opp-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;margin:0 auto 3px;border:1.5px solid rgba(255,255,255,.15)}
+.ch-opp-name{font-size:7.5px;font-family:'Cinzel',serif;color:var(--gold3);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ch-opp-cards{font-size:8px;color:rgba(255,255,255,.4);margin-top:2px}
+.ch-opp-bubble{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);border:1px solid var(--golddim);border-radius:10px;padding:4px 8px;font-size:8px;color:var(--gold3);white-space:nowrap;margin-bottom:4px;font-family:'Cinzel',serif;animation:fadein .2s ease;z-index:30}
+
+#ch-felt-area{
+  flex:1;position:relative;margin:0 10px 4px;
+  background:radial-gradient(ellipse at 50% 35%,#1e7835 0%,#115528 40%,#09391a 70%,#051f0e 100%);
+  border-radius:20px;border:3px solid #8a6a10;
+  box-shadow:0 6px 40px rgba(0,0,0,.75),inset 0 0 0 1px rgba(201,168,76,.2),inset 0 2px 0 rgba(255,255,255,.04);
+  display:flex;flex-direction:column;overflow:hidden;min-height:0;
+}
+.ch-felt-inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:8px 6px 4px;position:relative;background:radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.03) 0%,transparent 65%)}
+#ch-pot-bar{display:flex;justify-content:space-between;align-items:center;padding:7px 16px;background:linear-gradient(180deg,rgba(0,0,0,.65),rgba(0,0,0,.35));border-bottom:1px solid rgba(201,168,76,.15);flex-shrink:0}
+.ch-pot-lbl{font-family:'Cinzel',serif;color:rgba(201,168,76,.55);font-size:7px;letter-spacing:2.5px;text-transform:uppercase}
+.ch-pot-val{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--gold2);text-shadow:0 0 20px rgba(201,168,76,.25)}
+#ch-think-bar{display:none;align-items:center;justify-content:center;gap:7px;padding:3px 0;flex-shrink:0}
+
+#ch-piles-row{display:flex;align-items:center;justify-content:center;gap:24px;padding:6px 0;flex-shrink:0}
+.ch-pile-slot{display:flex;flex-direction:column;align-items:center;gap:3px}
+.ch-pile-lbl{font-size:6.5px;color:rgba(201,168,76,.5);letter-spacing:1.5px;font-family:'Cinzel',serif;text-transform:uppercase;background:rgba(0,0,0,.4);padding:1px 7px;border-radius:10px}
+.ch-card-back{
+  width:calc(var(--card-w)*0.78);height:calc(var(--card-h)*0.78);border-radius:9px;cursor:pointer;
+  background:linear-gradient(135deg,#1a3a1a,#0a1a0a);border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;font-size:28px;color:rgba(245,200,66,.5);
+  box-shadow:0 6px 18px rgba(0,0,0,.6);position:relative;flex-shrink:0;transition:transform .15s;
+}
+.ch-card-back:active{transform:scale(.95)}
+.ch-deck-count{position:absolute;bottom:3px;right:5px;font-size:8px;color:var(--gold2);font-family:'Cinzel',serif;background:rgba(0,0,0,.6);border-radius:8px;padding:1px 5px}
+#ch-discard-pile{cursor:pointer;transition:transform .15s}
+#ch-discard-pile:active{transform:scale(.95)}
+#ch-discard-pile .card-wrap{width:calc(var(--card-w)*0.78);height:calc(var(--card-h)*0.78)}
+#ch-discard-pile .card-ph{width:calc(var(--card-w)*0.78);height:calc(var(--card-h)*0.78);font-size:24px}
+
+#ch-msg-wrap{text-align:center;padding:3px 8px;flex-shrink:0}
+.ch-msg{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.6);border-radius:20px;padding:5px 14px;font-size:10px;font-family:'Cinzel',serif;letter-spacing:.2px;border:1px solid transparent;transition:all .3s;max-width:100%}
+.ch-msg.idle{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.06)}
+.ch-msg.info{color:var(--gold3);border-color:rgba(201,168,76,.25)}
+.ch-msg.win{color:#4eda7a;border-color:rgba(39,174,96,.45);background:rgba(39,174,96,.1);animation:mglow .4s ease}
+.ch-msg.lose{color:#e07070;border-color:rgba(192,57,43,.35);background:rgba(192,57,43,.07)}
+.ch-msg.tie{color:#f5c842;border-color:rgba(245,200,66,.35);background:rgba(245,200,66,.07)}
+#ch-chat-feed{display:none}
+
+#ch-hand-area{flex-shrink:0;background:linear-gradient(180deg,rgba(0,0,0,.85),rgba(0,0,0,.95));border-top:1px solid rgba(201,168,76,.15);padding:8px 10px calc(var(--safe-bot) + 8px);position:relative;z-index:30}
+#ch-hand-row{display:flex;justify-content:center;align-items:flex-end;gap:4px;padding:4px 0 10px;flex-wrap:wrap;min-height:calc(var(--card-h)*0.62)}
+.ch-hand-card{
+  width:calc(var(--card-w)*0.62);height:calc(var(--card-h)*0.62);border-radius:8px;overflow:hidden;
+  position:relative;flex-shrink:0;cursor:pointer;background:#fff;
+  box-shadow:0 4px 12px rgba(0,0,0,.6),0 0 0 1.5px rgba(201,168,76,.4);
+  transition:transform .15s,box-shadow .15s;
+}
+.ch-hand-card:hover,.ch-hand-card.ch-selected{transform:translateY(-8px);box-shadow:0 8px 20px rgba(0,0,0,.7),0 0 0 2.5px var(--gold)}
+.ch-hand-card.ch-in-meld{box-shadow:0 4px 12px rgba(0,0,0,.6),0 0 0 2px #4eda7a}
+.ch-hand-card img{width:100%;height:100%;display:block;object-fit:contain;background:#fff}
+.ch-hand-card.ch-newcard{animation:dealin .4s cubic-bezier(.34,1.56,.64,1) both}
+#ch-action-row{display:flex;justify-content:center;gap:10px;padding:0 0 6px}
+.ch-abtn{padding:11px 22px;border-radius:12px;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:.6px;transition:transform .1s,opacity .2s}
+.ch-abtn:active{transform:scale(.95)}
+.ch-abtn-corte{background:linear-gradient(135deg,#27ae60,#145a32);color:#fff;box-shadow:0 3px 0 #0d3018}
+.ch-abtn-corte.ch-disabled{opacity:.35;pointer-events:none;filter:grayscale(.6)}
+.ch-abtn-pasar{background:rgba(255,255,255,.08);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.12)}
+.ch-hint{text-align:center;font-size:9px;color:rgba(255,255,255,.35);font-family:'Cinzel',serif;letter-spacing:.3px;padding:0 8px}
+
+#ch-idle-bar{flex-shrink:0;padding:8px 12px calc(var(--safe-bot) + 8px);background:linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,.9));border-top:1px solid rgba(201,168,76,.1);display:none;justify-content:center;gap:10px;position:relative;z-index:30}
+
+#ch-end-overlay{position:absolute;inset:0;z-index:100;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+#ch-end-overlay.show{display:flex;animation:fadein .4s ease}
+
 #prt{position:absolute;inset:0;pointer-events:none;z-index:90;overflow:hidden}
 .pp{position:absolute;animation:pfall linear forwards;border-radius:50%}
 @keyframes pfall{0%{transform:translateY(0) rotate(0) scale(1);opacity:1}100%{transform:translateY(700px) rotate(720deg) scale(.3);opacity:0}}
@@ -1968,9 +2091,27 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
       </div>
     </div>
 
+    <!-- ══ SELECTOR DE JUEGO ══ -->
+    <div id="game-selector">
+      <div class="gsel-btn active" id="gsel-intermedio" onclick="switchGame('intermedio')">
+        <div class="gsel-ico">🎴</div>
+        <div class="gsel-txt">
+          <div class="gsel-name">El Intermedio</div>
+          <div class="gsel-sub">Apostá a la carta del medio</div>
+        </div>
+      </div>
+      <div class="gsel-btn" id="gsel-chinchon" onclick="switchGame('chinchon')">
+        <div class="gsel-ico">🃏</div>
+        <div class="gsel-txt">
+          <div class="gsel-name">Chinchón</div>
+          <div class="gsel-sub">Combiná y cortá primero</div>
+        </div>
+      </div>
+    </div>
+
     <div class="lobby-hero" style="padding:8px 16px 14px">
       <div class="lobby-title-row">
-        <div class="lobby-section-title">Mesas disponibles</div>
+        <div class="lobby-section-title" id="lobby-section-title">Mesas disponibles</div>
         <div style="display:flex;align-items:center;gap:12px">
           <span onclick="openInstructions()" style="font-size:10px;color:var(--gold2);cursor:pointer;text-decoration:underline;font-family:'Cinzel',serif;opacity:0.7;transition:opacity 0.2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">Instrucciones</span>
           <div class="lobby-live-badge"><div class="live-dot"></div><span id="lobby-ct">0 activas</span></div>
@@ -2092,6 +2233,73 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
         <button id="end-main-btn" class="ebtn ebtn-main" onclick="restartAtTable()">↺ Otra mano</button>
         <button id="end-reload-btn" class="ebtn ebtn-reload" style="display:none" onclick="doReload()">💳 Recargar Saldo</button>
         <button class="ebtn ebtn-leave" onclick="leaveTable()">← Volver al lobby</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHINCHÓN SCREEN ══ -->
+<div class="screen hidden" id="chinchon-screen">
+  <div id="ch-topbar">
+    <div id="ch-btn-back" onclick="leaveChinchonTable()">←</div>
+    <div id="ch-table-name">MESA</div>
+    <div id="ch-round-badge">RONDA #0</div>
+    <div class="ch-wallet" onclick="openWallet()">💳 <span id="ch-bal">$0</span></div>
+  </div>
+
+  <div id="ch-spec-bar"><div class="ch-spec-ico">👁 MODO ESPECTADOR</div><div class="ch-spec-txt" id="ch-spec-bar-txt">Observando la partida</div></div>
+
+  <!-- Oponentes -->
+  <div id="ch-opponents-row"></div>
+
+  <!-- Tapete -->
+  <div id="ch-felt-area">
+    <div id="ch-pot-bar">
+      <div><div class="ch-pot-lbl">Pozo de la ronda</div><div class="ch-pot-val" id="ch-pot-val">$0</div></div>
+      <div id="ch-think-bar"><div class="ctb-dots"><span></span><span></span><span></span></div><span class="ctb-who" id="ch-ctb-who">...</span></div>
+    </div>
+    <div class="ch-felt-inner">
+      <!-- Mazo y descarte -->
+      <div id="ch-piles-row">
+        <div class="ch-pile-slot">
+          <div class="ch-pile-lbl">Mazo</div>
+          <div id="ch-deck-pile" class="ch-card-back" onclick="chHumanDraw('deck')">🂠<span id="ch-deck-count" class="ch-deck-count"></span></div>
+        </div>
+        <div class="ch-pile-slot">
+          <div class="ch-pile-lbl">Descarte</div>
+          <div id="ch-discard-pile" onclick="chHumanDraw('discard')"><div class="card-ph">—</div></div>
+        </div>
+      </div>
+      <div id="ch-msg-wrap"><div class="ch-msg idle" id="ch-gm"><div class="mdot"></div><span id="ch-gmt">Preparando...</span></div></div>
+      <div id="ch-chat-feed"></div>
+    </div>
+  </div>
+
+  <!-- Mano del jugador -->
+  <div id="ch-hand-area">
+    <div id="ch-hand-row"></div>
+    <div id="ch-action-row">
+      <div class="ch-abtn ch-abtn-corte" id="ch-btn-cortar" onclick="chHumanCut()">✂ Cortar</div>
+      <div class="ch-abtn ch-abtn-pasar" id="ch-btn-pasar" onclick="chHumanPass()" style="display:none">⊘ Pasar turno</div>
+    </div>
+    <div id="ch-hint" class="ch-hint">Tu turno: robá del mazo o del descarte, luego descartá una carta.</div>
+  </div>
+
+  <!-- Idle bar -->
+  <div id="ch-idle-bar">
+    <button class="idle-btn ibtn-leave" onclick="leaveChinchonTable()">← Salir</button>
+  </div>
+
+  <!-- End overlay -->
+  <div id="ch-end-overlay">
+    <div class="end-card">
+      <div class="end-icon" id="ch-ei">🏆</div>
+      <div class="end-title" id="ch-et">FIN</div>
+      <div class="end-stats" id="ch-es"></div>
+      <div class="end-btns">
+        <button id="ch-end-main-btn" class="ebtn ebtn-main" onclick="restartChinchonRound()">↺ Otra ronda</button>
+        <button id="ch-end-reload-btn" class="ebtn ebtn-reload" style="display:none" onclick="doReload()">💳 Recargar Saldo</button>
+        <button class="ebtn ebtn-leave" onclick="leaveChinchonTable()">← Volver al lobby</button>
       </div>
     </div>
   </div>
@@ -2403,7 +2611,10 @@ async function cargarHouseConfig(){
 }
 
 // ══ ESTADO ═══════════════════════════════════════════════════════
-let playerBal=0,TABLES=[],pendingJoin=null,G={},_cdInterval=null,isSpec=false,_lobbyInterval=null;
+let playerBal=0,TABLES=[],pendingJoin=null,pendingJoinIsChinchon=false,G={},_cdInterval=null,isSpec=false,_lobbyInterval=null;
+let CURRENT_GAME='intermedio'; // 'intermedio' | 'chinchon'
+let CH_TABLES=[]; // mesas de Chinchón (paralelas a TABLES de Intermedio)
+let CH={}; // estado de partida activa de Chinchón
 const MIN_WITHDRAW=10000;
 const DEFAULT_RELOAD=5000;
 
@@ -3113,6 +3324,7 @@ function getLobbyDemand(){
 }
 
 async function generateTables(){
+  if(CURRENT_GAME==='chinchon'){ return generateChinchonTables(); }
   // Limpiar intervalo anterior — evita mesas zombie en el lobby
   if(_lobbyInterval){clearInterval(_lobbyInterval);_lobbyInterval=null;}
 
@@ -3248,6 +3460,7 @@ async function generateTables(){
 }
 
 function lobbyTick(){
+  if(CURRENT_GAME!=='intermedio')return;
   const { demand, isPeak } = getLobbyDemand();
 
   TABLES.forEach(t=>{
@@ -3356,6 +3569,7 @@ function _spawnNewTable(){
 }
 
 function renderLobby(){
+  if(CURRENT_GAME==='chinchon'){ return renderChinchonLobby(); }
   const list=document.getElementById('tables-list');list.innerHTML='';
   const { isPeak, isQuiet, demand, hour } = getLobbyDemand();
 
@@ -3501,10 +3715,141 @@ function animatePot(el,from,to,delay){
 }
 
 
+// ══ SELECTOR DE JUEGO (lobby) ════════════════════════════════════
+function switchGame(game){
+  if(CURRENT_GAME===game)return;
+  CURRENT_GAME=game;
+  document.getElementById('gsel-intermedio').classList.toggle('active',game==='intermedio');
+  document.getElementById('gsel-chinchon').classList.toggle('active',game==='chinchon');
+  document.getElementById('lobby-section-title').textContent = game==='chinchon' ? 'Mesas de Chinchón' : 'Mesas disponibles';
+  if(_lobbyInterval){clearInterval(_lobbyInterval);_lobbyInterval=null;}
+  generateTables();
+}
+
+// ══ CHINCHÓN — generación de mesas de lobby (en memoria, estilo Intermedio) ══
+const CHINCHON_BUYINS=[300,500,800,1200,2000];
+function generateChinchonTables(){
+  const usedBotNames=new Set();
+  const n=rnd(4,7);
+  const names=[...TABLE_NAMES].sort(()=>Math.random()-.5);
+  CH_TABLES=[];
+  for(let i=0;i<n;i++){
+    const bi=CHINCHON_BUYINS[rnd(0,CHINCHON_BUYINS.length-1)];
+    const maxSeats=rnd(2,4); // 2 a 4 jugadores totales (incluye al humano)
+    const stRoll=Math.random();
+    let st='open';
+    if(stRoll<0.30)st='playing'; else if(stRoll<0.45)st='full'; else if(stRoll<0.70)st='filling';
+    let occ;
+    if(st==='playing'||st==='full')occ=maxSeats;
+    else if(st==='filling')occ=Math.max(1,maxSeats-1);
+    else occ=rnd(0,Math.max(0,maxSeats-2));
+    const availableBots=ALL_PLAYERS.filter(p=>!usedBotNames.has(p.name));
+    const pl=availableBots.sort(()=>Math.random()-.5).slice(0,occ);
+    pl.forEach(p=>usedBotNames.add(p.name));
+    CH_TABLES.push({
+      id:i, name:names[i]||('Mesa '+(i+1)),
+      maxSeats, buyIn:bi, status:st, players:pl,
+      pot:bi*(occ+ (st==='open'?1:0)), rondas: st==='playing'?rnd(1,6):0
+    });
+  }
+  renderChinchonLobby();
+  if(_lobbyInterval)clearInterval(_lobbyInterval);
+  _lobbyInterval=setInterval(chinchonLobbyTick,5000);
+}
+
+function chinchonLobbyTick(){
+  if(CURRENT_GAME!=='chinchon')return;
+  CH_TABLES.forEach(t=>{
+    if(t.status==='playing'){
+      if(Math.random()<0.3)t.rondas++;
+      t.pot=t.buyIn*t.players.length+t.rondas*t.buyIn;
+    }
+    if(t.status==='filling'&&Math.random()<0.25&&t.players.length<t.maxSeats){
+      const av=ALL_PLAYERS.filter(p=>!CH_TABLES.some(tt=>tt.players.some(pp=>pp.name===p.name)));
+      if(av.length){t.players.push(av[rnd(0,av.length-1)]);}
+      if(t.players.length>=t.maxSeats){t.status='playing';t.rondas=0;}
+    }
+  });
+  renderChinchonLobby();
+}
+
+function renderChinchonLobby(){
+  const list=document.getElementById('tables-list');list.innerHTML='';
+  document.getElementById('lobby-ct').textContent=`${CH_TABLES.length} activas · Chinchón`;
+  document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+  const playingCount=CH_TABLES.filter(t=>t.status==='playing'||t.status==='filling').reduce((s,t)=>s+t.players.length,0);
+  const totalPot=CH_TABLES.reduce((s,t)=>s+t.pot,0);
+  const lsbP=document.getElementById('lsb-playing');if(lsbP)lsbP.textContent=playingCount||'—';
+  const lsbPot=document.getElementById('lsb-pot');if(lsbPot)lsbPot.textContent='$'+(totalPot>0?totalPot.toLocaleString('es-AR'):'—');
+  const lsbT=document.getElementById('lsb-tables');if(lsbT)lsbT.textContent=CH_TABLES.length||'—';
+
+  CH_TABLES.forEach((t,idx)=>{
+    const free=t.maxSeats-t.players.length,pct=Math.round(t.players.length/t.maxSeats*100);
+    let bc,bt,cc,bh;
+    if(t.status==='playing'){
+      bc='b-play';bt='● EN JUEGO';cc='tc-hot';
+      bh=`<div class="tc-btn tcb-watch" onclick="watchChinchonTable(${t.id})">👁 Observar</div>`;
+    } else if(t.status==='full'){
+      bc='b-full';bt='COMPLETA';cc='tc-full';
+      bh=`<div class="tc-btn tcb-dis">Mesa Llena</div>`;
+    } else if(t.status==='filling'){
+      bc='b-fill';bt=`⚡ FALTA${free>1?'N':''} ${free}`;cc='tc-fill';
+      bh=`<div class="tc-btn tcb-join" onclick="tryJoinChinchon(${t.id})">✦ Unirse Ahora</div>`;
+    } else {
+      bc='b-open';bt='ABIERTA';cc='tc-open';
+      bh=`<div class="tc-btn tcb-join" onclick="tryJoinChinchon(${t.id})">✦ Unirse</div>`;
+    }
+    const pc=t.status==='playing'?'#e74c3c':t.status==='filling'?'#f5d060':'#2ecc71';
+    const seatsLabel=free>0?`${free} lugar${free>1?'es':''} libre${free>1?'s':''}`:'Llena';
+    const seatsPillClass=free>0?'':'full';
+    let avh='';
+    t.players.slice(0,4).forEach(p=>{avh+=`<div class="tc-av" style="background:${p.col}28;border-color:${p.col}66">${p.emoji}</div>`;});
+    const d=document.createElement('div');
+    d.className=`tcard ${cc}`;
+    d.dataset.id=t.id;
+    d.innerHTML=`
+      <div class="tc-top">
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <div class="tc-name">${t.name}</div>
+          <div style="font-size:7.5px;color:rgba(245,200,66,.6);font-family:'Cinzel',serif;letter-spacing:1px">CHINCHÓN</div>
+        </div>
+        <div class="tc-badge ${bc}">${bt}</div>
+      </div>
+      <div class="tc-hero">
+        <div class="tc-pot-area">
+          <div class="tc-pot-label">💰 Pozo de la ronda</div>
+          <div class="tc-pot-amount">$${t.pot.toLocaleString('es-AR')}</div>
+        </div>
+        <div class="tc-right-area">
+          <div class="tc-avatars">${avh}</div>
+          <div class="tc-seats-pill ${seatsPillClass}">${seatsLabel}</div>
+        </div>
+      </div>
+      <div class="tc-details">
+        <div class="tcs"><div class="tcs-l">Entrada</div><div class="tcs-v">$${t.buyIn.toLocaleString('es-AR')}</div></div>
+        <div class="tcs-divider"></div>
+        <div class="tcs"><div class="tcs-l">Jugadores</div><div class="tcs-v">${t.players.length} / ${t.maxSeats}</div></div>
+        <div class="tcs-divider"></div>
+        <div class="tcs"><div class="tcs-l">Rondas</div><div class="tcs-v">${t.rondas||0}</div></div>
+      </div>
+      <div class="tc-btns">${bh}</div>
+      <div class="tc-prog"><div class="tc-prog-fill" style="width:${pct}%;background:${pc}"></div></div>
+    `;
+    list.appendChild(d);
+    d.style.opacity='0';d.style.transform='translateY(18px)';
+    requestAnimationFrame(()=>{
+      setTimeout(()=>{
+        d.style.transition='opacity .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1)';
+        d.style.opacity='1';d.style.transform='none';
+      }, idx*55);
+    });
+  });
+}
+
 // ══ JOIN / WATCH ═════════════════════════════════════════════════
 function tryJoin(id){
   const t=TABLES.find(x=>x.id===id);if(!t)return;
-  pendingJoin=t;
+  pendingJoin=t;pendingJoinIsChinchon=false;
   document.getElementById('mi-name').textContent=t.name;
   document.getElementById('mi-cost').textContent='-$'+t.buyIn.toLocaleString('es-AR');
   document.getElementById('mi-bal').textContent='$'+playerBal.toLocaleString('es-AR');
@@ -3515,10 +3860,30 @@ function tryJoin(id){
   const cb=document.getElementById('mi-confirm');cb.style.opacity=insuf?'.35':'1';cb.style.pointerEvents=insuf?'none':'auto';
   document.getElementById('modal-overlay').classList.add('show');
 }
-function closeModal(){document.getElementById('modal-overlay').classList.remove('show');pendingJoin=null;}
+function tryJoinChinchon(id){
+  const t=CH_TABLES.find(x=>x.id===id);if(!t)return;
+  pendingJoin=t;pendingJoinIsChinchon=true;
+  document.getElementById('mi-name').textContent=t.name+' (Chinchón)';
+  document.getElementById('mi-cost').textContent='-$'+t.buyIn.toLocaleString('es-AR');
+  document.getElementById('mi-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+  const after=playerBal-t.buyIn,insuf=after<0;
+  document.getElementById('mi-after').textContent=insuf?'¡Insuficiente!':'$'+after.toLocaleString('es-AR');
+  document.getElementById('mi-after').className='mi-val '+(insuf?'mi-red':'mi-green');
+  document.getElementById('mi-insuf').style.display=insuf?'block':'none';
+  const cb=document.getElementById('mi-confirm');cb.style.opacity=insuf?'.35':'1';cb.style.pointerEvents=insuf?'none':'auto';
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function watchChinchonTable(id){
+  const t=CH_TABLES.find(x=>x.id===id);if(t)startChinchonGame(t,true);
+}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('show');pendingJoin=null;pendingJoinIsChinchon=false;}
 async function confirmJoin(){
   const t=pendingJoin;if(!t)return;
   if(playerBal<t.buyIn){document.getElementById('mi-insuf').style.display='block';return;}
+  if(pendingJoinIsChinchon){
+    playerBal-=t.buyIn;closeModal();startChinchonGame(t,false);
+    return;
+  }
   
   if(PROFILE.userId){
     try {
@@ -3672,6 +4037,392 @@ async function leaveTable(){
   showScreen('lobby-screen');isSpec=false;
   generateTables(); // Refrescar lobby para quitar la mesa cerrada
 }
+
+// ════════════════════════════════════════════════════════════════════════
+// ══ CHINCHÓN — MOTOR DE JUEGO ══════════════════════════════════════════
+// Reglas simplificadas (decisión del proyecto): cada ronda es independiente.
+// Se apuesta el buy-in fijo de la mesa. Gana la ronda quien corta primero
+// con el menor puntaje de mano (o quien tenga menor puntaje si nadie corta
+// y se acaba el mazo). El ganador se lleva el pozo de esa ronda.
+// ════════════════════════════════════════════════════════════════════════
+
+const CH_VALS=[1,2,3,4,5,6,7,10,11,12]; // mazo español de 40 cartas
+function chMkDeck(){
+  const d=[];
+  SUITS.forEach(s=>CH_VALS.forEach(v=>d.push({suit:s,val:v,id:s+v})));
+  for(let i=d.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[d[i],d[j]]=[d[j],d[i]];}
+  return d;
+}
+function chCardPoints(v){return v>=10?10:v;} // figuras valen 10 puntos cada una
+
+// Detecta la mejor combinación de melds (escaleras de 3+ del mismo palo en
+// secuencia, y tríos/cuadras del mismo valor) dentro de una mano dada,
+// minimizando los puntos de las cartas sueltas restantes.
+function chBestMelds(cards){
+  const n=cards.length;
+  // Generar todas las escaleras posibles (3+ cartas consecutivas del mismo palo)
+  const runs=[];
+  SUITS.forEach(suit=>{
+    const idxBySuit=[];
+    cards.forEach((c,i)=>{if(c.suit===suit)idxBySuit.push(i);});
+    idxBySuit.sort((a,b)=>cards[a].val-cards[b].val);
+    for(let i=0;i<idxBySuit.length;i++){
+      let seq=[idxBySuit[i]];
+      for(let j=i+1;j<idxBySuit.length;j++){
+        if(cards[idxBySuit[j]].val===cards[seq[seq.length-1]].val+1){
+          seq.push(idxBySuit[j]);
+          if(seq.length>=3)runs.push([...seq]);
+        } else break;
+      }
+    }
+  });
+  // Generar tríos/cuadras (mismo valor, 3 o 4 cartas)
+  const sets=[];
+  const byVal={};
+  cards.forEach((c,i)=>{(byVal[c.val]=byVal[c.val]||[]).push(i);});
+  Object.values(byVal).forEach(idxs=>{
+    if(idxs.length>=3)sets.push([...idxs]);
+    if(idxs.length===4){
+      // también probar todas las combinaciones de 3 de 4
+      for(let skip=0;skip<4;skip++)sets.push(idxs.filter((_,k)=>k!==skip));
+    }
+  });
+  const groups=[...runs,...sets];
+  // Búsqueda greedy+backtracking simple: probar combinaciones de grupos
+  // disjuntos que maximicen cartas cubiertas (n es chico, máx 10 cartas)
+  let best={used:new Set(),groups:[]};
+  function explore(startIdx,usedSet,chosen){
+    if(usedSet.size>best.used.size || (usedSet.size===best.used.size && chosen.length<best.groups.length)){
+      best={used:new Set(usedSet),groups:[...chosen]};
+    }
+    for(let gi=startIdx;gi<groups.length;gi++){
+      const g=groups[gi];
+      if(g.some(idx=>usedSet.has(idx)))continue;
+      g.forEach(idx=>usedSet.add(idx));
+      chosen.push(g);
+      explore(gi+1,usedSet,chosen);
+      chosen.pop();
+      g.forEach(idx=>usedSet.delete(idx));
+    }
+  }
+  explore(0,new Set(),[]);
+  const usedIdx=best.used;
+  const loose=cards.filter((c,i)=>!usedIdx.has(i));
+  const points=loose.reduce((s,c)=>s+chCardPoints(c.val),0);
+  return {melds:best.groups.map(g=>g.map(i=>cards[i])), loose, points};
+}
+
+function chCanCut(cards){
+  // Cortar válido: los puntos de las cartas sueltas (descontando la que se va
+  // a descartar para quedar con 7 en mano antes de cortar -> acá evaluamos
+  // con 7 cartas, que es el estado antes de descartar la última) deben ser
+  // bajos. Reglas simplificadas del proyecto: se puede cortar con a lo sumo
+  // una carta suelta y esa carta debe valer 5 puntos o menos (corte "a lo loco")
+  // o con cero cartas sueltas (chinchón/cierre perfecto).
+  const r=chBestMelds(cards);
+  if(r.loose.length===0)return {ok:true,points:0,result:r};
+  if(r.loose.length===1 && chCardPoints(r.loose[0].val)<=5)return {ok:true,points:r.points,result:r};
+  return {ok:false,points:r.points,result:r};
+}
+
+function chHandScore(cards){
+  return chBestMelds(cards).points;
+}
+
+function chDealNew(){
+  CH.deck=chMkDeck();
+  CH.discard=[];
+  CH.players.forEach(p=>{p.hand=CH.deck.splice(0,7);p.cut=false;p.passes=0;});
+  CH.discard.push(CH.deck.shift());
+  CH.turnIdx=0;
+  CH.phase='draw'; // draw -> discard -> (siguiente jugador)
+  CH.drewThisTurn=false;
+}
+
+function startChinchonGame(tableData,spectate){
+  isSpec=spectate;
+  let cpu=tableData.players&&tableData.players.length>0?[...tableData.players]:[...ALL_PLAYERS].sort(()=>Math.random()-.5).slice(0,2);
+  const maxOpp=Math.max(1,(tableData.maxSeats||3)-1);
+  cpu=cpu.slice(0,maxOpp);
+  if(cpu.length<1){const ex=ALL_PLAYERS.filter(p=>!cpu.find(x=>x.name===p.name));cpu.push(ex[0]||ALL_PLAYERS[0]);}
+  const players=[];
+  if(!spectate)players.push({name:'Tú',emoji:'⭐',col:'#c9a84c',you:true,style:'balanced'});
+  cpu.forEach(p=>players.push({...p,you:false}));
+  CH={
+    tableName:tableData.name,buyIn:tableData.buyIn,round:tableData.rondas||1,
+    pot:tableData.buyIn*players.length,players,spectate,
+    deck:[],discard:[],turnIdx:0,phase:'idle',selectedCardIdx:null
+  };
+  showScreen('chinchon-screen');
+  document.getElementById('ch-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+  document.getElementById('ch-table-name').textContent=tableData.name.toUpperCase();
+  document.getElementById('ch-end-overlay').classList.remove('show');
+  document.getElementById('ch-spec-bar').style.display=spectate?'block':'none';
+  document.getElementById('ch-spec-bar-txt').textContent='Observando '+tableData.name+' — solo mirás';
+  document.getElementById('ch-end-main-btn').style.display=spectate?'none':'';
+  chDealNew();
+  chSetMsg('Mesa '+CH.tableName+' — Pozo $'+CH.pot.toLocaleString('es-AR'),'info');
+  chRenderAll();
+  setTimeout(()=>chRunTurn(),spectate?500:1000);
+}
+
+function chSetMsg(txt,type){
+  const gm=document.getElementById('ch-gm');
+  gm.className='ch-msg '+(type||'idle');
+  document.getElementById('ch-gmt').textContent=txt;
+}
+
+function chRenderAll(){
+  chRenderOpponents();
+  chRenderHand();
+  chRenderPiles();
+  document.getElementById('ch-pot-val').textContent='$'+CH.pot.toLocaleString('es-AR');
+  document.getElementById('ch-round-badge').textContent='RONDA #'+(CH.round||1);
+  const idle=document.getElementById('ch-idle-bar');
+  idle.style.display=CH.spectate?'flex':'none';
+  document.getElementById('ch-hand-area').style.display=CH.spectate?'none':'flex';
+}
+
+function chRenderOpponents(){
+  const row=document.getElementById('ch-opponents-row');row.innerHTML='';
+  CH.players.forEach((p,i)=>{
+    if(p.you && !CH.spectate)return;
+    const d=document.createElement('div');
+    d.className='ch-opp'+(i===CH.turnIdx?' ch-active':'')+(p.cut?' ch-cut':'');
+    d.innerHTML=`
+      <div class="ch-opp-av" style="background:${p.col}28;border-color:${p.col}66">${p.emoji}</div>
+      <div class="ch-opp-name">${p.you?'Tú':p.name}</div>
+      <div class="ch-opp-cards">${p.hand?p.hand.length:7} cartas</div>
+    `;
+    row.appendChild(d);
+  });
+}
+
+function chRenderPiles(){
+  const dc=document.getElementById('ch-deck-count');
+  if(dc)dc.textContent=CH.deck.length;
+  const dpile=document.getElementById('ch-discard-pile');
+  const top=CH.discard[CH.discard.length-1];
+  if(top){
+    dpile.innerHTML=`<div class="card-wrap"><img class="card-img" src="${CARD_IMGS[top.id]||''}" alt=""></div>`;
+  } else {
+    dpile.innerHTML='<div class="card-ph">—</div>';
+  }
+}
+
+function chRenderHand(){
+  const row=document.getElementById('ch-hand-row');row.innerHTML='';
+  const you=CH.players.find(p=>p.you);
+  if(!you||!you.hand)return;
+  const sorted=[...you.hand].sort((a,b)=>SUITS.indexOf(a.suit)-SUITS.indexOf(b.suit)||a.val-b.val);
+  // calcular melds para resaltar visualmente cuáles cartas forman combinación
+  const r=chBestMelds(you.hand);
+  const meldedIds=new Set();
+  r.melds.forEach(g=>g.forEach(c=>meldedIds.add(c.id+'_'+you.hand.indexOf(c))));
+  sorted.forEach(c=>{
+    const realIdx=you.hand.indexOf(c);
+    const d=document.createElement('div');
+    const inMeld=r.melds.some(g=>g.includes(c));
+    d.className='ch-hand-card'+(inMeld?' ch-in-meld':'')+(CH.selectedCardIdx===realIdx?' ch-selected':'');
+    d.innerHTML=`<img src="${CARD_IMGS[c.id]||''}" alt="">`;
+    d.onclick=()=>chSelectCard(realIdx);
+    row.appendChild(d);
+  });
+  const canCut=CH.turnIdx===CH.players.findIndex(p=>p.you) && CH.phase==='discard' && you.hand.length===8 && chCanCut(you.hand).ok;
+  document.getElementById('ch-btn-cortar').classList.toggle('ch-disabled',!canCut);
+}
+
+function chSelectCard(idx){
+  const you=CH.players.find(p=>p.you);
+  const meIdx=CH.players.findIndex(p=>p.you);
+  if(CH.turnIdx!==meIdx||CH.phase!=='discard')return;
+  CH.selectedCardIdx=CH.selectedCardIdx===idx?null:idx;
+  chRenderHand();
+  if(CH.selectedCardIdx!==null){
+    chHumanDiscard(CH.selectedCardIdx);
+  }
+}
+
+function chHumanDraw(source){
+  const meIdx=CH.players.findIndex(p=>p.you);
+  if(CH.turnIdx!==meIdx||CH.phase!=='draw'||CH.spectate)return;
+  const you=CH.players[meIdx];
+  let card;
+  if(source==='deck'){
+    if(CH.deck.length===0){chReshuffleFromDiscard();}
+    card=CH.deck.shift();
+  } else {
+    if(CH.discard.length===0)return;
+    card=CH.discard.pop();
+  }
+  you.hand.push(card);
+  CH.phase='discard';
+  chSetMsg('Elegí una carta para descartar','info');
+  chRenderAll();
+  document.getElementById('ch-hint').textContent='Tocá una carta de tu mano para descartarla, o cortá si tu mano lo permite.';
+}
+
+function chHumanDiscard(idx){
+  const meIdx=CH.players.findIndex(p=>p.you);
+  const you=CH.players[meIdx];
+  if(CH.turnIdx!==meIdx||CH.phase!=='discard'||you.hand.length!==8)return;
+  const [card]=you.hand.splice(idx,1);
+  CH.discard.push(card);
+  CH.selectedCardIdx=null;
+  chAdvanceTurn();
+}
+
+function chHumanCut(){
+  const meIdx=CH.players.findIndex(p=>p.you);
+  const you=CH.players[meIdx];
+  if(CH.turnIdx!==meIdx||CH.phase!=='discard'||you.hand.length!==8)return;
+  const check=chCanCut(you.hand);
+  if(!check.ok)return;
+  chResolveCut(meIdx,check);
+}
+
+function chHumanPass(){ /* placeholder de paso, no usado en flujo base */ }
+
+function chReshuffleFromDiscard(){
+  if(CH.discard.length<=1)return; // nada para reciclar
+  const top=CH.discard.pop();
+  CH.deck=[...CH.discard];
+  for(let i=CH.deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[CH.deck[i],CH.deck[j]]=[CH.deck[j],CH.deck[i]];}
+  CH.discard=[top];
+}
+
+function chAdvanceTurn(){
+  CH.turnIdx=(CH.turnIdx+1)%CH.players.length;
+  CH.phase='draw';
+  chRenderAll();
+  if(CH.deck.length===0 && CH.discard.length<=1){
+    chResolveByLowestScore();
+    return;
+  }
+  setTimeout(()=>chRunTurn(),700);
+}
+
+function chRunTurn(){
+  if(CH.phase==='idle')return;
+  const p=CH.players[CH.turnIdx];
+  if(p.you){
+    chSetMsg('Tu turno',  'info');
+    document.getElementById('ch-hint').textContent='Tu turno: tocá el mazo o el descarte para robar.';
+    return;
+  }
+  chSetMsg(p.name+' está pensando...','info');
+  document.getElementById('ch-ctb-who').textContent=p.name;
+  document.getElementById('ch-think-bar').style.display='flex';
+  const delay=600+Math.random()*900;
+  setTimeout(()=>{
+    document.getElementById('ch-think-bar').style.display='none';
+    chBotPlay(p);
+  },delay);
+}
+
+function chBotPlay(p){
+  // IA simple: evalúa si conviene robar del descarte (si completa/mejora un
+  // meld) o del mazo. Luego descarta la carta que más puntos sueltos deja,
+  // priorizando no romper melds existentes. Si puede cortar, corta.
+  const topDiscard=CH.discard[CH.discard.length-1];
+  let took='deck',card=null;
+  if(topDiscard){
+    const testHand=[...p.hand,topDiscard];
+    const withDiscard=chBestMelds(testHand);
+    const without=chBestMelds(p.hand);
+    if(withDiscard.points<without.points){took='discard';}
+  }
+  if(took==='discard'){
+    card=CH.discard.pop();
+  } else {
+    if(CH.deck.length===0)chReshuffleFromDiscard();
+    card=CH.deck.shift();
+  }
+  p.hand.push(card);
+
+  // Elegir descarte: probar quitar cada carta y ver cuál deja menos puntos
+  let bestIdx=0,bestPts=Infinity;
+  p.hand.forEach((c,i)=>{
+    const rest=p.hand.filter((_,k)=>k!==i);
+    const pts=chBestMelds(rest).points;
+    if(pts<bestPts){bestPts=pts;bestIdx=i;}
+  });
+
+  chRenderAll();
+  setTimeout(()=>{
+    const check=chCanCut(p.hand);
+    if(check.ok){
+      chResolveCut(CH.players.indexOf(p),check);
+      return;
+    }
+    const [discarded]=p.hand.splice(bestIdx,1);
+    CH.discard.push(discarded);
+    chAdvanceTurn();
+  },500);
+}
+
+function chResolveCut(winnerIdx,check){
+  CH.phase='idle';
+  const winner=CH.players[winnerIdx];
+  winner.cut=true;
+  chRenderAll();
+  const scores=CH.players.map(p=>({name:p.you?'Tú':p.name,pts:p===winner?check.points:chHandScore(p.hand)}));
+  chSetMsg((winner.you?'¡Cortaste!':winner.name+' cortó'),'win');
+  setTimeout(()=>chShowRoundEnd(winner,scores),900);
+}
+
+function chResolveByLowestScore(){
+  CH.phase='idle';
+  const scores=CH.players.map(p=>({p,pts:chHandScore(p.hand)}));
+  scores.sort((a,b)=>a.pts-b.pts);
+  const winner=scores[0].p;
+  chSetMsg('Se acabó el mazo — gana menor puntaje','info');
+  setTimeout(()=>chShowRoundEnd(winner,scores.map(s=>({name:s.p.you?'Tú':s.p.name,pts:s.pts}))),900);
+}
+
+function chShowRoundEnd(winner,scores){
+  const youWon=winner.you;
+  if(!CH.spectate){
+    if(youWon){playerBal+=CH.pot;} 
+    // el buy-in ya se descontó al entrar; nada más que ajustar si perdió
+  }
+  document.getElementById('ch-ei').textContent=youWon?'🏆':'😕';
+  document.getElementById('ch-et').textContent=youWon?'¡GANASTE LA RONDA!':(winner.you?'':winner.name+' ganó la ronda');
+  const lines=scores.sort((a,b)=>a.pts-b.pts).map(s=>`${s.name}: ${s.pts} pts`).join('<br>');
+  document.getElementById('ch-es').innerHTML=lines+(youWon?`<br><br>Ganaste $${CH.pot.toLocaleString('es-AR')}`:'');
+  document.getElementById('ch-end-reload-btn').style.display=(!youWon && playerBal<CH.buyIn)?'block':'none';
+  document.getElementById('ch-end-overlay').classList.add('show');
+  document.getElementById('ch-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+  saveProfileLocal();
+}
+
+function restartChinchonRound(){
+  document.getElementById('ch-end-overlay').classList.remove('show');
+  if(playerBal<CH.buyIn){
+    chSetMsg('Saldo insuficiente para otra ronda','lose');
+    return;
+  }
+  playerBal-=CH.buyIn;
+  CH.round=(CH.round||1)+1;
+  CH.pot=CH.buyIn*CH.players.length;
+  chDealNew();
+  document.getElementById('ch-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+  chSetMsg('Ronda #'+CH.round+' — Pozo $'+CH.pot.toLocaleString('es-AR'),'info');
+  chRenderAll();
+  setTimeout(()=>chRunTurn(),800);
+}
+
+function leaveChinchonTable(){
+  if(!isSpec && CH.phase!=='idle' && CH.players){
+    // Si se va a mitad de ronda sin haber cortado, no se reembolsa el buy-in
+  }
+  saveProfileLocal();
+  CH={phase:'idle'};
+  document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+  showScreen('lobby-screen');isSpec=false;
+  generateTables();
+}
+
 function restartAtTable(){document.getElementById('end-overlay').classList.remove('show');G.phase='idle';G.bet=0;HOUSE.consecLoss=0;setTimeout(()=>dealHand(),800);}
 function doReload(){
   // Abre la billetera para recargar
