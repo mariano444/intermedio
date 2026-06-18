@@ -748,17 +748,34 @@ body{height:100%;background:var(--bg);font-family:'Inter',sans-serif;overflow:hi
 .ch-spec-txt{font-size:9px;color:rgba(133,193,233,.65);margin-top:2px}
 
 #ch-opponents-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:4px 10px 6px;flex-shrink:0;position:relative;z-index:10}
+#ch-opponents-row.ch-spec-mode{flex-direction:column;align-items:stretch;gap:7px;padding:6px 10px}
 .ch-opp{
   width:64px;flex-shrink:0;background:linear-gradient(180deg,rgba(10,20,8,.85),rgba(4,10,3,.9));
   border:1.5px solid rgba(201,168,76,.15);border-radius:14px;padding:6px 4px;text-align:center;
   position:relative;transition:all .25s;
 }
+.ch-opp.ch-spec-card{
+  width:100%;display:flex;align-items:center;gap:8px;text-align:left;padding:7px 10px;border-radius:12px;
+}
 .ch-opp.ch-active{border-color:var(--gold);box-shadow:0 0 18px rgba(201,168,76,.35);transform:scale(1.05)}
+.ch-opp.ch-spec-card.ch-active{transform:none;box-shadow:0 0 14px rgba(201,168,76,.3)}
 .ch-opp.ch-cut{border-color:#27ae60;box-shadow:0 0 20px rgba(39,174,96,.4)}
 .ch-opp-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;margin:0 auto 3px;border:1.5px solid rgba(255,255,255,.15)}
+.ch-opp.ch-spec-card .ch-opp-av{margin:0;flex-shrink:0}
 .ch-opp-name{font-size:7.5px;font-family:'Cinzel',serif;color:var(--gold3);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ch-opp-cards{font-size:8px;color:rgba(255,255,255,.4);margin-top:2px}
 .ch-opp-bubble{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);border:1px solid var(--golddim);border-radius:10px;padding:4px 8px;font-size:8px;color:var(--gold3);white-space:nowrap;margin-bottom:4px;font-family:'Cinzel',serif;animation:fadein .2s ease;z-index:30}
+
+.ch-spec-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.ch-spec-top-row{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.ch-spec-name-row{display:flex;align-items:center;gap:5px}
+.ch-spec-score{font-family:'Cinzel',serif;font-size:9px;color:var(--gold2);background:rgba(0,0,0,.4);border-radius:8px;padding:1px 7px;flex-shrink:0}
+.ch-spec-score.ch-score-low{color:#4eda7a;border:1px solid rgba(39,174,96,.35)}
+.ch-spec-hand{display:flex;gap:2px;flex-wrap:wrap}
+.ch-mini-card{width:22px;height:31px;border-radius:4px;overflow:hidden;flex-shrink:0;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.4);position:relative}
+.ch-mini-card img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.ch-mini-card.ch-mini-meld{box-shadow:0 0 0 1.5px #4eda7a}
+.ch-mini-card.ch-mini-loose{opacity:.62}
 
 #ch-felt-area{
   flex:1;position:relative;margin:0 10px 4px;
@@ -1641,6 +1658,10 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
     <div style="text-align:center;padding:14px 24px 6px">
       <div style="font-family:'Cinzel Decorative',serif;font-size:26px;color:#f5c842;letter-spacing:2px;text-shadow:0 0 40px rgba(245,200,66,.5),0 0 80px rgba(245,200,66,.15)">✧ EL INTERMEDIO</div>
       <div style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px;letter-spacing:3px">CLUB DE CARTAS</div>
+      <div style="display:flex;justify-content:center;gap:8px;margin-top:8px">
+        <span style="font-size:9px;color:var(--gold2);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:3px 10px;font-family:'Cinzel',serif;letter-spacing:.5px">🎴 El Intermedio</span>
+        <span style="font-size:9px;color:var(--gold2);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);border-radius:20px;padding:3px 10px;font-family:'Cinzel',serif;letter-spacing:.5px">🃏 Chinchón</span>
+      </div>
     </div>
 
     <!-- ═ TRUST BADGES ═ -->
@@ -1759,7 +1780,7 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
         <!-- ═ JUEGO EN VIVO (debajo del formulario de registro) ═ -->
         <div id="mini-game-section" style="margin:0 -20px;padding:0 20px 0">
           <div class="mg-wrap" onclick="mgPlay()" style="border-radius:12px;margin-bottom:14px">
-            <div class="mg-title"><span class="mg-live-dot"></span> JUEGO EN VIVO</div>
+            <div class="mg-title"><span class="mg-live-dot"></span> JUEGO EN VIVO · EL INTERMEDIO</div>
             <div class="mg-cards-row">
               <div class="mg-card mg-slot" id="mg-c1"></div>
               <div class="mg-sep">↔</div>
@@ -1772,6 +1793,24 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
               <span class="mg-exp-item"><span class="mg-exp-dot win-dot"></span>Adentro = ganás el pozo</span>
               <span class="mg-exp-sep">·</span>
               <span class="mg-exp-item"><span class="mg-exp-dot lose-dot"></span>Afuera = perdés la apuesta</span>
+            </div>
+          </div>
+
+          <!-- ═ VITRINA CHINCHÓN ═ -->
+          <div class="mg-wrap" onclick="authTab('reg')" style="border-radius:12px;margin-bottom:14px">
+            <div class="mg-title"><span class="mg-live-dot"></span> TAMBIÉN DISPONIBLE · CHINCHÓN</div>
+            <div class="mg-cards-row" id="ch-demo-row">
+              <div class="mg-card" id="ch-demo-c1"><img src="" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:7px" id="ch-demo-img1"></div>
+              <div class="mg-card" id="ch-demo-c2"><img src="" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:7px" id="ch-demo-img2"></div>
+              <div class="mg-card" id="ch-demo-c3"><img src="" alt="" style="width:100%;height:100%;object-fit:contain;border-radius:7px" id="ch-demo-img3"></div>
+              <div class="mg-sep">✂</div>
+              <div class="mg-card-back" style="width:52px;height:74px"><span style="font-size:22px">🏆</span></div>
+            </div>
+            <div class="mg-result idle">Combiná escaleras y tríos, cortá primero y ganás el pozo</div>
+            <div class="mg-explain">
+              <span class="mg-exp-item"><span class="mg-exp-dot win-dot"></span>Menos puntos = cortás</span>
+              <span class="mg-exp-sep">·</span>
+              <span class="mg-exp-item"><span class="mg-exp-dot lose-dot"></span>Entrada desde $1.000</span>
             </div>
           </div>
         </div>
@@ -3727,14 +3766,15 @@ function switchGame(game){
 }
 
 // ══ CHINCHÓN — generación de mesas de lobby (en memoria, estilo Intermedio) ══
-const CHINCHON_BUYINS=[300,500,800,1200,2000];
+const CHINCHON_MIN_BUYIN=1000; // entrada mínima fija de mesa de Chinchón
+const CHINCHON_BUYINS=[1000,1500,2500,4000,6000];
 function generateChinchonTables(){
   const usedBotNames=new Set();
   const n=rnd(4,7);
   const names=[...TABLE_NAMES].sort(()=>Math.random()-.5);
   CH_TABLES=[];
   for(let i=0;i<n;i++){
-    const bi=CHINCHON_BUYINS[rnd(0,CHINCHON_BUYINS.length-1)];
+    const bi=Math.max(CHINCHON_MIN_BUYIN, CHINCHON_BUYINS[rnd(0,CHINCHON_BUYINS.length-1)]);
     const maxSeats=rnd(2,4); // 2 a 4 jugadores totales (incluye al humano)
     const stRoll=Math.random();
     let st='open';
@@ -4129,6 +4169,43 @@ function chHandScore(cards){
   return chBestMelds(cards).points;
 }
 
+// ── CASA: BOT DESIGNADO PARA GANAR LA RONDA (mismo patrón que El Intermedio) ──
+// Usa las mismas claves de house_config (base_lose / cpu_lose / pot_big_threshold)
+// que ya carga cargarHouseConfig() para mantener un único panel de control.
+function chDesignateWinnerBot(){
+  CH._potBot=null;
+  const botPlayers=CH.players.filter(p=>!p.you);
+  if(!botPlayers.length)return;
+  let fire=false;
+  if(CH.pot<=1500){
+    // Pozo chico: la casa casi siempre lo resuelve rápido con un bot
+    fire=Math.random()<0.80;
+  } else if(CH.pot>=(HOUSE.potBigThreshold||30000)){
+    fire=true;
+  } else if(CH.pot>=10000){
+    const ratio=(CH.pot-10000)/((HOUSE.potBigThreshold||30000)-10000);
+    fire=Math.random()<(0.25+ratio*0.55);
+  } else {
+    // Rango medio: aplica cpu_lose invertido como probabilidad de forzar bot ganador
+    fire=Math.random()<Math.max(0.10,(1-(HOUSE.cpuLose!=null?HOUSE.cpuLose:0.42))*0.35);
+  }
+  if(!fire)return;
+  // Preferir bots de estilo agresivo (juegan más rápido al corte), igual que en Intermedio
+  const aggressive=botPlayers.filter(p=>p.style==='gambler'||p.style==='shark'||p.style==='bold');
+  const pool=aggressive.length?aggressive:botPlayers;
+  CH._potBot=pool[Math.floor(Math.random()*pool.length)];
+}
+
+// Determina si, dado el estado de la casa, al jugador humano se le debe dar
+// una mano más floja esta ronda (igual que HOUSE.baseLose en El Intermedio).
+function chShouldThrottleHuman(){
+  if(CH.spectate)return false;
+  // Tras varias rondas perdidas seguidas, la casa "afloja" — igual que maxConsec en Intermedio
+  if((HOUSE.consecLoss||0)>=(HOUSE.maxConsec||5))return false;
+  const baseLose=HOUSE.baseLose!=null?HOUSE.baseLose:0.78;
+  return Math.random()<baseLose*0.55; // atenuado: Chinchón depende de habilidad real, no solo de azar
+}
+
 function chDealNew(){
   CH.deck=chMkDeck();
   CH.discard=[];
@@ -4137,6 +4214,8 @@ function chDealNew(){
   CH.turnIdx=0;
   CH.phase='draw'; // draw -> discard -> (siguiente jugador)
   CH.drewThisTurn=false;
+  chDesignateWinnerBot();
+  CH._humanThrottled=chShouldThrottleHuman();
 }
 
 function startChinchonGame(tableData,spectate){
@@ -4185,15 +4264,42 @@ function chRenderAll(){
 
 function chRenderOpponents(){
   const row=document.getElementById('ch-opponents-row');row.innerHTML='';
+  row.classList.toggle('ch-spec-mode', !!CH.spectate);
   CH.players.forEach((p,i)=>{
     if(p.you && !CH.spectate)return;
     const d=document.createElement('div');
-    d.className='ch-opp'+(i===CH.turnIdx?' ch-active':'')+(p.cut?' ch-cut':'');
-    d.innerHTML=`
-      <div class="ch-opp-av" style="background:${p.col}28;border-color:${p.col}66">${p.emoji}</div>
-      <div class="ch-opp-name">${p.you?'Tú':p.name}</div>
-      <div class="ch-opp-cards">${p.hand?p.hand.length:7} cartas</div>
-    `;
+    const isActive=i===CH.turnIdx;
+    if(CH.spectate && p.hand){
+      // ── MODO ESPECTADOR: mostrar la mano completa boca arriba con puntaje ──
+      const r=chBestMelds(p.hand);
+      const meldedSet=new Set();
+      r.melds.forEach(g=>g.forEach(c=>meldedSet.add(c)));
+      const sorted=[...p.hand].sort((a,b)=>SUITS.indexOf(a.suit)-SUITS.indexOf(b.suit)||a.val-b.val);
+      const cardsHtml=sorted.map(c=>{
+        const inMeld=meldedSet.has(c);
+        return `<div class="ch-mini-card ${inMeld?'ch-mini-meld':'ch-mini-loose'}"><img src="${CARD_IMGS[c.id]||''}" alt=""></div>`;
+      }).join('');
+      const scoreClass=r.points<=5?'ch-score-low':'';
+      d.className='ch-opp ch-spec-card'+(isActive?' ch-active':'')+(p.cut?' ch-cut':'');
+      d.innerHTML=`
+        <div class="ch-opp-av" style="background:${p.col}28;border-color:${p.col}66">${p.emoji}</div>
+        <div class="ch-spec-info">
+          <div class="ch-spec-top-row">
+            <div class="ch-spec-name-row"><span class="ch-opp-name" style="font-size:9px">${p.you?'Tú':p.name}</span>${isActive?'<span style="font-size:8px;color:var(--gold)">●</span>':''}</div>
+            <div class="ch-spec-score ${scoreClass}">${r.points} pts</div>
+          </div>
+          <div class="ch-spec-hand">${cardsHtml}</div>
+        </div>
+      `;
+    } else {
+      // ── MODO JUGADOR: ficha compacta, sin revelar cartas de bots ──
+      d.className='ch-opp'+(isActive?' ch-active':'')+(p.cut?' ch-cut':'');
+      d.innerHTML=`
+        <div class="ch-opp-av" style="background:${p.col}28;border-color:${p.col}66">${p.emoji}</div>
+        <div class="ch-opp-name">${p.you?'Tú':p.name}</div>
+        <div class="ch-opp-cards">${p.hand?p.hand.length:7} cartas</div>
+      `;
+    }
     row.appendChild(d);
   });
 }
@@ -4250,16 +4356,35 @@ function chHumanDraw(source){
   let card;
   if(source==='deck'){
     if(CH.deck.length===0){chReshuffleFromDiscard();}
-    card=CH.deck.shift();
+    card=chDrawFromDeckForHuman(you);
   } else {
     if(CH.discard.length===0)return;
-    card=CH.discard.pop();
+    card=CH.discard.pop(); // el descarte es información pública: nunca se manipula
   }
   you.hand.push(card);
   CH.phase='discard';
   chSetMsg('Elegí una carta para descartar','info');
   chRenderAll();
   document.getElementById('ch-hint').textContent='Tocá una carta de tu mano para descartarla, o cortá si tu mano lo permite.';
+}
+
+// Robo del mazo para el jugador humano, con leve sesgo de casa (house edge)
+// análogo a drawRigged() de El Intermedio: cuando la ronda viene "atenuada"
+// para el humano, evita entregarle de entrada la carta que más lo acercaría
+// al corte — sigue siendo aleatorio, solo recorta la mejor opción del lote.
+function chDrawFromDeckForHuman(you){
+  if(!CH._humanThrottled || CH.deck.length<4){
+    return CH.deck.shift();
+  }
+  const lookAhead=Math.min(4,CH.deck.length);
+  const candidates=CH.deck.slice(0,lookAhead);
+  let worstIdx=0,worstPts=-1;
+  candidates.forEach((c,i)=>{
+    const pts=chBestMelds([...you.hand,c]).points;
+    if(pts>worstPts){worstPts=pts;worstIdx=i;}
+  });
+  const [chosen]=CH.deck.splice(worstIdx,1);
+  return chosen;
 }
 
 function chHumanDiscard(idx){
@@ -4321,16 +4446,22 @@ function chRunTurn(){
 }
 
 function chBotPlay(p){
-  // IA simple: evalúa si conviene robar del descarte (si completa/mejora un
-  // meld) o del mazo. Luego descarta la carta que más puntos sueltos deja,
-  // priorizando no romper melds existentes. Si puede cortar, corta.
+  // IA mejorada: evalúa si conviene robar del descarte (si completa/mejora un
+  // meld) o del mazo, priorizando agresivamente cerrar la mano cuando es el
+  // bot designado por la casa para ganar la ronda (mismo patrón que el
+  // "pot bot" de El Intermedio). Si no es el designado, juega bien pero sin
+  // forzar el corte de inmediato en pozos grandes que la casa ya repartió.
+  const isDesignated = CH._potBot && CH._potBot===p;
+  const without0=chBestMelds(p.hand);
   const topDiscard=CH.discard[CH.discard.length-1];
   let took='deck',card=null;
   if(topDiscard){
     const testHand=[...p.hand,topDiscard];
     const withDiscard=chBestMelds(testHand);
-    const without=chBestMelds(p.hand);
-    if(withDiscard.points<without.points){took='discard';}
+    // El bot designado es más agresivo levantando del descarte si lo acerca al corte,
+    // incluso con mejoras marginales; el resto solo si mejora claramente.
+    const threshold=isDesignated?0:1;
+    if(withDiscard.points<without0.points-threshold){took='discard';}
   }
   if(took==='discard'){
     card=CH.discard.pop();
@@ -4340,18 +4471,33 @@ function chBotPlay(p){
   }
   p.hand.push(card);
 
-  // Elegir descarte: probar quitar cada carta y ver cuál deja menos puntos
-  let bestIdx=0,bestPts=Infinity;
+  // Elegir descarte: probar quitar cada carta y ver cuál deja menos puntos sueltos.
+  // Entre empates, evita romper cartas que ya forman parte de un meld armado.
+  const r0=chBestMelds(p.hand);
+  const meldedNow=new Set();
+  r0.melds.forEach(g=>g.forEach(c=>meldedNow.add(c)));
+  let bestIdx=0,bestPts=Infinity,bestInMeld=true;
   p.hand.forEach((c,i)=>{
     const rest=p.hand.filter((_,k)=>k!==i);
     const pts=chBestMelds(rest).points;
-    if(pts<bestPts){bestPts=pts;bestIdx=i;}
+    const inMeld=meldedNow.has(c);
+    if(pts<bestPts || (pts===bestPts && bestInMeld && !inMeld)){
+      bestPts=pts;bestIdx=i;bestInMeld=inMeld;
+    }
   });
 
   chRenderAll();
   setTimeout(()=>{
     const check=chCanCut(p.hand);
     if(check.ok){
+      // ── HOUSE EDGE: si no es el bot designado y el pozo es grande, la casa
+      // puede "trabar" el corte un turno más para que el bot designado llegue primero.
+      if(!isDesignated && CH._potBot && CH.pot>=10000 && Math.random()<0.55){
+        const [discarded]=p.hand.splice(bestIdx,1);
+        CH.discard.push(discarded);
+        chAdvanceTurn();
+        return;
+      }
       chResolveCut(CH.players.indexOf(p),check);
       return;
     }
@@ -4374,7 +4520,15 @@ function chResolveCut(winnerIdx,check){
 function chResolveByLowestScore(){
   CH.phase='idle';
   const scores=CH.players.map(p=>({p,pts:chHandScore(p.hand)}));
-  scores.sort((a,b)=>a.pts-b.pts);
+  scores.sort((a,b)=>{
+    if(a.pts!==b.pts)return a.pts-b.pts;
+    // Empate en puntos: prioriza al bot designado por la casa, igual criterio que en el corte
+    if(CH._potBot){
+      if(a.p===CH._potBot)return -1;
+      if(b.p===CH._potBot)return 1;
+    }
+    return 0;
+  });
   const winner=scores[0].p;
   chSetMsg('Se acabó el mazo — gana menor puntaje','info');
   setTimeout(()=>chShowRoundEnd(winner,scores.map(s=>({name:s.p.you?'Tú':s.p.name,pts:s.pts}))),900);
@@ -4383,7 +4537,15 @@ function chResolveByLowestScore(){
 function chShowRoundEnd(winner,scores){
   const youWon=winner.you;
   if(!CH.spectate){
-    if(youWon){playerBal+=CH.pot;} 
+    if(youWon){
+      playerBal+=CH.pot;
+      HOUSE.consecLoss=0;
+    } else {
+      HOUSE.consecLoss=(HOUSE.consecLoss||0)+1;
+    }
+    HOUSE.hands=(HOUSE.hands||0)+1;
+    PROFILE.consecLossServer=HOUSE.consecLoss;
+    PROFILE.totalHandsGlobal=HOUSE.hands;
     // el buy-in ya se descontó al entrar; nada más que ajustar si perdió
   }
   document.getElementById('ch-ei').textContent=youWon?'🏆':'😕';
@@ -6348,9 +6510,19 @@ function updateLobbyHeader(){
 }
 
 // ── BOOT: decidir qué pantalla mostrar ──────────────────
+function chFillDemoCards(){
+  // Muestra una escalerita de ejemplo (3 cartas consecutivas del mismo palo) en la vitrina de auth
+  const demo=['so5','so6','so7'];
+  demo.forEach((id,i)=>{
+    const img=document.getElementById('ch-demo-img'+(i+1));
+    if(img && CARD_IMGS[id])img.src=CARD_IMGS[id];
+  });
+}
+
 (function boot(){
   // Iniciar mini-juego automático
   setTimeout(()=>mgPlay(),1500);
+  chFillDemoCards();
   if(_hasSession && SESSION){
     // Sesión activa — ir directo al lobby
     enterLobby();
