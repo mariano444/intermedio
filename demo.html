@@ -3921,7 +3921,9 @@ async function confirmJoin(){
   const t=pendingJoin;if(!t)return;
   if(playerBal<t.buyIn){document.getElementById('mi-insuf').style.display='block';return;}
   if(pendingJoinIsChinchon){
-    playerBal-=t.buyIn;closeModal();startChinchonGame(t,false);
+    playerBal-=t.buyIn;PROFILE.bal=playerBal;closeModal();
+    saveProfile(); // persiste el débito de entrada en Supabase (no solo localStorage)
+    startChinchonGame(t,false);
     return;
   }
   
@@ -4544,9 +4546,11 @@ function chShowRoundEnd(winner,scores){
       HOUSE.consecLoss=(HOUSE.consecLoss||0)+1;
     }
     HOUSE.hands=(HOUSE.hands||0)+1;
+    PROFILE.bal=playerBal;
+    PROFILE.totalHands=(PROFILE.totalHands||0)+1;
     PROFILE.consecLossServer=HOUSE.consecLoss;
     PROFILE.totalHandsGlobal=HOUSE.hands;
-    // el buy-in ya se descontó al entrar; nada más que ajustar si perdió
+    // el buy-in ya se descontó al entrar; acá solo se suma si ganó la ronda
   }
   document.getElementById('ch-ei').textContent=youWon?'🏆':'😕';
   document.getElementById('ch-et').textContent=youWon?'¡GANASTE LA RONDA!':(winner.you?'':winner.name+' ganó la ronda');
@@ -4555,7 +4559,11 @@ function chShowRoundEnd(winner,scores){
   document.getElementById('ch-end-reload-btn').style.display=(!youWon && playerBal<CH.buyIn)?'block':'none';
   document.getElementById('ch-end-overlay').classList.add('show');
   document.getElementById('ch-bal').textContent='$'+playerBal.toLocaleString('es-AR');
-  saveProfileLocal();
+  if(!CH.spectate){
+    saveProfile(); // persiste el resultado de la ronda en Supabase, no solo localStorage
+  } else {
+    saveProfileLocal();
+  }
 }
 
 function restartChinchonRound(){
@@ -4565,6 +4573,8 @@ function restartChinchonRound(){
     return;
   }
   playerBal-=CH.buyIn;
+  PROFILE.bal=playerBal;
+  saveProfile(); // persiste el débito de la nueva ronda de inmediato
   CH.round=(CH.round||1)+1;
   CH.pot=CH.buyIn*CH.players.length;
   chDealNew();
@@ -4578,7 +4588,12 @@ function leaveChinchonTable(){
   if(!isSpec && CH.phase!=='idle' && CH.players){
     // Si se va a mitad de ronda sin haber cortado, no se reembolsa el buy-in
   }
-  saveProfileLocal();
+  if(!isSpec){
+    PROFILE.bal=playerBal;
+    saveProfile(); // red de seguridad: asegura que el saldo quede sincronizado con Supabase al salir
+  } else {
+    saveProfileLocal();
+  }
   CH={phase:'idle'};
   document.getElementById('g-bal').textContent='$'+playerBal.toLocaleString('es-AR');
   showScreen('lobby-screen');isSpec=false;
