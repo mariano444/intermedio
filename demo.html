@@ -4256,6 +4256,34 @@ function chDealNew(){
   CH._turnTimer=null;
 }
 
+function startChinchonGame(tableData,spectate){
+  isSpec=spectate;
+  let cpu=tableData.players&&tableData.players.length>0?[...tableData.players]:[...ALL_PLAYERS].sort(()=>Math.random()-.5).slice(0,2);
+  const maxOpp=Math.max(1,(tableData.maxSeats||3)-1);
+  cpu=cpu.slice(0,maxOpp);
+  if(cpu.length<1){const ex=ALL_PLAYERS.filter(p=>!cpu.find(x=>x.name===p.name));cpu.push(ex[0]||ALL_PLAYERS[0]);}
+  const players=[];
+  if(!spectate) players.push({name:'Tú',emoji:'⭐',col:'#c9a84c',you:true,style:'balanced'});
+  cpu.forEach(p=>players.push({...p,you:false}));
+  CH={
+    tableName:tableData.name,buyIn:tableData.buyIn,round:tableData.rondas||1,
+    pot:tableData.buyIn*players.length,players,spectate,
+    deck:[],discard:[],turnIdx:0,phase:'idle',selectedCardIdx:null,
+    _potBot:null,_humanThrottled:false,_turnTimer:null
+  };
+  showScreen('chinchon-screen');
+  document.getElementById('ch-bal').textContent='$'+playerBal.toLocaleString('es-AR');
+  document.getElementById('ch-table-name').textContent=tableData.name.toUpperCase();
+  document.getElementById('ch-end-overlay').classList.remove('show');
+  document.getElementById('ch-spec-bar').style.display=spectate?'block':'none';
+  document.getElementById('ch-spec-bar-txt').textContent='Observando '+tableData.name+' — solo mirás';
+  document.getElementById('ch-end-main-btn').style.display=spectate?'none':'';
+  chDealNew();
+  chSetMsg('Mesa '+CH.tableName+' — Pozo $'+CH.pot.toLocaleString('es-AR'),'info');
+  chRenderAll();
+  setTimeout(()=>chRunTurn(),spectate?500:1000);
+}
+
 // ── CHAT DE BOTS ──────────────────────────────────────────────────────────
 const CH_BOT_CHAT={
   bold:     ['¡Yo me llevo esto!','Aposté todo desde el arranque.','Ni lo intentes.','La mano perfecta.'],
