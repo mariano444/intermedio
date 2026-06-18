@@ -2344,8 +2344,8 @@ src="https://www.facebook.com/tr?id=717335459401864&ev=PageView&noscript=1"
       <span id="ch-timer-num">30</span>
     </div>
     <div id="ch-hand-row"></div>
-    <div id="ch-action-row" style="display:flex;justify-content:center;gap:10px;padding:0 0 6px">
-      <div class="ch-abtn ch-abtn-corte" id="ch-btn-cortar" onclick="chHumanCut()">✂ Cortar</div>
+    <div id="ch-action-row" style="display:flex;justify-content:center;gap:10px;padding:10px 0 15px;min-height:50px;">
+      <div class="ch-abtn ch-abtn-corte" id="ch-btn-cortar" onclick="chHumanCut()" style="display:inline-block;padding:12px 24px;border-radius:12px;font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:.6px;background:linear-gradient(135deg,#27ae60,#145a32);color:#fff;box-shadow:0 3px 0 #0d3018;cursor:pointer;">✂ Cortar</div>
       <div class="ch-abtn ch-abtn-pasar" id="ch-btn-pasar" onclick="chHumanPass()" style="display:none">⊘ Pasar turno</div>
     </div>
     <div id="ch-hint" class="ch-hint">Tu turno: robá del mazo o del descarte, luego descartá una carta.</div>
@@ -4304,8 +4304,8 @@ function chRenderAll(){
   
   if(actionRow) actionRow.style.display = 'flex'; // Always show the action row
   
-  if(cutBtn && you && you.hand){
-    const canCut = chCanCut(you.hand);
+  if(cutBtn){
+    const canCut = you && you.hand ? chCanCut(you.hand) : {ok:false};
     const shouldEnable = canCut.ok && CH.phase === 'discard' && !CH.spectate;
     cutBtn.disabled = !shouldEnable;
     cutBtn.className = 'ch-abtn ch-abtn-cortar' + (!shouldEnable ? ' ch-disabled' : '');
