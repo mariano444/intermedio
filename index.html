@@ -4419,6 +4419,11 @@ function chDealNew(){
 
 function startChinchonGame(tableData,spectate){
   isSpec=spectate;
+  // Initialize HOUSE variables just like startGame!
+  HOUSE.consecLoss = PROFILE.consecLossServer || 0;
+  HOUSE.hands = PROFILE.totalHandsGlobal || 0;
+  HOUSE.sessionBet = 0;
+  
   let cpu=tableData.players&&tableData.players.length>0?[...tableData.players]:[...ALL_PLAYERS].sort(()=>Math.random()-.5).slice(0,2);
   const maxOpp=Math.max(1,(tableData.maxSeats||3)-1);
   cpu=cpu.slice(0,maxOpp);
@@ -4536,14 +4541,32 @@ function chAutoPlayHumanTurn(){
 function chAutoDiscard(you){
   const check=chCanCut(you.hand);
   if(check.ok){ chClearTurnTimer(); chResolveCut(CH.players.findIndex(p=>p.you),check); return; }
+  
+  // Use the same improved AI logic as bots for discard
   const r=chBestMelds(you.hand);
   const meldedNow=new Set(); r.melds.forEach(g=>g.forEach(c=>meldedNow.add(c)));
-  let bestIdx=0,bestPts=Infinity,bestInMeld=true;
+  
+  let bestIdx=0,bestPts=Infinity,bestInMeld=true, highestDiscardPoints = -1;
+  
   you.hand.forEach((c,i)=>{
-    const pts=chBestMelds(you.hand.filter((_,k)=>k!==i)).points;
+    const rest=you.hand.filter((_,k)=>k!==i);
+    const resultAfterDiscard = chBestMelds(rest);
+    const ptsAfterDiscard = resultAfterDiscard.points;
     const inMeld=meldedNow.has(c);
-    if(pts<bestPts||(pts===bestPts&&bestInMeld&&!inMeld)){bestPts=pts;bestIdx=i;bestInMeld=inMeld;}
+    const cardPoints = chCardPoints(c.val);
+    
+    if(
+      ptsAfterDiscard < bestPts || 
+      (ptsAfterDiscard === bestPts && bestInMeld && !inMeld) ||
+      (ptsAfterDiscard === bestPts && bestInMeld === inMeld && cardPoints > highestDiscardPoints)
+    ) {
+      bestPts = ptsAfterDiscard;
+      bestIdx = i;
+      bestInMeld = inMeld;
+      highestDiscardPoints = cardPoints;
+    }
   });
+  
   const [disc]=you.hand.splice(bestIdx,1);
   CH.discard.push(disc);
   CH.selectedCardIdx=null;
