@@ -4198,6 +4198,117 @@ function chHandScore(cards){
   return chBestMelds(cards).points;
 }
 
+function chRenderAll(){
+  if(!CH)return;
+  
+  // Update pot display
+  const potEl = document.getElementById('ch-pot-val');
+  if(potEl) potEl.textContent = '$' + CH.pot.toLocaleString('es-AR');
+  
+  // Update round badge
+  const roundEl = document.getElementById('ch-round-badge');
+  if(roundEl) roundEl.textContent = 'RONDA #' + CH.round;
+  
+  // Update deck count
+  const deckCountEl = document.getElementById('ch-deck-count');
+  if(deckCountEl) deckCountEl.textContent = CH.deck.length;
+  
+  // Render discard pile
+  const discardEl = document.getElementById('ch-discard-pile');
+  if(discardEl){
+    if(CH.discard.length > 0){
+      const topCard = CH.discard[CH.discard.length - 1];
+      const src = CARD_IMGS[topCard.suit + topCard.val];
+      discardEl.innerHTML = src 
+        ? `<div class="card-wrap" style="width:80%;height:80%"><img src="${src}" class="card-img"></div>` 
+        : `<div class="card-ph" style="width:80%;height:80%">${topCard.val}</div>`;
+    } else {
+      discardEl.innerHTML = `<div class="card-ph" style="width:80%;height:80%">—</div>`;
+    }
+  }
+  
+  // Render opponents
+  const opponentsRow = document.getElementById('ch-opponents-row');
+  if(opponentsRow){
+    opponentsRow.innerHTML = '';
+    CH.players.forEach((p, i) => {
+      if(p.you) return;
+      const oppDiv = document.createElement('div');
+      oppDiv.className = 'ch-opp' + (i === CH.turnIdx ? ' ch-active' : '');
+      oppDiv.innerHTML = `
+        <div class="ch-opp-av" style="border-color:${p.col || '#ccc'}">${p.emoji || '🤖'}</div>
+        <div class="ch-opp-name">${p.name}</div>
+        <div class="ch-opp-cards">${p.hand ? p.hand.length : 0} cartas</div>
+      `;
+      opponentsRow.appendChild(oppDiv);
+    });
+  }
+  
+  // Render your hand
+  const handRow = document.getElementById('ch-hand-row');
+  if(handRow){
+    handRow.innerHTML = '';
+    const you = CH.players.find(p => p.you);
+    if(you && you.hand){
+      you.hand.forEach((card, idx) => {
+        const src = CARD_IMGS[card.suit + card.val];
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'ch-hand-card' + (CH.selectedCardIdx === idx ? ' ch-selected' : '');
+        cardDiv.innerHTML = src 
+          ? `<img src="${src}" class="card-img">` 
+          : `<span style="font-size:24px;color:#333">${card.val}</span>`;
+        cardDiv.onclick = () => {
+          if(CH.phase === 'discard' && !CH.spectate){
+            chHumanDiscard(idx);
+          } else if(CH.selectedCardIdx === idx){
+            CH.selectedCardIdx = null;
+          } else {
+            CH.selectedCardIdx = idx;
+          }
+          chRenderAll();
+        };
+        handRow.appendChild(cardDiv);
+      });
+    }
+  }
+  
+  // Update buttons
+  const cutBtn = document.getElementById('ch-btn-cortar');
+  const you = CH.players.find(p => p.you);
+  if(cutBtn && you && you.hand){
+    const canCut = chCanCut(you.hand);
+    cutBtn.disabled = !(canCut.ok && CH.phase === 'discard' && !CH.spectate);
+    cutBtn.className = 'ch-abtn ch-abtn-cortar' + (cutBtn.disabled ? ' ch-disabled' : '');
+  }
+  
+  // Update turn timer visibility
+  const timerWrap = document.getElementById('ch-turn-timer-wrap');
+  if(timerWrap){
+    const yourTurn = CH.players[CH.turnIdx]?.you;
+    timerWrap.style.display = (yourTurn && CH.phase === 'draw') || (yourTurn && CH.phase === 'discard') ? 'flex' : 'none';
+  }
+  
+  // Update hint text
+  const hintEl = document.getElementById('ch-hint');
+  if(hintEl){
+    if(CH.spectate){
+      hintEl.textContent = 'Modo espectador — solo mirás';
+    } else if(CH.phase === 'draw'){
+      hintEl.textContent = 'Tocá el mazo o el descarte para robar';
+    } else if(CH.phase === 'discard'){
+      hintEl.textContent = 'Tocá una carta para descartarla, o cortá si tu mano lo permite';
+    } else {
+      hintEl.textContent = '';
+    }
+  }
+  
+  // Update idle bar
+  const idleBar = document.getElementById('ch-idle-bar');
+  if(idleBar){
+    idleBar.style.display = CH.phase === 'idle' ? 'flex' : 'none';
+  }
+}
+
 // ── CASA: BOT DESIGNADO PARA GANAR LA RONDA (mismo patrón que El Intermedio) ──
 // Usa las mismas claves de house_config (base_lose / cpu_lose / pot_big_threshold)
 // que ya carga cargarHouseConfig() para mantener un único panel de control.
@@ -5515,6 +5626,7 @@ function updStats(){
   }
 }
 function setMsg(txt,cls){const e=document.getElementById('gm');e.className='gmsg '+(cls||'idle');document.getElementById('gmt').textContent=txt;}
+function chSetMsg(txt,cls){const e=document.getElementById('ch-gm');e.className='ch-msg '+(cls||'idle');document.getElementById('ch-gmt').textContent=txt;}
 
 // ══ COUNTDOWN ════════════════════════════════════════════════════
 function startCD(s){
