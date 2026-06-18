@@ -4128,57 +4128,82 @@ function chCardPoints(v){return v>=10?10:v;} // figuras valen 10 puntos cada una
 // secuencia, y tríos/cuadras del mismo valor) dentro de una mano dada,
 // minimizando los puntos de las cartas sueltas restantes.
 function chBestMelds(cards){
-  const n=cards.length;
-  // Generar todas las escaleras posibles (3+ cartas consecutivas del mismo palo)
-  const runs=[];
-  SUITS.forEach(suit=>{
-    const idxBySuit=[];
-    cards.forEach((c,i)=>{if(c.suit===suit)idxBySuit.push(i);});
-    idxBySuit.sort((a,b)=>cards[a].val-cards[b].val);
-    for(let i=0;i<idxBySuit.length;i++){
-      let seq=[idxBySuit[i]];
-      for(let j=i+1;j<idxBySuit.length;j++){
-        if(cards[idxBySuit[j]].val===cards[seq[seq.length-1]].val+1){
+  const n = cards.length;
+  // Generate all possible runs (3+ consecutive same suit)
+  const runs = [];
+  SUITS.forEach(suit => {
+    const idxBySuit = [];
+    cards.forEach((c, i) => { if (c.suit === suit) idxBySuit.push(i); });
+    idxBySuit.sort((a, b) => cards[a].val - cards[b].val);
+    for (let i = 0; i < idxBySuit.length; i++) {
+      let seq = [idxBySuit[i]];
+      for (let j = i + 1; j < idxBySuit.length; j++) {
+        if (cards[idxBySuit[j]].val === cards[seq[seq.length - 1]].val + 1) {
           seq.push(idxBySuit[j]);
-          if(seq.length>=3)runs.push([...seq]);
-        } else break;
+          if (seq.length >= 3) runs.push([...seq]);
+        } else if (cards[idxBySuit[j]].val !== cards[seq[seq.length - 1]].val) {
+          break;
+        }
       }
     }
   });
-  // Generar tríos/cuadras (mismo valor, 3 o 4 cartas)
-  const sets=[];
-  const byVal={};
-  cards.forEach((c,i)=>{(byVal[c.val]=byVal[c.val]||[]).push(i);});
-  Object.values(byVal).forEach(idxs=>{
-    if(idxs.length>=3)sets.push([...idxs]);
-    if(idxs.length===4){
-      // también probar todas las combinaciones de 3 de 4
-      for(let skip=0;skip<4;skip++)sets.push(idxs.filter((_,k)=>k!==skip));
+  // Generate all possible sets (same value, 3 or 4 cards)
+  const sets = [];
+  const byVal = {};
+  cards.forEach((c, i) => { (byVal[c.val] = byVal[c.val] || []).push(i); });
+  Object.values(byVal).forEach(idxs => {
+    if (idxs.length >= 3) sets.push([...idxs]);
+    if (idxs.length === 4) {
+      for (let skip = 0; skip < 4; skip++) sets.push(idxs.filter((_, k) => k !== skip));
     }
   });
-  const groups=[...runs,...sets];
-  // Búsqueda greedy+backtracking simple: probar combinaciones de grupos
-  // disjuntos que maximicen cartas cubiertas (n es chico, máx 10 cartas)
-  let best={used:new Set(),groups:[]};
-  function explore(startIdx,usedSet,chosen){
-    if(usedSet.size>best.used.size || (usedSet.size===best.used.size && chosen.length<best.groups.length)){
-      best={used:new Set(usedSet),groups:[...chosen]};
+  const groups = [...runs, ...sets];
+  
+  // Now do a more thorough backtracking search - prioritize minimizing points, not just number of used cards
+  let best = { points: Infinity, used: new Set(), groups: [] };
+  
+  function explore(startIdx, usedSet, chosen) {
+    // Calculate current points
+    const currentLoose = cards.filter((c, i) => !usedSet.has(i));
+    const currentPoints = currentLoose.reduce((s, c) => s + chCardPoints(c.val), 0);
+    
+    // Update best if current is better
+    if (currentPoints < best.points || 
+        (currentPoints === best.points && usedSet.size > best.used.size) ||
+        (currentPoints === best.points && usedSet.size === best.used.size && chosen.length < best.groups.length)) {
+      best = { points: currentPoints, used: new Set(usedSet), groups: [...chosen] };
     }
-    for(let gi=startIdx;gi<groups.length;gi++){
-      const g=groups[gi];
-      if(g.some(idx=>usedSet.has(idx)))continue;
-      g.forEach(idx=>usedSet.add(idx));
+    
+    // Early exit if we can't get better than current best
+    if (currentPoints === 0) return; // Perfect hand, no need to look further
+    
+    for (let gi = startIdx; gi < groups.length; gi++) {
+      const g = groups[gi];
+      if (g.some(idx => usedSet.has(idx))) continue;
+      
+      // Add this group
+      g.forEach(idx => usedSet.add(idx));
       chosen.push(g);
-      explore(gi+1,usedSet,chosen);
+      
+      explore(gi + 1, usedSet, chosen);
+      
+      // Remove this group
       chosen.pop();
-      g.forEach(idx=>usedSet.delete(idx));
+      g.forEach(idx => usedSet.delete(idx));
     }
   }
-  explore(0,new Set(),[]);
-  const usedIdx=best.used;
-  const loose=cards.filter((c,i)=>!usedIdx.has(i));
-  const points=loose.reduce((s,c)=>s+chCardPoints(c.val),0);
-  return {melds:best.groups.map(g=>g.map(i=>cards[i])), loose, points};
+  
+  explore(0, new Set(), []);
+  
+  // Also consider the case of no melds at all
+  const noMeldsPoints = cards.reduce((s, c) => s + chCardPoints(c.val), 0);
+  if (noMeldsPoints < best.points) {
+    best = { points: noMeldsPoints, used: new Set(), groups: [] };
+  }
+  
+  const usedIdx = best.used;
+  const loose = cards.filter((c, i) => !usedIdx.has(i));
+  return { melds: best.groups.map(g => g.map(i => cards[i])), loose, points: best.points };
 }
 
 function chCanCut(cards){
@@ -4272,13 +4297,28 @@ function chRenderAll(){
     }
   }
   
-  // Update buttons
+  // Update buttons - Make sure cut button is always visible
   const cutBtn = document.getElementById('ch-btn-cortar');
+  const actionRow = document.getElementById('ch-action-row');
   const you = CH.players.find(p => p.you);
+  
+  if(actionRow) actionRow.style.display = 'flex'; // Always show the action row
+  
   if(cutBtn && you && you.hand){
     const canCut = chCanCut(you.hand);
-    cutBtn.disabled = !(canCut.ok && CH.phase === 'discard' && !CH.spectate);
-    cutBtn.className = 'ch-abtn ch-abtn-cortar' + (cutBtn.disabled ? ' ch-disabled' : '');
+    const shouldEnable = canCut.ok && CH.phase === 'discard' && !CH.spectate;
+    cutBtn.disabled = !shouldEnable;
+    cutBtn.className = 'ch-abtn ch-abtn-cortar' + (!shouldEnable ? ' ch-disabled' : '');
+    // Update button text to indicate why it's disabled
+    if (!shouldEnable) {
+      if (CH.phase !== 'discard') {
+        cutBtn.textContent = '✂ Cortar (primero robá)';
+      } else if (!canCut.ok) {
+        cutBtn.textContent = '✂ Cortar (mano no válida)';
+      }
+    } else {
+      cutBtn.textContent = '✂ Cortar';
+    }
   }
   
   // Update turn timer visibility
@@ -4296,7 +4336,10 @@ function chRenderAll(){
     } else if(CH.phase === 'draw'){
       hintEl.textContent = 'Tocá el mazo o el descarte para robar';
     } else if(CH.phase === 'discard'){
-      hintEl.textContent = 'Tocá una carta para descartarla, o cortá si tu mano lo permite';
+      const canCutNow = you && you.hand && chCanCut(you.hand).ok;
+      hintEl.textContent = canCutNow 
+        ? 'Tocá una carta para descartarla o usá el botón para cortar' 
+        : 'Tocá una carta para descartarla';
     } else {
       hintEl.textContent = '';
     }
@@ -4315,43 +4358,50 @@ function chRenderAll(){
 // ══ HOUSE EDGE — Lee directamente de HOUSE (cargado de house_config en DB) ══════
 
 function chDesignateWinnerBot(){
-  CH._potBot=null;
-  const botPlayers=CH.players.filter(p=>!p.you);
-  if(!botPlayers.length)return;
+  CH._potBot = null;
+  const botPlayers = CH.players.filter(p => !p.you);
+  if (!botPlayers.length) return;
 
   // Durante el warmup, la casa da margen al humano (igual que Intermedio)
-  const warmup = HOUSE.warmup||10;
-  const inWarmup = (HOUSE.hands||0) < warmup;
-  if(inWarmup){ return; }
+  const warmup = HOUSE.warmup || 10;
+  const inWarmup = (HOUSE.hands || 0) < warmup;
+  if (inWarmup) { return; }
 
-  const potBig = HOUSE.potBigThreshold||20000;
-  const cpuLose = HOUSE.cpuLose!=null ? HOUSE.cpuLose : 0.48;
-  if((HOUSE.consecLoss||0) >= (HOUSE.maxConsec||7)){ return; }
+  const potBig = HOUSE.potBigThreshold || 20000;
+  const cpuLose = HOUSE.cpuLose != null ? HOUSE.cpuLose : 0.48;
+  if ((HOUSE.consecLoss || 0) >= (HOUSE.maxConsec || 7)) { return; }
 
-  let fire=false;
-  if(CH.pot <= CHINCHON_MIN_BUYIN*2){
-    fire = Math.random() < 0.82;
-  } else if(CH.pot >= potBig){
+  let fire = false;
+  if (CH.pot <= CHINCHON_MIN_BUYIN * 2) {
+    fire = Math.random() < 0.85;
+  } else if (CH.pot >= potBig) {
     fire = true;
   } else {
-    const ratio = Math.min(1,(CH.pot - CHINCHON_MIN_BUYIN*2) / (potBig - CHINCHON_MIN_BUYIN*2));
-    fire = Math.random() < (0.20 + ratio * (1 - cpuLose) * 0.85);
+    const ratio = Math.min(1, (CH.pot - CHINCHON_MIN_BUYIN * 2) / (potBig - CHINCHON_MIN_BUYIN * 2));
+    fire = Math.random() < (0.25 + ratio * (1 - cpuLose) * 0.9);
   }
 
-  if(!fire) return;
-  const aggressive = botPlayers.filter(p=>['gambler','shark','bold','charlatán'].includes(p.style));
+  if (!fire) return;
+  const aggressive = botPlayers.filter(p => ['gambler', 'shark', 'bold', 'charlatán'].includes(p.style));
   const pool = aggressive.length ? aggressive : botPlayers;
-  CH._potBot = pool[Math.floor(Math.random()*pool.length)];
+  CH._potBot = pool[Math.floor(Math.random() * pool.length)];
 }
 
 function chShouldThrottleHuman(){
-  if(CH.spectate) return false;
-  if((HOUSE.consecLoss||0) >= (HOUSE.maxConsec||7)) return false;
-  if((HOUSE.hands||0) < (HOUSE.warmup||10)) return false;
+  if (CH.spectate) return false;
+  if ((HOUSE.consecLoss || 0) >= (HOUSE.maxConsec || 7)) return false;
+  if ((HOUSE.hands || 0) < (HOUSE.warmup || 10)) return false;
   // Lee base_lose directamente de HOUSE (que viene de house_config en DB)
-  const baseLose = HOUSE.baseLose!=null ? HOUSE.baseLose : 0.62;
-  // Chinchón tiene componente de habilidad real → atenuamos al 50% de base_lose
-  return Math.random() < baseLose * 0.50;
+  const baseLose = HOUSE.baseLose != null ? HOUSE.baseLose : 0.62;
+  // Chinchón tiene componente de habilidad real → atenuamos al 60% de base_lose
+  return Math.random() < baseLose * 0.60;
+}
+
+// Helper function to evaluate how good a card is for a hand
+function chEvaluateCardForHand(card, hand) {
+  const tempHand = [...hand, card];
+  const meldResult = chBestMelds(tempHand);
+  return meldResult.points;
 }
 
 function chDealNew(){
@@ -4605,30 +4655,59 @@ function chBotPlay(p){
   const topDiscard=CH.discard[CH.discard.length-1];
   const basePts=chBestMelds(p.hand).points;
 
-  // ── Decidir fuente de robo ────────────────────────────────────────────────
+  // ── Enhanced AI: Decidir fuente de robo ────────────────────────────────────────────────
   let took='deck';
   if(topDiscard){
-    const withD=chBestMelds([...p.hand,topDiscard]).points;
-    const threshold = isDesignated ? 0 : 1;
-    if(withD < basePts - threshold) took='discard';
+    const withD=chBestMelds([...p.hand,topDiscard]);
+    
+    // Check if taking discard allows a cut immediately!
+    const tempHand = [...p.hand, topDiscard];
+    const canCutWithDiscard = chCanCut(tempHand).ok;
+    
+    // For designated winner, prioritize taking discard if it helps a lot
+    const threshold = isDesignated ? 2 : 1;
+    
+    if(withD.points < basePts - threshold || canCutWithDiscard) {
+      took='discard';
+    }
   }
   let card;
-  if(took==='discard'){ card=CH.discard.pop(); }
-  else {
+  if(took==='discard'){ 
+    card=CH.discard.pop(); 
+  } else {
     if(CH.deck.length===0) chReshuffleFromDiscard();
     card=CH.deck.shift();
   }
   p.hand.push(card);
 
-  // ── Decidir descarte ──────────────────────────────────────────────────────
+  // ── Enhanced AI: Decidir descarte ──────────────────────────────────────────────────────
   const r0=chBestMelds(p.hand);
   const meldedNow=new Set(); r0.melds.forEach(g=>g.forEach(c=>meldedNow.add(c)));
-  let bestIdx=0,bestPts=Infinity,bestInMeld=true;
+  
+  // More sophisticated discard decision
+  let bestIdx=0,bestPts=Infinity,bestInMeld=true, highestDiscardPoints = -1;
+  
   p.hand.forEach((c,i)=>{
     const rest=p.hand.filter((_,k)=>k!==i);
-    const pts=chBestMelds(rest).points;
+    const resultAfterDiscard = chBestMelds(rest);
+    const ptsAfterDiscard = resultAfterDiscard.points;
     const inMeld=meldedNow.has(c);
-    if(pts<bestPts||(pts===bestPts&&bestInMeld&&!inMeld)){bestPts=pts;bestIdx=i;bestInMeld=inMeld;}
+    const cardPoints = chCardPoints(c.val);
+    
+    // Decision criteria:
+    // 1. Lowest points after discard is most important
+    // 2. If points are same, prefer discarding non-melded cards
+    // 3. If that's same, prefer discarding higher-point cards first
+    if(
+      ptsAfterDiscard < bestPts || 
+      (ptsAfterDiscard === bestPts && bestInMeld && !inMeld) ||
+      (ptsAfterDiscard === bestPts && bestInMeld === inMeld && cardPoints > highestDiscardPoints)
+    ) {
+      bestPts = ptsAfterDiscard;
+      bestIdx = i;
+      bestInMeld = inMeld;
+      highestDiscardPoints = cardPoints;
+    }
   });
 
   chRenderAll();
@@ -4639,19 +4718,25 @@ function chBotPlay(p){
       // HOUSE EDGE: frena corte de bots no-designados según cpu_lose de la DB
       const cpuLose = HOUSE.cpuLose!=null ? HOUSE.cpuLose : 0.48;
       const freezeProb = isDesignated ? 0 : (CH._potBot ? cpuLose * 0.65 : 0);
+      
+      // Designated bots are way more likely to cut!
+      const cutProbability = isDesignated ? 0.95 : 0.7;
+      
       if(Math.random() < freezeProb){
         const [discarded]=p.hand.splice(bestIdx,1);
         CH.discard.push(discarded);
         chAdvanceTurn();
         return;
       }
-      if(Math.random()<0.7){
+      
+      if(Math.random() < cutProbability){
         const cutPhrases=['¡Cierro!','¡Corto!','¡Hasta acá llegaron!','Esto se terminó.','¡Palo y a la bolsa!'];
         chShowBubble(CH.players.indexOf(p), cutPhrases[Math.floor(Math.random()*cutPhrases.length)]);
+        setTimeout(()=>chResolveCut(CH.players.indexOf(p),check),300);
+        return;
       }
-      setTimeout(()=>chResolveCut(CH.players.indexOf(p),check),300);
-      return;
     }
+    
     const [discarded]=p.hand.splice(bestIdx,1);
     CH.discard.push(discarded);
     chAdvanceTurn();
