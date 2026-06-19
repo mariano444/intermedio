@@ -4569,13 +4569,22 @@ function chAutoPlayHumanTurn(){
 }
 function chAutoDiscard(you){
   const check=chCanCut(you.hand);
-  if(check.ok){ chClearTurnTimer(); chResolveCut(CH.players.findIndex(p=>p.you),check); return; }
+  if(check.ok){ 
+    // First discard the correct card
+    if(check.discardIdx !== null){
+      const [discarded] = you.hand.splice(check.discardIdx,1);
+      CH.discard.push(discarded);
+    }
+    chClearTurnTimer(); 
+    chResolveCut(CH.players.findIndex(p=>p.you),check); 
+    return; 
+  }
   
   // Use the same improved AI logic as bots for discard
   const r=chBestMelds(you.hand);
   const meldedNow=new Set(); r.melds.forEach(g=>g.forEach(c=>meldedNow.add(c)));
   
-  let bestIdx=0,bestPts=Infinity,bestInMeld=true, highestDiscardPoints = -1;
+  let bestIdx=0,bestPts=Infinity,bestInMeld=true, highestDiscardPoints = -1, bestCanCutAfter = false;
   
   you.hand.forEach((c,i)=>{
     const rest=you.hand.filter((_,k)=>k!==i);
@@ -4583,16 +4592,20 @@ function chAutoDiscard(you){
     const ptsAfterDiscard = resultAfterDiscard.points;
     const inMeld=meldedNow.has(c);
     const cardPoints = chCardPoints(c.val);
+    const canCutAfter = chCanCut(rest).ok;
     
+    // Same decision criteria as bots
     if(
-      ptsAfterDiscard < bestPts || 
-      (ptsAfterDiscard === bestPts && bestInMeld && !inMeld) ||
-      (ptsAfterDiscard === bestPts && bestInMeld === inMeld && cardPoints > highestDiscardPoints)
+      canCutAfter && !bestCanCutAfter || 
+      (canCutAfter === bestCanCutAfter && ptsAfterDiscard < bestPts) || 
+      (canCutAfter === bestCanCutAfter && ptsAfterDiscard === bestPts && bestInMeld && !inMeld) ||
+      (canCutAfter === bestCanCutAfter && ptsAfterDiscard === bestPts && bestInMeld === inMeld && cardPoints > highestDiscardPoints)
     ) {
       bestPts = ptsAfterDiscard;
       bestIdx = i;
       bestInMeld = inMeld;
       highestDiscardPoints = cardPoints;
+      bestCanCutAfter = canCutAfter;
     }
   });
   
