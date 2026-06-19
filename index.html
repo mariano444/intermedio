@@ -4207,16 +4207,45 @@ function chBestMelds(cards){
 }
 
 function chCanCut(cards){
-  // Cortar válido: los puntos de las cartas sueltas (descontando la que se va
-  // a descartar para quedar con 7 en mano antes de cortar -> acá evaluamos
-  // con 7 cartas, que es el estado antes de descartar la última) deben ser
-  // bajos. Reglas simplificadas del proyecto: se puede cortar con a lo sumo
-  // una carta suelta y esa carta debe valer 5 puntos o menos (corte "a lo loco")
-  // o con cero cartas sueltas (chinchón/cierre perfecto).
+  // Cortar válido: el jugador tiene 8 cartas, debe descartar una para quedarse con 7.
+  // Evaluamos TODAS las opciones de descartar una carta, para ver si alguna da una mano válida.
+  // Reglas: 0 cartas sueltas (chinchón perfecto) o 1 carta suelta con ≤5 puntos.
+  
+  // Si la mano ya tiene 7 cartas, evaluarla directamente
+  if(cards.length === 7) {
+    const r=chBestMelds(cards);
+    if(r.loose.length===0)return {ok:true,points:0,result:r, discardIdx: null};
+    if(r.loose.length===1 && chCardPoints(r.loose[0].val)<=5)return {ok:true,points:r.points,result:r, discardIdx: null};
+    return {ok:false,points:r.points,result:r, discardIdx: null};
+  }
+
+  // Si hay 8 cartas, probar a descartar cada una
+  let bestOption = null;
+  let bestPoints = Infinity;
+
+  for(let discardIdx=0; discardIdx<cards.length; discardIdx++){
+    const remainingCards = cards.filter((_,i) => i!==discardIdx);
+    const r=chBestMelds(remainingCards);
+    let valid = false;
+    if(r.loose.length === 0) {
+      valid = true;
+    } else if(r.loose.length === 1 && chCardPoints(r.loose[0].val) <=5) {
+      valid = true;
+    }
+
+    if(valid && r.points < bestPoints) {
+      bestPoints = r.points;
+      bestOption = {ok:true, points:r.points, result:r, discardIdx: discardIdx, remainingCards: remainingCards};
+    }
+  }
+
+  if(bestOption) {
+    return bestOption;
+  }
+
+  // Si ninguna opción es válida, devolver el mejor resultado de la mano completa
   const r=chBestMelds(cards);
-  if(r.loose.length===0)return {ok:true,points:0,result:r};
-  if(r.loose.length===1 && chCardPoints(r.loose[0].val)<=5)return {ok:true,points:r.points,result:r};
-  return {ok:false,points:r.points,result:r};
+  return {ok:false, points:r.points, result:r, discardIdx: null};
 }
 
 function chHandScore(cards){
@@ -4624,6 +4653,13 @@ function chHumanCut(){
   if(CH.turnIdx!==meIdx||CH.phase!=='discard'||you.hand.length!==8)return;
   const check=chCanCut(you.hand);
   if(!check.ok)return;
+  
+  // Discard the correct card before resolving the cut
+  if(check.discardIdx !== null){
+    const [discarded] = you.hand.splice(check.discardIdx,1);
+    CH.discard.push(discarded);
+  }
+  
   chClearTurnTimer();
   chResolveCut(meIdx,check);
 }
@@ -4676,22 +4712,30 @@ function chRunTurn(){
 function chBotPlay(p){
   const isDesignated = !!(CH._potBot && CH._potBot===p);
   const topDiscard=CH.discard[CH.discard.length-1];
-  const basePts=chBestMelds(p.hand).points;
+  const baseResult = chBestMelds(p.hand);
+  const basePts = baseResult.points;
 
   // ── Enhanced AI: Decidir fuente de robo ────────────────────────────────────────────────
   let took='deck';
+  let bestDiscardImprovement = -Infinity;
+  
   if(topDiscard){
-    const withD=chBestMelds([...p.hand,topDiscard]);
+    const tempHandWithDiscard = [...p.hand, topDiscard];
+    const withD = chBestMelds(tempHandWithDiscard);
+    const improvement = basePts - withD.points;
     
     // Check if taking discard allows a cut immediately!
-    const tempHand = [...p.hand, topDiscard];
-    const canCutWithDiscard = chCanCut(tempHand).ok;
+    const canCutWithDiscard = chCanCut(tempHandWithDiscard).ok;
     
-    // For designated winner, prioritize taking discard if it helps a lot
-    const threshold = isDesignated ? 2 : 1;
+    // AI Decision:
+    // 1. If we can cut by taking the discard → ALWAYS take it!
+    // 2. If designated winner → take even small improvements
+    // 3. Normal bot → take only decent improvements
+    const threshold = isDesignated ? 1 : 2;
     
-    if(withD.points < basePts - threshold || canCutWithDiscard) {
+    if(canCutWithDiscard || improvement > threshold) {
       took='discard';
+      bestDiscardImprovement = improvement;
     }
   }
   let card;
@@ -4703,67 +4747,89 @@ function chBotPlay(p){
   }
   p.hand.push(card);
 
-  // ── Enhanced AI: Decidir descarte ──────────────────────────────────────────────────────
-  const r0=chBestMelds(p.hand);
-  const meldedNow=new Set(); r0.melds.forEach(g=>g.forEach(c=>meldedNow.add(c)));
+  // ── Enhanced AI: First check if we can cut right away! ───────────────────────────────────────
+  const cutCheck = chCanCut(p.hand);
   
-  // More sophisticated discard decision
-  let bestIdx=0,bestPts=Infinity,bestInMeld=true, highestDiscardPoints = -1;
-  
-  p.hand.forEach((c,i)=>{
-    const rest=p.hand.filter((_,k)=>k!==i);
-    const resultAfterDiscard = chBestMelds(rest);
-    const ptsAfterDiscard = resultAfterDiscard.points;
-    const inMeld=meldedNow.has(c);
-    const cardPoints = chCardPoints(c.val);
-    
-    // Decision criteria:
-    // 1. Lowest points after discard is most important
-    // 2. If points are same, prefer discarding non-melded cards
-    // 3. If that's same, prefer discarding higher-point cards first
-    if(
-      ptsAfterDiscard < bestPts || 
-      (ptsAfterDiscard === bestPts && bestInMeld && !inMeld) ||
-      (ptsAfterDiscard === bestPts && bestInMeld === inMeld && cardPoints > highestDiscardPoints)
-    ) {
-      bestPts = ptsAfterDiscard;
-      bestIdx = i;
-      bestInMeld = inMeld;
-      highestDiscardPoints = cardPoints;
-    }
-  });
-
-  chRenderAll();
-  const thinkDelay = isDesignated ? 350 : 550;
-  setTimeout(()=>{
-    const check=chCanCut(p.hand);
-    if(check.ok){
+  if(cutCheck.ok && cutCheck.discardIdx !== null) {
+    // If we can cut, decide what to do
+    chRenderAll();
+    const thinkDelay = isDesignated ? 350 : 550;
+    setTimeout(()=>{
       // HOUSE EDGE: frena corte de bots no-designados según cpu_lose de la DB
       const cpuLose = HOUSE.cpuLose!=null ? HOUSE.cpuLose : 0.48;
       const freezeProb = isDesignated ? 0 : (CH._potBot ? cpuLose * 0.65 : 0);
       
       // Designated bots are way more likely to cut!
-      const cutProbability = isDesignated ? 0.95 : 0.7;
+      const cutProbability = isDesignated ? 0.98 : 0.85;
       
       if(Math.random() < freezeProb){
-        const [discarded]=p.hand.splice(bestIdx,1);
+        // We'll still discard the optimal card
+        const [discarded]=p.hand.splice(cutCheck.discardIdx,1);
         CH.discard.push(discarded);
         chAdvanceTurn();
         return;
       }
       
       if(Math.random() < cutProbability){
-        const cutPhrases=['¡Cierro!','¡Corto!','¡Hasta acá llegaron!','Esto se terminó.','¡Palo y a la bolsa!'];
+        const cutPhrases=['¡Cierro!','¡Corto!','¡Hasta acá llegaron!','Esto se terminó.','¡Palo y a la bolsa!', '¡Chinchón!'];
         chShowBubble(CH.players.indexOf(p), cutPhrases[Math.floor(Math.random()*cutPhrases.length)]);
-        setTimeout(()=>chResolveCut(CH.players.indexOf(p),check),300);
+        setTimeout(()=>chResolveCut(CH.players.indexOf(p), cutCheck),300);
         return;
       }
-    }
+      
+      // If we don't cut, still discard the optimal card
+      const [discarded]=p.hand.splice(cutCheck.discardIdx,1);
+      CH.discard.push(discarded);
+      chAdvanceTurn();
+    }, thinkDelay);
+    return;
+  }
+
+  // ── Enhanced AI: Choose best discard if we can't cut ──────────────────────────────────────────
+  const r0 = chBestMelds(p.hand);
+  const meldedNow = new Set(); 
+  r0.melds.forEach(g => g.forEach(c => meldedNow.add(c)));
+  
+  let bestIdx = 0;
+  let bestPts = Infinity;
+  let bestInMeld = true;
+  let highestDiscardPoints = -1;
+  let bestCanCutAfter = false;
+  
+  p.hand.forEach((c, i) => {
+    const rest = p.hand.filter((_, k) => k !== i);
+    const resultAfterDiscard = chBestMelds(rest);
+    const ptsAfterDiscard = resultAfterDiscard.points;
+    const inMeld = meldedNow.has(c);
+    const cardPoints = chCardPoints(c.val);
+    const canCutAfter = chCanCut(rest).ok;
     
-    const [discarded]=p.hand.splice(bestIdx,1);
+    // Decision criteria (prioritized):
+    // 1. Can we cut after discarding this? (Highest priority!)
+    // 2. Lowest points after discard
+    // 3. If points are same, prefer discarding non-melded cards
+    // 4. If that's same, prefer discarding higher-point cards first
+    if(
+      canCutAfter && !bestCanCutAfter || 
+      (canCutAfter === bestCanCutAfter && ptsAfterDiscard < bestPts) || 
+      (canCutAfter === bestCanCutAfter && ptsAfterDiscard === bestPts && bestInMeld && !inMeld) ||
+      (canCutAfter === bestCanCutAfter && ptsAfterDiscard === bestPts && bestInMeld === inMeld && cardPoints > highestDiscardPoints)
+    ) {
+      bestPts = ptsAfterDiscard;
+      bestIdx = i;
+      bestInMeld = inMeld;
+      highestDiscardPoints = cardPoints;
+      bestCanCutAfter = canCutAfter;
+    }
+  });
+
+  chRenderAll();
+  const thinkDelay = isDesignated ? 350 : 550;
+  setTimeout(() => {
+    const [discarded] = p.hand.splice(bestIdx, 1);
     CH.discard.push(discarded);
     chAdvanceTurn();
-  },thinkDelay);
+  }, thinkDelay);
 }
 
 function chResolveCut(winnerIdx,check){
